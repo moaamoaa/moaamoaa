@@ -22,4 +22,8 @@ public class UserArea {
     private Area area;
 
     // user mapping
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_no")
+    @NotNull
+    private User user;
 }

@@ -22,4 +22,8 @@ public class SidePjtTechStack {
     private TechStack techStack;
 
     // sidepjt mapping
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "sidepjt_no")
+    @NotNull
+    private SidePjt sidePjt;
 }
