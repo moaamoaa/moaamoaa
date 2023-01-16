@@ -8,7 +8,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 public class Team {
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_no")
     private Long id;
 
@@ -18,6 +19,7 @@ public class Team {
 
     @OneToOne
     @MapsId //@id로 지정한 컬럼에 @OneToOne 이나 @ManyToOne 관계를 매핑시키는 역할
+    @JoinColumn(name = "team_no")
     private Project project;
     @NotNull
     @Column(columnDefinition = "TINYINT")

@@ -12,14 +12,19 @@ import static javax.persistence.FetchType.LAZY;
 public class ProjectTechStack {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_stck_no")
     private Long id;
 
+    @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "tech_stack_no")
-    @NotNull
     private TechStack techStack;
 
     // project mapping
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "project_no")
+    private Project project;
 }

@@ -21,11 +21,5 @@ public class Area {
     @NotNull
     private String name;
 
-/*    @JsonIgnore
-    @OneToMany(mappedBy = "area")
-    private List<ProjectArea> projectAreas = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "area")
-    private List<UserArea> userAreas = new ArrayList<>();*/
 }

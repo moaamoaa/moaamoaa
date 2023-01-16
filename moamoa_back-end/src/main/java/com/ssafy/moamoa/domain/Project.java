@@ -1,7 +1,6 @@
 package com.ssafy.moamoa.domain;
 
 import lombok.Getter;
-import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,7 +12,8 @@ import java.util.List;
 @Entity
 @Getter
 public class Project {
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_no")
     private Long id;
 
@@ -53,10 +53,10 @@ public class Project {
     @NotNull
     private LocalDateTime createDate;
 
-    //    @OneToMany(mappedBy = "project")
-//    private List<Area> areas = new ArrayList<>();
+    @OneToMany(mappedBy = "project")
+    private List<ProjectArea> areas = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "project")
-//    @NotNull
-//    private List<프로젝트테크스택> techStacks = new ArrayList<>();
+    @OneToMany(mappedBy = "project")
+    @NotNull
+    private List<ProjectTechStack> techStacks = new ArrayList<>();
 }

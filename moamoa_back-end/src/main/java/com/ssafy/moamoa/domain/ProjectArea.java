@@ -12,8 +12,8 @@ import static javax.persistence.FetchType.LAZY;
 public class ProjectArea {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="project_area_no")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "project_area_no")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -22,4 +22,8 @@ public class ProjectArea {
     private Area area;
 
     // project mapping
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "project_no")
+    private Project project;
 }

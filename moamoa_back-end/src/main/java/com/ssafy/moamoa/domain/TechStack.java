@@ -25,8 +25,4 @@ public class TechStack {
     @NotNull
     private byte[] logo;
 
-/*    @JsonIgnore
-    @OneToMany(mappedBy = "techStack")
-    private List<TechStackCategory> techStackCategories = new ArrayList<>();*/
-
 }
