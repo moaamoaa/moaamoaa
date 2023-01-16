@@ -27,3 +27,4 @@ public class UserTechStack {
     @NotNull
     private User user;
 }
+

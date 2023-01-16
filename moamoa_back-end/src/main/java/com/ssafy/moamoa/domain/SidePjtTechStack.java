@@ -1,3 +1,4 @@
+
 package com.ssafy.moamoa.domain;
 
 import lombok.Getter;
@@ -27,3 +28,4 @@ public class SidePjtTechStack {
     @NotNull
     private SidePjt sidePjt;
 }
+

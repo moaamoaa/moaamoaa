@@ -27,3 +27,4 @@ public class UserArea {
     @NotNull
     private User user;
 }
+
