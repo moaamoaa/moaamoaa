@@ -19,7 +19,7 @@ public class Profile {
 
 
     @OneToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="user_no")
     private User user;
 
     @Setter
