@@ -17,9 +17,9 @@ public class Team {
 //    @ManyToOne
 //    private User user;
 
-    @OneToOne
-    @MapsId //@id로 지정한 컬럼에 @OneToOne 이나 @ManyToOne 관계를 매핑시키는 역할
-    @JoinColumn(name = "team_no")
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "project_no")
     private Project project;
     @NotNull
     @Column(columnDefinition = "TINYINT")
