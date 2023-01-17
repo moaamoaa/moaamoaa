@@ -1,37 +1,22 @@
 import HomePage from './pages/HomePage';
+import TeamSearchPage from './pages/TeamSearchPage';
+import TeamMemberSearchPage from './pages/TeamMemberSearchPage';
+import Navbar from './components/Navbar';
 
-function App() {
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+export default function App() {
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/TeamMemberSearchPage">TeamMemberSearch</Link>
-            </li>
-            <li>
-              <Link to="/TeamSearchPage">TeamSearch</Link>
-            </li>
-          </ul>
-        </nav>
-
-        <Switch>
-          <Route path="/TeamMemberSearchPage">
-            <TeamMemberSearchPage />
-          </Route>
-          <Route path="/TeamSearchPage">
-            <TeamSearchPage />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <BrowserRouter>
+      <Navbar></Navbar>
+      <Routes>
+        <Route
+          path="/TeamMemberSearchPage"
+          element={<TeamMemberSearchPage />}
+        />
+        <Route path="/TeamSearchPage" element={<TeamSearchPage />} />
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
