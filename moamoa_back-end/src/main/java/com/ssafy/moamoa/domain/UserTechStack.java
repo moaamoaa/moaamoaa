@@ -26,7 +26,7 @@ public class UserTechStack {
 	@JoinColumn(name = "tech_stack_no")
 	@NotNull
 	private TechStack techStack;
-    
+
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "user_no")
 	@NotNull
