@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 function HomePage() {
   return (
     <Container fixed>
-      <Navbar></Navbar>
+      <p>HomePage</p>
     </Container>
   );
 }
