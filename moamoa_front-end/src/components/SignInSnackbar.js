@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 
 export default function TimeoutSnackbar() {
-
   const [state, setState] = React.useState({
     open: false,
     vertical: 'top',
@@ -11,7 +10,7 @@ export default function TimeoutSnackbar() {
   });
   const { vertical, horizontal, open } = state;
 
-  const handleClick = (newState) => () => {
+  const handleClick = newState => () => {
     setState({ open: true, ...newState });
   };
 
@@ -38,7 +37,7 @@ export default function TimeoutSnackbar() {
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
-        autoHideDuration={2000} // SetTimeOut 
+        autoHideDuration={2000} // SetTimeOut
         onClose={handleClose}
         message="로그인 되었습니다"
         key={vertical + horizontal}

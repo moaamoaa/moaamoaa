@@ -1,18 +1,18 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 
-const pages = ["팀 구하기", "팀원 구하기"];
+const pages = ['팀 구하기', '팀원 구하기'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
 
@@ -28,18 +28,18 @@ function ResponsiveAppBar() {
         href="/"
         sx={{
           mr: 2,
-          display: { xs: "none", md: "flex" },
-          fontFamily: "monospace",
+          display: { xs: 'none', md: 'flex' },
+          fontFamily: 'monospace',
           fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
+          letterSpacing: '.3rem',
+          color: 'inherit',
+          textDecoration: 'none',
         }}
       >
         MOAMOA
       </Typography>
 
-      <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+      <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -54,21 +54,21 @@ function ResponsiveAppBar() {
           id="menu-appbar"
           anchorEl={anchorElNav}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
           keepMounted
           transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
+            vertical: 'top',
+            horizontal: 'left',
           }}
           open={Boolean(anchorElNav)}
           onClose={handleCloseNavMenu}
           sx={{
-            display: { xs: "block", md: "none" },
+            display: { xs: 'block', md: 'none' },
           }}
         >
-          {pages.map((page) => (
+          {pages.map(page => (
             <MenuItem key={page} onClick={handleCloseNavMenu}>
               <Typography textAlign="center">{page}</Typography>
             </MenuItem>
@@ -82,24 +82,24 @@ function ResponsiveAppBar() {
         component="a"
         href=""
         sx={{
-          display: { xs: "flex", md: "none" },
+          display: { xs: 'flex', md: 'none' },
           flexGrow: 1,
-          fontFamily: "monospace",
+          fontFamily: 'monospace',
           fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
+          letterSpacing: '.3rem',
+          color: 'inherit',
+          textDecoration: 'none',
         }}
       >
         MOAMOA
       </Typography>
 
-      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        {pages.map((page) => (
+      <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        {pages.map(page => (
           <Button
             key={page}
             onClick={handleCloseNavMenu}
-            sx={{ my: 2, color: "white", display: "block" }}
+            sx={{ my: 2, color: 'white', display: 'block' }}
           >
             {page}
           </Button>
