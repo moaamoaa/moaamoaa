@@ -3,7 +3,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-// import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -13,24 +12,11 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import FirstForm from './FirstForm';
-import SecondForm from './SecondForm';
-import ThirdForm from './ThirdForm';
-import ForthForm from './ForthForm';
+import SignUpEmailDialog from './SignUpEmailDialog';
+import SignUpCertificationDialog from './SignUpCertificationDialog';
+import SignUpNicknameDialog from './SignUpNicknameDialog';
+import SignUpPasswordDialog from './SignUpPasswordDialog';
 
-// import PropTypes from 'prop-types';
-// import { styled } from '@mui/material/styles';
-// import Dialog from '@mui/material/Dialog';
-// import DialogTitle from '@mui/material/DialogTitle';
-// import DialogContent from '@mui/material/DialogContent';
-// // import DialogActions from '@mui/material/DialogActions';
-// import IconButton from '@mui/material/IconButton';
-// import CloseIcon from '@mui/icons-material/Close';
-// // import Typography from '@mui/material/Typography';
-// import TextField from '@mui/material/TextField';
-// import Grid from '@mui/material/Grid';
-
-// 카피라이트
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -49,13 +35,13 @@ const steps = ['이메일', '인증코드', '닉네임', '비밀번호'];
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <FirstForm />;
+      return <SignUpEmailDialog />;
     case 1:
-      return <SecondForm />;
+      return <SignUpCertificationDialog />;
     case 2:
-      return <ThirdForm />;
+      return <SignUpNicknameDialog />;
     case 3:
-      return <ForthForm />;
+      return <SignUpPasswordDialog />;
     default:
       throw new Error('Unknown step');
   }
@@ -85,13 +71,7 @@ export default function Checkout() {
           position: 'relative',
           borderBottom: t => `1px solid ${t.palette.divider}`,
         }}
-      >
-        {/* <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            MoaMoa
-          </Typography>
-        </Toolbar> */}
-      </AppBar>
+      ></AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper
           variant="outlined"
