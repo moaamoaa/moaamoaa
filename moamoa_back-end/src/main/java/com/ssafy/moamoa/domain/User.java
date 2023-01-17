@@ -5,9 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -19,15 +19,15 @@ public class User {
 	@Column(name = "user_no")
 	private Long id;
 
-	@Column(name = "user_email", length = 100)
+	@NotNull
+	@Column(name = "user_email")
 	private String email;
 
-	@Setter
-	@Column(name = "user_pwd", length = 100)
+	@NotNull
+	@Column(name = "user_pwd")
 	private String password;
 
-	@Setter
-	@Column(name = "user_refresh_token", length = 100)
+	@Column(name = "user_refresh_token")
 	private String refreshToken;
 
 }

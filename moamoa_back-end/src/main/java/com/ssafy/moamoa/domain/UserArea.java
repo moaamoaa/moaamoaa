@@ -1,11 +1,9 @@
 package com.ssafy.moamoa.domain;
 
-import static javax.persistence.FetchType.*;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,19 +16,18 @@ import lombok.Getter;
 public class UserArea {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	@Column(name = "project_area_no")
 	private Long id;
 
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "area_no")
 	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "area_no")
 	private Area area;
 
-	// user mapping
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "user_no")
 	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_no")
 	private User user;
 }
 

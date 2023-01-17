@@ -3,7 +3,6 @@ package com.ssafy.moamoa.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
@@ -14,16 +13,16 @@ import lombok.Getter;
 public class TechStack {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	@Column(name = "tech_stack_no")
 	private Long id;
 
-	@Column(name = "tech_stack_name")
 	@NotNull
+	@Column(name = "tech_stack_name")
 	private String name;
 
-	@Column(name = "tech_stack_logo")
 	@NotNull
-	private byte[] logo;
+	@Column(name = "tech_stack_logo")
+	private String logo;
 
 }

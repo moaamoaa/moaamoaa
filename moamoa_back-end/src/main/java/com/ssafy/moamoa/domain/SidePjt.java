@@ -4,11 +4,12 @@ import java.time.Year;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 
@@ -21,16 +22,16 @@ public class SidePjt {
 	@Column(name = "sidepjt_no")
 	private Long id;
 
-	@ManyToOne()
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_no")
-
 	private User user;
 
+	@NotNull
 	@Column(name = "sidepjt_name")
 	private String name;
 
-	@Lob
-	@Column(name = "sidepjt_context", length = 1000)
+	@Column(name = "sidepjt_context", columnDefinition = "TEXT")
 	private String context;
 
 	@Column(name = "sidepjt_year")
