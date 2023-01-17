@@ -13,9 +13,10 @@ public class Team {
     @Column(name = "team_no")
     private Long id;
 
-    //연관관계 주인 설정
-//    @ManyToOne
-//    private User user;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "user_no")
+    private User user;
 
     @NotNull
     @ManyToOne
