@@ -42,7 +42,7 @@ public class Profile {
 	private String img;
 
 	@Lob
-	@Column(name = "profile_context")
+	@Column(name = "profile_context", columnDefinition = "TEXT")
 	private String context;
 
 }

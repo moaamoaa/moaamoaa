@@ -2,8 +2,6 @@ package com.ssafy.moamoa.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +9,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -64,10 +61,4 @@ public class Project {
 	@NotNull
 	private LocalDateTime createDate;
 
-	@OneToMany(mappedBy = "project")
-	private List<ProjectArea> areas = new ArrayList<>();
-
-	@OneToMany(mappedBy = "project")
-	@NotNull
-	private List<ProjectTechStack> techStacks = new ArrayList<>();
 }
