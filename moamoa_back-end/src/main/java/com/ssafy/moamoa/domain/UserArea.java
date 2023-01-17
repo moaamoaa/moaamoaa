@@ -1,30 +1,36 @@
 package com.ssafy.moamoa.domain;
 
-import lombok.Getter;
+import static javax.persistence.FetchType.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import static javax.persistence.FetchType.LAZY;
+import lombok.Getter;
 
 @Entity
 @Getter
 public class UserArea {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="project_area_no")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "project_area_no")
+	private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "area_no")
-    @NotNull
-    private Area area;
+	@ManyToOne(fetch = LAZY)
+	@JoinColumn(name = "area_no")
+	@NotNull
+	private Area area;
 
-    // user mapping
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_no")
-    @NotNull
-    private User user;
+	// user mapping
+	@ManyToOne(fetch = LAZY)
+	@JoinColumn(name = "user_no")
+	@NotNull
+	private User user;
 }
 

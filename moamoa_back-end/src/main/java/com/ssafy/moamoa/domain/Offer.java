@@ -1,26 +1,37 @@
 package com.ssafy.moamoa.domain;
 
-import lombok.Getter;
+import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import lombok.Getter;
 
 @Entity
 @Getter
 public class Offer {
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "offer_no")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "offer_no")
+	private Long id;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "project_no")
-    private Project project;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "offer_send")
+	private Project project;
 
-    //user랑 연관관계 맺어야함
-//    @NotNull
-//    @ManyToOne
-//    @JoinColumn(name="user_no")
-//    private User user;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "offer_receive")
+	private User user;
+
+	@Column(name = "apply_time")
+	private Date time;
 
 }
