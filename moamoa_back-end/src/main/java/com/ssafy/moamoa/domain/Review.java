@@ -1,16 +1,15 @@
 package com.ssafy.moamoa.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 
@@ -22,22 +21,22 @@ public class Review {
 	@Column(name = "review_no")
 	private Long id;
 
-	@Lob
-	@Column(name = "review_context")
+	@NotNull
+	@Column(name = "review_context", columnDefinition = "TEXT")
 	private String context;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "review_time")
-	private Date time;
+	@NotNull
+	@Column(name = "review_time", columnDefinition = "TIMESTAMP")
+	private LocalDateTime time;
 
-	@ManyToOne()
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "review_receive")
-
 	private User receiveUser;
 
-	@ManyToOne()
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "review_send")
-
 	private User sendUser;
 
 }
