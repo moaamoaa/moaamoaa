@@ -7,7 +7,18 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 
-const pages = ['팀 구하기', '팀원 구하기'];
+import { Link } from 'react-router-dom';
+
+const pages = [
+  {
+    text: '팀 구하기',
+    link: 'TeamSearchPage',
+  },
+  {
+    text: '팀원 구하기',
+    link: 'TeamMemberSearchPage',
+  },
+];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -36,7 +47,7 @@ function ResponsiveAppBar() {
           textDecoration: 'none',
         }}
       >
-        MOAMOA
+        <Link to="/">MOAMOA</Link>
       </Typography>
 
       <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -70,7 +81,9 @@ function ResponsiveAppBar() {
         >
           {pages.map(page => (
             <MenuItem key={page} onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">{page}</Typography>
+              <Typography textAlign="center">
+                <Link to={page.link}>{page.text}</Link>
+              </Typography>
             </MenuItem>
           ))}
         </Menu>
@@ -101,7 +114,7 @@ function ResponsiveAppBar() {
             onClick={handleCloseNavMenu}
             sx={{ my: 2, color: 'white', display: 'block' }}
           >
-            {page}
+            <Link to={page.link}>{page.text}</Link>
           </Button>
         ))}
       </Box>
