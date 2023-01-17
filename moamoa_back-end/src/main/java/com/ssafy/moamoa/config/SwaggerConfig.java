@@ -18,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 public class SwaggerConfig extends ResponseEntityExceptionHandler implements WebMvcConfigurer {
 
+    
     @Bean
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2) // 문서 형식 지정
