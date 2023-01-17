@@ -6,6 +6,9 @@ spring:
     username: moamoa
     password: '0103'
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
