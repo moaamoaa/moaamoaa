@@ -12,89 +12,28 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
-
-const theme = {
-  spacing: 8,
-}
-
-function BootstrapDialogTitle(props) {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-}
-
-BootstrapDialogTitle.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
-};
-
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+export default function SignUpPasswordDialog() {
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          MoaMoa
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            김동동님 반갑습니다. 
-          </Typography>
-          <Typography gutterBottom>
-            마지막으로 비밀번호를 설정해주세요! 
-          </Typography>
-          <TextField id="outlined-basic" label="비밀번호 설정" fullWidth variant="outlined" />
-          <Box sx={{ mt: 1 }} />
-          <TextField id="outlined-basic" label="비밀번호 확인 " fullWidth variant="outlined" />
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            다음
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
+      <DialogContent dividers>
+        <Typography gutterBottom>김동동님 반갑습니다.</Typography>
+        <Typography gutterBottom>
+          마지막으로 비밀번호를 설정해주세요!
+        </Typography>
+        <TextField
+          id="outlined-basic"
+          label="비밀번호 설정"
+          fullWidth
+          variant="outlined"
+        />
+        <Box sx={{ mt: 1 }} />
+        <TextField
+          id="outlined-basic"
+          label="비밀번호 확인 "
+          fullWidth
+          variant="outlined"
+        />
+      </DialogContent>
     </div>
   );
 }
