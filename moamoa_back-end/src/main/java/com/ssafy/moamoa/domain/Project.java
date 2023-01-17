@@ -10,10 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Getter;
 
@@ -21,7 +22,7 @@ import lombok.Getter;
 @Getter
 public class Project {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	@Column(name = "project_no")
 	private Long id;
 
@@ -29,7 +30,7 @@ public class Project {
 	@Column(name = "project_title")
 	private String title;
 
-	@Column(name = "project_contents")
+	@Column(name = "project_contents", columnDefinition = "TEXT")
 	private String contents;
 
 	@Column(name = "project_img")
@@ -42,9 +43,11 @@ public class Project {
 
 	@NotNull
 	@Column(name = "project_hit")
+	@ColumnDefault("0")
 	private int hit;
 	@NotNull
 	@Column(name = "project_cnt_offer")
+	@ColumnDefault("0")
 	private int countOffer;
 	@Enumerated(EnumType.STRING)
 	@NotNull
@@ -57,7 +60,7 @@ public class Project {
 	@Column(name = "project_end_date")
 	@NotNull
 	private LocalDate endDate;
-	@Column(name = "project_create_date")
+	@Column(name = "project_create_date", columnDefinition = "TIMESTAMP")
 	@NotNull
 	private LocalDateTime createDate;
 

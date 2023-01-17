@@ -4,42 +4,45 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
+@DynamicInsert
 public class Profile {
 	@Id
 	@Column(name = "profile_no")
 	private Long id;
 
-	@OneToOne
+	@NotNull
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_no")
 	private User user;
 
-	@Setter
-	@Column(name = "profile_nickname", length = 100)
+	@NotNull
+	@Column(name = "profile_nickname")
 	private String nickname;
 
-	@Setter
-	@Column(name = "profile_search_state")
+	@NotNull
+	@ColumnDefault("'ALL'")
 	@Enumerated(EnumType.STRING)
 	private ProfileSearchStatus searchState;
 
-	@Setter
-	@Lob
-	@Column(name = "profile_img", columnDefinition = "BLOB")
-	private byte[] img;
+	@Column(name = "profile_img")
+	private String img;
 
-	@Setter
 	@Lob
-	@Column(name = "profile_context", length = 1000)
+	@Column(name = "profile_context")
 	private String context;
 
 }

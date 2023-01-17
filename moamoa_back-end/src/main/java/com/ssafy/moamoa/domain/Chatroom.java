@@ -2,10 +2,12 @@ package com.ssafy.moamoa.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 
@@ -18,14 +20,16 @@ public class Chatroom {
 	@Column(name = "chatroom_no")
 	private Long id;
 
-	@Column(name = "chatroom_title", length = 20)
+	@Column(name = "chatroom_title")
 	private String title;
 
-	@OneToOne
+	@NotNull
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chatroom_user_one")
 	private User userOne;
 
-	@OneToOne
+	@NotNull
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chatroom_user_two")
 	private User userTwo;
 

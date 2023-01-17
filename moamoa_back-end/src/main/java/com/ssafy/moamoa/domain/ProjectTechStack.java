@@ -1,11 +1,9 @@
 package com.ssafy.moamoa.domain;
 
-import static javax.persistence.FetchType.*;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,19 +16,17 @@ import lombok.Getter;
 public class ProjectTechStack {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	@Column(name = "project_stck_no")
 	private Long id;
 
 	@NotNull
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tech_stack_no")
 	private TechStack techStack;
 
-	// project mapping
-
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_no")
 	private Project project;
 }
