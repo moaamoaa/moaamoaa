@@ -35,7 +35,6 @@ function BootstrapDialogTitle(props) {
   // };
 
   return (
-    
     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
       {children}
       {onClose ? (
@@ -46,7 +45,7 @@ function BootstrapDialogTitle(props) {
             position: 'absolute',
             right: 8,
             top: 8,
-            color: (theme) => theme.palette.grey[500],
+            color: theme => theme.palette.grey[500],
           }}
         >
           <CloseIcon />
@@ -82,50 +81,47 @@ export default function CustomizedDialogs() {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+        >
           모아모아에 오신 것을 환영합니다.
         </BootstrapDialogTitle>
         <DialogContent dividers>
-        <TextField 
-            label="이메일을 입력해주세요" 
-            required 
-            fullWidth 
-            name="email" 
+          <TextField
+            label="이메일을 입력해주세요"
+            required
+            fullWidth
+            name="email"
             autoComplete="email"
           />
 
-          <TextField 
-            label="비밀번호를 입력해주세요" 
-            type="password" 
-            required 
-            fullWidth 
-            name="password" 
+          <TextField
+            label="비밀번호를 입력해주세요"
+            type="password"
+            required
+            fullWidth
+            name="password"
             autoComplete="current-password"
           />
 
-          <Button type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3 }}>
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
             로그인
           </Button>
 
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2"> 
+              <Link href="#" variant="body2">
                 비밀번호 찾기
               </Link>
             </Grid>
-            <Grid item>
-                |
-            </Grid>
+            <Grid item>|</Grid>
             <Grid item>
               <Link href="#" variant="body2">
                 회원가입
               </Link>
             </Grid>
           </Grid>
-
         </DialogContent>
         {/* <DialogActions>
           <Button autoFocus onClick={handleClose}>
