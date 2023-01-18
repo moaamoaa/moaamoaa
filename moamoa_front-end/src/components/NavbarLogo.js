@@ -47,7 +47,7 @@ function ResponsiveAppBar() {
           textDecoration: 'none',
         }}
       >
-        <Link to="/">MOAMOA</Link>
+        MOAMOA
       </Typography>
 
       <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -80,7 +80,7 @@ function ResponsiveAppBar() {
           }}
         >
           {pages.map(page => (
-            <MenuItem key={page} onClick={handleCloseNavMenu}>
+            <MenuItem key={page.text} onClick={handleCloseNavMenu}>
               <Typography textAlign="center">
                 <Link to={page.link}>{page.text}</Link>
               </Typography>
@@ -93,7 +93,7 @@ function ResponsiveAppBar() {
         variant="h5"
         noWrap
         component="a"
-        href=""
+        href="/"
         sx={{
           display: { xs: 'flex', md: 'none' },
           flexGrow: 1,
@@ -110,7 +110,7 @@ function ResponsiveAppBar() {
       <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
         {pages.map(page => (
           <Button
-            key={page}
+            key={page.text}
             onClick={handleCloseNavMenu}
             sx={{ my: 2, color: 'white', display: 'block' }}
           >
