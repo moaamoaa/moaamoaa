@@ -8,12 +8,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
 @Table(name = "USER")
 public class User {
 
