@@ -8,10 +8,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
 @Getter
+@Builder
 @Table(name = "USER")
 public class User {
 
@@ -32,17 +34,12 @@ public class User {
 	@Column(name = "user_refresh_token")
 	private String refreshToken;
 
+	public User() {
+	}
+
 	//==set==//
-	public void setEmail(String email)
-	{this.email = email;
-	}
-	public void setPassword(String password)
-	{this.password = password;
-	}
 	public void setProfile(Profile profile){
 		profile.setUser(this);
 	}
-
-	//==생성 메서드==//
 
 }
