@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.User;
 import com.ssafy.moamoa.dto.SignUpForm;
-import com.ssafy.moamoa.service.ProfileService;
+import com.ssafy.moamoa.service.ProfileServiceImpl;
 import com.ssafy.moamoa.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final ProfileService profileService;
+    private final ProfileServiceImpl profileService;
 
     @GetMapping
     public ResponseEntity<?> showList() throws Exception {

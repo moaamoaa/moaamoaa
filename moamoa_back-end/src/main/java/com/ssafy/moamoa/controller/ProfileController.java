@@ -5,17 +5,14 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.ssafy.moamoa.dto.ProfileForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.ssafy.moamoa.service.ProfileService;
+import com.ssafy.moamoa.domain.Profile;
+import com.ssafy.moamoa.service.ProfileServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,15 +25,22 @@ import lombok.extern.slf4j.Slf4j;
 public class ProfileController {
 	private static final String SUCCESS = "SUCCESS";
 	private static final String FAIL = "FAIL";
+
+	private ProfileServiceImpl profileService;
+
 	@Autowired
-	private final ProfileService profileService;
+	public ProfileController(ProfileServiceImpl profileService){
+		this.profileService = profileService;
+	}
 
 	// 검색 여부 변경
 	@PutMapping("/searchState")
-	ResponseEntity<Map<String, Object>> updateSearchState() {
+	ResponseEntity<Map<String, Object>> updateSearchState(@RequestBody Long userId) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-
+		ProfileForm profileForm = profileService.changeUserState(userId);
+		resultMap.put("message",profileForm.getProfileSearchStatus());
+		status= HttpStatus.ACCEPTED;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
