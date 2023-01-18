@@ -30,17 +30,4 @@ public class ProfileController {
 
 	private final ProfileService profileService;
 
-/*	@GetMapping
-	public ResponseEntity<?> showList() throws Exception {
-		List<User> users = userService.findUsers();
-		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
-	}*/
-
-	@ResponseStatus(code = HttpStatus.OK)
-	@PostMapping("/signUpProfile")
-	public ResponseEntity<?> signup(@RequestBody Profile profile) {
-		Profile newProfile = profileService.save(profile);
-		return new ResponseEntity<Profile>(newProfile, HttpStatus.OK);
-	}
-
 }

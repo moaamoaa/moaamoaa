@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.User;
+import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
 import com.ssafy.moamoa.exception.DuplicateUserEmailException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
@@ -30,7 +31,7 @@ public class UserService {
 
 	// 회원 가입 - user
 	public User save(User user) {
-		validateDuplicateUserEmail(user); //중복 회원 검증
+		validateDuplicateUserEmail(user); // 중복 이메일 검증
 		return userRepository.save(user);
 	}
 
@@ -42,6 +43,15 @@ public class UserService {
 		}
 	}
 
+	// 닉네임 중복 조회
+	private void validateDuplicateProfileNickname(Profile profile) {
+		List<Profile> findProfiles = profileRepository.findByNickname(profile.getNickname());
+		if (!findProfiles.isEmpty()) {
+			throw new DuplicateProfileNicknameException("이미 존재하는 닉네임입니다.");
+		}
+	}
+
+	// 회원 가입
 	public String signup(String email, String password, String nickname) {
 		// user
 		User user = new User();
@@ -53,6 +63,8 @@ public class UserService {
 		user.setProfile(profile);
 
 		validateDuplicateUserEmail(user);
+		validateDuplicateProfileNickname(profile);
+
 		userRepository.save(user);
 		profileRepository.save(profile);
 		return nickname;
