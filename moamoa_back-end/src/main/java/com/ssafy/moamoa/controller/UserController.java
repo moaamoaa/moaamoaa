@@ -44,27 +44,6 @@ public class UserController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-/*	@PostMapping("/signUp")
-	public ResponseEntity<?> signup(@RequestBody User user) {
-		User newUser = userService.save(user);
-		return new ResponseEntity<User>(newUser, HttpStatus.OK);
-	}*/
-
-/*	@ResponseStatus(code = HttpStatus.OK)
-	@PostMapping("/signUp")
-	public User signup(@RequestBody ObjectNode objectNode) throws JsonProcessingException {
-
-		ObjectMapper mapper = new ObjectMapper(); // JSON을 Object화 하기 위한 ObjectMapper
-		User user = mapper.treeToValue(objectNode.get("user"), User.class);
-		User newUser = userService.save(user);
-
-*//*		Profile profile = mapper.treeToValue(objectNode.get("profile"), Profile.class);
-		profile.addUser(user);
-		Profile newProfile = profileService.save(profile);*//*
-
-		return newUser;//new ResponseEntity<User>(newUser, HttpStatus.OK);
-	}*/
-
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody SignUpForm signUpForm) throws JsonProcessingException {
 
@@ -73,10 +52,6 @@ public class UserController {
 		String nickname = signUpForm.getNickname();
 
 		String userNickname = userService.signup(email, password, nickname);
-
-/*		Profile profile = mapper.treeToValue(objectNode.get("profile"), Profile.class);
-		profile.addUser(user);
-		Profile newProfile = profileService.save(profile);*/
 
 		return new ResponseEntity<String>(userNickname, HttpStatus.OK);
 	}
