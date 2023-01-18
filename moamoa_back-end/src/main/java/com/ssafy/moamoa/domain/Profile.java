@@ -45,4 +45,11 @@ public class Profile {
 	@Column(name = "profile_context", columnDefinition = "TEXT")
 	private String context;
 
+	//==set==//
+	public static Profile setUser(User newUser)
+	{
+		Profile profile = new Profile();
+		profile.user = newUser;
+		return profile;
+	}
 }
