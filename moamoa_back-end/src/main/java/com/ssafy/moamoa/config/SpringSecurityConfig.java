@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+/*        http
                 .authorizeRequests()
                     .anyRequest().permitAll()
                 .and()
@@ -18,6 +18,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/view/dashboard", true)
                     .permitAll()
                 .and()
-                    .logout();
+                    .logout();*/
+        http       //other configure params.
+            .csrf().disable();
     }
 }
