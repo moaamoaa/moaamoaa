@@ -1,6 +1,7 @@
 package com.ssafy.moamoa.service;
 
 import com.ssafy.moamoa.domain.Profile;
+import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.User;
 import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
 import com.ssafy.moamoa.exception.DuplicateUserEmailException;
@@ -26,7 +27,7 @@ public class UserService {
     }
 
     // 이메일 중복 조회
-    private void validateDuplicateUserEmail(User user) {
+    public void validateDuplicateUserEmail(User user) {
         List<User> findUsers = userRepository.findByEmail(user.getEmail());
         if (!findUsers.isEmpty()) {
             throw new DuplicateUserEmailException("이미 존재하는 회원입니다.");
@@ -34,7 +35,7 @@ public class UserService {
     }
 
     // 닉네임 중복 조회
-    private void validateDuplicateProfileNickname(Profile profile) {
+    public void validateDuplicateProfileNickname(Profile profile) {
         List<Profile> findProfiles = profileRepository.findByNickname(profile.getNickname());
         if (!findProfiles.isEmpty()) {
             throw new DuplicateProfileNicknameException("이미 존재하는 닉네임입니다.");
@@ -51,6 +52,7 @@ public class UserService {
         // profile
         Profile profile = Profile.builder()
                 .nickname(nickname)
+                .searchState(ProfileSearchStatus.ALL)
                 .build();
 
         user.setProfile(profile);

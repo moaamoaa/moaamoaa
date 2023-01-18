@@ -8,8 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 		/*http
 			.authorizeRequests()
 			.anyRequest().permitAll()
@@ -19,7 +19,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			.permitAll()
 			.and()
 			.logout();*/
-		http       //other configure params.
-			.csrf().disable();
-	}
+        http       //other configure params.
+                .csrf().disable();
+    }
 }
