@@ -54,12 +54,15 @@ public class UserService {
 	// 회원 가입
 	public String signup(String email, String password, String nickname) {
 		// user
-		User user = new User();
-		user.setEmail(email);
-		user.setPassword(password);
+		User user = User.builder()
+					.email(email)
+					.password(password)
+					.build();
 		// profile
-		Profile profile = new Profile();
-		profile.setNickname(nickname);
+		Profile profile = Profile.builder()
+								.nickname(nickname)
+								.build();
+
 		user.setProfile(profile);
 
 		validateDuplicateUserEmail(user);
