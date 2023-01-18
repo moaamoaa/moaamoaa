@@ -16,6 +16,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -24,6 +25,7 @@ import lombok.Getter;
 @Builder
 @DynamicInsert
 @DynamicUpdate
+@AllArgsConstructor
 public class Profile {
 	@Id
 	@GeneratedValue
