@@ -33,7 +33,6 @@ public class User {
 	private String refreshToken;
 
 	//==set==//
-
 	public void setEmail(String email)
 	{this.email = email;
 	}

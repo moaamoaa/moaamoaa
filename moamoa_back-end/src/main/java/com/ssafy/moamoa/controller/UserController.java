@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.User;
+import com.ssafy.moamoa.dto.SignUpForm;
 import com.ssafy.moamoa.service.ProfileService;
 import com.ssafy.moamoa.service.UserService;
 
@@ -31,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-//@RequestMapping("/users")
+@RequestMapping("/users")
 @Transactional
 public class UserController {
 
@@ -64,18 +65,13 @@ public class UserController {
 		return newUser;//new ResponseEntity<User>(newUser, HttpStatus.OK);
 	}*/
 
-	@PostMapping("/signUp")
-	public ResponseEntity<?> signup(/*@RequestParam("email") String email,
-									@RequestParam("password") String password,
-									@RequestParam("nickname") String nickname
-		                            */
-	@RequestParam HashMap<String,String> paramMap) throws JsonProcessingException {
+	@PostMapping("/signup")
+	public ResponseEntity<?> signup(@RequestBody SignUpForm signUpForm) throws JsonProcessingException {
 
-		String email = paramMap.get("email");
-		String password = paramMap.get("password");
-		String nickname = paramMap.get("nickname");
+		String email = signUpForm.getEmail();
+		String password = signUpForm.getPassword();
+		String nickname = signUpForm.getNickname();
 
-		System.out.println(paramMap.get("email"));
 		String userNickname = userService.signup(email, password, nickname);
 
 /*		Profile profile = mapper.treeToValue(objectNode.get("profile"), Profile.class);

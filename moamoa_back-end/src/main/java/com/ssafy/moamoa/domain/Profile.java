@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -13,14 +14,17 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.Getter;
 
 @Entity
 @Getter
 @DynamicInsert
+@DynamicUpdate
 public class Profile {
 	@Id
+	@GeneratedValue
 	@Column(name = "profile_no")
 	private Long id;
 
@@ -36,7 +40,7 @@ public class Profile {
 	@NotNull
 	@ColumnDefault("'ALL'")
 	@Enumerated(EnumType.STRING)
-	private ProfileSearchStatus searchState;
+	private ProfileSearchStatus searchState = ProfileSearchStatus.ALL;
 
 	@Column(name = "profile_img")
 	private String img;
@@ -46,10 +50,13 @@ public class Profile {
 	private String context;
 
 	//==set==//
-	public static Profile setUser(User newUser)
-	{
-		Profile profile = new Profile();
-		profile.user = newUser;
-		return profile;
+	public void setUser(User newUser)
+	{//Profile profile = new Profile();
+		this.user = newUser;
+		//return profile;
+	}
+
+	public void setNickname(String nickname)
+	{this.nickname = nickname;
 	}
 }
