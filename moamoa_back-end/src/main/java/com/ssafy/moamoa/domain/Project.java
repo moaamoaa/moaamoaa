@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity

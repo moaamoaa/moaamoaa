@@ -16,10 +16,12 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
 @Getter
+@Builder
 @DynamicInsert
 @DynamicUpdate
 public class Profile {
@@ -49,14 +51,12 @@ public class Profile {
 	@Column(name = "profile_context", columnDefinition = "TEXT")
 	private String context;
 
-	//==set==//
-	public void setUser(User newUser)
-	{//Profile profile = new Profile();
-		this.user = newUser;
-		//return profile;
+	public Profile() {
 	}
 
-	public void setNickname(String nickname)
-	{this.nickname = nickname;
+	//==set==//
+	public void setUser(User newUser) {
+		this.user = newUser;
 	}
+
 }
