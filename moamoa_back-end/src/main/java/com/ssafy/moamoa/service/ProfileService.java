@@ -1,19 +1,18 @@
 package com.ssafy.moamoa.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ssafy.moamoa.domain.Profile;
-import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
-import com.ssafy.moamoa.repository.ProfileRepository;
+import com.ssafy.moamoa.dto.ProfileForm;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Optional;
 
-@Service
-@Transactional(readOnly = true)
-@RequiredArgsConstructor
-public class ProfileService {
-	private final ProfileRepository profileRepository;
+public interface ProfileService {
+
+	Optional<Profile> getProfile(Long userId);
+
+	ProfileForm changeUserState(Long userId);
+
+
+
+
 }

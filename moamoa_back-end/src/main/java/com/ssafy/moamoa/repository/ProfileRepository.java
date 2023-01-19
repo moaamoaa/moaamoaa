@@ -9,4 +9,8 @@ import com.ssafy.moamoa.domain.Profile;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
 	List<Profile> findByNickname(String nickname);
+
+	Profile findBySearchState(String searchState);
+
+	List<Profile> findByUser_Id(Long userId);
 }
