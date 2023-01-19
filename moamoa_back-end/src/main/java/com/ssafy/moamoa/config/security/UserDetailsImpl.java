@@ -3,12 +3,14 @@ package com.ssafy.moamoa.config.security;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
 	private Long id;
@@ -16,11 +18,8 @@ public class UserDetailsImpl implements UserDetails {
 	@JsonIgnore
 	private String password;
 
-	public UserDetailsImpl(Long id, String email, String password) {
-		this.id = id;
-		this.email = email;
-		this.password = password;
-	}
+	private String nickname;
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

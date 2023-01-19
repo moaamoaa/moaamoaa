@@ -1,6 +1,7 @@
 package com.ssafy.moamoa.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -68,10 +69,10 @@ public class UserController {
 	}
 
 	@PostMapping("/signin")
-	public ResponseEntity<?> signin(@RequestBody LoginForm loginForm) {
+	public String signin(@RequestBody LoginForm loginForm) {
 		log.debug("입력 들어옴");
-		userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
-		
-		return new ResponseEntity<>(loginForm, HttpStatus.OK);
+//		String token = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
+
+		return "hi";
 	}
 }

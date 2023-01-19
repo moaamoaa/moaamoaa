@@ -15,7 +15,7 @@ spring:
     show-sql: true
     hibernate:
       format_sql: true
-      ddl-auto: create
+      ddl-auto: update
       use-new-id-generator-mappings: false
 
 logging:
@@ -27,3 +27,11 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+    com.ssafy.moamoa: debug
+
+security:
+  jwt:
+    secret-key: 6ec2601c-5280-4761-810b-80a5478ec7ed
+
+
+
