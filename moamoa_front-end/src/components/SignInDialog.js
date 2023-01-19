@@ -60,75 +60,59 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+export default function CustomizedDialogs(props) {
+  const handleClose = () => {};
 
   return (
-    <div>
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        로그아웃 상태에서 홈 화면 네브바에 만들 로그인 버튼
-      </Button>
+    <BootstrapDialog
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={props.open}
+    >
+      <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+        모아모아에 오신 것을 환영합니다.
+      </BootstrapDialogTitle>
+      <DialogContent dividers>
+        <TextField
+          label="이메일을 입력해주세요"
+          required
+          fullWidth
+          name="email"
+          autoComplete="email"
+        />
 
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-        >
-          모아모아에 오신 것을 환영합니다.
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <TextField
-            label="이메일을 입력해주세요"
-            required
-            fullWidth
-            name="email"
-            autoComplete="email"
-          />
+        <TextField
+          label="비밀번호를 입력해주세요"
+          type="password"
+          required
+          fullWidth
+          name="password"
+          autoComplete="current-password"
+        />
 
-          <TextField
-            label="비밀번호를 입력해주세요"
-            type="password"
-            required
-            fullWidth
-            name="password"
-            autoComplete="current-password"
-          />
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
+          로그인
+        </Button>
 
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-            로그인
-          </Button>
-
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2">
-                비밀번호 찾기
-              </Link>
-            </Grid>
-            <Grid item>|</Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                회원가입
-              </Link>
-            </Grid>
+        <Grid container justifyContent="flex-end">
+          <Grid item>
+            <Link href="#" variant="body2">
+              비밀번호 찾기
+            </Link>
           </Grid>
-        </DialogContent>
-        {/* <DialogActions>
+          <Grid item>|</Grid>
+          <Grid item>
+            <Link href="#" variant="body2">
+              회원가입
+            </Link>
+          </Grid>
+        </Grid>
+      </DialogContent>
+      {/* <DialogActions>
           <Button autoFocus onClick={handleClose}>
             Save changes
           </Button>
         </DialogActions> */}
-      </BootstrapDialog>
-    </div>
+    </BootstrapDialog>
   );
 }
