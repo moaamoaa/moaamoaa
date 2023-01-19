@@ -1,9 +1,9 @@
 import Container from '@mui/material/Container';
 
-export default function HomePage() {
+export default function ProfilePage() {
   return (
     <Container fixed>
-      <p>HomePage</p>
+      <p>ProfilePage</p>
     </Container>
   );
 }
