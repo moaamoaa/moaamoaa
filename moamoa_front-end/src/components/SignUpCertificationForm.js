@@ -4,7 +4,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 
-export default function SignUpCertificationDialog() {
+export default function SignUpCertificationform() {
   return (
     <div>
       <DialogContent dividers>

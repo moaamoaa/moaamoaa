@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import SvgIcon from '@mui/material/SvgIcon';
 
 import SignInDialog from './SignInDialog';
+import CheckoutDialog from './CheckoutDialog';
 
 const settings = [
   {
@@ -26,7 +27,8 @@ const settings = [
 export default function NavbarAccount() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [isLogIn, setisLogIn] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [signInDialog, setSignInDialog] = useState(false);
+  const [signUpDialog, setSignUpDialog] = useState(false);
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
@@ -37,7 +39,7 @@ export default function NavbarAccount() {
   };
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setSignInDialog(true);
   };
 
   if (isLogIn) {
@@ -87,7 +89,15 @@ export default function NavbarAccount() {
             Log in
           </Button>
         </Box>
-        <SignInDialog open={open}></SignInDialog>
+        <SignInDialog
+          signInDialog={signInDialog}
+          setSignInDialog={setSignInDialog}
+          setSignUpDialog={setSignUpDialog}
+        ></SignInDialog>
+        <CheckoutDialog
+          open={signUpDialog}
+          setSignUpDialog={setSignUpDialog}
+        ></CheckoutDialog>
       </>
     );
   }

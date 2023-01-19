@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-export default function SignUpPasswordDialog() {
+export default function SignUpPasswordForm() {
   return (
     <div>
       <DialogContent dividers>
