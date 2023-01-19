@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -9,6 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import ChatIcon from '@mui/icons-material/Chat';
 import Button from '@mui/material/Button';
 import SvgIcon from '@mui/material/SvgIcon';
+
+import SignInDialog from './SignInDialog';
 
 const settings = [
   {
@@ -22,8 +24,9 @@ const settings = [
 ];
 
 export default function NavbarAccount() {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [isLogIn, setisLogIn] = React.useState(false);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [isLogIn, setisLogIn] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
@@ -33,8 +36,8 @@ export default function NavbarAccount() {
     setAnchorElUser(null);
   };
 
-  const handleUserToken = () => {
-    setisLogIn(true);
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
   if (isLogIn) {
@@ -78,11 +81,14 @@ export default function NavbarAccount() {
     );
   } else {
     return (
-      <Box sx={{ flexGrow: 0 }}>
-        <Button variant="text" onClick={handleUserToken} color="secondary">
-          Log in
-        </Button>
-      </Box>
+      <>
+        <Box sx={{ flexGrow: 0 }}>
+          <Button variant="text" onClick={handleClickOpen} color="secondary">
+            Log in
+          </Button>
+        </Box>
+        <SignInDialog open={open}></SignInDialog>
+      </>
     );
   }
 }
