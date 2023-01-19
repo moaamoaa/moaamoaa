@@ -61,4 +61,7 @@ public class Profile {
 		this.user = newUser;
 	}
 
+	public void setSearchState(ProfileSearchStatus profileSearchStatus) {
+		this.searchState = profileSearchStatus;
+	}
 }
