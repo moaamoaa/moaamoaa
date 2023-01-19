@@ -57,18 +57,12 @@ export default function CustomizedDialogs() {
   };
 
   return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        회원가입 버튼 = dialog open
-      </Button>
-
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <CheckoutDialog />
-      </BootstrapDialog>
-    </div>
+    <BootstrapDialog
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={open}
+    >
+      <CheckoutDialog />
+    </BootstrapDialog>
   );
 }
