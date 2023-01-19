@@ -61,15 +61,25 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CustomizedDialogs(props) {
-  const handleClose = () => {};
+  const handleCloseSignIndialog = () => {
+    props.setSignInDialog(false);
+  };
+
+  const handleOpenSignUpDialog = () => {
+    props.setSignInDialog(false);
+    props.setSignUpDialog(true);
+  };
 
   return (
     <BootstrapDialog
-      onClose={handleClose}
+      onClose={handleCloseSignIndialog}
       aria-labelledby="customized-dialog-title"
-      open={props.open}
+      open={props.signInDialog}
     >
-      <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+      <BootstrapDialogTitle
+        id="customized-dialog-title"
+        onClose={handleCloseSignIndialog}
+      >
         모아모아에 오신 것을 환영합니다.
       </BootstrapDialogTitle>
       <DialogContent dividers>
@@ -96,23 +106,25 @@ export default function CustomizedDialogs(props) {
 
         <Grid container justifyContent="flex-end">
           <Grid item>
-            <Link href="#" variant="body2">
+            <Button
+              variant="text"
+              color="primary"
+              onClick={handleOpenSignUpDialog}
+            >
               비밀번호 찾기
-            </Link>
+            </Button>
           </Grid>
-          <Grid item>|</Grid>
           <Grid item>
-            <Link href="#" variant="body2">
+            <Button
+              variant="text"
+              color="primary"
+              onClick={handleOpenSignUpDialog}
+            >
               회원가입
-            </Link>
+            </Button>
           </Grid>
         </Grid>
       </DialogContent>
-      {/* <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions> */}
     </BootstrapDialog>
   );
 }

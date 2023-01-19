@@ -1,12 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import CheckoutDialog from './CheckoutDialog';
+import SignUpEmailDialog from './SignUpEmailForm';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -46,7 +45,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CustomizedDialogs() {
+export default function FindPasswordDialog() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -62,7 +61,7 @@ export default function CustomizedDialogs() {
       aria-labelledby="customized-dialog-title"
       open={open}
     >
-      <CheckoutDialog />
+      <SignUpEmailDialog type={'findPassword'} />
     </BootstrapDialog>
   );
 }
