@@ -4,7 +4,7 @@ import TeamMemberSearchPage from './pages/TeamMemberSearchPage';
 import TeamDetailPage from './pages/TeamDetailPage';
 import ProfilePage from './pages/PoriflePage';
 
-import Navbar from './components/Navbar';
+import Navbar from './components/common/navbar/Navbar';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
