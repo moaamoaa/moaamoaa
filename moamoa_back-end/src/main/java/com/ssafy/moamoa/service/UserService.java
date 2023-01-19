@@ -23,7 +23,7 @@ public class UserService {
     private final ProfileRepository profileRepository;
 
     // 회원 한명 조회
-    public Optional<User> findUser(Long userId){
+    public Optional<User> findUser(Long userId) {
         return userRepository.findById(userId);
     }
 
@@ -34,8 +34,8 @@ public class UserService {
 
     // 이메일 중복 조회
     public void validateDuplicateUserEmail(User user) {
-        List<User> findUsers = userRepository.findByEmail(user.getEmail());
-        if (!findUsers.isEmpty()) {
+        Optional<User> findUser = userRepository.findByEmail(user.getEmail());
+        if (!findUser.isEmpty()) {
             throw new DuplicateUserEmailException("이미 존재하는 회원입니다.");
         }
     }
@@ -69,5 +69,55 @@ public class UserService {
         userRepository.save(user);
         profileRepository.save(profile);
         return nickname;
+    }
+
+    public void updatePassword(String password, String email) {
+        Optional<User> findUsers = userRepository.findByEmail(email);
+        if (!findUsers.isPresent()) {
+            return;
+        }
+        User findUser = findUsers.get();
+        System.out.println(findUser.getId());
+        findUser.setPassword(password);
+    }
+
+    public void updateNickname(String nickname, String email) {
+        Optional<User> findUsers = userRepository.findByEmail(email);
+        if (!findUsers.isPresent()) {
+            return;
+        }
+        User findUser = findUsers.get();
+        System.out.println(findUser.getId());
+        // profile
+        Profile profile = Profile.builder()
+                .nickname(nickname)
+                .searchState(ProfileSearchStatus.ALL)
+                .build();
+
+        validateDuplicateProfileNickname(profile);
+        Optional<Profile> findProfiles = profileRepository.findByUser(findUser);
+        if (!findProfiles.isPresent()) {
+            return;
+        }
+        Profile findProfile = findProfiles.get();
+        System.out.println(findProfile.getUser());
+        findProfile.setNickname(nickname);
+    }
+
+    public void deleteUser(String email) {
+        Optional<User> findUsers = userRepository.findByEmail(email);
+        if (!findUsers.isPresent()) {
+            return;
+        }
+        User findUser = findUsers.get();
+        System.out.println(findUser.getId());
+        // profile
+        Optional<Profile> findProfiles = profileRepository.findByUser(findUser);
+        if (!findProfiles.isPresent()) {
+            return;
+        }
+        Profile findProfile = findProfiles.get();
+        profileRepository.delete(findProfile);
+        userRepository.deleteByEmail(email);
     }
 }
