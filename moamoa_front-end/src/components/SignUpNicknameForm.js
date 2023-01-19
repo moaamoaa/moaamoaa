@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 
-export default function SignUpNicknameDialog() {
+export default function SignUpNicknameForm() {
   return (
     <div>
       <DialogContent dividers>
