@@ -1,9 +1,9 @@
 import Container from '@mui/material/Container';
 
-export default function HomePage() {
+export default function TeamDetailPage() {
   return (
     <Container fixed>
-      <p>HomePage</p>
+      <p>TeamDetailPage</p>
     </Container>
   );
 }
