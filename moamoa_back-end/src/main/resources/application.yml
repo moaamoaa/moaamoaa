@@ -5,7 +5,6 @@ spring:
     url: jdbc:mysql://localhost:3306/moamoa?serverTimezone=UTC&characterEncoding=UTF-8
     username: moamoa
     password: '0103'
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -15,8 +14,20 @@ spring:
     show-sql: true
     hibernate:
       format_sql: true
-      ddl-auto: create
+      ddl-auto: update
       use-new-id-generator-mappings: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: moamoaofficial0@gmail.com
+    password: jhdwizmtwgpsaidm
+    properties:
+      mail:
+        smtp:
+          timeout: 5000
+          auth: true
+          starttls:
+            enable: true
 
 logging:
   level:
