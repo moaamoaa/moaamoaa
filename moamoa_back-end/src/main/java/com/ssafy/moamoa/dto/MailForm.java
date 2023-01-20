@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Mail {
+public class MailForm {
     private String mailFrom;
     private String mailTo;
     private String mailCc;
@@ -14,7 +14,7 @@ public class Mail {
     private String mailContent;
     private String contentType;
 
-    public Mail() {
+    public MailForm() {
         contentType = "text/plain";
     }
 
