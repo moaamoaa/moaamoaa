@@ -10,8 +10,8 @@ import ChatIcon from '@mui/icons-material/Chat';
 import Button from '@mui/material/Button';
 import SvgIcon from '@mui/material/SvgIcon';
 
-import SignInDialog from '../../signIn/SignInDialog';
-import CheckoutDialog from '../../signUp/CheckoutDialog';
+import SignInDialog from 'components/signIn/SignInDialog';
+import CheckoutDialog from 'components/signUp/CheckoutDialog';
 
 const settings = [
   {

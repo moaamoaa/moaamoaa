@@ -2,7 +2,7 @@ import HomePage from './pages/HomePage';
 import TeamSearchPage from './pages/TeamSearchPage';
 import TeamMemberSearchPage from './pages/TeamMemberSearchPage';
 import TeamDetailPage from './pages/TeamDetailPage';
-import ProfilePage from './pages/PoriflePage';
+import ProfilePage from './pages/ProfilePage';
 
 import Navbar from './components/common/navbar/Navbar';
 
