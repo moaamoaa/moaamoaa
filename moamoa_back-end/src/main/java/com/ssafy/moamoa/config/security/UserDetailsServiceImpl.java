@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-
 	private final UserRepository userRepository;
 	private final ProfileRepository profileRepository;
 
@@ -24,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		//user를 가져옴
 		User user = userRepository.findByEmail(email)
 			.orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다: " + email));
-		Profile profile = profileRepository.findByUser_Id(user.getId()).get(0);
+		Profile profile = profileRepository.findByUser_Id(user.getId()).get();
 		return new UserDetailsImpl(user.getId(), user.getEmail(), user.getPassword(), profile.getNickname());
 	}
 }

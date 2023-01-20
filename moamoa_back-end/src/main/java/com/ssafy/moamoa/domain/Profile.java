@@ -61,7 +61,12 @@ public class Profile {
 		this.user = newUser;
 	}
 
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
 	public void setSearchState(ProfileSearchStatus profileSearchStatus) {
 		this.searchState = profileSearchStatus;
 	}
+
 }

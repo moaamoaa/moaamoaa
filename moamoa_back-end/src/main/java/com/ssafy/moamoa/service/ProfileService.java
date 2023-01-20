@@ -1,6 +1,5 @@
 package com.ssafy.moamoa.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +41,9 @@ public class ProfileService {
 		User user = userRepository.findById(userId).get();
 		System.out.println(user.getId());
 
-		List<Profile> profileList = profileRepository.findByUser_Id(user.getId());
-		if (profileList.isEmpty()) {
-			// 회원이 없는 경우 exception
-		} else if (profileList.size() >= 2) {
-			// 프로필이 왜이리 많아요 exception
-		}
+		Optional<Profile> profileList = profileRepository.findByUser_Id(user.getId());
 
-		Profile profile = profileList.get(0);
+		Profile profile = profileList.get();
 		ProfileSearchStatus originSearchState = profile.getSearchState();
 		String searchState = String.valueOf(originSearchState);
 		switch (searchState) {
