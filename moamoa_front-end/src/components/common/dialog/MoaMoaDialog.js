@@ -5,7 +5,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import SignUpEmailDialog from './SignUpEmailForm';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -16,7 +15,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-function BootstrapDialogTitle(props) {
+const MoaMoaDialogTitle = props => {
   const { children, onClose, ...other } = props;
 
   return (
@@ -38,30 +37,29 @@ function BootstrapDialogTitle(props) {
       ) : null}
     </DialogTitle>
   );
-}
+};
 
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
 
-export default function FindPasswordDialog() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+export default function CustomizedDialogs(props) {
+  const handleCloseSignIndialog = () => {
+    props.setSignInDialog(false);
   };
-  const handleClose = () => {
-    setOpen(false);
+
+  const handleOpenSignUpDialog = () => {
+    props.setSignInDialog(false);
   };
 
   return (
     <BootstrapDialog
-      onClose={handleClose}
+      onClose={handleCloseSignIndialog}
       aria-labelledby="customized-dialog-title"
-      open={open}
+      open={props.signInDialog}
     >
-      <SignUpEmailDialog type={'findPassword'} />
+      <MoaMoaDialogTitle></MoaMoaDialogTitle>
     </BootstrapDialog>
   );
 }

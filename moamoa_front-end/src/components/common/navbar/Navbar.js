@@ -3,8 +3,8 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 
-import NavbarLogo from './NavbarLogo';
-import NavbarAccount from './NavbarAccount';
+import NavbarLogo from 'components/common/navbar/NavbarLogo';
+import NavbarAccount from 'components/common/navbar/NavbarAccount';
 
 function ResponsiveAppBar() {
   return (

@@ -1,6 +1,4 @@
 import React from 'react';
-import CardItem from './CardItem';
-// import Grid from '@mui/material/Grid';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import {
   CarouselProvider,
@@ -10,7 +8,7 @@ import {
   ButtonNext,
 } from 'pure-react-carousel';
 
-// const cards = [1, 2, 3];
+import CardItem from 'components/common/card/CardItem';
 
 const Carousel = () => {
   return (
