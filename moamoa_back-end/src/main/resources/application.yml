@@ -38,3 +38,11 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+    com.ssafy.moamoa: debug
+
+security:
+  jwt:
+    secret-key: 6ec2601c-5280-4761-810b-80a5478ec7ed
+
+
+
