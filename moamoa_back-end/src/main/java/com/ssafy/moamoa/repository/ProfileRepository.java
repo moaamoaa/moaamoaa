@@ -1,16 +1,15 @@
 package com.ssafy.moamoa.repository;
 
-import java.util.List;
-
+import com.ssafy.moamoa.domain.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ssafy.moamoa.domain.Profile;
+import java.util.Optional;
 
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
-	List<Profile> findByNickname(String nickname);
+    Optional<Profile> findByNickname(String nickname);
 
-	Profile findBySearchState(String searchState);
+    Profile findBySearchState(String searchState);
 
-	List<Profile> findByUser_Id(Long userId);
+    Optional<Profile> findByUser_Id(Long userId);
 }

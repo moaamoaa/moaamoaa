@@ -2,10 +2,8 @@ package com.ssafy.moamoa.controller;
 
 import java.util.List;
 
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -21,11 +19,10 @@ import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.User;
 import com.ssafy.moamoa.dto.LoginForm;
-import com.ssafy.moamoa.dto.SignUpForm;
+import com.ssafy.moamoa.dto.SignForm;
 import com.ssafy.moamoa.dto.TokenDto;
-import com.ssafy.moamoa.service.ProfileServiceImpl;
-import com.ssafy.moamoa.dto.Mail;
 import com.ssafy.moamoa.service.MailService;
+import com.ssafy.moamoa.service.ProfileService;
 import com.ssafy.moamoa.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,30 +36,29 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
 	private final UserService userService;
-	private final ProfileServiceImpl profileService;
+	private final ProfileService profileService;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MailService mailService;
 
+	// 전체 회원 조회
 	@GetMapping
 	public ResponseEntity<?> showList() throws Exception {
 		List<User> users = userService.findUsers();
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-
 	// 회원 가입
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody SignUpForm signUpForm) throws JsonProcessingException {
+	public ResponseEntity<?> signup(@RequestBody SignForm signForm) throws JsonProcessingException {
 
-		String email = signUpForm.getEmail();
-		String password = signUpForm.getPassword();
-		String nickname = signUpForm.getNickname();
+		String email = signForm.getEmail();
+		String password = signForm.getPassword();
+		String nickname = signForm.getNickname();
 
 		String userNickname = userService.signup(email, password, nickname);
 
 		return new ResponseEntity<String>(userNickname, HttpStatus.OK);
 	}
-
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> signin(@RequestBody LoginForm loginForm, HttpServletResponse response) {
@@ -87,6 +83,5 @@ public class UserController {
 		return new ResponseEntity<String>("닉네임 중복 확인", HttpStatus.OK);
 
 	}
-
 
 }

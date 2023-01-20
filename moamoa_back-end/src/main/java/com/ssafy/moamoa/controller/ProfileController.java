@@ -72,5 +72,4 @@ public class ProfileController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-
 }

@@ -1,17 +1,5 @@
 package com.ssafy.moamoa.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
@@ -21,8 +9,18 @@ import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
 import com.ssafy.moamoa.exception.DuplicateUserEmailException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -55,7 +53,7 @@ public class UserService {
 
 	// 닉네임 중복 조회
 	public void validateDuplicateProfileNickname(Profile profile) {
-		List<Profile> findProfiles = profileRepository.findByNickname(profile.getNickname());
+		Optional<Profile> findProfiles = profileRepository.findByNickname(profile.getNickname());
 		if (!findProfiles.isEmpty()) {
 			throw new DuplicateProfileNicknameException("이미 존재하는 닉네임입니다.");
 		}
@@ -85,7 +83,7 @@ public class UserService {
 	public TokenDto authenticateUser(String username, String password) {
 		try {
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
-				password);
+					password);
 			authenticationManager.authenticate(authenticationToken);
 
 			//검증 완료
@@ -106,7 +104,7 @@ public class UserService {
 
 	public String getAccessToken(String username) {
 		User user = userRepository.findByEmail(username).get();
-		Profile profile = profileRepository.findByUser_Id(user.getId()).get(0);
+		Profile profile = profileRepository.findByUser_Id(user.getId()).get();
 		return jwtTokenProvider.createAccessToken(username, profile.getNickname());
 	}
 
