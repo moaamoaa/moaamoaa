@@ -2,8 +2,10 @@ package com.ssafy.moamoa.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,8 @@ import com.ssafy.moamoa.dto.LoginForm;
 import com.ssafy.moamoa.dto.SignUpForm;
 import com.ssafy.moamoa.dto.TokenDto;
 import com.ssafy.moamoa.service.ProfileServiceImpl;
+import com.ssafy.moamoa.dto.Mail;
+import com.ssafy.moamoa.service.MailService;
 import com.ssafy.moamoa.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +41,7 @@ public class UserController {
 	private final UserService userService;
 	private final ProfileServiceImpl profileService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final MailService mailService;
 
 	@GetMapping
 	public ResponseEntity<?> showList() throws Exception {
@@ -44,6 +49,8 @@ public class UserController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
+
+	// 회원 가입
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody SignUpForm signUpForm) throws JsonProcessingException {
 
@@ -56,21 +63,6 @@ public class UserController {
 		return new ResponseEntity<String>(userNickname, HttpStatus.OK);
 	}
 
-	@PostMapping("/checkemail")
-	public ResponseEntity<?> checkEmail(@RequestBody String email) throws JsonProcessingException {
-		System.out.println(email);
-		User user = User.builder().email(email).build();
-		userService.validateDuplicateUserEmail(user);
-
-		return new ResponseEntity<String>("이메일 중복 확인", HttpStatus.OK);
-	}
-
-	@PostMapping("/checkenickname")
-	public ResponseEntity<?> checkNickName(@RequestBody String nickname) throws JsonProcessingException {
-		Profile profile = Profile.builder().nickname(nickname).build();
-		userService.validateDuplicateProfileNickname(profile);
-		return new ResponseEntity<String>("닉네임 중복 확인", HttpStatus.OK);
-	}
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> signin(@RequestBody LoginForm loginForm, HttpServletResponse response) {
@@ -85,4 +77,16 @@ public class UserController {
 
 		return new ResponseEntity<>(tokenDto, HttpStatus.OK);
 	}
+
+	@PostMapping("/nickname")
+	public ResponseEntity<?> checkNickName(@RequestBody String nickname) throws JsonProcessingException {
+		Profile profile = Profile.builder()
+			.nickname(nickname)
+			.build();
+		userService.validateDuplicateProfileNickname(profile);
+		return new ResponseEntity<String>("닉네임 중복 확인", HttpStatus.OK);
+
+	}
+
+
 }

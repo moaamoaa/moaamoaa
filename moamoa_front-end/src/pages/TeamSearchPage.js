@@ -1,7 +1,5 @@
 import Container from '@mui/material/Container';
 
-function TeamSearchPage() {
+export default function TeamSearchPage() {
   return <Container fixed>TeamSearchPage</Container>;
 }
-
-export default TeamSearchPage;

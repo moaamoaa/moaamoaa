@@ -1,5 +1,4 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -8,48 +7,69 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
-import SignUpEmailDialog from './SignUpEmailDialog';
-import SignUpCertificationDialog from './SignUpCertificationDialog';
-import SignUpNicknameDialog from './SignUpNicknameDialog';
-import SignUpPasswordDialog from './SignUpPasswordDialog';
+import SignUpEmailForm from 'components/signUp/SignUpEmailForm';
+import SignUpCertificationForm from 'components/signUp/SignUpCertificationForm';
+import SignUpNicknameForm from 'components/signUp/SignUpNicknameForm';
+import SignUpPasswordForm from 'components/signUp/SignUpPasswordForm';
 
-function Copyright() {
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
+
+const MoaMoaDialogTitle = props => {
+  const { children, onClose, ...other } = props;
+
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        MoaMoa
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: theme => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
   );
-}
+};
 
 const steps = ['이메일', '인증코드', '닉네임', '비밀번호'];
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <SignUpEmailDialog />;
+      return <SignUpEmailForm type="signUpEmail" />;
     case 1:
-      return <SignUpCertificationDialog />;
+      return <SignUpCertificationForm />;
     case 2:
-      return <SignUpNicknameDialog />;
+      return <SignUpNicknameForm />;
     case 3:
-      return <SignUpPasswordDialog />;
+      return <SignUpPasswordForm />;
     default:
       throw new Error('Unknown step');
   }
 }
 
-const theme = createTheme();
-
-export default function Checkout() {
+export default function CheckoutDialog(props) {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -60,9 +80,17 @@ export default function Checkout() {
     setActiveStep(activeStep - 1);
   };
 
+  const handleClose = () => {
+    props.setSignUpDialog(false);
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <BootstrapDialog
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={props.open}
+    >
+      <MoaMoaDialogTitle></MoaMoaDialogTitle>
       <AppBar
         position="absolute"
         color="default"
@@ -117,8 +145,7 @@ export default function Checkout() {
             </React.Fragment>
           )}
         </Paper>
-        <Copyright />
       </Container>
-    </ThemeProvider>
+    </BootstrapDialog>
   );
 }
