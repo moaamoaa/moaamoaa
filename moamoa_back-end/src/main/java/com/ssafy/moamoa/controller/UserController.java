@@ -47,26 +47,15 @@ public class UserController {
 
     // 회원 가입 시 메일 유효성 확인
     @GetMapping("/email")
-    public ResponseEntity<?> checkEmail(@RequestParam("email") String email) throws MessagingException {
-        String code = mailService.joinEmail(email);
+    public ResponseEntity<?> checkEmail(@RequestBody SignForm signForm) throws MessagingException {
+        String code = mailService.joinEmail(signForm.getEmail());
 
-        return new ResponseEntity<String>(code, HttpStatus.OK);
+        return new ResponseEntity<String>("code", HttpStatus.OK);
     }
-
-    // 이메일 중복 확인
-    @GetMapping("/overlap-email")
-    public ResponseEntity<?> checkDuplicateEmail(@RequestParam("email") String email) throws JsonProcessingException {
-        User user = User.builder()
-                .email(email)
-                .build();
-        userService.validateDuplicateUserEmail(user);
-
-        return new ResponseEntity<String>("이메일 중복 검증 성공", HttpStatus.OK);
-    }
-
+    
     // 닉네임 중복 확인
     @GetMapping("/nickname")
-    public ResponseEntity<?> checkNickName(@RequestParam("nickname") String nickname) throws JsonProcessingException {
+    public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) throws JsonProcessingException {
         Profile profile = Profile.builder()
                 .nickname(nickname)
                 .build();
@@ -75,21 +64,21 @@ public class UserController {
     }
 
     // 비밀번호 변경
-    @PostMapping("/password")
-    public ResponseEntity<?> updatePassword(@RequestBody SignForm signForm) {
+    @PostMapping("/password/{id}")
+    public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody SignForm signForm) {
         // 받은 비밀번호로 update
-        userService.updatePassword(signForm.getPassword(), signForm.getEmail());
+        userService.updatePassword(signForm.getPassword(), id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 임시 비밀번호 발급
     @PutMapping("/email")
-    public ResponseEntity<?> lostPassword(@RequestParam("email") String email) throws MessagingException {
+    public ResponseEntity<?> lostPassword(@RequestBody SignForm signForm) throws MessagingException {
         // mailService에서 임시 비밀번호 생성
         // 메일 전송
         // 해당 string으로 update
-        String newPassword = mailService.tempPassword(email);
-        userService.updatePassword(newPassword, email);
+        String newPassword = mailService.tempPassword(signForm.getEmail());
+        userService.updatePasswordByEmail(newPassword, signForm.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

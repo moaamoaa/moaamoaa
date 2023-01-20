@@ -42,7 +42,7 @@ public class UserService {
 
     // 닉네임 중복 조회
     public void validateDuplicateProfileNickname(Profile profile) {
-        List<Profile> findProfiles = profileRepository.findByNickname(profile.getNickname());
+        Optional<Profile> findProfiles = profileRepository.findByNickname(profile.getNickname());
         if (!findProfiles.isEmpty()) {
             throw new DuplicateProfileNicknameException("이미 존재하는 닉네임입니다.");
         }
@@ -71,7 +71,17 @@ public class UserService {
         return nickname;
     }
 
-    public void updatePassword(String password, String email) {
+    public void updatePassword(String password, Long id) {
+        Optional<User> findUsers = userRepository.findById(id);
+        if (!findUsers.isPresent()) {
+            return;
+        }
+        User findUser = findUsers.get();
+        System.out.println(findUser.getId());
+        findUser.setPassword(password);
+    }
+
+    public void updatePasswordByEmail(String password, String email) {
         Optional<User> findUsers = userRepository.findByEmail(email);
         if (!findUsers.isPresent()) {
             return;

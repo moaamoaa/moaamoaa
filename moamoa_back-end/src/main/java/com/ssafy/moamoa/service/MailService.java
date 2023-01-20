@@ -1,17 +1,27 @@
 package com.ssafy.moamoa.service;
 
+import com.ssafy.moamoa.domain.User;
 import com.ssafy.moamoa.dto.MailForm;
+import com.ssafy.moamoa.exception.NotFoundUserException;
+import com.ssafy.moamoa.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Optional;
 import java.util.Random;
 
-@Service()
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class MailService {
+
+    private final UserRepository userRepository;
 
     @Autowired
     JavaMailSender mailSender;
@@ -56,7 +66,6 @@ public class MailService {
         return (password);
     }
 
-
     public void sendEmail(MailForm mailForm) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
@@ -88,6 +97,11 @@ public class MailService {
 
     // 임시 비밀번호
     public String tempPassword(String email) throws MessagingException {
+        // 존재하는 메일인지 확인
+        Optional<User> findUsers = userRepository.findByEmail(email);
+        if (!findUsers.isPresent()) {
+            throw new NotFoundUserException("가입된 이메일이 아닙니다.");
+        }
         String tempPassword = makeRandomPassword();
         MailForm mailForm = new MailForm();
         String setFrom = "moamoaofficial0@gmail.com";
