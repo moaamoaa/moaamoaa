@@ -1,6 +1,5 @@
 package com.ssafy.moamoa.config;
 
-import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,36 +11,37 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.ssafy.moamoa.config.security.JwtTokenProvider;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable()
-                .authorizeHttpRequests(
-                        authorize -> authorize.antMatchers("/users/signin", "/users/signup").permitAll());
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf()
+			.disable()
+			.authorizeHttpRequests(authorize -> authorize.antMatchers("/users/signin", "/users/signup").permitAll());
 
 /*		http
 			.httpBasic().disable()
 			.oauth2Login(withDefaults());*/
 
-        return http.build();
-    }
+		return http.build();
+	}
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+		return authConfig.getAuthenticationManager();
+	}
 
-    @Bean
-    public JwtTokenProvider jwtTokenProvider(UserDetailsService userDetailsService) {
-        return new JwtTokenProvider(userDetailsService);
-    }
+	@Bean
+	public JwtTokenProvider jwtTokenProvider(UserDetailsService userDetailsService) {
+		return new JwtTokenProvider(userDetailsService);
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 }

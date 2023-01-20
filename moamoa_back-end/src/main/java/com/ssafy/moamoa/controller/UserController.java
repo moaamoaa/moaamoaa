@@ -1,8 +1,9 @@
 package com.ssafy.moamoa.controller;
 
 import java.util.List;
-import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.User;
 import com.ssafy.moamoa.dto.LoginForm;
 import com.ssafy.moamoa.dto.SignUpForm;
+import com.ssafy.moamoa.dto.TokenDto;
 import com.ssafy.moamoa.service.ProfileServiceImpl;
 import com.ssafy.moamoa.service.UserService;
 
@@ -33,6 +36,7 @@ public class UserController {
 
 	private final UserService userService;
 	private final ProfileServiceImpl profileService;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@GetMapping
 	public ResponseEntity<?> showList() throws Exception {
@@ -69,10 +73,16 @@ public class UserController {
 	}
 
 	@PostMapping("/signin")
-	public String signin(@RequestBody LoginForm loginForm) {
+	public ResponseEntity<?> signin(@RequestBody LoginForm loginForm, HttpServletResponse response) {
 		log.debug("입력 들어옴");
-//		String token = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
+		TokenDto tokenDto = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
 
-		return "hi";
+		System.out.println(tokenDto.toString());
+		Cookie cookie = new Cookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
+		cookie.setHttpOnly(true);
+		// cookie.setSecure(true);
+		response.addCookie(cookie);
+
+		return new ResponseEntity<>(tokenDto, HttpStatus.OK);
 	}
 }
