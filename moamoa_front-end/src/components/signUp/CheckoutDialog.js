@@ -14,10 +14,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-import SignUpEmailForm from './SignUpEmailForm';
-import SignUpCertificationForm from './SignUpCertificationForm';
-import SignUpNicknameForm from './SignUpNicknameForm';
-import SignUpPasswordForm from './SignUpPasswordForm';
+import SignUpEmailForm from 'components/signUp/SignUpEmailForm';
+import SignUpCertificationForm from 'components/signUp/SignUpCertificationForm';
+import SignUpNicknameForm from 'components/signUp/SignUpNicknameForm';
+import SignUpPasswordForm from 'components/signUp/SignUpPasswordForm';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {

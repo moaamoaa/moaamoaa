@@ -3,8 +3,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CardList from '../components/CardList';
-import MainBanner from './MainBanner';
+import CardList from 'components/common/card/CardList';
+import MainBanner from 'components/common/carousel/MainBanner';
 
 const theme = createTheme();
 

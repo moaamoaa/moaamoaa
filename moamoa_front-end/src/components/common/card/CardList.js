@@ -6,7 +6,8 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CardItem from './CardItem';
+
+import CardItem from 'components/common/card/CardItem';
 
 // 표시할 카드 개수 지정
 const cards = [1, 2, 3];

@@ -11,8 +11,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SmsIcon from '@mui/icons-material/Sms';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-// import Badge from '@mui/material/Badge';
-// import NotificationsIcon from '@mui/icons-material/Notifications';
+
 import { mainListItems, secondaryListItems } from './PermanentDrawerList';
 
 const drawerWidth = 240;

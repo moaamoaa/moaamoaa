@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-// import TechStackList from './TechStackList';
 
 export default function ItemCard() {
   return (
