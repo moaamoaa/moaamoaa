@@ -1,14 +1,13 @@
 package com.ssafy.moamoa.repository;
 
-import java.util.Optional;
-
+import com.ssafy.moamoa.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ssafy.moamoa.domain.User;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-	void deleteByEmail(String email);
+    void deleteByEmail(String email);
 }
