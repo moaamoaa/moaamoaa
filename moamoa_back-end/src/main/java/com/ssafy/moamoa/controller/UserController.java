@@ -24,6 +24,7 @@ import com.ssafy.moamoa.dto.SignForm;
 import com.ssafy.moamoa.service.MailService;
 import com.ssafy.moamoa.service.UserService;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,12 +37,16 @@ public class UserController {
 	private final UserService userService;
 	private final MailService mailService;
 
+	@ApiOperation(value = "전체 사용자 정보 조회",
+		notes = "전체 사용자의 정보를 조회한다.")
 	@GetMapping
 	public ResponseEntity<?> showList() throws Exception {
 		List<User> users = userService.findUsers();
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "회원 가입",
+		notes = "email, password, nickname 정보로 회원 가입을 한다.")
 	// 회원 가입
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody SignForm signForm) throws JsonProcessingException {
@@ -55,6 +60,8 @@ public class UserController {
 		return new ResponseEntity<String>(userNickname, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "회원 가입 시 메일 유효성 확인",
+		notes = "email의 중복 검사와 유효성 검사를 한다.")
 	// 회원 가입 시 메일 유효성 확인
 	@GetMapping("/email")
 	public ResponseEntity<?> checkEmail(@RequestBody SignForm signForm) throws MessagingException {
@@ -67,6 +74,8 @@ public class UserController {
 		return new ResponseEntity<String>(code, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "회원 가입 시 닉네임 중복 확인",
+		notes = "nickname의 중복 검사를 한다.")
 	// 닉네임 중복 확인
 	@GetMapping("/nickname")
 	public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) throws JsonProcessingException {
@@ -77,6 +86,8 @@ public class UserController {
 		return new ResponseEntity<String>("닉네임 중복 검증 성공", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "비밀번호 변경",
+		notes = "id에 맞는 회원의 password를 수정한다.")
 	// 비밀번호 변경
 	@PostMapping("/password/{id}")
 	public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody SignForm signForm) {
@@ -85,6 +96,8 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "임시 비밀번호 발급",
+		notes = "email에 맞는 회원의 비밀번호를 임시 비밀번호로 수정하고 메일을 전송한다.")
 	// 임시 비밀번호 발급
 	@PutMapping("/email")
 	public ResponseEntity<?> lostPassword(@RequestBody SignForm signForm) throws MessagingException {
@@ -96,6 +109,8 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "닉네임 변경",
+		notes = "email에 맞는 회원의 nickname을 중복 검사 후 수정한다.")
 	// 닉네임 변경
 	@PostMapping("/nickname")
 	public ResponseEntity<?> updateNickname(@RequestBody SignForm signForm) {
@@ -104,6 +119,8 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "회원 삭제",
+		notes = "email에 맞는 회원을 삭제한다.")
 	// 회원 삭제
 	@DeleteMapping()
 	public ResponseEntity<?> deleteUser(@RequestBody SignForm signForm) {
