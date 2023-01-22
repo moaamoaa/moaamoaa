@@ -54,6 +54,7 @@ export default function FindPasswordDialog(props) {
 
   const handleAlert = () => {
     alert('입렵하신 이메일로 임시 비밀번호를 발급하였습니다.');
+    handleClose();
   };
 
   return (
