@@ -30,4 +30,11 @@ public class TechStackCategory {
 	@JoinColumn(name = "tech_stack__no")
 	private TechStack techStack;
 
+	public void setTechstack(TechStack techStack) {
+		this.techStack = techStack;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 }

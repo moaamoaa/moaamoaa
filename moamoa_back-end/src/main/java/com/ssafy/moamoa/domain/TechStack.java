@@ -25,16 +25,6 @@ public class TechStack {
 	@Column(name = "tech_stack_name")
 	private String name;
 
-	// type
-	@Column(name = "tech_stack_back")
-	private String back = "no";
-	@Column(name = "tech_stack_front")
-	private String front = "no";
-	@Column(name = "tech_stack_mobile")
-	private String mobile = "no";
-	@Column(name = "tech_stack_etc")
-	private String etc = "no";
-
 	//@NotNull
 	@Column(name = "tech_stack_logo")
 	private String logo;
@@ -44,23 +34,5 @@ public class TechStack {
 	}
 
 	public TechStack() {
-
-	}
-
-	//==set==//
-	public void setBack(String back) {
-		this.back = back;
-	}
-
-	public void setFront(String front) {
-		this.front = front;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public void setEtc(String etc) {
-		this.etc = etc;
 	}
 }
