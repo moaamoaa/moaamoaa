@@ -16,6 +16,7 @@ public class InitDb {
 
 	@PostConstruct
 	public void init() {
-		
+		initService.addTechstackCatagory();
+		initService.addArea();
 	}
 }
