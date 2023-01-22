@@ -12,6 +12,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 
 import SignInDialog from 'components/signIn/SignInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
+import FindPasswordDialog from 'components/signIn/FindPasswordDialog';
 
 const settings = [
   {
@@ -29,6 +30,7 @@ export default function NavbarAccount() {
   const [isLogIn, setisLogIn] = useState(false);
   const [signInDialog, setSignInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
+  const [findPasswordDialog, setFindPasswordDialog] = useState(false);
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
@@ -93,11 +95,13 @@ export default function NavbarAccount() {
           signInDialog={signInDialog}
           setSignInDialog={setSignInDialog}
           setSignUpDialog={setSignUpDialog}
+          setFindPasswordDialog={setFindPasswordDialog}
         ></SignInDialog>
-        <CheckoutDialog
-          open={signUpDialog}
-          setSignUpDialog={setSignUpDialog}
-        ></CheckoutDialog>
+        <FindPasswordDialog
+          open={findPasswordDialog}
+          setFindPasswordDialog={setFindPasswordDialog}
+        />
+        <CheckoutDialog open={signUpDialog} setSignUpDialog={setSignUpDialog} />
       </>
     );
   }
