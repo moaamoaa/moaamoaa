@@ -22,15 +22,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   });
-  // };
-
   return (
     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
       {children}
@@ -57,7 +48,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CustomizedDialogs(props) {
+export default function SignInDialog(props) {
   const handleCloseSignIndialog = () => {
     props.setSignInDialog(false);
   };
@@ -65,6 +56,11 @@ export default function CustomizedDialogs(props) {
   const handleOpenSignUpDialog = () => {
     props.setSignInDialog(false);
     props.setSignUpDialog(true);
+  };
+
+  const handleOpenFindPasswordDialog = () => {
+    props.setSignInDialog(false);
+    props.setFindPasswordDialog(true);
   };
 
   return (
@@ -106,7 +102,7 @@ export default function CustomizedDialogs(props) {
             <Button
               variant="text"
               color="primary"
-              onClick={handleOpenSignUpDialog}
+              onClick={handleOpenFindPasswordDialog}
             >
               비밀번호 찾기
             </Button>

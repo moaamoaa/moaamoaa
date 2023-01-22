@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 import SignUpEmailDialog from 'components/signUp/SignUpEmailForm';
+import Button from '@mui/material/Button';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -46,23 +47,25 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function FindPasswordDialog() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+export default function FindPasswordDialog(props) {
   const handleClose = () => {
-    setOpen(false);
+    props.setFindPasswordDialog(false);
+  };
+
+  const handleAlert = () => {
+    alert('입렵하신 이메일로 임시 비밀번호를 발급하였습니다.');
   };
 
   return (
     <BootstrapDialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
-      open={open}
+      open={props.open}
     >
       <SignUpEmailDialog type={'findPassword'} />
+      <Button variant="text" color="primary" onClick={handleAlert}>
+        Find
+      </Button>
     </BootstrapDialog>
   );
 }
