@@ -7,7 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
-export default function ItemCard() {
+export default function CardItem() {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActions>
