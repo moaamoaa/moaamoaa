@@ -3,6 +3,8 @@ package com.ssafy.moamoa.controller;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.User;
+import com.ssafy.moamoa.dto.LoginForm;
 import com.ssafy.moamoa.dto.SignForm;
+import com.ssafy.moamoa.dto.TokenDto;
 import com.ssafy.moamoa.service.MailService;
 import com.ssafy.moamoa.service.UserService;
 
@@ -128,4 +132,21 @@ public class UserController {
 		userService.deleteUser(signForm.getEmail());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
+	@ApiOperation(value = "로그인",
+		notes = "email, password 정보로 로긍인을 한다.")
+	@PostMapping("/signin")
+	public ResponseEntity<?> signin(@RequestBody LoginForm loginForm, HttpServletResponse response) {
+		log.debug("입력 들어옴");
+		TokenDto tokenDto = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
+
+		System.out.println(tokenDto.toString());
+		Cookie cookie = new Cookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
+		cookie.setHttpOnly(true);
+		// cookie.setSecure(true);
+		response.addCookie(cookie);
+
+		return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+	}
+
 }
