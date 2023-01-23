@@ -20,6 +20,7 @@ import com.ssafy.moamoa.dto.TokenDto;
 import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
 import com.ssafy.moamoa.exception.DuplicateUserEmailException;
 import com.ssafy.moamoa.exception.NotFoundUserException;
+import com.ssafy.moamoa.exception.UnAuthorizedException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
@@ -102,11 +103,11 @@ public class UserService {
 		} catch (AuthenticationException e) {
 			//검증 실패
 			//AuthenticationEntryPoint 실행
-			e.printStackTrace();
-			return null;
+			// e.printStackTrace();
+			throw new UnAuthorizedException("로그인 실패");
 		} catch (AccessDeniedException e) {
 			//AccessDeniedHandler
-			e.printStackTrace();
+			// e.printStackTrace();
 			return null;
 		}
 	}

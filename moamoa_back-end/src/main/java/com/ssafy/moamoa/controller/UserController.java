@@ -139,8 +139,7 @@ public class UserController {
 	public ResponseEntity<?> signin(@RequestBody LoginForm loginForm, HttpServletResponse response) {
 		log.debug("입력 들어옴");
 		TokenDto tokenDto = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
-
-		System.out.println(tokenDto.toString());
+		
 		Cookie cookie = new Cookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
 		cookie.setHttpOnly(true);
 		// cookie.setSecure(true);
