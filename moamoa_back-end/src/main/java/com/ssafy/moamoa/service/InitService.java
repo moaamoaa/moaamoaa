@@ -23,6 +23,7 @@ public class InitService {
 	private final TechstackRepository techstackRepository;
 	private final AreaRepository areaRepository;
 	private final TechstackCatagoryRepository techstackCatagoryRepository;
+	private final UserService userService;
 
 	public void addTechstackCatagory() {
 		//==Category==//
@@ -367,5 +368,9 @@ public class InitService {
 
 		Area areaJeju = new Area("제주특별자치시");
 		areaRepository.save(areaJeju);
+	}
+
+	public void addUser() {
+		userService.signup("ssafy@ssafy.com", "s@12341234", "김싸피");
 	}
 }

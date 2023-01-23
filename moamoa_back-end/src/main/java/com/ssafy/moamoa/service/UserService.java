@@ -67,7 +67,7 @@ public class UserService {
 		// user
 		User user = User.builder()
 			.email(email)
-			.password(password)
+			.password(getEncodedPassword(password))
 			.build();
 		// profile
 		Profile profile = Profile.builder()
