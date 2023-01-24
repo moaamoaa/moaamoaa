@@ -2,6 +2,7 @@ package com.ssafy.moamoa.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,13 +22,14 @@ import com.ssafy.moamoa.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
 	private final CustomEntryPoint customEntryPoint;
 	private final CustomAccessDeniedHandler customAccessDeniedHandler;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,7 +45,8 @@ public class SecurityConfig {
 			.authenticationEntryPoint(customEntryPoint)
 			.accessDeniedHandler(customAccessDeniedHandler);
 
-		http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate),
+			UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 

@@ -41,12 +41,20 @@ public class User {
 	public User() {
 	}
 
-	//==set==//
+	//==비즈니스 로직==//
 	public void setProfile(Profile profile) {
 		profile.setUser(this);
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void deleteRefreshToken() {
+		this.refreshToken = null;
+	}
+
+	public void saveRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 }

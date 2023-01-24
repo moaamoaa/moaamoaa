@@ -29,10 +29,10 @@ public class JwtTokenProvider {
 
 	@Value("${security.jwt.secret-key}")
 	private String secretKey;
-
-	private long accessTokenExpireTime = 1000L * 60 * 30;
-
-	private long refreshTokenExpireTime = 1000L * 60 * 60 * 24 * 14;
+	@Value("${security.jwt.access-token-expire}")
+	private long accessTokenExpireTime;
+	@Value("${security.jwt.refresh-token-expire}")
+	private long refreshTokenExpireTime;
 
 	private final UserDetailsService userDetailsService;
 
@@ -105,5 +105,15 @@ public class JwtTokenProvider {
 		// 	throw new UnAuthorizedException("만료되었거나 검증되지 않은 토큰입니다.");
 		// }
 		return false;
+	}
+
+	/**
+	 * 토큰 유효시간 확인
+	 */
+	public Long getExpiration(String token) {
+		Date expiration = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration();
+		Date now = new Date();
+		return expiration.getTime() - now.getTime();
+
 	}
 }

@@ -2,7 +2,9 @@ package com.ssafy.moamoa.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +36,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final ProfileRepository profileRepository;
 	private final AuthenticationManager authenticationManager;
+	private final RedisTemplate<String, String> redisTemplate;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 
@@ -90,15 +93,16 @@ public class UserService {
 		return passwordEncoder.encode(password);
 	}
 
-	public TokenDto authenticateUser(String username, String password) {
+	public TokenDto authenticateUser(String email, String password) {
 		try {
-			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email,
 				password);
 			authenticationManager.authenticate(authenticationToken);
 
 			//검증 완료
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-			return new TokenDto(getAccessToken(username), getRefreshToken());
+
+			return issueTokens(email);
 
 		} catch (AuthenticationException e) {
 			//검증 실패
@@ -112,14 +116,14 @@ public class UserService {
 		}
 	}
 
-	public String getAccessToken(String username) {
-		User user = userRepository.findByEmail(username).get();
+	public TokenDto issueTokens(String email) {
+		User user = userRepository.findByEmail(email).get();
 		Profile profile = profileRepository.findByUser_Id(user.getId()).get();
-		return jwtTokenProvider.createAccessToken(username, profile.getNickname());
-	}
 
-	public String getRefreshToken() {
-		return jwtTokenProvider.createRefreshToken();
+		String accessToken = jwtTokenProvider.createAccessToken(email, profile.getNickname());
+		String refreshToken = jwtTokenProvider.createRefreshToken();
+		user.saveRefreshToken(refreshToken);
+		return new TokenDto(accessToken, refreshToken);
 	}
 
 	public void updatePassword(String password, Long id) {
@@ -179,5 +183,18 @@ public class UserService {
 		Profile findProfile = findProfiles.get();
 		profileRepository.delete(findProfile);
 		userRepository.deleteByEmail(email);
+	}
+
+	public void setBlackList(String token) {
+		Long expiration = jwtTokenProvider.getExpiration(token);
+		redisTemplate.opsForValue()
+			.set(token, "logout",
+				expiration, TimeUnit.MILLISECONDS);
+
+	}
+
+	public void deleteRefreshToken(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		user.ifPresent(User::deleteRefreshToken);
 	}
 }
