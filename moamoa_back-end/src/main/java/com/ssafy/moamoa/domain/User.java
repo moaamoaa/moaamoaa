@@ -1,5 +1,7 @@
 package com.ssafy.moamoa.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,6 +42,10 @@ public class User {
 
 	@Column(name = "user_refresh_token")
 	private String refreshToken;
+
+	@Column(name = "user_join_date")
+	@NotNull
+	private LocalDate joinDate;
 
 	public User() {
 	}
