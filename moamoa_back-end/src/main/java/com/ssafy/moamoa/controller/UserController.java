@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ssafy.moamoa.config.security.CookieUtil;
 import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.User;
@@ -43,6 +44,7 @@ public class UserController {
 	private final UserService userService;
 	private final MailService mailService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final CookieUtil cookieUtil;
 
 	@ApiOperation(value = "전체 사용자 정보 조회",
 		notes = "전체 사용자의 정보를 조회한다.")
@@ -143,9 +145,7 @@ public class UserController {
 		log.debug("입력 들어옴");
 		TokenDto tokenDto = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
 
-		Cookie cookie = new Cookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
-		cookie.setHttpOnly(true);
-		// cookie.setSecure(true);
+		Cookie cookie = cookieUtil.createCookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
 		response.addCookie(cookie);
 
 		return new ResponseEntity<>(tokenDto, HttpStatus.OK);
@@ -159,6 +159,21 @@ public class UserController {
 		userService.deleteRefreshToken(userEmail);
 		userService.setBlackList(accessToken);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "access token 재발급",
+		notes = "access token, refresh token 정보로 access token 재발급한다.")
+	@PostMapping("/reissue")
+	public ResponseEntity<?> reissue(HttpServletRequest request) {
+		String accessToken = jwtTokenProvider.resolveToken(request);
+		String refreshToken = cookieUtil.getCookie(request, "REFRESH_TOKEN").getValue();
+		TokenDto reissueToken = userService.reissueAccessToken(accessToken, refreshToken);
+
+		if (reissueToken == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		return new ResponseEntity<>(reissueToken, HttpStatus.CREATED);
 	}
 
 }

@@ -26,6 +26,7 @@ import com.ssafy.moamoa.exception.UnAuthorizedException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -101,8 +102,12 @@ public class UserService {
 
 			//검증 완료
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+			User user = userRepository.findByEmail(email).get();
 
-			return issueTokens(email);
+			String accessToken = issueAccessToken(user);
+			String refreshToken = issueRefreshToken(user);
+
+			return new TokenDto(accessToken, refreshToken);
 
 		} catch (AuthenticationException e) {
 			//검증 실패
@@ -116,14 +121,15 @@ public class UserService {
 		}
 	}
 
-	public TokenDto issueTokens(String email) {
-		User user = userRepository.findByEmail(email).get();
+	public String issueAccessToken(User user) {
 		Profile profile = profileRepository.findByUser_Id(user.getId()).get();
+		return jwtTokenProvider.createAccessToken(user.getEmail(), profile.getNickname());
+	}
 
-		String accessToken = jwtTokenProvider.createAccessToken(email, profile.getNickname());
+	public String issueRefreshToken(User user) {
 		String refreshToken = jwtTokenProvider.createRefreshToken();
 		user.saveRefreshToken(refreshToken);
-		return new TokenDto(accessToken, refreshToken);
+		return refreshToken;
 	}
 
 	public void updatePassword(String password, Long id) {
@@ -197,4 +203,28 @@ public class UserService {
 		Optional<User> user = userRepository.findByEmail(email);
 		user.ifPresent(User::deleteRefreshToken);
 	}
+
+	public TokenDto reissueAccessToken(String accessToken, String refreshToken) {
+		try {
+			String userEmail = jwtTokenProvider.getUserEmail(accessToken);
+
+		} catch (ExpiredJwtException e) {
+			String userEmail = e.getClaims().get("email").toString();
+			Optional<User> findUser = userRepository.findByEmail(userEmail);
+
+			//accessToken & refreshToken 인증X
+			if (!findUser.isPresent() || !jwtTokenProvider.validateToken(refreshToken) || !refreshToken.equals(
+				findUser.get().getRefreshToken())) {
+				return null;
+			}
+
+			String reissueToken = issueAccessToken(findUser.get());
+			TokenDto tokenDto = new TokenDto();
+			tokenDto.setAccessToken(reissueToken);
+			return tokenDto;
+		}
+
+		return null;
+	}
+
 }

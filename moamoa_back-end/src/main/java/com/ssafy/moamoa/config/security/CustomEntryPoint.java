@@ -33,7 +33,7 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
 		Map<String, String> map = new HashMap<>();
-		map.put("errortype", "Forbidden");
+		map.put("errortype", "Unauthorized");
 		map.put("code", "401");
 		map.put("message", "잘못된 토큰으로 접근하였습니다. 다시 로그인 해주세요");
 

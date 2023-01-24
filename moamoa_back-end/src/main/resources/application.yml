@@ -47,6 +47,7 @@ security:
   jwt:
     secret-key: 6ec2601c-5280-4761-810b-80a5478ec7ed
     access-token-expire: 1800000
+    #    access-token-expire: 30000
     refresh-token-expire: 1209600000
 
 
