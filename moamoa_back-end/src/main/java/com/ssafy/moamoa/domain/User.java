@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,8 +35,6 @@ public class User {
 	@NotNull
 	@Column(name = "user_pwd")
 	@NotBlank(message = "비밀번호는 필수 입력 값입니다.")
-	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",
-		message = "비밀번호는 8~20자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
 	private String password;
 
 	@Column(name = "user_refresh_token")
@@ -50,12 +47,20 @@ public class User {
 	public User() {
 	}
 
-	//==set==//
+	//==비즈니스 로직==//
 	public void setProfile(Profile profile) {
 		profile.setUser(this);
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void deleteRefreshToken() {
+		this.refreshToken = null;
+	}
+
+	public void saveRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 }
