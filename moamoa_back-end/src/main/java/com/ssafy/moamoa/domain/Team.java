@@ -13,10 +13,14 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 public class Team {
 	@Id
 	@GeneratedValue
@@ -37,4 +41,7 @@ public class Team {
 	@Column(name = "team_role")
 	@ColumnDefault("'MEMBER'")
 	private TeamRole role;
+
+	public Team() {
+	}
 }

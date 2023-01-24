@@ -1,5 +1,6 @@
 package com.ssafy.moamoa.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -72,7 +73,8 @@ public class UserService {
 		// user
 		User user = User.builder()
 			.email(email)
-			.password(getEncodedPassword(password))
+			.password(password)
+			.joinDate(LocalDate.now())
 			.build();
 		// profile
 		Profile profile = Profile.builder()
@@ -147,7 +149,6 @@ public class UserService {
 			return;
 		}
 		User findUser = findUsers.get();
-		System.out.println(findUser.getId());
 		findUser.setPassword(password);
 	}
 
@@ -157,7 +158,6 @@ public class UserService {
 			return;
 		}
 		User findUser = findUsers.get();
-		System.out.println(findUser.getId());
 		// profile
 		Profile profile = Profile.builder()
 			.nickname(nickname)
@@ -170,7 +170,6 @@ public class UserService {
 			return;
 		}
 		Profile findProfile = findProfiles.get();
-		System.out.println(findProfile.getUser());
 		findProfile.setNickname(nickname);
 	}
 
@@ -180,7 +179,6 @@ public class UserService {
 			return;
 		}
 		User findUser = findUsers.get();
-		System.out.println(findUser.getId());
 		// profile
 		Optional<Profile> findProfiles = profileRepository.findByUser(findUser);
 		if (!findProfiles.isPresent()) {
