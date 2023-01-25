@@ -18,12 +18,25 @@ import Button from '@mui/material/Button';
 const theme = createTheme();
 
 export default function TeamMemberSearchList() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [cards, setCards] = useState([]);
+
   useEffect(() => {
-    axios
-      .get('https://jsonplaceholder.typicode.com/photos')
-      .then(response => setCards(response.data.slice(0, 10)));
-  });
+    if (isLoaded) {
+      axios
+        .get('https://jsonplaceholder.typicode.com/photos')
+        .then(response => {
+          setCards(response.data.slice(0, 10));
+          console.log(response.data.slice(0, 10));
+        })
+        .catch(error => {
+          console.log(error.data);
+        });
+    } else {
+      setIsLoaded(true);
+    }
+  }, [isLoaded]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
