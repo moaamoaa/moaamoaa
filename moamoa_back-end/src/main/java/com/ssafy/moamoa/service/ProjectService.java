@@ -20,6 +20,8 @@ import com.ssafy.moamoa.domain.TeamRole;
 import com.ssafy.moamoa.domain.TechStack;
 import com.ssafy.moamoa.domain.User;
 import com.ssafy.moamoa.dto.ProjectForm;
+import com.ssafy.moamoa.exception.BadRequestException;
+import com.ssafy.moamoa.exception.NotFoundUserException;
 import com.ssafy.moamoa.repository.AreaRepository;
 import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
@@ -43,23 +45,23 @@ public class ProjectService {
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
 
-	public void checkPeriod(LocalDate endDate) throws Exception {
+	public void checkPeriod(LocalDate endDate) throws BadRequestException {
 
 		LocalDate startDate = LocalDate.now();
 		Period diff = Period.between(startDate, endDate);
 		if (diff.getDays() > 28) {
-			throw new Exception("잘못된 기간 설정");
+			throw new BadRequestException("잘못된 기간 설정");
 		}
 	}
 
-	public void checkCntPeople(int cntPeople, int minCnt) throws Exception {
+	public void checkCntPeople(int cntPeople, int minCnt) throws BadRequestException {
 
 		if (cntPeople > 10) {
-			throw new Exception("잘못된 인원수 설정");
+			throw new BadRequestException("잘못된 인원수 설정");
 		}
 
 		if (cntPeople < minCnt) {
-			throw new Exception("잘못된 인원수 설정");
+			throw new BadRequestException("잘못된 인원수 설정");
 		}
 	}
 
@@ -84,6 +86,12 @@ public class ProjectService {
 		int cntPeople = projectForm.getCountPeople();
 		checkCntPeople(cntPeople, 1);
 
+		// 팀원 정보 확인
+		Optional<User> findUsers = userRepository.findById(projectForm.getUserid());
+		if (!findUsers.isPresent()) {
+			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
+		}
+		
 		// project
 		ProjectCategory projectCategory = ProjectCategory.PROJECT;
 
