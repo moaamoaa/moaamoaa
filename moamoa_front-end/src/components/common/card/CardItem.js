@@ -88,6 +88,7 @@ export default function CardItem(props) {
             component="img"
             src={props.card.thumbnailUrl}
             alt="random"
+            sx={{ borderRadius: '50%', width: '100px', margin: '0 auto' }}
           />
         ) : (
           <MoaSkeleton variant="circular" width={100} height={100} />
@@ -164,9 +165,11 @@ export default function CardItem(props) {
 }
 
 const MoaCard = styled(Card)`
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   transition: 0.4s;
   &:hover {
     scale: 1.04;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
     transition: 0.4s;
   }
 `;

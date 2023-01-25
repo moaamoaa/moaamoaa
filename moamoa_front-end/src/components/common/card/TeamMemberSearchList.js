@@ -26,7 +26,7 @@ export default function TeamMemberSearchList() {
   }, [isLoaded]);
 
   return (
-    <Container sx={{ py: 8 }} maxWidth="md">
+    <Container sx={{ py: 4 }}>
       <CardList cards={cards} type={'member'}></CardList>
     </Container>
   );
