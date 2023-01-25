@@ -18,5 +18,6 @@ public class InitDb {
 	public void init() {
 		initService.addTechstackCatagory();
 		initService.addArea();
+		initService.addUser();
 	}
 }
