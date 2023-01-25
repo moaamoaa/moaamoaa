@@ -39,7 +39,7 @@ public class ProfileController {
 	}
 
 	// 검색 여부 변경
-	@PutMapping("/searchState")
+	@PutMapping("/search-state")
 	// input userId output String ProfileSearchStatus
 	ResponseEntity<Map<String, Object>> updateSearchState(@RequestBody UserForm user) {
 		Map<String, Object> resultMap = new HashMap<>();
@@ -57,7 +57,7 @@ public class ProfileController {
 
 	// 마이페이지 접근
 	@GetMapping("/mypage")
-	public ResponseEntity<Map<String, Object>> goMyPage(@RequestBody String userId) {
+	public ResponseEntity<Map<String, Object>> myPage(@RequestBody String userId) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -65,8 +65,8 @@ public class ProfileController {
 	}
 
 	// 다른 사용자 페이지 접근
-	@GetMapping("/user/{userId}")
-	public ResponseEntity<Map<String, Object>> goUserPage(@PathVariable String userId) {
+	@GetMapping("/{userId}")
+	public ResponseEntity<Map<String, Object>> userPage(@PathVariable String userId) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
