@@ -18,6 +18,10 @@ const pages = [
     text: '팀원 구하기',
     link: 'TeamMemberSearchPage',
   },
+  {
+    text: '프로필',
+    link: 'ProfilePage',
+  },
 ];
 
 function ResponsiveAppBar() {
