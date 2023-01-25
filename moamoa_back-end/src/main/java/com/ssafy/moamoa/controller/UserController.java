@@ -68,12 +68,12 @@ public class UserController {
 		notes = "email의 중복 검사와 유효성 검사를 한다.")
 	// 회원 가입 시 메일 유효성 확인
 	@GetMapping("/email")
-	public ResponseEntity<?> checkEmail(@RequestBody SignForm signForm) throws MessagingException {
+	public ResponseEntity<?> checkEmail(@RequestParam("email") String email) throws MessagingException {
 		User user = User.builder()
-			.email(signForm.getEmail())
+			.email(email)
 			.build();
 		userService.validateDuplicateUserEmail(user);
-		String code = mailService.joinEmail(signForm.getEmail());
+		String code = mailService.joinEmail(email);
 
 		return new ResponseEntity<String>(code, HttpStatus.OK);
 	}
