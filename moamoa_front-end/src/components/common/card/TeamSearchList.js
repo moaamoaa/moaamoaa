@@ -9,9 +9,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-// 표시할 카드 개수 지정
-// const cards = [1, 2, 3];
-
 const theme = createTheme();
 
 export default function TeamSearchList() {
@@ -26,7 +23,7 @@ export default function TeamSearchList() {
   useEffect(() => {
     axios
       .get('https://jsonplaceholder.typicode.com/photos')
-      .then(response => setCards(response.data));
+      .then(response => setCards(response.data.slice(0, 10)));
   });
   // useEffect(async () => {
   //   try {

@@ -15,8 +15,6 @@ import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 
-// 표시할 카드 개수 지정 방법이 따로 있을 것 같다!
-// const cards = [1, 2, 3];
 const theme = createTheme();
 
 export default function TeamMemberSearchList() {
@@ -24,7 +22,7 @@ export default function TeamMemberSearchList() {
   useEffect(() => {
     axios
       .get('https://jsonplaceholder.typicode.com/photos')
-      .then(response => setCards(response.data));
+      .then(response => setCards(response.data.slice(0, 10)));
   });
   return (
     <ThemeProvider theme={theme}>
