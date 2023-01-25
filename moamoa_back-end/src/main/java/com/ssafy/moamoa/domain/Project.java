@@ -47,14 +47,17 @@ public class Project {
 	@Column(name = "project_hit")
 	@ColumnDefault("0")
 	private int hit;
+
 	@NotNull
 	@Column(name = "project_cnt_offer")
 	@ColumnDefault("0")
 	private int countOffer;
+
 	@NotNull
 	@Column(name = "project_cnt_people")
 	@ColumnDefault("1")
 	private int countPeople;
+
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	@Column(name = "project_category")
@@ -63,18 +66,26 @@ public class Project {
 	@Column(name = "project_start_date")
 	@NotNull
 	private LocalDate startDate;
+
 	@Column(name = "project_end_date")
 	@NotNull
 	private LocalDate endDate;
+
 	@Column(name = "project_create_date")
 	@NotNull
 	private LocalDate createDate;
+
+	@NotNull
+	@ColumnDefault("0")
+	@Column(name = "project_state")
+	private boolean isLocked = false;
 
 	public Project() {
 	}
 
 	public Project(Long id, String title, String contents, String img, ProjectStatus onoffline, int hit, int countOffer,
-		int countPeople, ProjectCategory category, LocalDate startDate, LocalDate endDate, LocalDate createDate) {
+		int countPeople, ProjectCategory category, LocalDate startDate, LocalDate endDate, LocalDate createDate,
+		boolean isLocked) {
 		this.id = id;
 		this.title = title;
 		this.contents = contents;
@@ -87,6 +98,7 @@ public class Project {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.createDate = createDate;
+		this.isLocked = isLocked;
 	}
 
 	//==set==//

@@ -91,7 +91,7 @@ public class ProjectService {
 		if (!findUsers.isPresent()) {
 			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
 		}
-		
+
 		// project
 		ProjectCategory projectCategory = ProjectCategory.PROJECT;
 
@@ -123,6 +123,7 @@ public class ProjectService {
 			.endDate(endDate)
 			.title(projectForm.getTitle())
 			.countPeople(cntPeople)
+			.isLocked(false)
 			.build();
 		projectRepository.save(project);
 

@@ -14,6 +14,7 @@ public class ProjectForm {
 	private String category;
 	private String endDate;
 	private int countPeople;
+	private boolean isLocked;
 
 	// team
 	private Long userid;
