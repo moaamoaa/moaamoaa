@@ -12,19 +12,16 @@ export default function TeamSearchList() {
 
   // axios api 3가지 방법
   useEffect(() => {
-    if (isLoaded) {
-      axios
-        .get('https://jsonplaceholder.typicode.com/photos')
-        .then(response => {
-          setCards(response.data.slice(0, 10));
-          console.log(response.data.slice(0, 10));
-        })
-        .catch(error => {
-          console.log(error.data);
-        });
-    } else {
-      setIsLoaded(true);
-    }
+    axios
+      .get('https://jsonplaceholder.typicode.com/photos')
+      .then(response => {
+        setCards(response.data.slice(0, 10));
+        console.log(response.data.slice(0, 10));
+      })
+      .catch(error => {
+        console.log(error.data);
+      });
+    setIsLoaded(true);
   }, [isLoaded]);
 
   // useEffect(() => {
