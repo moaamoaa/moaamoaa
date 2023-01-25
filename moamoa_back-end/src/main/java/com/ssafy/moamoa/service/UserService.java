@@ -73,7 +73,7 @@ public class UserService {
 		// user
 		User user = User.builder()
 			.email(email)
-			.password(password)
+			.password(getEncodedPassword(password))
 			.joinDate(LocalDate.now())
 			.build();
 		// profile

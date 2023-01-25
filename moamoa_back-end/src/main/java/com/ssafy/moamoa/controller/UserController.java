@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,7 @@ public class UserController {
 		notes = "email, password, nickname 정보로 회원 가입을 한다.")
 	// 회원 가입
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody SignForm signForm) throws JsonProcessingException {
+	public ResponseEntity<?> signup(@RequestBody @Valid SignForm signForm) throws JsonProcessingException {
 
 		String email = signForm.getEmail();
 		String password = signForm.getPassword();
