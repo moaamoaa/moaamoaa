@@ -53,12 +53,11 @@ dependencies {
 
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
-<<<<<<< moamoa_back-end/build.gradle
+
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
-=======
->>>>>>> moamoa_back-end/build.gradle
+
 
 }
 
