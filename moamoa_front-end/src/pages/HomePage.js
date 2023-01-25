@@ -14,6 +14,7 @@ const mainBanner = {
   image: 'https://source.unsplash.com/random',
   imageText: 'main image description',
 };
+
 const cards = [
   { id: 0 },
   { id: 1 },
@@ -30,23 +31,28 @@ const cards = [
 
 export default function HomePageSample() {
   return (
-    <Container maxWidth="lg">
+    <>
       <MainBanner post={mainBanner} />
-      <Grid container>
-        <MoaGrid item xs={12}>
-          금주의 추천 프로젝트 섹션
-          <MoaCardList cards={cards.slice(0, 3)} type={'team'}></MoaCardList>
-        </MoaGrid>
-        <MoaGrid item xs={12}>
-          금주의 추천 스터디 섹션
-          <MoaCardList cards={cards.slice(0, 3)} type={'team'}></MoaCardList>
-        </MoaGrid>
-        <MoaGrid item xs={12}>
-          금주의 추천 팀원 섹션
-          <MoaCardList cards={cards.slice(0, 4)} type={'member'}></MoaCardList>
-        </MoaGrid>
-      </Grid>
-    </Container>
+      <Container fixed>
+        <Grid container>
+          <MoaGrid item xs={12}>
+            금주의 추천 프로젝트 섹션
+            <MoaCardList cards={cards.slice(0, 3)} type={'team'}></MoaCardList>
+          </MoaGrid>
+          <MoaGrid item xs={12}>
+            금주의 추천 스터디 섹션
+            <MoaCardList cards={cards.slice(0, 3)} type={'team'}></MoaCardList>
+          </MoaGrid>
+          <MoaGrid item xs={12}>
+            금주의 추천 팀원 섹션
+            <MoaCardList
+              cards={cards.slice(0, 4)}
+              type={'member'}
+            ></MoaCardList>
+          </MoaGrid>
+        </Grid>
+      </Container>
+    </>
   );
 }
 
