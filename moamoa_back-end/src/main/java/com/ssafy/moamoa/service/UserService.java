@@ -3,7 +3,9 @@ package com.ssafy.moamoa.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +23,11 @@ import com.ssafy.moamoa.dto.TokenDto;
 import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
 import com.ssafy.moamoa.exception.DuplicateUserEmailException;
 import com.ssafy.moamoa.exception.NotFoundUserException;
+import com.ssafy.moamoa.exception.UnAuthorizedException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -34,6 +38,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final ProfileRepository profileRepository;
 	private final AuthenticationManager authenticationManager;
+	private final RedisTemplate<String, String> redisTemplate;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 
@@ -68,7 +73,7 @@ public class UserService {
 		// user
 		User user = User.builder()
 			.email(email)
-			.password(password)
+			.password(getEncodedPassword(password))
 			.joinDate(LocalDate.now())
 			.build();
 		// profile
@@ -91,36 +96,42 @@ public class UserService {
 		return passwordEncoder.encode(password);
 	}
 
-	public TokenDto authenticateUser(String username, String password) {
+	public TokenDto authenticateUser(String email, String password) {
 		try {
-			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email,
 				password);
 			authenticationManager.authenticate(authenticationToken);
 
 			//검증 완료
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-			return new TokenDto(getAccessToken(username), getRefreshToken());
+			User user = userRepository.findByEmail(email).get();
+
+			String accessToken = issueAccessToken(user);
+			String refreshToken = issueRefreshToken(user);
+
+			return new TokenDto(accessToken, refreshToken);
 
 		} catch (AuthenticationException e) {
 			//검증 실패
 			//AuthenticationEntryPoint 실행
-			e.printStackTrace();
-			return null;
+			// e.printStackTrace();
+			throw new UnAuthorizedException("로그인 실패");
 		} catch (AccessDeniedException e) {
 			//AccessDeniedHandler
-			e.printStackTrace();
+			// e.printStackTrace();
 			return null;
 		}
 	}
 
-	public String getAccessToken(String username) {
-		User user = userRepository.findByEmail(username).get();
+	public String issueAccessToken(User user) {
 		Profile profile = profileRepository.findByUser_Id(user.getId()).get();
-		return jwtTokenProvider.createAccessToken(username, profile.getNickname());
+		return jwtTokenProvider.createAccessToken(user.getEmail(), profile.getNickname());
 	}
 
-	public String getRefreshToken() {
-		return jwtTokenProvider.createRefreshToken();
+	public String issueRefreshToken(User user) {
+		String refreshToken = jwtTokenProvider.createRefreshToken();
+		user.saveRefreshToken(refreshToken);
+		return refreshToken;
 	}
 
 	public void updatePassword(String password, Long id) {
@@ -129,7 +140,7 @@ public class UserService {
 			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
 		}
 		User findUser = findUsers.get();
-		findUser.setPassword(password);
+		findUser.setPassword(getEncodedPassword(password));
 	}
 
 	public void updatePasswordByEmail(String password, String email) {
@@ -162,10 +173,10 @@ public class UserService {
 		findProfile.setNickname(nickname);
 	}
 
-	public void deleteUser(String email) {
-		Optional<User> findUsers = userRepository.findByEmail(email);
+	public void deleteUser(Long id) {
+		Optional<User> findUsers = userRepository.findById(id);
 		if (!findUsers.isPresent()) {
-			return;
+			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
 		}
 		User findUser = findUsers.get();
 		// profile
@@ -175,6 +186,43 @@ public class UserService {
 		}
 		Profile findProfile = findProfiles.get();
 		profileRepository.delete(findProfile);
-		userRepository.deleteByEmail(email);
+		userRepository.deleteById(id);
 	}
+
+	public void setBlackList(String token) {
+		Long expiration = jwtTokenProvider.getExpiration(token);
+		redisTemplate.opsForValue()
+			.set(token, "logout",
+				expiration, TimeUnit.MILLISECONDS);
+
+	}
+
+	public void deleteRefreshToken(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		user.ifPresent(User::deleteRefreshToken);
+	}
+
+	public TokenDto reissueAccessToken(String accessToken, String refreshToken) {
+		try {
+			String userEmail = jwtTokenProvider.getUserEmail(accessToken);
+
+		} catch (ExpiredJwtException e) {
+			String userEmail = e.getClaims().get("email").toString();
+			Optional<User> findUser = userRepository.findByEmail(userEmail);
+
+			//accessToken & refreshToken 인증X
+			if (!findUser.isPresent() || !jwtTokenProvider.validateToken(refreshToken) || !refreshToken.equals(
+				findUser.get().getRefreshToken())) {
+				return null;
+			}
+
+			String reissueToken = issueAccessToken(findUser.get());
+			TokenDto tokenDto = new TokenDto();
+			tokenDto.setAccessToken(reissueToken);
+			return tokenDto;
+		}
+
+		return null;
+	}
+
 }

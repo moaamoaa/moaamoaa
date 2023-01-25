@@ -1,42 +1,34 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-// import AppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
+
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-// import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import CardItem from 'components/common/card/CardItem';
-// import axios from 'axios';
-// import { useState, useEffect } from 'react';
+import styled from '@emotion/styled';
 
-// 표시할 카드 개수 지정
-const cards = [1, 2, 3];
-
-const theme = createTheme();
-
-export default function CardList() {
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {/* <AppBar position="relative">
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            금주의 추천 프로젝트
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
-      <main>
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <CardItem></CardItem>
-              </Grid>
-            ))}
+export default function CardList(props) {
+  if (props.type === 'team') {
+    return (
+      <MoaGrid container spacing={10}>
+        {props.cards.map(card => (
+          <Grid item key={card.id} xs={12} md={6} lg={4}>
+            <CardItem card={card} type={props.type}></CardItem>
           </Grid>
-        </Container>
-      </main>
-    </ThemeProvider>
-  );
+        ))}
+      </MoaGrid>
+    );
+  } else if (props.type === 'member') {
+    return (
+      <MoaGrid container spacing={5}>
+        {props.cards.map(card => (
+          <Grid item key={card.id} xs={12} md={6} lg={3}>
+            <CardItem card={card} type={props.type}></CardItem>
+          </Grid>
+        ))}
+      </MoaGrid>
+    );
+  }
 }
+
+const MoaGrid = styled(Grid)`
+  margin-bottom: 48px;
+`;

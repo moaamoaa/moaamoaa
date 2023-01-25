@@ -6,56 +6,181 @@ import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import Skeleton from '@mui/material/Skeleton';
+import styled, { keyframes } from 'styled-components';
 
-export default function CardItem() {
-  return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActions>
-        <Grid container>
-          <Grid item xs>
-            <Button
-              size="small"
-              variant="contained"
-              color="primary"
-              sx={{ display: 'none' }} // 조건에 따라
-            >
-              권한위임
-            </Button>
+export default function CardItem(props) {
+  if (props.type === 'team') {
+    return (
+      <MoaCard sx={{ minWidth: 300 }}>
+        <CardActions>
+          <Grid container>
+            <Grid item xs>
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ display: 'none' }} // 조건에 따라
+              >
+                권한위임
+              </Button>
+            </Grid>
+            <Grid item xs>
+              <Button size="small" variant="contained" color="primary">
+                강퇴하기 / 제안하기
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs>
-            <Button size="small" variant="contained" color="primary">
-              강퇴하기 / 제안하기
-            </Button>
+        </CardActions>
+        {props.card.thumbnailUrl ? (
+          <CardMedia
+            component="img"
+            src={props.card.thumbnailUrl}
+            alt="random"
+          />
+        ) : (
+          <Skeleton variant="rectangular" height={200} />
+        )}
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            팀 이름 / 팀원 이름
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            팀장 이름 / 포지션
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            조회수 / 없음
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            팀원수 / 없음
+          </Typography>
+          {/* <TechStackList>기술스택리스트</TechStackList> */}
+          <Typography variant="body2" color="text.secondary">
+            팀 소개 / 자기소개
+          </Typography>
+        </CardContent>
+      </MoaCard>
+    );
+  } else if (props.type === 'member') {
+    return (
+      <MoaCard>
+        <CardActions>
+          <Grid container>
+            <Grid item xs>
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ display: 'none' }} // 조건에 따라
+              >
+                권한위임
+              </Button>
+            </Grid>
+            <Grid item xs>
+              <Button size="small" variant="contained" color="primary">
+                강퇴하기 / 제안하기
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </CardActions>
-      <CardMedia
-        component="img"
-        sx={{
-          // 16:9
-          pt: '56.25%',
-        }}
-        image="https://source.unsplash.com/random"
-        alt="random"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          팀 이름 / 팀원 이름
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          팀장 이름 / 포지션
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          조회수 / 없음
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          팀원수 / 없음
-        </Typography>
-        {/* <TechStackList>기술스택리스트</TechStackList> */}
-        <Typography variant="body2" color="text.secondary">
-          팀 소개 / 자기소개
-        </Typography>
-      </CardContent>
-    </Card>
-  );
+        </CardActions>
+        {props.card.thumbnailUrl ? (
+          <CardMedia
+            component="img"
+            src={props.card.thumbnailUrl}
+            alt="random"
+            sx={{ borderRadius: '50%', width: '100px', margin: '0 auto' }}
+          />
+        ) : (
+          <MoaSkeleton variant="circular" width={100} height={100} />
+        )}
+        <CardContent>
+          <MoaTypography gutterBottom variant="h5" component="div">
+            팀원 이름
+          </MoaTypography>
+          <MoaTypography variant="body2" color="text.secondary">
+            지역
+          </MoaTypography>
+          <MoaTypography variant="body2" color="text.secondary">
+            자기소개
+          </MoaTypography>
+          <MoaTypography variant="body2" color="text.secondary">
+            기술스택
+          </MoaTypography>
+          {/* <TechStackList>기술스택리스트</TechStackList> */}
+        </CardContent>
+      </MoaCard>
+    );
+  } else {
+    return (
+      <MoaCard sx={{ maxWidth: 450 }}>
+        <CardActions>
+          <Grid container>
+            <Grid item xs>
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ display: 'none' }} // 조건에 따라
+              >
+                권한위임
+              </Button>
+            </Grid>
+            <Grid item xs>
+              <Button size="small" variant="contained" color="primary">
+                강퇴하기 / 제안하기
+              </Button>
+            </Grid>
+          </Grid>
+        </CardActions>
+        <CardMedia
+          component="img"
+          sx={{
+            // 16:9
+            pt: '56.25%',
+          }}
+          src="https://source.unsplash.com/random"
+          alt="random"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            팀 이름 / 팀원 이름
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            팀장 이름 / 포지션
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            조회수 / 없음
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            팀원수 / 없음
+          </Typography>
+          {/* <TechStackList>기술스택리스트</TechStackList> */}
+          <Typography variant="body2" color="text.secondary">
+            팀 소개 / 자기소개
+          </Typography>
+        </CardContent>
+      </MoaCard>
+    );
+  }
 }
+
+const MoaCard = styled(Card)`
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  transition: 0.4s;
+  &:hover {
+    scale: 1.04;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+    transition: 0.4s;
+  }
+`;
+
+const MoaSkeleton = styled(Skeleton)`
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+`;
+
+const MoaTypography = styled(Typography)`
+  display: flex;
+  justify-content: center;
+`;
