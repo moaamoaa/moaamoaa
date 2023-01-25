@@ -1,12 +1,12 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import CardList from 'components/common/card/CardList';
 import MainBanner from 'components/common/carousel/MainBanner';
 
-const theme = createTheme();
+import styled from 'styled-components';
 
 const mainBanner = {
   title: '모아모아 홈화면 배너 이미지입니다!',
@@ -14,30 +14,46 @@ const mainBanner = {
   image: 'https://source.unsplash.com/random',
   imageText: 'main image description',
 };
+const cards = [
+  { id: 0 },
+  { id: 1 },
+  { id: 2 },
+  { id: 3 },
+  { id: 4 },
+  { id: 5 },
+  { id: 6 },
+  { id: 7 },
+  { id: 8 },
+  { id: 9 },
+  { id: 10 },
+];
 
 export default function HomePageSample() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="lg">
-        <main>
-          <MainBanner post={mainBanner} />
-          <Grid container>
-            <Grid>
-              금주의 추천 프로젝트 섹션
-              <CardList></CardList>
-            </Grid>
-            <Grid>
-              금주의 추천 스터디 섹션
-              <CardList></CardList>
-            </Grid>
-            <Grid>
-              금주의 추천 팀원 섹션
-              <CardList></CardList>
-            </Grid>
-          </Grid>
-        </main>
-      </Container>
-    </ThemeProvider>
+    <Container maxWidth="lg">
+      <MainBanner post={mainBanner} />
+      <Grid container>
+        <MoaGrid item xs={12}>
+          금주의 추천 프로젝트 섹션
+          <MoaCardList cards={cards.slice(0, 3)} type={'team'}></MoaCardList>
+        </MoaGrid>
+        <MoaGrid item xs={12}>
+          금주의 추천 스터디 섹션
+          <MoaCardList cards={cards.slice(0, 3)} type={'team'}></MoaCardList>
+        </MoaGrid>
+        <MoaGrid item xs={12}>
+          금주의 추천 팀원 섹션
+          <MoaCardList cards={cards.slice(0, 4)} type={'member'}></MoaCardList>
+        </MoaGrid>
+      </Grid>
+    </Container>
   );
 }
+
+const MoaGrid = styled(Grid)`
+  min-height: 200px;
+`;
+
+const MoaCardList = styled(CardList)`
+  margin: 48px;
+`;
