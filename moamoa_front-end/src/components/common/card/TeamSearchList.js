@@ -1,30 +1,39 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-// import AppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-// import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-const theme = createTheme();
+import Container from '@mui/material/Container';
+
+import axios from 'axios';
+
+import CardList from 'components/common/card/CardList';
 
 export default function TeamSearchList() {
-  // axios api 3가지 방법
+  const [isLoaded, setIsLoaded] = useState(false);
   const [cards, setCards] = useState([]);
+
+  // axios api 3가지 방법
+  useEffect(() => {
+    if (isLoaded) {
+      axios
+        .get('https://jsonplaceholder.typicode.com/photos')
+        .then(response => {
+          setCards(response.data.slice(0, 10));
+          console.log(response.data.slice(0, 10));
+        })
+        .catch(error => {
+          console.log(error.data);
+        });
+    } else {
+      setIsLoaded(true);
+    }
+  }, [isLoaded]);
+
   // useEffect(() => {
   //   axios({
   //     method: 'GET',
   //     url: 'https://jsonplaceholder.typicode.com/photos',
   //   }).then(response => setCards(response.data));
   // });
-  useEffect(() => {
-    axios
-      .get('https://jsonplaceholder.typicode.com/photos')
-      .then(response => setCards(response.data.slice(0, 10)));
-  });
+
   // useEffect(async () => {
   //   try {
   //     const response = await axios.get(
@@ -36,33 +45,8 @@ export default function TeamSearchList() {
   //   }
   // });
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {/* <AppBar position="relative">
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            금주의 추천 프로젝트
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
-      <main>
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <li key={card.id}>
-                  <div>{card.title}</div>
-                  <div>
-                    <img src={card.thumbnailUrl} alt="random" />
-                  </div>
-                </li>
-                {/* <CardItem>
-                  </CardItem> */}
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
-    </ThemeProvider>
+    <Container sx={{ py: 8 }} maxWidth="md">
+      <CardList cards={cards} type={'team'}></CardList>
+    </Container>
   );
 }
