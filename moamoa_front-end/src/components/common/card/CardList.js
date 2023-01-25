@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 export default function CardList(props) {
   if (props.type === 'team') {
     return (
-      <MoaGrid container spacing={5}>
+      <MoaGrid container spacing={10}>
         {props.cards.map(card => (
           <Grid item key={card.id} xs={12} md={6} lg={4}>
             <CardItem card={card} type={props.type}></CardItem>
