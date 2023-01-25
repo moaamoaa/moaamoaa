@@ -83,7 +83,7 @@ public class ProjectService {
 		checkPeriod(endDate);
 
 		// 인원수 10이하인지 확인
-		int cntPeople = projectForm.getCountPeople();
+		int cntPeople = projectForm.getTotalPeople();
 		checkCntPeople(cntPeople, 1);
 
 		// 팀원 정보 확인
@@ -122,7 +122,8 @@ public class ProjectService {
 			.startDate(LocalDate.now())
 			.endDate(endDate)
 			.title(projectForm.getTitle())
-			.countPeople(cntPeople)
+			.totalPeople(cntPeople)
+			.currentPeople(1)
 			.isLocked(false)
 			.build();
 		projectRepository.save(project);
@@ -169,7 +170,7 @@ public class ProjectService {
 		Optional<Project> findProject = projectRepository.findById(id);
 		Project project = findProject.get();
 		LocalDate endDate = LocalDate.parse(projectForm.getEndDate(), DateTimeFormatter.ISO_DATE);
-		int cntPeople = projectForm.getCountPeople();
+		int cntPeople = projectForm.getTotalPeople();
 
 		LocalDate startDate = project.getStartDate();
 		if (!(project.getEndDate().equals(endDate))) {
@@ -178,7 +179,7 @@ public class ProjectService {
 			checkPeriod(endDate);
 		}
 
-		if (project.getCountPeople() != cntPeople) {
+		if (project.getTotalPeople() != cntPeople) {
 			List<Team> findTeam = teamRepository.findByProject(project);
 			int minCnt = findTeam.size();
 			// 인원수 10이하인지 확인 & 팀원들의 인원수보다 작은지
@@ -200,7 +201,7 @@ public class ProjectService {
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
 		project.setTitle(projectForm.getTitle());
-		project.setCountPeople(cntPeople);
+		project.setTotalPeople(cntPeople);
 
 		// project techstack
 		List<ProjectTechStack> projectTechStacks = projectTeckstackRepository.findByProject(project);

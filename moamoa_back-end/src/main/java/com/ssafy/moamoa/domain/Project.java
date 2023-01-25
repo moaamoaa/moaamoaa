@@ -54,9 +54,14 @@ public class Project {
 	private int countOffer;
 
 	@NotNull
-	@Column(name = "project_cnt_people")
+	@Column(name = "project_total_people")
 	@ColumnDefault("1")
-	private int countPeople;
+	private int totalPeople;
+
+	@NotNull
+	@Column(name = "project_current_people")
+	@ColumnDefault("1")
+	private int currentPeople;
 
 	@Enumerated(EnumType.STRING)
 	@NotNull
@@ -84,8 +89,8 @@ public class Project {
 	}
 
 	public Project(Long id, String title, String contents, String img, ProjectStatus onoffline, int hit, int countOffer,
-		int countPeople, ProjectCategory category, LocalDate startDate, LocalDate endDate, LocalDate createDate,
-		boolean isLocked) {
+		int totalPeople, int currentPeople, ProjectCategory category, LocalDate startDate, LocalDate endDate,
+		LocalDate createDate, boolean isLocked) {
 		this.id = id;
 		this.title = title;
 		this.contents = contents;
@@ -93,7 +98,8 @@ public class Project {
 		this.onoffline = onoffline;
 		this.hit = hit;
 		this.countOffer = countOffer;
-		this.countPeople = countPeople;
+		this.totalPeople = totalPeople;
+		this.currentPeople = currentPeople;
 		this.category = category;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -118,8 +124,8 @@ public class Project {
 		this.onoffline = onoffline;
 	}
 
-	public void setCountPeople(int countPeople) {
-		this.countPeople = countPeople;
+	public void setTotalPeople(int totalPeople) {
+		this.totalPeople = totalPeople;
 	}
 
 	public void setStartDate(LocalDate startDate) {
