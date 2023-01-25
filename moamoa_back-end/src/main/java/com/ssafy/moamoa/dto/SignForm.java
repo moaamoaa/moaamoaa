@@ -1,7 +1,6 @@
 package com.ssafy.moamoa.dto;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import lombok.Getter;
@@ -18,6 +17,5 @@ public class SignForm {
 		message = "비밀번호는 8~20자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
 	private String password;
 
-	@NotNull
 	private String nickname;
 }

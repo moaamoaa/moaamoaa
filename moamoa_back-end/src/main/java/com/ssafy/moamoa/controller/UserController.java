@@ -100,7 +100,7 @@ public class UserController {
 		notes = "id에 맞는 회원의 password를 수정한다.")
 	// 비밀번호 변경
 	@PostMapping("/password/{id}")
-	public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody SignForm signForm) {
+	public ResponseEntity<?> updatePassword(@PathVariable Long id, @Valid @RequestBody SignForm signForm) {
 		// 받은 비밀번호로 update
 		userService.updatePassword(signForm.getPassword(), id);
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -132,10 +132,10 @@ public class UserController {
 	@ApiOperation(value = "회원 삭제",
 		notes = "email에 맞는 회원을 삭제한다.")
 	// 회원 삭제
-	@DeleteMapping()
-	public ResponseEntity<?> deleteUser(@RequestBody SignForm signForm) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		// 받은 이메일로 delete
-		userService.deleteUser(signForm.getEmail());
+		userService.deleteUser(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
