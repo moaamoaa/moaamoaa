@@ -37,7 +37,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    
+
     implementation 'com.h2database:h2:2.1.214'
     implementation 'org.jetbrains:annotations:23.0.0'
     implementation 'io.springfox:springfox-swagger2:3.0.0'
