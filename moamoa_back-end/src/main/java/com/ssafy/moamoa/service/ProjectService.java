@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.Area;
 import com.ssafy.moamoa.domain.Project;
 import com.ssafy.moamoa.domain.ProjectArea;
 import com.ssafy.moamoa.domain.ProjectCategory;
@@ -37,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProjectService {
 
+	private final AreaService areaService;
 	private final ProjectRepository projectRepository;
 	private final TechstackRepository techstackRepository;
 	private final ProjectTeckstackRepository projectTeckstackRepository;
@@ -44,6 +44,12 @@ public class ProjectService {
 	private final ProjectAreaRepository projectAreaRepository;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
+
+	public Project findProjectById(Long id) {
+		Optional<Project> findProject = projectRepository.findById(id);
+		Project project = findProject.get();
+		return project;
+	}
 
 	public void checkPeriod(LocalDate endDate) throws BadRequestException {
 
@@ -152,16 +158,7 @@ public class ProjectService {
 		}
 
 		// project area
-		Long[] areas = projectForm.getAreas();
-		for (int i = 0; i < areas.length; i++) {
-			Optional<Area> findarea = areaRepository.findById(areas[i]);
-			Area area = findarea.get();
-			ProjectArea projectArea = ProjectArea.builder()
-				.project(project)
-				.area(area)
-				.build();
-			projectAreaRepository.save(projectArea);
-		}
+		areaService.addProjectAreaList(project, projectForm.getAreas());
 	}
 
 	// 프로젝트/스터디 수정
@@ -222,20 +219,10 @@ public class ProjectService {
 		}
 
 		// project area
-		List<ProjectArea> projectAreas = projectAreaRepository.findByProject(project);
-		for (ProjectArea a : projectAreas) {
-			projectAreaRepository.delete(a);
-		}
 		Long[] areas = projectForm.getAreas();
-		for (int i = 0; i < areas.length; i++) {
-			Optional<Area> findarea = areaRepository.findById(areas[i]);
-			Area area = findarea.get();
-			ProjectArea projectArea = ProjectArea.builder()
-				.project(project)
-				.area(area)
-				.build();
-			projectAreaRepository.save(projectArea);
-		}
+		List<ProjectArea> projectAreas = areaService.findProjectAreaList(project);
+		areaService.deleteProjectAreaList(projectAreas);
+		areaService.addProjectAreaList(project, areas);
 	}
 
 	// 프로젝트/스터디 삭제
@@ -257,12 +244,12 @@ public class ProjectService {
 		}
 
 		// project area
-		List<ProjectArea> projectAreas = projectAreaRepository.findByProject(project);
-		for (ProjectArea a : projectAreas) {
-			projectAreaRepository.delete(a);
-		}
+		List<ProjectArea> projectAreas = areaService.findProjectAreaList(project);
+		areaService.deleteProjectAreaList(projectAreas);
 
 		// project
 		projectRepository.delete(project);
 	}
+
 }
+

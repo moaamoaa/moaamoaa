@@ -43,8 +43,8 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;
 
 	// 회원 한명 조회
-	public Optional<User> findUser(Long userId) {
-		return userRepository.findById(userId);
+	public User findUser(Long userId) {
+		return userRepository.findById(userId).get();
 	}
 
 	// 회원 전체 조회
