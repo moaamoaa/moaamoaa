@@ -14,5 +14,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 	@Query(value = "select project " +
 		"from Project project " +
 		"where project.category = :category")
-	List<Project> findProject(@Param("category") ProjectCategory category);
+	List<Project> findProjectByCategory(@Param("category") ProjectCategory category);
 }

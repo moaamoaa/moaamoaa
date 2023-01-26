@@ -44,6 +44,7 @@ public class ProjectService {
 	private final ProjectAreaRepository projectAreaRepository;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
+	private final UserService userService;
 
 	public Project findProjectById(Long id) {
 		Optional<Project> findProject = projectRepository.findById(id);
@@ -73,12 +74,12 @@ public class ProjectService {
 
 	// 프로젝트 전체 조회
 	public List<Project> findProjects() {
-		return projectRepository.findProject(ProjectCategory.PROJECT);
+		return projectRepository.findProjectByCategory(ProjectCategory.PROJECT);
 	}
 
 	// 스터디 전체 조회
 	public List<Project> findStudies() {
-		return projectRepository.findProject(ProjectCategory.STUDY);
+		return projectRepository.findProjectByCategory(ProjectCategory.STUDY);
 	}
 
 	// 프로젝트/스터디 등록
@@ -251,5 +252,10 @@ public class ProjectService {
 		projectRepository.delete(project);
 	}
 
+	public List<Project> findByUser(Long id) {
+		User user = userService.findUser(id);
+		List<Project> projectList = teamRepository.findByProject(user);
+		return projectList;
+	}
 }
 
