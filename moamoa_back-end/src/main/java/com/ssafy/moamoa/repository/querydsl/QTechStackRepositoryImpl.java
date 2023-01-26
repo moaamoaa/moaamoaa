@@ -33,11 +33,21 @@ public class QTechStackRepositoryImpl extends QuerydslRepositorySupport implemen
 			.from(techStack)
 			.where(techStack.name.like(techName + "%"))
 			.fetch();
-		System.out.println(techStackList.size());
-		for (TechStack ts : techStackList) {
-			System.out.println(ts.getName());
-		}
+
 		return techStackList;
+
+	}
+
+	@Override
+	public TechStack getTechStackById(Long techStackId) {
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+		TechStack getTechStack = queryFactory.select(techStack)
+			.from(techStack)
+			.where(techStack.id.eq(techStackId))
+			.fetchOne();
+
+		return getTechStack;
 
 	}
 
