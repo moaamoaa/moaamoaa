@@ -19,7 +19,8 @@ export default function MainBanner(props) {
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundImage: `url(${post.image})`,
-        minHeight: 'calc(200px + 20vw)',
+        height: 'calc(200px + 40vw)',
+        maxHeight: 'calc(100vh - 56px)',
       }}
     >
       {/* Increase the priority of the hero background image */}
