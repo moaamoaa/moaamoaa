@@ -16,6 +16,10 @@ export default function SignUpCertificationform(props) {
     setUserVaildCode(e.target.value);
   };
 
+  const handleBackStep = () => {
+    props.setActiveStep(0);
+  };
+
   // 인증코드를 체크하는 함수
   const codeCheck = e => {
     e.preventDefault();
@@ -45,7 +49,7 @@ export default function SignUpCertificationform(props) {
         <AutorenewIcon fontSize="large" />
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={props.setActiveStep(0)} sx={{ mt: 3, ml: 1 }}>
+          <Button onClick={handleBackStep} sx={{ mt: 3, ml: 1 }}>
             이전
           </Button>
 

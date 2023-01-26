@@ -16,6 +16,10 @@ export default function SignUpNicknameForm(props) {
     setUserName(e.target.value);
   };
 
+  const handleBackStep = () => {
+    props.setActiveStep(1);
+  };
+
   const submitNickName = async e => {
     e.preventDefault();
 
@@ -45,7 +49,7 @@ export default function SignUpNicknameForm(props) {
           onChange={changeNameHandler}
         />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={props.setActiveStep(1)} sx={{ mt: 3, ml: 1 }}>
+          <Button onClick={handleBackStep} sx={{ mt: 3, ml: 1 }}>
             이전
           </Button>
 
