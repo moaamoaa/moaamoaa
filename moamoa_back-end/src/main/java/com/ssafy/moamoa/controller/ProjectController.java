@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ssafy.moamoa.domain.Project;
 import com.ssafy.moamoa.dto.ProjectForm;
@@ -25,29 +27,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/projects")
 @Transactional
 public class ProjectController {
 	private final ProjectService projectService;
 
-	@ApiOperation(value = "전체 프로젝트 조회",
-		notes = "전체 프로젝트를 조회한다.")
-	@GetMapping("projects")
-	public ResponseEntity<?> showProjects() throws Exception {
-		List<Project> projects = projectService.findProjects();
-		return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
-	}
-
-	@ApiOperation(value = "전체 스터디 조회",
-		notes = "전체 스터디를 조회한다.")
-	@GetMapping("studies")
-	public ResponseEntity<?> showStudies() throws Exception {
-		List<Project> projects = projectService.findStudies();
+	@ApiOperation(value = "자기가 속한 프로젝트/스터디 조회",
+		notes = "자기가 속한 프로젝트/스터디를 조회한다.")
+	@GetMapping
+	public ResponseEntity<?> showProjects(@RequestParam("id") Long id) throws Exception {
+		List<Project> projects = projectService.findByUser(id);
 		return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 등록",
 		notes = "프로젝트/스터디 등록을 한다.")
-	@PostMapping("/projects")
+	@PostMapping
 	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm) throws Exception {
 
 		projectService.creatProject(projectForm);
@@ -56,7 +51,7 @@ public class ProjectController {
 
 	@ApiOperation(value = "프로젝트/스터디 수정",
 		notes = "프로젝트/스터디 수정을 한다.")
-	@PutMapping("/projects/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<?> updateProject(@PathVariable Long id, @RequestBody ProjectForm projectForm) throws
 		Exception {
 
@@ -66,7 +61,7 @@ public class ProjectController {
 
 	@ApiOperation(value = "프로젝트/스터디 삭제",
 		notes = "프로젝트/스터디 삭제를 한다.")
-	@DeleteMapping("/projects/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteProject(@PathVariable Long id) {
 		projectService.deleteProject(id);
 		return new ResponseEntity<>(HttpStatus.OK);

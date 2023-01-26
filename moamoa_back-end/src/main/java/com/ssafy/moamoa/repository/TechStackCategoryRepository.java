@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ssafy.moamoa.domain.TechStackCategory;
 
-public interface TechstackCatagoryRepository extends JpaRepository<TechStackCategory, Long> {
+public interface TechStackCategoryRepository extends JpaRepository<TechStackCategory, Long> {
 
 }

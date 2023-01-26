@@ -43,8 +43,8 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;
 
 	// 회원 한명 조회
-	public Optional<User> findUser(Long userId) {
-		return userRepository.findById(userId);
+	public User findUser(Long userId) {
+		return userRepository.findById(userId).get();
 	}
 
 	// 회원 전체 조회
@@ -73,7 +73,7 @@ public class UserService {
 		// user
 		User user = User.builder()
 			.email(email)
-			.password(password)
+			.password(getEncodedPassword(password))
 			.joinDate(LocalDate.now())
 			.build();
 		// profile
@@ -140,7 +140,7 @@ public class UserService {
 			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
 		}
 		User findUser = findUsers.get();
-		findUser.setPassword(password);
+		findUser.setPassword(getEncodedPassword(password));
 	}
 
 	public void updatePasswordByEmail(String password, String email) {
@@ -173,10 +173,10 @@ public class UserService {
 		findProfile.setNickname(nickname);
 	}
 
-	public void deleteUser(String email) {
-		Optional<User> findUsers = userRepository.findByEmail(email);
+	public void deleteUser(Long id) {
+		Optional<User> findUsers = userRepository.findById(id);
 		if (!findUsers.isPresent()) {
-			return;
+			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
 		}
 		User findUser = findUsers.get();
 		// profile
@@ -186,7 +186,7 @@ public class UserService {
 		}
 		Profile findProfile = findProfiles.get();
 		profileRepository.delete(findProfile);
-		userRepository.deleteByEmail(email);
+		userRepository.deleteById(id);
 	}
 
 	public void setBlackList(String token) {

@@ -6,20 +6,21 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 
-function MainBanner(props) {
+export default function MainBanner(props) {
   const { post } = props;
 
   return (
     <Paper
       sx={{
         position: 'relative',
-        backgroundColor: 'grey.800',
         color: '#fff',
         mb: 4,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundImage: `url(${post.image})`,
+        height: 'calc(200px + 40vw)',
+        maxHeight: 'calc(100vh - 56px)',
       }}
     >
       {/* Increase the priority of the hero background image */}
@@ -37,7 +38,7 @@ function MainBanner(props) {
           bottom: 0,
           right: 0,
           left: 0,
-          backgroundColor: 'rgba(0,0,0,.3)',
+          backgroundColor: 'rgba(0,0,0,.25)',
         }}
       />
       <Grid container>
@@ -78,5 +79,3 @@ MainBanner.propTypes = {
     title: PropTypes.string.isRequired,
   }).isRequired,
 };
-
-export default MainBanner;

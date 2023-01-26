@@ -6,7 +6,9 @@ import Container from '@mui/material/Container';
 import NavbarLogo from 'components/common/navbar/NavbarLogo';
 import NavbarAccount from 'components/common/navbar/NavbarAccount';
 
-function ResponsiveAppBar() {
+export default function ResponsiveAppBar() {
+  console.log(window);
+
   return (
     <AppBar position="fixed">
       <Container fixed>
@@ -19,4 +21,3 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;

@@ -1,4 +1,8 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
+
+import styled from '@emotion/styled';
+
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -7,7 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 
-import { Link } from 'react-router-dom';
+import TemporaryDrawer from 'components/common/drawer/TemporaryDrawer';
 
 const pages = [
   {
@@ -17,6 +21,10 @@ const pages = [
   {
     text: '팀원 구하기',
     link: 'TeamMemberSearchPage',
+  },
+  {
+    text: '프로필',
+    link: 'ProfilePage',
   },
 ];
 
@@ -61,6 +69,9 @@ function ResponsiveAppBar() {
         >
           <MenuIcon />
         </IconButton>
+
+        <TemporaryDrawer position={'left'}></TemporaryDrawer>
+
         <Menu
           id="menu-appbar"
           anchorEl={anchorElNav}
@@ -82,7 +93,7 @@ function ResponsiveAppBar() {
           {pages.map(page => (
             <MenuItem key={page.text} onClick={handleCloseNavMenu}>
               <Typography textAlign="center">
-                <Link to={page.link}>{page.text}</Link>
+                <MoaLink to={page.link}>{page.text}</MoaLink>
               </Typography>
             </MenuItem>
           ))}
@@ -114,7 +125,7 @@ function ResponsiveAppBar() {
             onClick={handleCloseNavMenu}
             sx={{ my: 2, color: 'white', display: 'block' }}
           >
-            <Link to={page.link}>{page.text}</Link>
+            <MoaLink to={page.link}>{page.text}</MoaLink>
           </Button>
         ))}
       </Box>
@@ -122,3 +133,8 @@ function ResponsiveAppBar() {
   );
 }
 export default ResponsiveAppBar;
+
+const MoaLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`;

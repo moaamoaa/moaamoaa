@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,7 @@ public class UserController {
 		notes = "email, password, nickname 정보로 회원 가입을 한다.")
 	// 회원 가입
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody SignForm signForm) throws JsonProcessingException {
+	public ResponseEntity<?> signup(@RequestBody @Valid SignForm signForm) throws JsonProcessingException {
 
 		String email = signForm.getEmail();
 		String password = signForm.getPassword();
@@ -99,7 +100,7 @@ public class UserController {
 		notes = "id에 맞는 회원의 password를 수정한다.")
 	// 비밀번호 변경
 	@PostMapping("/password/{id}")
-	public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody SignForm signForm) {
+	public ResponseEntity<?> updatePassword(@PathVariable Long id, @Valid @RequestBody SignForm signForm) {
 		// 받은 비밀번호로 update
 		userService.updatePassword(signForm.getPassword(), id);
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -131,10 +132,10 @@ public class UserController {
 	@ApiOperation(value = "회원 삭제",
 		notes = "email에 맞는 회원을 삭제한다.")
 	// 회원 삭제
-	@DeleteMapping()
-	public ResponseEntity<?> deleteUser(@RequestBody SignForm signForm) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		// 받은 이메일로 delete
-		userService.deleteUser(signForm.getEmail());
+		userService.deleteUser(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

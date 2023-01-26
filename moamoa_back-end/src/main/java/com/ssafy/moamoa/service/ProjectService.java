@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.Area;
 import com.ssafy.moamoa.domain.Project;
 import com.ssafy.moamoa.domain.ProjectArea;
 import com.ssafy.moamoa.domain.ProjectCategory;
@@ -20,12 +19,14 @@ import com.ssafy.moamoa.domain.TeamRole;
 import com.ssafy.moamoa.domain.TechStack;
 import com.ssafy.moamoa.domain.User;
 import com.ssafy.moamoa.dto.ProjectForm;
+import com.ssafy.moamoa.exception.BadRequestException;
+import com.ssafy.moamoa.exception.NotFoundUserException;
 import com.ssafy.moamoa.repository.AreaRepository;
 import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
-import com.ssafy.moamoa.repository.ProjectTeckstackRepository;
+import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TeamRepository;
-import com.ssafy.moamoa.repository.TechstackRepository;
+import com.ssafy.moamoa.repository.TechStackRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -35,42 +36,50 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProjectService {
 
+	private final AreaService areaService;
 	private final ProjectRepository projectRepository;
-	private final TechstackRepository techstackRepository;
-	private final ProjectTeckstackRepository projectTeckstackRepository;
+	private final TechStackRepository techstackRepository;
+	private final ProjectTechStackRepository projectTeckstackRepository;
 	private final AreaRepository areaRepository;
 	private final ProjectAreaRepository projectAreaRepository;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
+	private final UserService userService;
 
-	public void checkPeriod(LocalDate endDate) throws Exception {
+	public Project findProjectById(Long id) {
+		Optional<Project> findProject = projectRepository.findById(id);
+		Project project = findProject.get();
+		return project;
+	}
+
+	public void checkPeriod(LocalDate endDate) throws BadRequestException {
 
 		LocalDate startDate = LocalDate.now();
 		Period diff = Period.between(startDate, endDate);
 		if (diff.getDays() > 28) {
-			throw new Exception("잘못된 기간 설정");
+			throw new BadRequestException("잘못된 기간 설정");
 		}
 	}
 
-	public void checkCntPeople(int cntPeople, int minCnt) throws Exception {
+	public void checkCntPeople(int cntPeople, int minCnt) throws BadRequestException {
 
 		if (cntPeople > 10) {
-			throw new Exception("잘못된 인원수 설정");
+			throw new BadRequestException("잘못된 인원수 설정");
 		}
 
 		if (cntPeople < minCnt) {
-			throw new Exception("잘못된 인원수 설정");
+			throw new BadRequestException("잘못된 인원수 설정");
 		}
 	}
 
 	// 프로젝트 전체 조회
 	public List<Project> findProjects() {
-		return projectRepository.findProject(ProjectCategory.PROJECT);
+		return projectRepository.findProjectByCategory(ProjectCategory.PROJECT);
 	}
 
 	// 스터디 전체 조회
 	public List<Project> findStudies() {
-		return projectRepository.findProject(ProjectCategory.STUDY);
+		return projectRepository.findProjectByCategory(ProjectCategory.STUDY);
 	}
 
 	// 프로젝트/스터디 등록
@@ -81,8 +90,14 @@ public class ProjectService {
 		checkPeriod(endDate);
 
 		// 인원수 10이하인지 확인
-		int cntPeople = projectForm.getCountPeople();
+		int cntPeople = projectForm.getTotalPeople();
 		checkCntPeople(cntPeople, 1);
+
+		// 팀원 정보 확인
+		Optional<User> findUsers = userRepository.findById(projectForm.getUserid());
+		if (!findUsers.isPresent()) {
+			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
+		}
 
 		// project
 		ProjectCategory projectCategory = ProjectCategory.PROJECT;
@@ -114,7 +129,9 @@ public class ProjectService {
 			.startDate(LocalDate.now())
 			.endDate(endDate)
 			.title(projectForm.getTitle())
-			.countPeople(cntPeople)
+			.totalPeople(cntPeople)
+			.currentPeople(1)
+			.isLocked(false)
 			.build();
 		projectRepository.save(project);
 
@@ -142,16 +159,7 @@ public class ProjectService {
 		}
 
 		// project area
-		Long[] areas = projectForm.getAreas();
-		for (int i = 0; i < areas.length; i++) {
-			Optional<Area> findarea = areaRepository.findById(areas[i]);
-			Area area = findarea.get();
-			ProjectArea projectArea = ProjectArea.builder()
-				.project(project)
-				.area(area)
-				.build();
-			projectAreaRepository.save(projectArea);
-		}
+		areaService.addProjectAreaList(project, projectForm.getAreas());
 	}
 
 	// 프로젝트/스터디 수정
@@ -160,7 +168,7 @@ public class ProjectService {
 		Optional<Project> findProject = projectRepository.findById(id);
 		Project project = findProject.get();
 		LocalDate endDate = LocalDate.parse(projectForm.getEndDate(), DateTimeFormatter.ISO_DATE);
-		int cntPeople = projectForm.getCountPeople();
+		int cntPeople = projectForm.getTotalPeople();
 
 		LocalDate startDate = project.getStartDate();
 		if (!(project.getEndDate().equals(endDate))) {
@@ -169,7 +177,7 @@ public class ProjectService {
 			checkPeriod(endDate);
 		}
 
-		if (project.getCountPeople() != cntPeople) {
+		if (project.getTotalPeople() != cntPeople) {
 			List<Team> findTeam = teamRepository.findByProject(project);
 			int minCnt = findTeam.size();
 			// 인원수 10이하인지 확인 & 팀원들의 인원수보다 작은지
@@ -191,7 +199,7 @@ public class ProjectService {
 		project.setStartDate(startDate);
 		project.setEndDate(endDate);
 		project.setTitle(projectForm.getTitle());
-		project.setCountPeople(cntPeople);
+		project.setTotalPeople(cntPeople);
 
 		// project techstack
 		List<ProjectTechStack> projectTechStacks = projectTeckstackRepository.findByProject(project);
@@ -212,20 +220,10 @@ public class ProjectService {
 		}
 
 		// project area
-		List<ProjectArea> projectAreas = projectAreaRepository.findByProject(project);
-		for (ProjectArea a : projectAreas) {
-			projectAreaRepository.delete(a);
-		}
 		Long[] areas = projectForm.getAreas();
-		for (int i = 0; i < areas.length; i++) {
-			Optional<Area> findarea = areaRepository.findById(areas[i]);
-			Area area = findarea.get();
-			ProjectArea projectArea = ProjectArea.builder()
-				.project(project)
-				.area(area)
-				.build();
-			projectAreaRepository.save(projectArea);
-		}
+		List<ProjectArea> projectAreas = areaService.findProjectAreaList(project);
+		areaService.deleteProjectAreaList(projectAreas);
+		areaService.addProjectAreaList(project, areas);
 	}
 
 	// 프로젝트/스터디 삭제
@@ -247,12 +245,17 @@ public class ProjectService {
 		}
 
 		// project area
-		List<ProjectArea> projectAreas = projectAreaRepository.findByProject(project);
-		for (ProjectArea a : projectAreas) {
-			projectAreaRepository.delete(a);
-		}
+		List<ProjectArea> projectAreas = areaService.findProjectAreaList(project);
+		areaService.deleteProjectAreaList(projectAreas);
 
 		// project
 		projectRepository.delete(project);
 	}
+
+	public List<Project> findByUser(Long id) {
+		User user = userService.findUser(id);
+		List<Project> projectList = teamRepository.findByProject(user);
+		return projectList;
+	}
 }
+
