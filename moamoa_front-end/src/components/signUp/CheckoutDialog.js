@@ -15,6 +15,7 @@ import SignUpEmailForm from 'components/signUp/SignUpEmailForm';
 import SignUpCertificationForm from 'components/signUp/SignUpCertificationForm';
 import SignUpNicknameForm from 'components/signUp/SignUpNicknameForm';
 import SignUpPasswordForm from 'components/signUp/SignUpPasswordForm';
+
 import styled from 'styled-components';
 
 const BootstrapDialog = styled(Dialog)(() => ({
@@ -59,11 +60,6 @@ export default function CheckoutDialog(props) {
     setPassword(passwordChange);
   };
 
-  // // 자식컴포넌트에서 가입단계 상태를 받음
-  // const handleActiveStep = step => {
-  //   setActiveStep(step);
-  // };
-
   const handleClose = () => {
     props.setSignUpDialog(false);
   };
@@ -83,6 +79,9 @@ export default function CheckoutDialog(props) {
         .then(e => {
           console.log(e);
           setActiveStep(4);
+        })
+        .catch(e => {
+          console.log(e);
         });
     }
   };
