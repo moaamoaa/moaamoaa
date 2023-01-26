@@ -1,4 +1,7 @@
 import * as React from 'react';
+
+import styled from 'styled-components';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,31 +10,28 @@ import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
-import styled, { keyframes } from 'styled-components';
+import Avatar from '@mui/material/Avatar';
+
+import CardList from 'components/common/card/CardList';
+
+const user = {
+  id: 0,
+  name: '김싸피',
+  tech: [
+    ['front-end_icons', 'javascript'],
+    ['front-end_icons', 'typescript'],
+  ],
+  link: {
+    github: 'https://github.com/LimSB-dev',
+    tistory: '',
+    velog: '',
+  },
+};
 
 export default function CardItem(props) {
   if (props.type === 'team') {
     return (
       <MoaCard sx={{ minWidth: 300 }}>
-        <CardActions>
-          <Grid container>
-            <Grid item xs>
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                sx={{ display: 'none' }} // 조건에 따라
-              >
-                권한위임
-              </Button>
-            </Grid>
-            <Grid item xs>
-              <Button size="small" variant="contained" color="primary">
-                강퇴하기 / 제안하기
-              </Button>
-            </Grid>
-          </Grid>
-        </CardActions>
         {props.card.thumbnailUrl ? (
           <CardMedia
             component="img"
@@ -43,21 +43,24 @@ export default function CardItem(props) {
         )}
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            팀 이름 / 팀원 이름
+            팀 이름
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            팀장 이름 / 포지션
+            팀장 이름
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            조회수 / 없음
+            1,600 views
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            팀원수 / 없음
+            0 / 6
           </Typography>
           {/* <TechStackList>기술스택리스트</TechStackList> */}
-          <Typography variant="body2" color="text.secondary">
-            팀 소개 / 자기소개
-          </Typography>
+          <InfoTypography variant="body2" color="text.secondary">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id,
+            corporis nobis ea beatae et reprehenderit dolorum iure libero atque,
+            eum, aliquam sequi delectus deleniti alias quasi quis veritatis!
+            Quis, quidem.
+          </InfoTypography>
         </CardContent>
       </MoaCard>
     );
@@ -77,7 +80,12 @@ export default function CardItem(props) {
               </Button>
             </Grid>
             <Grid item xs>
-              <Button size="small" variant="contained" color="primary">
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ display: 'none' }}
+              >
                 강퇴하기 / 제안하기
               </Button>
             </Grid>
@@ -100,67 +108,33 @@ export default function CardItem(props) {
           <MoaTypography variant="body2" color="text.secondary">
             지역
           </MoaTypography>
-          <MoaTypography variant="body2" color="text.secondary">
-            자기소개
-          </MoaTypography>
-          <MoaTypography variant="body2" color="text.secondary">
-            기술스택
-          </MoaTypography>
+          <InfoTypography variant="body2" color="text.secondary">
+            Lorem, ipsum dolor sit consectetur adipisicing elit. Ducimus culpa
+            debitis optio voluptates laborum accusamus ab officia facilis dicta
+            quos placeat perspiciatis dolore eaque mollitia adipisci impedit,
+            quam laboriosam alias.
+          </InfoTypography>
+          <CardList type={'tech'} cards={user.tech}></CardList>
           {/* <TechStackList>기술스택리스트</TechStackList> */}
         </CardContent>
       </MoaCard>
     );
-  } else {
+  } else if (props.type === 'tech') {
     return (
-      <MoaCard sx={{ maxWidth: 450 }}>
-        <CardActions>
-          <Grid container>
-            <Grid item xs>
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                sx={{ display: 'none' }} // 조건에 따라
-              >
-                권한위임
-              </Button>
-            </Grid>
-            <Grid item xs>
-              <Button size="small" variant="contained" color="primary">
-                강퇴하기 / 제안하기
-              </Button>
-            </Grid>
-          </Grid>
-        </CardActions>
-        <CardMedia
-          component="img"
-          sx={{
-            // 16:9
-            pt: '56.25%',
-          }}
-          src="https://source.unsplash.com/random"
-          alt="random"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            팀 이름 / 팀원 이름
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            팀장 이름 / 포지션
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            조회수 / 없음
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            팀원수 / 없음
-          </Typography>
-          {/* <TechStackList>기술스택리스트</TechStackList> */}
-          <Typography variant="body2" color="text.secondary">
-            팀 소개 / 자기소개
-          </Typography>
-        </CardContent>
-      </MoaCard>
+      <MoaImg
+        src={`${process.env.PUBLIC_URL}/images/tech-stack_icons/${props.card[0]}/${props.card[1]}@4x.png`}
+      />
     );
+  } else if (props.type === 'link') {
+    if (props.card[1] !== '') {
+      return (
+        <MoaImg
+          src={`${process.env.PUBLIC_URL}/images/blog_icons/${props.card[0]}@4x.png`}
+        />
+      );
+    } else {
+      return <></>;
+    }
   }
 }
 
@@ -180,7 +154,23 @@ const MoaSkeleton = styled(Skeleton)`
   margin: 0 auto;
 `;
 
+const InfoTypography = styled(Typography)`
+  text-align: justify;
+  height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+`;
+
 const MoaTypography = styled(Typography)`
   display: flex;
   justify-content: center;
+`;
+
+const MoaImg = styled(Avatar)`
+  width: 3vw;
+  height: 3vw;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
 `;
