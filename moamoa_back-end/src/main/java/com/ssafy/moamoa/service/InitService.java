@@ -403,13 +403,13 @@ public class InitService {
 
 	public void addProject() throws Exception {
 		ProjectForm studyOffForm = new ProjectForm("hi", "", "", "OFFLINE", "STUDY", "2023-02-21", 2, false, 1L,
-			new Long[] {5L, 6L}, new Long[] {1L});
+			new Long[] {5L, 6L}, 1L);
 		ProjectForm projectOffForm = new ProjectForm("hello", "", "", "OFFLINE", "PROJECT", "2023-02-21", 2, false, 1L,
-			new Long[] {1L, 4L}, new Long[] {1L});
+			new Long[] {1L, 4L}, 1L);
 		ProjectForm studyOnForm = new ProjectForm("hello world!", "", "", "ONLINE", "STUDY", "2023-02-21", 2, false, 1L,
-			new Long[] {1L, 2L}, new Long[] {});
+			new Long[] {1L, 2L}, 2L);
 		ProjectForm projectOnForm = new ProjectForm("하이", "", "", "ONLINE", "PROJECT", "2023-02-21", 2, false, 1L,
-			new Long[] {3L, 2L}, new Long[] {});
+			new Long[] {3L, 2L}, 1L);
 		for (int i = 0; i < 20; i++) {
 			projectService.creatProject(studyOffForm);
 			projectService.creatProject(projectOffForm);

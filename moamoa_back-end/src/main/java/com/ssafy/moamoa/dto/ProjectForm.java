@@ -25,5 +25,5 @@ public class ProjectForm {
 	private Long[] techStacks;
 
 	// project area
-	private Long[] areas;
+	private Long areaId;
 }

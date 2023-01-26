@@ -155,7 +155,7 @@ public class ProjectService {
 		}
 
 		// project area
-		areaService.addProjectAreaList(project, projectForm.getAreas());
+		areaService.addProjectAreaList(project, projectForm.getAreaId());
 	}
 
 	// 프로젝트/스터디 수정
@@ -216,10 +216,10 @@ public class ProjectService {
 		}
 
 		// project area
-		Long[] areas = projectForm.getAreas();
-		List<ProjectArea> projectAreas = areaService.findProjectAreaList(project);
-		areaService.deleteProjectAreaList(projectAreas);
-		areaService.addProjectAreaList(project, areas);
+		Long areaId = projectForm.getAreaId();
+		ProjectArea projectArea = areaService.findProjectAreaList(project);
+		areaService.deleteProjectAreaList(projectArea);
+		areaService.addProjectAreaList(project, areaId);
 	}
 
 	// 프로젝트/스터디 삭제
@@ -241,8 +241,8 @@ public class ProjectService {
 		}
 
 		// project area
-		List<ProjectArea> projectAreas = areaService.findProjectAreaList(project);
-		areaService.deleteProjectAreaList(projectAreas);
+		ProjectArea projectArea = areaService.findProjectAreaList(project);
+		areaService.deleteProjectAreaList(projectArea);
 
 		// project
 		projectRepository.delete(project);

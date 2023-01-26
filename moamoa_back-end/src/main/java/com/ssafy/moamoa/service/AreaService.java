@@ -27,9 +27,10 @@ public class AreaService {
 	private final ProjectAreaRepository projectAreaRepository;
 
 	// 매칭되는 지역 찾기 -> list 형식으로 return
-	public List<ProjectArea> findProjectAreaList(Project project) {
-		List<ProjectArea> projectAreas = projectAreaRepository.findByProject(project);
-		return projectAreas;
+	public ProjectArea findProjectAreaList(Project project) {
+		Optional<ProjectArea> findProjectArea = projectAreaRepository.findByProject(project);
+		ProjectArea projectArea = findProjectArea.get();
+		return projectArea;
 	}
 
 	public List<UserArea> findUserAreaList(User user) {
@@ -38,16 +39,16 @@ public class AreaService {
 	}
 
 	// 지역 등록
-	public void addProjectAreaList(Project project, Long[] areas) {
-		for (int i = 0; i < areas.length; i++) {
-			Optional<Area> findarea = areaRepository.findById(areas[i]);
-			Area area = findarea.get();
-			ProjectArea projectArea = ProjectArea.builder()
-				.project(project)
-				.area(area)
-				.build();
-			projectAreaRepository.save(projectArea);
-		}
+	public void addProjectAreaList(Project project, Long areaId) {
+
+		Optional<Area> findarea = areaRepository.findById(areaId);
+		Area area = findarea.get();
+		ProjectArea projectArea = ProjectArea.builder()
+			.project(project)
+			.area(area)
+			.build();
+		projectAreaRepository.save(projectArea);
+
 	}
 
 	public void addUserAreaList(User user, Long[] areas) {
@@ -63,10 +64,8 @@ public class AreaService {
 	}
 
 	// 지역 삭제
-	public void deleteProjectAreaList(List<ProjectArea> projectAreas) {
-		for (ProjectArea pa : projectAreas) {
-			projectAreaRepository.delete(pa);
-		}
+	public void deleteProjectAreaList(ProjectArea projectArea) {
+		projectAreaRepository.delete(projectArea);
 	}
 
 	public void deleteUserAreaList(List<UserArea> userAreas) {
