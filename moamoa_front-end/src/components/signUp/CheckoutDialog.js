@@ -1,88 +1,130 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 
+import MoaMoaDialogTitle from 'components/common/dialog/MoaMoaDialog';
 import SignUpEmailForm from 'components/signUp/SignUpEmailForm';
 import SignUpCertificationForm from 'components/signUp/SignUpCertificationForm';
 import SignUpNicknameForm from 'components/signUp/SignUpNicknameForm';
 import SignUpPasswordForm from 'components/signUp/SignUpPasswordForm';
+import styled from 'styled-components';
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+const BootstrapDialog = styled(Dialog)(() => ({
   '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
+    padding: 2,
   },
   '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
+    padding: 1,
   },
 }));
 
-const MoaMoaDialogTitle = props => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
-
-const steps = ['이메일', '인증코드', '닉네임', '비밀번호'];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <SignUpEmailForm type="signUpEmail" />;
-    case 1:
-      return <SignUpCertificationForm />;
-    case 2:
-      return <SignUpNicknameForm />;
-    case 3:
-      return <SignUpPasswordForm />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
-
 export default function CheckoutDialog(props) {
-  const [activeStep, setActiveStep] = React.useState(0);
+  // 가입단계 상태
+  const [activeStep, setActiveStep] = useState(0);
+  //이메일
+  const [email, setEmail] = useState('');
+  //인증 코드
+  const [code, setCode] = useState('');
+  //닉네임
+  const [name, setName] = useState('');
+  //비밀번호
+  const [password, setPassword] = useState('');
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
+  //스프링부트 url
+  const baseUrl = 'http://localhost:8080';
+
+  //자식 컴포넌트에서 setState 값을 받기 위해 함수를 props로 전달
+  //이메일
+  const emailHandler = emailChange => {
+    setEmail(emailChange);
+  };
+  //인증코드
+  const codeHandler = codeChange => {
+    setCode(codeChange);
+  };
+  //닉네임
+  const nameHandler = nameChange => {
+    setName(nameChange);
+  };
+  //비밀번호
+  const passwordHandler = passwordChange => {
+    setPassword(passwordChange);
   };
 
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
+  // // 자식컴포넌트에서 가입단계 상태를 받음
+  // const handleActiveStep = step => {
+  //   setActiveStep(step);
+  // };
 
   const handleClose = () => {
     props.setSignUpDialog(false);
   };
+
+  /** 맨 마지막 회원가입 버튼을 눌렀을 때 가입정보를 백앤드로 보냄*/
+  const userSignUp = () => {
+    if (password === '') {
+      console.log('비밀번호를 입력해주세요');
+    } else {
+      console.log('회원가입전송');
+      axios
+        .post(`${baseUrl}/users/signup`, {
+          email: email,
+          nickname: name,
+          password: password,
+        })
+        .then(e => {
+          console.log(e);
+          setActiveStep(4);
+        });
+    }
+  };
+
+  const steps = ['이메일', '인증코드', '닉네임', '비밀번호'];
+
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return (
+          <SignUpEmailForm
+            type="signUpEmail"
+            setActiveStep={setActiveStep}
+            codeHandler={codeHandler}
+            emailHandler={emailHandler}
+            email={email}
+          />
+        );
+      case 1:
+        return (
+          <SignUpCertificationForm setActiveStep={setActiveStep} code={code} />
+        );
+      case 2:
+        return (
+          <SignUpNicknameForm
+            setActiveStep={setActiveStep}
+            nameHandler={nameHandler}
+            name={name}
+          />
+        );
+      case 3:
+        return (
+          <SignUpPasswordForm
+            setActiveStep={setActiveStep}
+            passwordHandler={passwordHandler}
+            userSignUp={userSignUp}
+          />
+        );
+      default:
+        throw new Error('Unknown step');
+    }
+  }
 
   return (
     <BootstrapDialog
@@ -125,24 +167,7 @@ export default function CheckoutDialog(props) {
               </Typography>
             </React.Fragment>
           ) : (
-            <React.Fragment>
-              {getStepContent(activeStep)}
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {activeStep !== 0 && (
-                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                    이전
-                  </Button>
-                )}
-
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  sx={{ mt: 3, ml: 1 }}
-                >
-                  {activeStep === steps.length - 1 ? '완료' : '다음'}
-                </Button>
-              </Box>
-            </React.Fragment>
+            <React.Fragment>{getStepContent(activeStep)}</React.Fragment>
           )}
         </Paper>
       </Container>
