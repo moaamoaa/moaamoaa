@@ -13,6 +13,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import SignInDialog from 'components/signIn/SignInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/signIn/FindPasswordDialog';
+import styled from '@emotion/styled';
 
 const settings = [
   {
@@ -87,9 +88,9 @@ export default function NavbarAccount() {
     return (
       <>
         <Box sx={{ flexGrow: 0 }}>
-          <Button variant="text" onClick={handleClickOpen} color="secondary">
+          <MoaButton variant="text" onClick={handleClickOpen}>
             Log in
-          </Button>
+          </MoaButton>
         </Box>
         <SignInDialog
           signInDialog={signInDialog}
@@ -106,3 +107,7 @@ export default function NavbarAccount() {
     );
   }
 }
+
+const MoaButton = styled(Button)`
+  color: white;
+`;
