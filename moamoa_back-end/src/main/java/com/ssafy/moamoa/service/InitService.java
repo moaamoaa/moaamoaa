@@ -19,10 +19,10 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class InitService {
-	private final CatagoryRepository catagoryRepository;
-	private final TechstackRepository techstackRepository;
+	private final CategoryRepository categoryRepository;
+	private final TechStackRepository techStackRepository;
 	private final AreaRepository areaRepository;
-	private final TechstackCatagoryRepository techstackCatagoryRepository;
+	private final TechStackCategoryRepository techStackCategoryRepository;
 
 	//==배포시 삭제==//
 	private final UserService userService;
@@ -45,103 +45,103 @@ public class InitService {
 		//==Techstack==//
 		// BackEnd
 		TechStack techStackC = new TechStack("C");
-		techstackRepository.save(techStackC);
+		techStackRepository.save(techStackC);
 
 		TechStack techStackCsharp = new TechStack("C#");
-		techstackRepository.save(techStackCsharp);
+		techStackRepository.save(techStackCsharp);
 
 		TechStack techStackCplus = new TechStack("C++");
-		techstackRepository.save(techStackCplus);
+		techStackRepository.save(techStackCplus);
 
 		TechStack techStackJava = new TechStack("Java");
-		techstackRepository.save(techStackJava);
+		techStackRepository.save(techStackJava);
 
 		TechStack techStackPython = new TechStack("Python");
-		techstackRepository.save(techStackPython);
+		techStackRepository.save(techStackPython);
 
 		TechStack techStackKotlin = new TechStack("Kotlin");
-		techstackRepository.save(techStackKotlin);
+		techStackRepository.save(techStackKotlin);
 
 		TechStack techStackGo = new TechStack("Go");
-		techstackRepository.save(techStackGo);
+		techStackRepository.save(techStackGo);
 
 		TechStack techStackNestjs = new TechStack("Nest.js");
-		techstackRepository.save(techStackNestjs);
+		techStackRepository.save(techStackNestjs);
 
 		TechStack techStackNodejs = new TechStack("Node.js");
-		techstackRepository.save(techStackNodejs);
+		techStackRepository.save(techStackNodejs);
 
 		TechStack techStackDjango = new TechStack("Django");
-		techstackRepository.save(techStackDjango);
+		techStackRepository.save(techStackDjango);
 
 		TechStack techStackSpring = new TechStack("Spring");
-		techstackRepository.save(techStackSpring);
+		techStackRepository.save(techStackSpring);
 
 		TechStack techStackMysql = new TechStack("MySQL");
-		techstackRepository.save(techStackMysql);
+		techStackRepository.save(techStackMysql);
 
 		TechStack techStackGraphQL = new TechStack("GraphQL");
-		techstackRepository.save(techStackGraphQL);
+		techStackRepository.save(techStackGraphQL);
 
 		TechStack techStackRedis = new TechStack("Redis");
-		techstackRepository.save(techStackRedis);
+		techStackRepository.save(techStackRedis);
 
 		TechStack techStackMongodb = new TechStack("MongoDB");
-		techstackRepository.save(techStackMongodb);
+		techStackRepository.save(techStackMongodb);
 
 		TechStack techStackFirebase = new TechStack("Firebase");
-		techstackRepository.save(techStackFirebase);
+		techStackRepository.save(techStackFirebase);
 
 		// FrontEnd
 		TechStack techStackJs = new TechStack("Javascript");
-		techstackRepository.save(techStackJs);
+		techStackRepository.save(techStackJs);
 
 		TechStack techStackTs = new TechStack("Typescript");
-		techstackRepository.save(techStackTs);
+		techStackRepository.save(techStackTs);
 
 		TechStack techStackReact = new TechStack("React");
-		techstackRepository.save(techStackReact);
+		techStackRepository.save(techStackReact);
 
 		TechStack techStackVue = new TechStack("Vue");
-		techstackRepository.save(techStackVue);
+		techStackRepository.save(techStackVue);
 
 		TechStack techStackAngular = new TechStack("Angular");
-		techstackRepository.save(techStackAngular);
+		techStackRepository.save(techStackAngular);
 
 		TechStack techStackSvelte = new TechStack("Svelte");
-		techstackRepository.save(techStackSvelte);
+		techStackRepository.save(techStackSvelte);
 
 		// Mobile
 		TechStack techStackSwift = new TechStack("Swift");
-		techstackRepository.save(techStackSwift);
+		techStackRepository.save(techStackSwift);
 
 		TechStack techStackSwiftui = new TechStack("SwiftUI");
-		techstackRepository.save(techStackSwiftui);
+		techStackRepository.save(techStackSwiftui);
 
 		TechStack techStackFlutter = new TechStack("Flutter");
-		techstackRepository.save(techStackFlutter);
+		techStackRepository.save(techStackFlutter);
 
 		// Etc
 		TechStack techStackAws = new TechStack("AWS");
-		techstackRepository.save(techStackAws);
+		techStackRepository.save(techStackAws);
 
 		TechStack techStackDocker = new TechStack("Docker");
-		techstackRepository.save(techStackDocker);
+		techStackRepository.save(techStackDocker);
 
 		TechStack techStackKubernetes = new TechStack("Kubernetes");
-		techstackRepository.save(techStackKubernetes);
+		techStackRepository.save(techStackKubernetes);
 
 		TechStack techStackJenkins = new TechStack("Jenkins");
-		techstackRepository.save(techStackJenkins);
+		techStackRepository.save(techStackJenkins);
 
 		TechStack techStackFigma = new TechStack("Figma");
-		techstackRepository.save(techStackFigma);
+		techStackRepository.save(techStackFigma);
 
 		TechStack techStackGit = new TechStack("Git");
-		techstackRepository.save(techStackGit);
+		techStackRepository.save(techStackGit);
 
 		TechStack techStackUnity = new TechStack("Unity");
-		techstackRepository.save(techStackUnity);
+		techStackRepository.save(techStackUnity);
 
 		//==TechstackCategory==//
 		// BackEnd
@@ -229,6 +229,7 @@ public class InitService {
 		TechStackCategory techStackCategoryF1 = new TechStackCategory();
 		techStackCategoryF1.setCategory(categoryFront);
 		techStackCategoryF1.setTechstack(techStackJs);
+
 		techStackCategoryRepository.save(techStackCategoryF1);
 
 		TechStackCategory techStackCategoryF2 = new TechStackCategory();
@@ -401,18 +402,18 @@ public class InitService {
 	}
 
 	public void addProject() throws Exception {
-		ProjectForm StudyOffForm = new ProjectForm("hi", "", "", "OFFLINE", "STUDY", "2023-02-21", 2, 1L,
+		ProjectForm studyOffForm = new ProjectForm("hi", "", "", "OFFLINE", "STUDY", "2023-02-21", 2, false, 1L,
 			new Long[] {5L, 6L}, new Long[] {1L});
-		ProjectForm projectOffForm = new ProjectForm("hello", "", "", "OFFLINE", "PROJECT", "2023-02-21", 2, 1L,
+		ProjectForm projectOffForm = new ProjectForm("hello", "", "", "OFFLINE", "PROJECT", "2023-02-21", 2, false, 1L,
 			new Long[] {1L, 4L}, new Long[] {1L});
-		ProjectForm StudyOnForm = new ProjectForm("hello world!", "", "", "ONLINE", "STUDY", "2023-02-21", 2, 1L,
+		ProjectForm studyOnForm = new ProjectForm("hello world!", "", "", "ONLINE", "STUDY", "2023-02-21", 2, false, 1L,
 			new Long[] {1L, 2L}, new Long[] {});
-		ProjectForm projectOnForm = new ProjectForm("하이", "", "", "ONLINE", "PROJECT", "2023-02-21", 2, 1L,
+		ProjectForm projectOnForm = new ProjectForm("하이", "", "", "ONLINE", "PROJECT", "2023-02-21", 2, false, 1L,
 			new Long[] {3L, 2L}, new Long[] {});
 		for (int i = 0; i < 20; i++) {
-			projectService.creatProject(StudyOffForm);
+			projectService.creatProject(studyOffForm);
 			projectService.creatProject(projectOffForm);
-			projectService.creatProject(StudyOnForm);
+			projectService.creatProject(studyOnForm);
 			projectService.creatProject(projectOnForm);
 
 		}
