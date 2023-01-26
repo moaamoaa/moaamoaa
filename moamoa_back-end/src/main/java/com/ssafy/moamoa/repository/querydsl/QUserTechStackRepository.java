@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ssafy.moamoa.domain.UserTechStack;
 
-public interface SearchUserTechStackRepository {
+public interface QUserTechStackRepository {
 
 	List<UserTechStack> getAllUserTechStackByOrder(Long userId);
 

@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.ssafy.moamoa.domain.ProjectTechStack;
 
-public interface SearchProjectTechStackRepository {
+public interface QProjectTechStackRepository {
 	List<ProjectTechStack> getAllProjectTechStackByOrder(Long projectId);
+
 	Long deleteAllProjectStackById(Long projectId);
 }

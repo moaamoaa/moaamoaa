@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ssafy.moamoa.domain.Project;
 import com.ssafy.moamoa.domain.ProjectTechStack;
-import com.ssafy.moamoa.repository.querydsl.SearchProjectTechStackRepository;
+import com.ssafy.moamoa.repository.querydsl.QProjectTechStackRepository;
 
 public interface ProjectTechStackRepository extends JpaRepository<ProjectTechStack, Long>,
-	SearchProjectTechStackRepository {
+	QProjectTechStackRepository {
 
 	@Query(value = "select projectTechStack " +
 		"from ProjectTechStack projectTechStack " +

@@ -13,15 +13,17 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moamoa.domain.ProjectTechStack;
 import com.ssafy.moamoa.domain.QProjectTechStack;
 
-public class SearchProjectTechStackRepositoryImpl extends QuerydslRepositorySupport implements SearchProjectTechStackRepository{
+public class QProjectTechStackRepositoryImpl extends QuerydslRepositorySupport implements QProjectTechStackRepository {
 
 	@PersistenceContext
 	EntityManager em;
 
 	QProjectTechStack qProjectTechStack = projectTechStack;
-	public SearchProjectTechStackRepositoryImpl() {
+
+	public QProjectTechStackRepositoryImpl() {
 		super(ProjectTechStack.class);
 	}
+
 	@Override
 	public List<ProjectTechStack> getAllProjectTechStackByOrder(Long projectId) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
@@ -33,13 +35,13 @@ public class SearchProjectTechStackRepositoryImpl extends QuerydslRepositorySupp
 			.orderBy(projectTechStack.techStack.id.asc())
 			.fetch();
 
-	return projectTechStackList;
+		return projectTechStackList;
 	}
 
 	@Override
 	public Long deleteAllProjectStackById(Long projectId) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-		Long count =queryFactory.delete(projectTechStack)
+		Long count = queryFactory.delete(projectTechStack)
 			.where(projectTechStack.project.id.eq(projectId))
 			.execute();
 		return count;

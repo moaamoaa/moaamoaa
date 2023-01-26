@@ -13,15 +13,15 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moamoa.domain.QUserTechStack;
 import com.ssafy.moamoa.domain.UserTechStack;
 
-public class SearchUserTechStackRepositoryImpl extends QuerydslRepositorySupport
-	implements SearchUserTechStackRepository {
+public class QUserTechStackRepositoryImpl extends QuerydslRepositorySupport
+	implements QUserTechStackRepository {
 
 	@PersistenceContext
 	EntityManager em;
 
 	QUserTechStack qUserTechStack = userTechStack;
 
-	public SearchUserTechStackRepositoryImpl() {
+	public QUserTechStackRepositoryImpl() {
 		super(UserTechStack.class);
 	}
 
