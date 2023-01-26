@@ -15,9 +15,10 @@ public class InitDb {
 	private final InitService initService;
 
 	@PostConstruct
-	public void init() {
+	public void init() throws Exception {
 		initService.addTechstackCatagory();
 		initService.addArea();
 		initService.addUser();
+		initService.addProject();
 	}
 }
