@@ -1,9 +1,15 @@
+import React from 'react';
+
 import Container from '@mui/material/Container';
 
-export default function ProfilePage() {
+import Profile from 'components/profile/Profile';
+
+function ProfilePage() {
   return (
     <Container fixed>
-      <p>ProfilePage</p>
+      <Profile></Profile>
     </Container>
   );
 }
+
+export default ProfilePage;
