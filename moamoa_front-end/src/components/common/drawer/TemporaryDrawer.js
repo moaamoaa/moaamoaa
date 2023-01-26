@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
@@ -11,10 +11,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
-export default function TemporaryDrawer() {
-  const [state, setState] = React.useState({
-    right: false,
-  });
+export default function TemporaryDrawer(props) {
+  const [state, setState] = useState({ right: false });
 
   const toggleDrawer = (anchor, open) => event => {
     if (
@@ -30,14 +28,16 @@ export default function TemporaryDrawer() {
 
   const list = anchor => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 500 }}
+      sx={{
+        width: anchor === 'top' || anchor === 'bottom' ? 'auto' : `calc(200px)`,
+      }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Project', 'Study'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        {[props.list].map((text, index) => (
+          <ListItem key={index} disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -52,10 +52,9 @@ export default function TemporaryDrawer() {
   );
 
   return (
-    <div>
-      {/* Open Button */}
-      {['right'].map(anchor => (
-        <React.Fragment key={anchor}>
+    <aside>
+      {[props.position].map(anchor => (
+        <Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <SwipeableDrawer
             anchor={anchor}
@@ -65,8 +64,8 @@ export default function TemporaryDrawer() {
           >
             {list(anchor)}
           </SwipeableDrawer>
-        </React.Fragment>
+        </Fragment>
       ))}
-    </div>
+    </aside>
   );
 }
