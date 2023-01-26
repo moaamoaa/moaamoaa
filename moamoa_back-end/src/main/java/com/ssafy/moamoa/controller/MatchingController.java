@@ -32,4 +32,5 @@ public class MatchingController {
 		applyService.sendApply(matchingForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
 }

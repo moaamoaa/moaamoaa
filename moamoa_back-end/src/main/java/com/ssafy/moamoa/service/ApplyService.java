@@ -1,6 +1,7 @@
 package com.ssafy.moamoa.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,5 +35,12 @@ public class ApplyService {
 			.time(LocalDateTime.now())
 			.build();
 		applyRepository.save(apply);
+	}
+
+	public List<Apply> showApply(Long userId) {
+
+		User user = userService.findUser(userId);
+		List<Apply> applies = applyRepository.findByUser(user);
+		return applies;
 	}
 }
