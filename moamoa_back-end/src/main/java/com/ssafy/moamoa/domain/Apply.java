@@ -11,10 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 public class Apply {
 	@Id
 	@GeneratedValue
@@ -33,4 +37,7 @@ public class Apply {
 
 	@Column(name = "apply_time", columnDefinition = "TIMESTAMP")
 	private LocalDateTime time;
+
+	public Apply() {
+	}
 }

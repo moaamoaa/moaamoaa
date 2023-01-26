@@ -21,7 +21,7 @@ public class ProjectForm {
 	// team
 	private Long userid;
 
-	// project techstack
+	// project techStack
 	private Long[] techStacks;
 
 	// project area

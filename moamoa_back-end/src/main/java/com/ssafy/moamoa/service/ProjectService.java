@@ -37,7 +37,7 @@ public class ProjectService {
 	private final AreaService areaService;
 	private final ProjectRepository projectRepository;
 	private final TechStackRepository techstackRepository;
-	private final ProjectTechStackRepository projectTeckStackRepository;
+	private final ProjectTechStackRepository projectTechStackRepository;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
 	private final UserService userService;
@@ -132,8 +132,8 @@ public class ProjectService {
 		projectRepository.save(project);
 
 		// team
-		Optional<User> finduser = userRepository.findById(projectForm.getUserid());
-		User user = finduser.get();
+		Optional<User> findUser = userRepository.findById(projectForm.getUserid());
+		User user = findUser.get();
 		Team team = Team.builder()
 			.role(TeamRole.LEADER)
 			.project(project)
@@ -151,7 +151,7 @@ public class ProjectService {
 				.project(project)
 				.techStack(techStack)
 				.build();
-			projectTeckStackRepository.save(projectTechStack);
+			projectTechStackRepository.save(projectTechStack);
 		}
 
 		// project area
@@ -198,21 +198,21 @@ public class ProjectService {
 		project.setTotalPeople(cntPeople);
 
 		// project techstack
-		List<ProjectTechStack> projectTechStacks = projectTeckStackRepository.findByProject(project);
+		List<ProjectTechStack> projectTechStacks = projectTechStackRepository.findByProject(project);
 		for (ProjectTechStack ts : projectTechStacks) {
-			projectTeckStackRepository.delete(ts);
+			projectTechStackRepository.delete(ts);
 		}
 
 		Long[] teckstacks = projectForm.getTechStacks();
 		for (int i = 0; i < teckstacks.length; i++) {
-			Optional<TechStack> findtechStack = techstackRepository.findById(teckstacks[i]);
-			TechStack techStack = findtechStack.get();
+			Optional<TechStack> findTechStack = techstackRepository.findById(teckstacks[i]);
+			TechStack techStack = findTechStack.get();
 
 			ProjectTechStack projectTechStack = ProjectTechStack.builder()
 				.project(project)
 				.techStack(techStack)
 				.build();
-			projectTeckStackRepository.save(projectTechStack);
+			projectTechStackRepository.save(projectTechStack);
 		}
 
 		// project area
@@ -235,9 +235,9 @@ public class ProjectService {
 		}
 
 		// project techstack
-		List<ProjectTechStack> projectTechStacks = projectTeckStackRepository.findByProject(project);
+		List<ProjectTechStack> projectTechStacks = projectTechStackRepository.findByProject(project);
 		for (ProjectTechStack ts : projectTechStacks) {
-			projectTeckStackRepository.delete(ts);
+			projectTechStackRepository.delete(ts);
 		}
 
 		// project area
