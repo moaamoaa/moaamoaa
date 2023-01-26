@@ -4,7 +4,7 @@ import TeamSearchList from 'components/common/card/TeamSearchList';
 
 export default function TeamSearchPage() {
   return (
-    <Container maxWidth="lg">
+    <Container fixed>
       <TeamSearchList></TeamSearchList>
     </Container>
   );
