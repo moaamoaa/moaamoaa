@@ -82,9 +82,9 @@ public class ProfileController {
 	public ResponseEntity<?> addTechStack(@PathVariable Long userId,
 		@RequestBody List<TechStackForm> techStackFormList) {
 
-		//techStackFormList = techStackService.modifyUserTechStack(userId, techStackFormList);
+		techStackFormList = techStackService.modifyUserTechStack(userId, techStackFormList);
 
-		techStackFormList = techStackService.modifyTeamTechStack(1L, techStackFormList);
+		//techStackFormList = techStackService.modifyTeamTechStack(1L, techStackFormList);
 		return new ResponseEntity<List<TechStackForm>>(techStackFormList, HttpStatus.OK);
 	}
 }
