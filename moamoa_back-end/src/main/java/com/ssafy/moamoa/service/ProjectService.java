@@ -21,8 +21,6 @@ import com.ssafy.moamoa.domain.User;
 import com.ssafy.moamoa.dto.ProjectForm;
 import com.ssafy.moamoa.exception.BadRequestException;
 import com.ssafy.moamoa.exception.NotFoundUserException;
-import com.ssafy.moamoa.repository.AreaRepository;
-import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TeamRepository;
@@ -39,9 +37,7 @@ public class ProjectService {
 	private final AreaService areaService;
 	private final ProjectRepository projectRepository;
 	private final TechStackRepository techstackRepository;
-	private final ProjectTechStackRepository projectTeckstackRepository;
-	private final AreaRepository areaRepository;
-	private final ProjectAreaRepository projectAreaRepository;
+	private final ProjectTechStackRepository projectTeckStackRepository;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
 	private final UserService userService;
@@ -112,7 +108,7 @@ public class ProjectService {
 		}
 
 		ProjectStatus projectStatus = ProjectStatus.ONLINE;
-		switch (projectForm.getProjectstatus()) {
+		switch (projectForm.getProjectStatus()) {
 			case "ONLINE":
 				projectStatus = ProjectStatus.ONLINE;
 				break;
@@ -146,7 +142,7 @@ public class ProjectService {
 		teamRepository.save(team);
 
 		// project techstack
-		Long[] teckstacks = projectForm.getTechstacks();
+		Long[] teckstacks = projectForm.getTechStacks();
 		for (int i = 0; i < teckstacks.length; i++) {
 			Optional<TechStack> findtechStack = techstackRepository.findById(teckstacks[i]);
 			TechStack techStack = findtechStack.get();
@@ -155,7 +151,7 @@ public class ProjectService {
 				.project(project)
 				.techStack(techStack)
 				.build();
-			projectTeckstackRepository.save(projectTechStack);
+			projectTeckStackRepository.save(projectTechStack);
 		}
 
 		// project area
@@ -185,7 +181,7 @@ public class ProjectService {
 		}
 
 		ProjectStatus projectStatus = ProjectStatus.ONLINE;
-		switch (projectForm.getProjectstatus()) {
+		switch (projectForm.getProjectStatus()) {
 			case "ONLINE":
 				projectStatus = ProjectStatus.ONLINE;
 				break;
@@ -202,12 +198,12 @@ public class ProjectService {
 		project.setTotalPeople(cntPeople);
 
 		// project techstack
-		List<ProjectTechStack> projectTechStacks = projectTeckstackRepository.findByProject(project);
+		List<ProjectTechStack> projectTechStacks = projectTeckStackRepository.findByProject(project);
 		for (ProjectTechStack ts : projectTechStacks) {
-			projectTeckstackRepository.delete(ts);
+			projectTeckStackRepository.delete(ts);
 		}
 
-		Long[] teckstacks = projectForm.getTechstacks();
+		Long[] teckstacks = projectForm.getTechStacks();
 		for (int i = 0; i < teckstacks.length; i++) {
 			Optional<TechStack> findtechStack = techstackRepository.findById(teckstacks[i]);
 			TechStack techStack = findtechStack.get();
@@ -216,7 +212,7 @@ public class ProjectService {
 				.project(project)
 				.techStack(techStack)
 				.build();
-			projectTeckstackRepository.save(projectTechStack);
+			projectTeckStackRepository.save(projectTechStack);
 		}
 
 		// project area
@@ -239,9 +235,9 @@ public class ProjectService {
 		}
 
 		// project techstack
-		List<ProjectTechStack> projectTechStacks = projectTeckstackRepository.findByProject(project);
+		List<ProjectTechStack> projectTechStacks = projectTeckStackRepository.findByProject(project);
 		for (ProjectTechStack ts : projectTechStacks) {
-			projectTeckstackRepository.delete(ts);
+			projectTeckStackRepository.delete(ts);
 		}
 
 		// project area

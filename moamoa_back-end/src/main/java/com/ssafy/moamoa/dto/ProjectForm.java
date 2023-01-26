@@ -12,7 +12,7 @@ public class ProjectForm {
 	private String title;
 	private String contents;
 	private String img;
-	private String projectstatus;
+	private String projectStatus;
 	private String category;
 	private String endDate;
 	private int totalPeople;
@@ -22,7 +22,7 @@ public class ProjectForm {
 	private Long userid;
 
 	// project techstack
-	private Long[] techstacks;
+	private Long[] techStacks;
 
 	// project area
 	private Long[] areas;
