@@ -10,21 +10,13 @@ import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 
-import MoaMoaDialogTitle from 'components/common/dialog/MoaMoaDialog';
+import DialogHeader from 'components/common/dialog/DialogHeader';
 import SignUpEmailForm from 'components/signUp/SignUpEmailForm';
 import SignUpCertificationForm from 'components/signUp/SignUpCertificationForm';
 import SignUpNicknameForm from 'components/signUp/SignUpNicknameForm';
 import SignUpPasswordForm from 'components/signUp/SignUpPasswordForm';
-import styled from 'styled-components';
 
-const BootstrapDialog = styled(Dialog)(() => ({
-  '& .MuiDialogContent-root': {
-    padding: 2,
-  },
-  '& .MuiDialogActions-root': {
-    padding: 1,
-  },
-}));
+import styled from 'styled-components';
 
 export default function CheckoutDialog(props) {
   // 가입단계 상태
@@ -59,11 +51,6 @@ export default function CheckoutDialog(props) {
     setPassword(passwordChange);
   };
 
-  // // 자식컴포넌트에서 가입단계 상태를 받음
-  // const handleActiveStep = step => {
-  //   setActiveStep(step);
-  // };
-
   const handleClose = () => {
     props.setSignUpDialog(false);
   };
@@ -83,6 +70,9 @@ export default function CheckoutDialog(props) {
         .then(e => {
           console.log(e);
           setActiveStep(4);
+        })
+        .catch(e => {
+          console.log(e);
         });
     }
   };
@@ -127,21 +117,11 @@ export default function CheckoutDialog(props) {
   }
 
   return (
-    <BootstrapDialog
+    <Dialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={props.open}
     >
-      <MoaMoaDialogTitle></MoaMoaDialogTitle>
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: 'relative',
-          borderBottom: t => `1px solid ${t.palette.divider}`,
-        }}
-      ></AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper
           variant="outlined"
@@ -171,6 +151,6 @@ export default function CheckoutDialog(props) {
           )}
         </Paper>
       </Container>
-    </BootstrapDialog>
+    </Dialog>
   );
 }

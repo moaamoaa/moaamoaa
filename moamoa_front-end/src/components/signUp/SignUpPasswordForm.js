@@ -18,6 +18,10 @@ export default function SignUpPasswordForm(props) {
     setcheckPassword(e.target.value);
   };
 
+  const handleBackStep = () => {
+    props.setActiveStep(2);
+  };
+
   //비밀번호 일치 확인 함수
   useEffect(() => {
     if (password !== '' && password !== checkPassword) {
@@ -56,7 +60,7 @@ export default function SignUpPasswordForm(props) {
         />
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={props.setActiveStep(2)} sx={{ mt: 3, ml: 1 }}>
+          <Button onClick={handleBackStep} sx={{ mt: 3, ml: 1 }}>
             이전
           </Button>
           <Button
