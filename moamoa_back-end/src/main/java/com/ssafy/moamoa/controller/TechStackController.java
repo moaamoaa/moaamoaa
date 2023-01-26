@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ssafy.moamoa.dto.TechStackForm;
@@ -51,13 +49,4 @@ public class TechStackController {
 	//        return new ResponseEntity<List<TechStackForm>>(techStackFormList,HttpStatus.OK);
 	//    }
 
-	@ApiOperation(value = "기술스택 등록",
-		notes = "프로필 수정을 누를 시에 사용자의 기술스택을 등록합니다.")
-	@PutMapping("/register/{userId}")
-	public ResponseEntity<?> addTechStack(@PathVariable Long userId,
-		@RequestBody List<TechStackForm> techStackFormList) {
-
-		String result = techStackService.modifyUserTechStack(userId, techStackFormList);
-		return new ResponseEntity<List<TechStackForm>>(techStackFormList, HttpStatus.OK);
-	}
 }

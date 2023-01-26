@@ -1,12 +1,12 @@
 package com.ssafy.moamoa.repository.querydsl;
 
-import com.ssafy.moamoa.domain.UserTechStack;
-
 import java.util.List;
+
+import com.ssafy.moamoa.domain.UserTechStack;
 
 public interface SearchUserTechStackRepository {
 
-    List<UserTechStack> getAllUserTechStackByName(Long userId);
+	List<UserTechStack> getAllUserTechStackByOrder(Long userId);
 
-    Long deleteAllUserStackById(Long userId);
+	Long deleteAllUserStackById(Long userId);
 }
