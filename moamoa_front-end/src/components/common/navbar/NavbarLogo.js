@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 
-import TemporaryDrawer from 'components/common/drawer/TemporaryDrawer';
+// import TemporaryDrawer from 'components/common/drawer/TemporaryDrawer';
 
 const pages = [
   {
@@ -70,7 +70,7 @@ function ResponsiveAppBar() {
           <MenuIcon />
         </IconButton>
 
-        <TemporaryDrawer position={'left'}></TemporaryDrawer>
+        {/* <TemporaryDrawer position={'left'}></TemporaryDrawer> */}
 
         <Menu
           id="menu-appbar"
