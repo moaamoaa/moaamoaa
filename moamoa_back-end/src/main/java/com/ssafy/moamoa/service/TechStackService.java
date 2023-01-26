@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.moamoa.domain.TechStack;
 import com.ssafy.moamoa.domain.UserTechStack;
 import com.ssafy.moamoa.dto.TechStackForm;
-import com.ssafy.moamoa.repository.TechstackRepository;
+import com.ssafy.moamoa.repository.TechStackRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 import com.ssafy.moamoa.repository.UserTechStackRepository;
 
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TechStackService {
 
 	@Autowired
-	private TechstackRepository techstackRepository;
+	private TechStackRepository techstackRepository;
 
 	@Autowired
 	private UserTechStackRepository userTechStackRepository;

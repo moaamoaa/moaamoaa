@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.ssafy.moamoa.domain.Project;
 import com.ssafy.moamoa.domain.ProjectTechStack;
 
-public interface ProjectTeckstackRepository extends JpaRepository<ProjectTechStack, Long> {
+public interface ProjectTechStackRepository extends JpaRepository<ProjectTechStack, Long> {
 
 	@Query(value = "select projectTechStack " +
 		"from ProjectTechStack projectTechStack " +

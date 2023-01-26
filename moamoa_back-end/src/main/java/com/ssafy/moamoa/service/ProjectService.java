@@ -24,9 +24,9 @@ import com.ssafy.moamoa.exception.NotFoundUserException;
 import com.ssafy.moamoa.repository.AreaRepository;
 import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
-import com.ssafy.moamoa.repository.ProjectTeckstackRepository;
+import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TeamRepository;
-import com.ssafy.moamoa.repository.TechstackRepository;
+import com.ssafy.moamoa.repository.TechStackRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -38,8 +38,8 @@ public class ProjectService {
 
 	private final AreaService areaService;
 	private final ProjectRepository projectRepository;
-	private final TechstackRepository techstackRepository;
-	private final ProjectTeckstackRepository projectTeckstackRepository;
+	private final TechStackRepository techstackRepository;
+	private final ProjectTechStackRepository projectTeckstackRepository;
 	private final AreaRepository areaRepository;
 	private final ProjectAreaRepository projectAreaRepository;
 	private final UserRepository userRepository;
