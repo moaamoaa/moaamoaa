@@ -8,5 +8,7 @@ public interface QTechStackRepository {
 
 	List<TechStack> searchTechStackByName(String techName);
 
+	TechStack getTechStackById(Long techStackId);
+
 	TechStack getTechStackByName(String techName);
 }

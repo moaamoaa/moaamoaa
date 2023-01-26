@@ -51,7 +51,7 @@ public class TechStackService {
 		List<TechStackForm> techStackFormList = new ArrayList<>();
 
 		for (TechStack ts : domainResult) {
-			techStackFormList.add(new TechStackForm(ts.getName(), ts.getLogo()));
+			techStackFormList.add(new TechStackForm(ts.getId(), ts.getName(), ts.getLogo()));
 		}
 
 		return techStackFormList;
@@ -69,7 +69,7 @@ public class TechStackService {
 		for (TechStackForm techStackForm : techStackFormList) {
 			// profile
 			UserTechStack userTechStack = UserTechStack.builder()
-				.techStack(techstackRepository.getTechStackByName(techStackForm.getName()))
+				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
 				.user(userRepository.findById(userId).get()).build();
 
 			userTechStackRepository.save(userTechStack);
@@ -78,6 +78,7 @@ public class TechStackService {
 		List<UserTechStack> techStackList = userTechStackRepository.getAllUserTechStackByOrder(userId);
 		for (UserTechStack uts : techStackList) {
 			TechStackForm techStackForm = TechStackForm.builder()
+				.id(uts.getTechStack().getId())
 				.name(uts.getTechStack().getName())
 				.img(uts.getTechStack().getLogo())
 				.build();
@@ -97,7 +98,7 @@ public class TechStackService {
 		for (TechStackForm techStackForm : techStackFormList) {
 			// Team
 			ProjectTechStack projectTechStack = ProjectTechStack.builder()
-				.techStack(techstackRepository.getTechStackByName(techStackForm.getName()))
+				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
 				.project(projectRepository.findById(projectId).get()).build();
 
 			projectTechStackRepository.save(projectTechStack);
