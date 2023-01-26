@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 import CardList from 'components/common/card/CardList';
 import MainBanner from 'components/common/carousel/MainBanner';
@@ -36,19 +37,16 @@ export default function HomePageSample() {
       <Container fixed>
         <Grid container>
           <MoaGrid item xs={12}>
-            금주의 추천 프로젝트 섹션
-            <MoaCardList cards={cards.slice(0, 3)} type={'team'}></MoaCardList>
+            <MoaTypography>금주의 추천 프로젝트 섹션</MoaTypography>
+            <CardList cards={cards.slice(0, 3)} type={'team'}></CardList>
           </MoaGrid>
           <MoaGrid item xs={12}>
-            금주의 추천 스터디 섹션
-            <MoaCardList cards={cards.slice(0, 3)} type={'team'}></MoaCardList>
+            <MoaTypography>금주의 추천 스터디 섹션</MoaTypography>
+            <CardList cards={cards.slice(0, 3)} type={'team'}></CardList>
           </MoaGrid>
           <MoaGrid item xs={12}>
-            금주의 추천 팀원 섹션
-            <MoaCardList
-              cards={cards.slice(0, 4)}
-              type={'member'}
-            ></MoaCardList>
+            <MoaTypography>금주의 추천 팀원 섹션</MoaTypography>
+            <CardList cards={cards.slice(0, 4)} type={'member'}></CardList>
           </MoaGrid>
         </Grid>
       </Container>
@@ -60,6 +58,8 @@ const MoaGrid = styled(Grid)`
   min-height: 200px;
 `;
 
-const MoaCardList = styled(CardList)`
-  margin: 48px;
+const MoaTypography = styled(Typography)`
+  font-size: x-large;
+  font-weight: 900;
+  margin-bottom: 16px;
 `;
