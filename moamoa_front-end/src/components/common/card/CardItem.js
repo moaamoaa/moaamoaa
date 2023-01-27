@@ -31,12 +31,20 @@ const user = {
 export default function CardItem(props) {
   if (props.type === 'team') {
     return (
-      <MoaCard sx={{ minWidth: 300 }}>
+      <MoaCard>
         {props.card.thumbnailUrl ? (
           <CardMedia
             component="img"
             src={props.card.thumbnailUrl}
             alt="random"
+            sx={{
+              position: 'relative',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              height: `200px`,
+              margin: '0 auto',
+            }}
           />
         ) : (
           <Skeleton variant="rectangular" height={200} />
@@ -170,7 +178,7 @@ const MoaTypography = styled(Typography)`
 `;
 
 const MoaImg = styled(Avatar)`
-  width: 3vw;
-  height: 3vw;
+  min-width: 40px;
+  min-height: 40px;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
 `;
