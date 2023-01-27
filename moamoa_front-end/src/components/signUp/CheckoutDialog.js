@@ -109,6 +109,7 @@ export default function CheckoutDialog(props) {
             setActiveStep={setActiveStep}
             passwordHandler={passwordHandler}
             userSignUp={userSignUp}
+            name={name}
           />
         );
       default:

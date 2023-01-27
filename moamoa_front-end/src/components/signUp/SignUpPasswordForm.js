@@ -35,12 +35,13 @@ export default function SignUpPasswordForm(props) {
   return (
     <div>
       <DialogContent dividers>
-        <Typography gutterBottom>김동동님 반갑습니다.</Typography>
+        <Typography gutterBottom>{props.name}님 반갑습니다</Typography>
         <Typography gutterBottom>
           마지막으로 비밀번호를 설정해주세요!
         </Typography>
         <TextField
-          id="outlined-basic"
+          type="password"
+          id="outlined-basic1"
           label="비밀번호 설정"
           fullWidth
           variant="outlined"
@@ -50,7 +51,8 @@ export default function SignUpPasswordForm(props) {
         />
         <Box sx={{ mt: 1 }} />
         <TextField
-          id="outlined-basic"
+          type="password"
+          id="outlined-basic2"
           label="비밀번호 확인 "
           fullWidth
           variant="outlined"
