@@ -123,6 +123,7 @@ export default function CheckoutDialog(props) {
       aria-labelledby="customized-dialog-title"
       open={props.open}
     >
+      <DialogHeader onClose={handleClose}></DialogHeader>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper
           variant="outlined"
