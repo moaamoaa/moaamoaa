@@ -10,10 +10,12 @@ import Box from '@mui/material/Box';
 export default function SignUpNicknameForm(props) {
   // 기본 url
   const baseUrl = 'http://localhost:8080';
-  const [userName, setUserName] = useState(props.name);
+  const [userName, setUserName] = useState('');
+  const [userNameError, setUserNameError] = useState(false);
   // input 작성하는 닉네임 정보를 부모 컴포넌트
   const changeNameHandler = e => {
     setUserName(e.target.value);
+    setUserNameError(false);
   };
 
   const handleBackStep = () => {
@@ -32,6 +34,7 @@ export default function SignUpNicknameForm(props) {
       props.nameHandler(userName);
     } catch (error) {
       console.log(error);
+      setUserNameError(true);
     }
   };
 
@@ -44,9 +47,11 @@ export default function SignUpNicknameForm(props) {
           id="outlined-basic"
           label="닉네임 입력"
           variant="outlined"
+          fullWidth
           required={true}
           value={userName}
           onChange={changeNameHandler}
+          helperText={userNameError ? '중복된 닉네임입니다' : ''}
         />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button onClick={handleBackStep} sx={{ mt: 3, ml: 1 }}>
