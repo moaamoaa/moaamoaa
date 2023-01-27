@@ -25,9 +25,5 @@ export default function TeamMemberSearchList() {
     }
   }, [isLoaded]);
 
-  return (
-    <Container sx={{ py: 4 }}>
-      <CardList cards={cards} type={'member'}></CardList>
-    </Container>
-  );
+  return <CardList cards={cards} type={'member'}></CardList>;
 }
