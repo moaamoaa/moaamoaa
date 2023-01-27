@@ -41,9 +41,5 @@ export default function TeamSearchList() {
   //     console.log(error);
   //   }
   // });
-  return (
-    <Container sx={{ py: 4 }}>
-      <CardList cards={cards} type={'team'}></CardList>
-    </Container>
-  );
+  return <CardList cards={cards} type={'team'}></CardList>;
 }

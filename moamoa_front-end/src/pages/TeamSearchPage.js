@@ -4,7 +4,7 @@ import TeamSearchList from 'components/common/card/TeamSearchList';
 
 export default function TeamSearchPage() {
   return (
-    <Container fixed>
+    <Container fixed sx={{ py: 4 }}>
       <TeamSearchList></TeamSearchList>
     </Container>
   );
