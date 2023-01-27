@@ -10,10 +10,11 @@ import MainBanner from 'components/common/carousel/MainBanner';
 import styled from 'styled-components';
 
 const mainBanner = {
-  title: '모아모아 홈화면 배너 이미지입니다!',
+  title: '모아모아 홈 화면 배너 이미지입니다!',
   description: '이미지가 정해지면 넣을거예요!',
   image: 'https://source.unsplash.com/random',
   imageText: 'main image description',
+  linkText: '깃랩으로',
 };
 
 const cards = [
