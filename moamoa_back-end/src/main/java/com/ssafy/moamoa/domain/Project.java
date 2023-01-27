@@ -136,4 +136,8 @@ public class Project {
 		this.endDate = endDate;
 	}
 
+	public void setCountOffer(int countOffer) {
+		this.countOffer = countOffer;
+	}
+
 }

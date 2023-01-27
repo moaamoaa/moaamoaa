@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class MatchingForm {
-	private Long userid;
-	private Long projectid;
+	private Long userId;
+	private Long projectId;
+	private Long applyId;
+	private Long offerId;
 }
