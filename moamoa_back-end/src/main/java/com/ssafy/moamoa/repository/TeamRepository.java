@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.ssafy.moamoa.domain.Project;
-import com.ssafy.moamoa.domain.Team;
-import com.ssafy.moamoa.domain.User;
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.Team;
+import com.ssafy.moamoa.domain.entity.User;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
 

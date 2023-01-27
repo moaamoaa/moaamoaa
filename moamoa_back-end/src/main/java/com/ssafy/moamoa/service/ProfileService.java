@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
-import com.ssafy.moamoa.domain.User;
-import com.ssafy.moamoa.dto.ProfileForm;
+import com.ssafy.moamoa.domain.dto.ProfileForm;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 

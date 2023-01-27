@@ -1,6 +1,6 @@
 package com.ssafy.moamoa.repository.querydsl;
 
-import static com.ssafy.moamoa.domain.QProjectTechStack.*;
+import static com.ssafy.moamoa.domain.entity.QProjectTechStack.*;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import javax.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.moamoa.domain.ProjectTechStack;
-import com.ssafy.moamoa.domain.QProjectTechStack;
+import com.ssafy.moamoa.domain.entity.ProjectTechStack;
+import com.ssafy.moamoa.domain.entity.QProjectTechStack;
 
 public class QProjectTechStackRepositoryImpl extends QuerydslRepositorySupport implements QProjectTechStackRepository {
 

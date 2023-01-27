@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.ssafy.moamoa.dto.ApplyForm;
-import com.ssafy.moamoa.dto.MatchingForm;
+import com.ssafy.moamoa.domain.dto.ApplyForm;
+import com.ssafy.moamoa.domain.dto.MatchingForm;
 import com.ssafy.moamoa.service.ApplyService;
 
 import io.swagger.annotations.ApiOperation;
@@ -87,7 +87,7 @@ public class MatchingController {
 		notes = "팀이 개인에게 제안을 한다.")
 	@PostMapping("/offer/{projectId}")
 	public ResponseEntity<?> sendOffer(@PathVariable Long projectId, @RequestBody MatchingForm matchingForm) {
-		
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
