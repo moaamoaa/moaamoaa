@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 export default function SignUpEmailForm(props) {
   // 기본 url
@@ -48,7 +49,11 @@ export default function SignUpEmailForm(props) {
           value={userEmail}
           onChange={changeEmailHandler}
         />
-        <Button onClick={getCode}>다음</Button>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button variant="contained" sx={{ mt: 3, ml: 1 }} onClick={getCode}>
+            다음
+          </Button>
+        </Box>
       </DialogContent>
     );
   } else if (props.type === 'findPassword') {

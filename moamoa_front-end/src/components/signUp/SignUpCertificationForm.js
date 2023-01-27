@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 
 export default function SignUpCertificationform(props) {
   // 입력받은 코드를 저장할 state
-  const [userVaildCode, setUserVaildCode] = useState(props.code);
+  const [userVaildCode, setUserVaildCode] = useState('');
 
   // 입력받은 코드를 state에 변경해서 저장
   const changeCodeHandler = e => {

@@ -54,8 +54,8 @@ export default function SignUpNicknameForm(props) {
           </Button>
 
           <Button
-            variant="contained"
             onClick={submitNickName}
+            variant="contained"
             sx={{ mt: 3, ml: 1 }}
           >
             다음
