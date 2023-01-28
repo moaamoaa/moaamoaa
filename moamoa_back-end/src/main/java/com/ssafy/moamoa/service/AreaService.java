@@ -6,11 +6,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.Area;
-import com.ssafy.moamoa.domain.Project;
-import com.ssafy.moamoa.domain.ProjectArea;
-import com.ssafy.moamoa.domain.User;
-import com.ssafy.moamoa.domain.UserArea;
+import com.ssafy.moamoa.domain.entity.Area;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.ProfileArea;
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.ProjectArea;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.repository.AreaRepository;
 import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.UserAreaRepository;
@@ -33,9 +34,9 @@ public class AreaService {
 		return projectArea;
 	}
 
-	public List<UserArea> findUserAreaList(User user) {
-		List<UserArea> userAreas = userAreaRepository.findByUser(user);
-		return userAreas;
+	public List<ProfileArea> findUserAreaList(User user) {
+		List<ProfileArea> profileAreas = userAreaRepository.findByUser(user);
+		return profileAreas;
 	}
 
 	// 지역 등록
@@ -51,15 +52,15 @@ public class AreaService {
 
 	}
 
-	public void addUserAreaList(User user, Long[] areas) {
+	public void addUserAreaList(Profile profile, Long[] areas) {
 		for (int i = 0; i < areas.length; i++) {
-			Optional<Area> findarea = areaRepository.findById(areas[i]);
-			Area area = findarea.get();
-			UserArea userArea = UserArea.builder()
-				.user(user)
+			Optional<Area> findArea = areaRepository.findById(areas[i]);
+			Area area = findArea.get();
+			ProfileArea profileArea = ProfileArea.builder()
+				.profile(profile)
 				.area(area)
 				.build();
-			userAreaRepository.save(userArea);
+			userAreaRepository.save(profileArea);
 		}
 	}
 
@@ -68,8 +69,8 @@ public class AreaService {
 		projectAreaRepository.delete(projectArea);
 	}
 
-	public void deleteUserAreaList(List<UserArea> userAreas) {
-		for (UserArea ua : userAreas) {
+	public void deleteUserAreaList(List<ProfileArea> profileAreas) {
+		for (ProfileArea ua : profileAreas) {
 			userAreaRepository.delete(ua);
 		}
 	}

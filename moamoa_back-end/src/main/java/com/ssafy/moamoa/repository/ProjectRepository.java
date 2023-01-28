@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ssafy.moamoa.domain.Project;
 import com.ssafy.moamoa.domain.ProjectCategory;
+import com.ssafy.moamoa.domain.entity.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 

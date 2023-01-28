@@ -1,7 +1,6 @@
 package com.ssafy.moamoa.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -16,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.moamoa.dto.ProfileForm;
-import com.ssafy.moamoa.dto.TechStackForm;
-import com.ssafy.moamoa.dto.UserForm;
+import com.ssafy.moamoa.domain.dto.ProfileForm;
+import com.ssafy.moamoa.domain.dto.UserForm;
 import com.ssafy.moamoa.service.ProfileService;
 import com.ssafy.moamoa.service.TechStackService;
 
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,15 +73,15 @@ public class ProfileController {
 	}
 
 	// 유저 프로필 수정
-	@ApiOperation(value = "프로필 수정",
-		notes = "프로필 수정을 누를 시에 사용자의 프로필, 링크 ,지역을 수정합니다.")
-	@PutMapping("/register/{userId}")
-	public ResponseEntity<?> addTechStack(@PathVariable Long userId,
-		@RequestBody List<TechStackForm> techStackFormList) {
-
-		techStackFormList = techStackService.modifyUserTechStack(userId, techStackFormList);
-
-		//techStackFormList = techStackService.modifyTeamTechStack(1L, techStackFormList);
-		return new ResponseEntity<List<TechStackForm>>(techStackFormList, HttpStatus.OK);
-	}
+	// @ApiOperation(value = "프로필 수정",
+	// 	notes = "프로필 수정을 누를 시에 사용자의 프로필, 링크 ,지역을 수정합니다.")
+	// @PutMapping("/register/{userId}")
+	// public ResponseEntity<?> addTechStack(@PathVariable Long userId,
+	// 	@RequestBody List<TechStackForm> techStackFormList) {
+	//
+	// 	techStackFormList = techStackService.modifyUserTechStack(userId, techStackFormList);
+	//
+	// 	//techStackFormList = techStackService.modifyTeamTechStack(1L, techStackFormList);
+	// 	return new ResponseEntity<List<TechStackForm>>(techStackFormList, HttpStatus.OK);
+	// }
 }
