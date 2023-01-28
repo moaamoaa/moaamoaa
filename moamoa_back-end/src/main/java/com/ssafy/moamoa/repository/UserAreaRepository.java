@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.ssafy.moamoa.domain.User;
-import com.ssafy.moamoa.domain.UserArea;
+import com.ssafy.moamoa.domain.entity.ProfileArea;
+import com.ssafy.moamoa.domain.entity.User;
 
-public interface UserAreaRepository extends JpaRepository<UserArea, Long> {
+public interface UserAreaRepository extends JpaRepository<ProfileArea, Long> {
 	@Query(value = "select userArea "
-		+ "from UserArea userArea "
-		+ "where userArea.user = :user")
-	List<UserArea> findByUser(User user);
+		+ "from ProfileArea userArea "
+		+ "where userArea.profile = :user")
+	List<ProfileArea> findByUser(User user);
 }

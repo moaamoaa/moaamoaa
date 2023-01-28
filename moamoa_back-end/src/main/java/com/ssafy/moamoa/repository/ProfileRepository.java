@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ssafy.moamoa.domain.Profile;
-import com.ssafy.moamoa.domain.User;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.User;
 
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 

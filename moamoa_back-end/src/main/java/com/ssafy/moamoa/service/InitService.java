@@ -3,11 +3,11 @@ package com.ssafy.moamoa.service;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.Area;
-import com.ssafy.moamoa.domain.Category;
-import com.ssafy.moamoa.domain.TechStack;
-import com.ssafy.moamoa.domain.TechStackCategory;
-import com.ssafy.moamoa.dto.ProjectForm;
+import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.domain.entity.Area;
+import com.ssafy.moamoa.domain.entity.Category;
+import com.ssafy.moamoa.domain.entity.TechStack;
+import com.ssafy.moamoa.domain.entity.TechStackCategory;
 import com.ssafy.moamoa.repository.AreaRepository;
 import com.ssafy.moamoa.repository.CategoryRepository;
 import com.ssafy.moamoa.repository.TechStackCategoryRepository;

@@ -1,6 +1,6 @@
 package com.ssafy.moamoa.repository.querydsl;
 
-import static com.ssafy.moamoa.domain.QUserTechStack.*;
+import static com.ssafy.moamoa.domain.entity.QProfileTechStack.*;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import javax.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.moamoa.domain.QUserTechStack;
-import com.ssafy.moamoa.domain.UserTechStack;
+import com.ssafy.moamoa.domain.entity.ProfileTechStack;
+import com.ssafy.moamoa.domain.entity.QProfileTechStack;
 
 public class QUserTechStackRepositoryImpl extends QuerydslRepositorySupport
 	implements QUserTechStackRepository {
@@ -19,29 +19,29 @@ public class QUserTechStackRepositoryImpl extends QuerydslRepositorySupport
 	@PersistenceContext
 	EntityManager em;
 
-	QUserTechStack qUserTechStack = userTechStack;
+	QProfileTechStack qProfileTechStack = profileTechStack;
 
 	public QUserTechStackRepositoryImpl() {
-		super(UserTechStack.class);
+		super(ProfileTechStack.class);
 	}
 
 	@Override
-	public List<UserTechStack> getAllUserTechStackByOrder(Long userId) {
+	public List<ProfileTechStack> getAllUserTechStackByOrder(Long userId) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-		List<UserTechStack> userTechStackList = queryFactory
-			.select(userTechStack)
-			.from(userTechStack)
-			.where(userTechStack.user.id.eq(userId))
-			.orderBy(userTechStack.techStack.id.asc())
+		List<ProfileTechStack> profileTechStackList = queryFactory
+			.select(profileTechStack)
+			.from(profileTechStack)
+			.where(profileTechStack.profile.id.eq(userId))
+			.orderBy(profileTechStack.techStack.id.asc())
 			.fetch();
-		return userTechStackList;
+		return profileTechStackList;
 	}
 
 	@Override
 	public Long deleteAllUserStackById(Long userId) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-		Long count = queryFactory.delete(userTechStack)
-			.where(userTechStack.user.id.eq(userId))
+		Long count = queryFactory.delete(profileTechStack)
+			.where(profileTechStack.profile.id.eq(userId))
 			.execute();
 
 		return count;

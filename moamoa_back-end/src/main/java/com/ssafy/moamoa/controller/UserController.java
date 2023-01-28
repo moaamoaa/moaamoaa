@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.moamoa.config.security.CookieUtil;
 import com.ssafy.moamoa.config.security.JwtTokenProvider;
-import com.ssafy.moamoa.domain.Profile;
-import com.ssafy.moamoa.domain.User;
-import com.ssafy.moamoa.dto.LoginForm;
-import com.ssafy.moamoa.dto.SignForm;
-import com.ssafy.moamoa.dto.TokenDto;
+import com.ssafy.moamoa.domain.dto.LoginForm;
+import com.ssafy.moamoa.domain.dto.SignForm;
+import com.ssafy.moamoa.domain.dto.TokenDto;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.service.MailService;
 import com.ssafy.moamoa.service.UserService;
 

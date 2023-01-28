@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ssafy.moamoa.dto.TechStackForm;
+import com.ssafy.moamoa.domain.dto.TechStackForm;
 import com.ssafy.moamoa.service.TechStackService;
 
 import io.swagger.annotations.ApiOperation;

@@ -7,11 +7,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.Apply;
-import com.ssafy.moamoa.domain.Project;
-import com.ssafy.moamoa.domain.User;
-import com.ssafy.moamoa.dto.ApplyForm;
-import com.ssafy.moamoa.dto.MatchingForm;
+import com.ssafy.moamoa.domain.dto.ApplyForm;
+import com.ssafy.moamoa.domain.dto.MatchingForm;
+import com.ssafy.moamoa.domain.entity.Apply;
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.repository.ApplyRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.UserRepository;

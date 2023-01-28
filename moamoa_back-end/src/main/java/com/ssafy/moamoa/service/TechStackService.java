@@ -10,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.ProjectTechStack;
-import com.ssafy.moamoa.domain.TechStack;
-import com.ssafy.moamoa.domain.UserTechStack;
-import com.ssafy.moamoa.dto.TechStackForm;
+import com.ssafy.moamoa.domain.dto.TechStackForm;
+import com.ssafy.moamoa.domain.entity.ProjectTechStack;
+import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TechStackRepository;
@@ -58,9 +57,9 @@ public class TechStackService {
 	}
 
 	// Id, techStackFormList
-	public List<TechStackForm> modifyUserTechStack(Long userId, List<TechStackForm> techStackFormList) {
+	/*public List<TechStackForm> modifyUserTechStack(Long userId, List<TechStackForm> techStackFormList) {
 
-		List<UserTechStack> userTechStackList = new ArrayList<>();
+		List<ProfileTechStack> profileTechStackList = new ArrayList<>();
 		List<TechStackForm> techStackFormListResult = new ArrayList<>();
 		// 유저 스택 모두 삭제
 		Long deleteCount = userTechStackRepository.deleteAllUserStackById(userId);
@@ -68,15 +67,15 @@ public class TechStackService {
 		// 유저 스택 모두 추가
 		for (TechStackForm techStackForm : techStackFormList) {
 			// profile
-			UserTechStack userTechStack = UserTechStack.builder()
+			ProfileTechStack profileTechStack = ProfileTechStack.builder()
 				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
-				.user(userRepository.findById(userId).get()).build();
+				.profile(userRepository.findById(userId).get()).build();
 
-			userTechStackRepository.save(userTechStack);
+			userTechStackRepository.save(profileTechStack);
 		}
 
-		List<UserTechStack> techStackList = userTechStackRepository.getAllUserTechStackByOrder(userId);
-		for (UserTechStack uts : techStackList) {
+		List<ProfileTechStack> techStackList = userTechStackRepository.getAllUserTechStackByOrder(userId);
+		for (ProfileTechStack uts : techStackList) {
 			TechStackForm techStackForm = TechStackForm.builder()
 				.id(uts.getTechStack().getId())
 				.name(uts.getTechStack().getName())
@@ -86,7 +85,7 @@ public class TechStackService {
 		}
 
 		return techStackFormListResult;
-	}
+	}*/
 
 	public List<TechStackForm> modifyTeamTechStack(Long projectId, List<TechStackForm> techStackFormList) {
 		List<ProjectTechStack> teamTechStackList = new ArrayList<>();
