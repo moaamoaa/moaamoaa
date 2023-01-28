@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.config.security.JwtTokenProvider;
-import com.ssafy.moamoa.domain.Profile;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
-import com.ssafy.moamoa.domain.User;
-import com.ssafy.moamoa.dto.TokenDto;
+import com.ssafy.moamoa.domain.dto.TokenDto;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
 import com.ssafy.moamoa.exception.DuplicateUserEmailException;
 import com.ssafy.moamoa.exception.NotFoundUserException;

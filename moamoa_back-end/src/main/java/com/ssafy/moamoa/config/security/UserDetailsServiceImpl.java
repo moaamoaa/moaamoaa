@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.moamoa.domain.Profile;
-import com.ssafy.moamoa.domain.User;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 

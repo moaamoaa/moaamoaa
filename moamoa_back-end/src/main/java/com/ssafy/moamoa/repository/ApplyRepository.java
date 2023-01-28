@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.ssafy.moamoa.domain.Apply;
-import com.ssafy.moamoa.domain.Project;
-import com.ssafy.moamoa.domain.User;
+import com.ssafy.moamoa.domain.entity.Apply;
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.User;
 
 public interface ApplyRepository extends JpaRepository<Apply, Long> {
 	@Query(value = "select apply "

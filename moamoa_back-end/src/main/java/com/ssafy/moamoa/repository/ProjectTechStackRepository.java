@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.ssafy.moamoa.domain.Project;
-import com.ssafy.moamoa.domain.ProjectTechStack;
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.ProjectTechStack;
 import com.ssafy.moamoa.repository.querydsl.QProjectTechStackRepository;
 
 public interface ProjectTechStackRepository extends JpaRepository<ProjectTechStack, Long>,

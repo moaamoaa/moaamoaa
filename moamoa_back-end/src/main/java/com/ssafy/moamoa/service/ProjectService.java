@@ -9,16 +9,16 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.Project;
-import com.ssafy.moamoa.domain.ProjectArea;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
-import com.ssafy.moamoa.domain.ProjectTechStack;
-import com.ssafy.moamoa.domain.Team;
 import com.ssafy.moamoa.domain.TeamRole;
-import com.ssafy.moamoa.domain.TechStack;
-import com.ssafy.moamoa.domain.User;
-import com.ssafy.moamoa.dto.ProjectForm;
+import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.ProjectArea;
+import com.ssafy.moamoa.domain.entity.ProjectTechStack;
+import com.ssafy.moamoa.domain.entity.Team;
+import com.ssafy.moamoa.domain.entity.TechStack;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.exception.BadRequestException;
 import com.ssafy.moamoa.exception.NotFoundUserException;
 import com.ssafy.moamoa.repository.ProjectRepository;
@@ -250,7 +250,7 @@ public class ProjectService {
 
 	public List<Project> findByUser(Long id) {
 		User user = userService.findUser(id);
-		List<Project> projectList = teamRepository.findByProject(user);
+		List<Project> projectList = teamRepository.findByUser(user);
 		return projectList;
 	}
 }

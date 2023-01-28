@@ -2,7 +2,7 @@ package com.ssafy.moamoa.repository.querydsl;
 
 import java.util.List;
 
-import com.ssafy.moamoa.domain.TechStack;
+import com.ssafy.moamoa.domain.entity.TechStack;
 
 public interface QTechStackRepository {
 

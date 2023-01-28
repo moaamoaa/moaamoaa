@@ -12,8 +12,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.User;
-import com.ssafy.moamoa.dto.MailForm;
+import com.ssafy.moamoa.domain.dto.MailForm;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.exception.NotFoundUserException;
 import com.ssafy.moamoa.repository.UserRepository;
 
