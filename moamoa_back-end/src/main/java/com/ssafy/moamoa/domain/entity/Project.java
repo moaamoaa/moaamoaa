@@ -143,4 +143,6 @@ public class Project {
 		this.countOffer = countOffer;
 	}
 
+	public void setCurrentPeople(int currentPeople){this.currentPeople = currentPeople;}
+
 }
