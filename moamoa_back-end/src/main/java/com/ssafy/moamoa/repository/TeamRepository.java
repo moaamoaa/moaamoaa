@@ -19,5 +19,10 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 	@Query(value = "select team.project " +
 		"from Team team " +
 		"where team.user = :user")
-	List<Project> findByUser(User user);
+	List<Project> findProjectByUser(User user);
+
+	@Query(value = "select team " +
+		"from Team team " +
+		"where team.user = :user and team.project = :project")
+	Team findByUser(User user, Project project);
 }

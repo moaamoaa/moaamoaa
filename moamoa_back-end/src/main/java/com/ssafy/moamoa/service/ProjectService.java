@@ -250,7 +250,7 @@ public class ProjectService {
 
 	public List<Project> findByUser(Long id) {
 		User user = userService.findUser(id);
-		List<Project> projectList = teamRepository.findByUser(user);
+		List<Project> projectList = teamRepository.findProjectByUser(user);
 		return projectList;
 	}
 }
