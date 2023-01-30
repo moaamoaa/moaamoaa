@@ -35,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class ProjectService {
 
 	private final AreaService areaService;
+	private final TeamService teamService;
 	private final ProjectRepository projectRepository;
 	private final TechStackRepository techstackRepository;
 	private final ProjectTechStackRepository projectTechStackRepository;
@@ -42,6 +43,10 @@ public class ProjectService {
 	private final TeamRepository teamRepository;
 	private final UserService userService;
 
+	public Boolean isLocked(Long id){
+		Project project = projectRepository.findById(id).get();
+		return project.isLocked();
+	}
 	public Project findProjectById(Long id) {
 		Optional<Project> findProject = projectRepository.findById(id);
 		Project project = findProject.get();
@@ -252,6 +257,19 @@ public class ProjectService {
 		User user = userService.findUser(id);
 		List<Project> projectList = teamRepository.findProjectByUser(user);
 		return projectList;
+	}
+
+	// 팀 페이지 return
+	public ProjectForm accessProject(Long userId, Long projectId)
+	{
+		Project project = projectRepository.findById(projectId).get();
+		ProjectForm projectForm = ProjectForm.toEntity(project);
+
+		// 팀장인지 확인
+		boolean isLeader = teamService.checkLeader(userId, projectId);
+		projectForm.setIsLeader(isLeader);
+
+		return projectForm;
 	}
 }
 

@@ -1,6 +1,7 @@
 package com.ssafy.moamoa.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,5 +25,5 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 	@Query(value = "select team " +
 		"from Team team " +
 		"where team.user = :user and team.project = :project")
-	Team findByUser(User user, Project project);
+	Optional<Team> findByUser(User user, Project project);
 }
