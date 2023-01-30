@@ -145,4 +145,6 @@ public class Project {
 
 	public void setCurrentPeople(int currentPeople){this.currentPeople = currentPeople;}
 
+	public void setLocked(boolean isLocked){this.isLocked = isLocked;}
+
 }

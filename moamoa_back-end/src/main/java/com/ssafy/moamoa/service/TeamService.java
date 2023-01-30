@@ -26,22 +26,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TeamService {
 
-	private final UserService userService;
-	private final ProjectService projectService;
 	private final ProjectRepository projectRepository;
-	private final ApplyRepository applyRepository;
 	private final TeamRepository teamRepository;
 	private final UserRepository userRepository;
 
 	// 팀장 확인
-	public boolean checkReader(Long userId, Long projectId) {
+	public boolean checkLeader(Long userId, Long projectId) {
 		// 팀장인지 확인
 		Project project = projectRepository.findById(projectId).get();
 		User user = userRepository.findById(userId).get();
 		//List<Team> teams = teamRepository.findByProject(project);
 
 		TeamRole teamRole = TeamRole.LEADER;
-		if(teamRepository.findByUser(user, project).getRole() == teamRole)
+		if(teamRepository.findByUser(user, project).get().getRole() == teamRole)
 		{
 			return true;
 		}
