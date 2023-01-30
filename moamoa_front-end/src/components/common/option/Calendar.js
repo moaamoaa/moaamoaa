@@ -22,7 +22,6 @@ export default function ResponsiveDatePickers() {
           renderInput={params => <TextField {...params} />}
         />
       </Stack>
-      <hr></hr>
     </LocalizationProvider>
   );
 }

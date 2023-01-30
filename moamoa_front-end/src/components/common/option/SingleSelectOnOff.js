@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SingleSelect() {
+export default function SingleSelectOnOff() {
   const [select, setSelect] = React.useState('');
 
   const handleChange = event => {
@@ -23,8 +23,8 @@ export default function SingleSelect() {
           label="Select"
           onChange={handleChange}
         >
-          <MenuItem value={10}>프로젝트</MenuItem>
-          <MenuItem value={20}>스터디</MenuItem>
+          <MenuItem value={10}>온라인</MenuItem>
+          <MenuItem value={20}>오프라인</MenuItem>
         </Select>
       </FormControl>
     </Box>

@@ -1,25 +1,26 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
 
 export default function MultilineText() {
   return (
     <Box
       component="form"
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
+        '& .MuiTextField-root': { m: 1, width: '125ch' },
       }}
       noValidate
       autoComplete="off"
     >
-      <div>
+      <FormControl fullwidth>
         <TextField
           id="outlined-multiline-static"
-          placeholder="팀소개/자기소개를 입력해주세요."
+          placeholder="팀소개를 입력해주세요."
           multiline
-          rows={4} // 줄 수
+          rows={6}
         />
-      </div>
+      </FormControl>
     </Box>
   );
 }
