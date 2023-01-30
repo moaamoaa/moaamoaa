@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 import styled from 'styled-components';
 
@@ -49,9 +50,31 @@ export default function TeamDetailBanner(props) {
             <Typography variant="h4" color="inherit" paragraph>
               {post.leader}
             </Typography>
-            <Button size="small" variant="contained" color="primary">
-              비소속:지원보내기 / 팀장:지원 및 제안 확인 CHECK / 팀원:안보임
-            </Button>
+            <Grid container>
+              <Stack
+                direction="row"
+                spacing={2}
+                justifyContent="flex-start"
+                sx={{ pt: 4 }}
+              >
+                <Button size="small" variant="contained" color="primary">
+                  비소속:지원보내기 / 팀장:지원 및 제안 확인 CHECK / 팀원:안보임
+                </Button>
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={2}
+                justifyContent="flex-end"
+                sx={{ pt: 4 }}
+              >
+                <Button size="small" variant="contained" color="primary">
+                  팀수정 / 팀삭제
+                </Button>
+                <Button size="small" variant="contained" color="primary">
+                  EDIT 등록 / EDIT 취소
+                </Button>
+              </Stack>
+            </Grid>
           </Box>
         </Grid>
       </Grid>
