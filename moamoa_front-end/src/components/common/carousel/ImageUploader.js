@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
-const FileInput = () => {
+const ImageUploader = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
@@ -35,11 +35,16 @@ const FileInput = () => {
       {imageUrl && selectedImage && (
         <Box mt={2} textAlign="center">
           <div>Image Preview:</div>
-          <img src={imageUrl} alt={selectedImage.name} height="500px" />
+          <img
+            src={imageUrl}
+            alt={selectedImage.name}
+            height="300px"
+            fullwidth
+          />
         </Box>
       )}
     </>
   );
 };
 
-export default FileInput;
+export default ImageUploader;
