@@ -108,8 +108,9 @@ public class UserService {
 
 			String accessToken = issueAccessToken(user);
 			String refreshToken = issueRefreshToken(user);
+			Long id = user.getId();
 
-			return new TokenDto(accessToken, refreshToken);
+			return new TokenDto(accessToken, refreshToken, id);
 
 		} catch (AuthenticationException e) {
 			//검증 실패

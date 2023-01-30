@@ -143,7 +143,6 @@ public class UserController {
 		notes = "email, password 정보로 로그인을 한다.")
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletResponse response) {
-		log.debug("입력 들어옴");
 		TokenDto tokenDto = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
 
 		Cookie cookie = cookieUtil.createCookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
