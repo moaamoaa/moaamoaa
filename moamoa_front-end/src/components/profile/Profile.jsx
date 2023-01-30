@@ -34,7 +34,7 @@ const user = {
   },
 };
 
-export const Profile = props => {
+export default function Profile(props) {
   return (
     <MoaProfile component="article">
       <MoaSkeleton variant="circular" />
@@ -51,15 +51,12 @@ export const Profile = props => {
       </MoaButtons>
     </MoaProfile>
   );
-};
-
-export default Profile;
+}
 
 const MoaProfile = styled(Container)`
-  position: absolute;
-  top: 46px;
+  position: relative;
   width: 320px;
-  height: 800px;
+  height: 400px;
   padding: 0;
 `;
 
