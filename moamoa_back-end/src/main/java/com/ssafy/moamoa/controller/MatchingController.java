@@ -39,7 +39,8 @@ public class MatchingController {
 	@ApiOperation(value = "지원 보내기",
 		notes = "개인이 팀에게 지원을 한다.")
 	@PostMapping("/apply/{userId}")
-	public ResponseEntity<?> sendApply(@PathVariable Long userId, @RequestBody MatchingForm matchingForm) {
+	public ResponseEntity<?> sendApply(@PathVariable Long userId, @RequestBody MatchingForm matchingForm) throws
+		Exception {
 
 		applyService.sendApply(userId, matchingForm.getProjectId());
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -68,12 +69,11 @@ public class MatchingController {
 	// 팀 지원 수락
 	@ApiOperation(value = "지원 수락",
 		notes = "개인이 팀에게 보낸 지원을 수락한다.")
-	@PutMapping("/apply/project/{receiveId}")
-	public ResponseEntity<?> acceptApply(@PathVariable Long receiveId, @RequestBody MatchingForm matchingForm) throws
-		Exception {
+	@PutMapping("/apply/project")
+	public ResponseEntity<?> acceptApply(@RequestBody MatchingForm matchingForm) throws Exception {
 
 		// 수락할 user id를 받고 -> team에 등록
-		applyService.acceptApply(receiveId, matchingForm);
+		applyService.acceptApply(matchingForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -92,8 +92,8 @@ public class MatchingController {
 	// 지원 거절
 	@ApiOperation(value = "지원 거절",
 		notes = "팀장이 개인에게 받은 지원을 거절한다.")
-	@DeleteMapping("/apply/project/{projectId}")
-	public ResponseEntity<?> deleteReceiveApply(@PathVariable Long projectId, @RequestBody MatchingForm matchingForm) {
+	@DeleteMapping("/apply/project")
+	public ResponseEntity<?> deleteReceiveApply(@RequestBody MatchingForm matchingForm) {
 
 		// 철회할 apply id를 받고 -> apply에서 삭제
 		applyService.deleteReceiveApply(matchingForm.getApplyId());
@@ -103,9 +103,9 @@ public class MatchingController {
 	// 제안 보내기
 	@ApiOperation(value = "제안 보내기",
 		notes = "팀이 개인에게 제안을 한다.")
-	@PostMapping("/offer/{projectId}")
-	public ResponseEntity<?> sendOffer(@PathVariable Long projectId, @RequestBody MatchingForm matchingForm) {
-		offerService.sendOffer(matchingForm.getUserId(), projectId);
+	@PostMapping("/offer")
+	public ResponseEntity<?> sendOffer(@RequestBody MatchingForm matchingForm) throws Exception {
+		offerService.sendOffer(matchingForm.getUserId(), matchingForm.getProjectId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -156,8 +156,8 @@ public class MatchingController {
 	// 제안 철회
 	@ApiOperation(value = "제안 철회",
 		notes = "팀장이 개인에게 보낸 제안을 철회한다.")
-	@DeleteMapping("/offer/project/{projectId}")
-	public ResponseEntity<?> deleteSendOffer(@PathVariable Long projectId, @RequestBody MatchingForm matchingForm) {
+	@DeleteMapping("/offer/project")
+	public ResponseEntity<?> deleteSendOffer(@RequestBody MatchingForm matchingForm) {
 
 		// 철회할 apply id를 받고 -> apply에서 삭제
 		offerService.deleteOffer(matchingForm);

@@ -35,7 +35,7 @@ public class Offer {
 	@JoinColumn(name = "offer_receive")
 	private User user;
 
-	@Column(name = "apply_time", columnDefinition = "TIMESTAMP")
+	@Column(name = "offer_time", columnDefinition = "TIMESTAMP")
 	private LocalDateTime time;
 
 	public Offer() {

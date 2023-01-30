@@ -39,15 +39,19 @@ public class OfferService {
 	private final OfferRepository offerRepository;
 
 	// 제안 보내기
-	public void sendOffer(Long userId, Long projectId) {
+	public void sendOffer(Long userId, Long projectId) throws Exception {
 		User user = userService.findUser(userId);
 		Project project = projectService.findProjectById(projectId);
-		Offer offer = Offer.builder()
-			.user(user)
-			.project(project)
-			.time(LocalDateTime.now())
-			.build();
-		offerRepository.save(offer);
+
+		if(teamRepository.findByUser(user, project).isPresent() || project.isLocked()){throw new Exception();}
+		else {
+			Offer offer = Offer.builder()
+				.user(user)
+				.project(project)
+				.time(LocalDateTime.now())
+				.build();
+			offerRepository.save(offer);
+		}
 	}
 
 	public List<OfferForm> showReceiveOffer(Long userId) {
@@ -74,10 +78,15 @@ public class OfferService {
 
 	public void acceptOffer(Long userId, MatchingForm matchingForm) throws Exception {
 		Project project = projectRepository.findById(matchingForm.getProjectId()).get();
-		// 팀장인지 확인
-		if(project.getCurrentPeople() < project.getTotalPeople()) {
+		// 잠김 확인
+		if(!project.isLocked()) {
 			// 지원자를 팀에 등록
-			project.setCurrentPeople(project.getCurrentPeople()+1);
+			int change = project.getCurrentPeople() + 1;
+			project.setCurrentPeople(change);
+
+			// 인원수 다 차면 잠그기
+			if(project.getTotalPeople() == change) {project.setLocked(true);}
+
 			User user = userRepository.findById(userId).get();
 			Team team = Team.builder()
 				.role(TeamRole.MEMBER)
@@ -85,6 +94,8 @@ public class OfferService {
 				.user(user)
 				.build();
 			teamRepository.save(team);
+
+			deleteOffer(matchingForm);
 		}
 		else throw new Exception();
 	}
