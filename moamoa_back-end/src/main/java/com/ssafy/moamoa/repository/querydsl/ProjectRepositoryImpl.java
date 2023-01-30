@@ -1,12 +1,15 @@
 package com.ssafy.moamoa.repository.querydsl;
 
+import static com.ssafy.moamoa.domain.entity.QProject.*;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.moamoa.domain.dto.ProjectDto;
+import com.ssafy.moamoa.domain.dto.QProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
-import com.ssafy.moamoa.domain.entity.Project;
 
 public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
@@ -16,7 +19,9 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	}
 
 	@Override
-	public List<Project> search(SearchCondition condition) {
-		return null;
+	public List<ProjectDto> search(SearchCondition condition) {
+		return queryFactory.select(new QProjectDto(project.id))
+			.from(project)
+			.fetch();
 	}
 }
