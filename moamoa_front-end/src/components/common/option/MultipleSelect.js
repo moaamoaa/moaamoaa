@@ -37,7 +37,7 @@ function getStyles(tech, personTech, theme) {
   };
 }
 
-export default function MultipleSelectChip() {
+export default function MultipleSelect() {
   const theme = useTheme();
   const [personTech, setPersonTech] = React.useState([]);
 
@@ -53,7 +53,7 @@ export default function MultipleSelectChip() {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl fullWidth>
         <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"

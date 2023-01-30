@@ -28,7 +28,7 @@ const user = {
   },
 };
 
-export default function CardItem(props) {
+export default function TeamMemberItem(props) {
   if (props.type === 'team') {
     return (
       <MoaCard>
@@ -82,7 +82,7 @@ export default function CardItem(props) {
                 size="small"
                 variant="contained"
                 color="primary"
-                sx={{ display: 'none' }}
+                // sx={{ display: 'none' }}
               >
                 권한위임
               </Button>
@@ -94,7 +94,7 @@ export default function CardItem(props) {
                 color="primary"
                 // sx={{ display: 'none' }}
               >
-                제안하기
+                강퇴하기
               </Button>
             </Grid>
           </Grid>
