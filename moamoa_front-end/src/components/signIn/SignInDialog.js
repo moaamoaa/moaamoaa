@@ -1,56 +1,64 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
+
+import axios from 'axios';
+
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
+import DialogHeader from 'components/common/dialog/DialogHeader';
 
-function BootstrapDialogTitle(props) {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-}
-
-BootstrapDialogTitle.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
-};
+const baseUrl = 'http://localhost:8080';
 
 export default function SignInDialog(props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleCloseSignIndialog = () => {
     props.setSignInDialog(false);
+  };
+
+  const handleLogIn = () => {
+    axios
+      .post(`${baseUrl}/users/login`, {
+        email: email,
+        password: password,
+      })
+      .then(response => {
+        console.log('로그인 성공');
+        console.log(response);
+        const token = response.data.accessToken;
+
+        console.log(token);
+        // 로그인 성공 시 유저 정보 axios 요청
+        axios
+          .get(`${baseUrl}/`, {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          })
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      })
+      .catch(error => {
+        console.log('로그인 실패');
+        console.log(error.data);
+      });
+  };
+
+  const handleEmail = e => {
+    setEmail(e.target.value);
+  };
+
+  const handlePassword = e => {
+    setPassword(e.target.value);
   };
 
   const handleOpenSignUpDialog = () => {
@@ -64,60 +72,61 @@ export default function SignInDialog(props) {
   };
 
   return (
-    <BootstrapDialog
-      onClose={handleCloseSignIndialog}
-      aria-labelledby="customized-dialog-title"
-      open={props.signInDialog}
-    >
-      <BootstrapDialogTitle
-        id="customized-dialog-title"
-        onClose={handleCloseSignIndialog}
-      >
+    <Dialog onClose={handleCloseSignIndialog} open={props.signInDialog}>
+      <DialogHeader onClose={handleCloseSignIndialog}>
         모아모아에 오신 것을 환영합니다.
-      </BootstrapDialogTitle>
+      </DialogHeader>
       <DialogContent dividers>
-        <TextField
-          label="이메일을 입력해주세요"
-          required
-          fullWidth
-          name="email"
-          autoComplete="email"
-        />
+        <Box component="form">
+          <TextField
+            label="이메일을 입력해주세요"
+            fullWidth
+            name="email"
+            autoComplete="email"
+            value={email}
+            onChange={handleEmail}
+          />
+          <TextField
+            label="비밀번호를 입력해주세요"
+            type="password"
+            fullWidth
+            name="password"
+            autoComplete="current-password"
+            sx={{ mt: 2 }}
+            onChange={handlePassword}
+          />
 
-        <TextField
-          label="비밀번호를 입력해주세요"
-          type="password"
-          required
-          fullWidth
-          name="password"
-          autoComplete="current-password"
-        />
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3 }}
+            onClick={handleLogIn}
+          >
+            로그인
+          </Button>
 
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-          로그인
-        </Button>
-
-        <Grid container justifyContent="flex-end">
-          <Grid item>
-            <Button
-              variant="text"
-              color="primary"
-              onClick={handleOpenFindPasswordDialog}
-            >
-              비밀번호 찾기
-            </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Button
+                variant="text"
+                color="primary"
+                onClick={handleOpenFindPasswordDialog}
+              >
+                비밀번호 찾기
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="text"
+                color="primary"
+                onClick={handleOpenSignUpDialog}
+              >
+                회원가입
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Button
-              variant="text"
-              color="primary"
-              onClick={handleOpenSignUpDialog}
-            >
-              회원가입
-            </Button>
-          </Grid>
-        </Grid>
+        </Box>
       </DialogContent>
-    </BootstrapDialog>
+    </Dialog>
   );
 }
