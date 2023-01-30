@@ -58,20 +58,13 @@ export default function TeamDetailBanner(props) {
                 sx={{ pt: 4 }}
               >
                 <Button size="small" variant="contained" color="primary">
-                  비소속:지원보내기 / 팀장:지원 및 제안 확인 CHECK / 팀원:안보임
-                </Button>
-              </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="flex-end"
-                sx={{ pt: 4 }}
-              >
-                <Button size="small" variant="contained" color="primary">
-                  팀수정 / 팀삭제
+                  지원 및 제안 확인
                 </Button>
                 <Button size="small" variant="contained" color="primary">
-                  EDIT 등록 / EDIT 취소
+                  등록
+                </Button>
+                <Button size="small" variant="contained" color="primary">
+                  취소
                 </Button>
               </Stack>
             </Grid>
