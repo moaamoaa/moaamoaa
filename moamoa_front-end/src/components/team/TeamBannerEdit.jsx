@@ -6,9 +6,9 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import styled from 'styled-components';
-// import ImageUploader from 'components/common/carousel/ImageUploader';
+import ImageUploader from 'components/common/carousel/ImageUploader';
 
-export default function TeamBanner(props) {
+export default function TeamBannerEdit(props) {
   const { post } = props;
 
   return (
@@ -35,7 +35,7 @@ export default function TeamBanner(props) {
               pr: { md: 0 },
             }}
           >
-            {/* <ImageUploader></ImageUploader> */}
+            <ImageUploader></ImageUploader>
             <Typography
               component="h1"
               variant="h2"
@@ -55,13 +55,13 @@ export default function TeamBanner(props) {
                 sx={{ pt: 4 }}
               >
                 <Button size="small" variant="contained" color="primary">
-                  지원 보내기 / 제안 및 지원 확인
+                  지원 및 제안 확인
                 </Button>
                 <Button size="small" variant="contained" color="primary">
-                  팀 수정
+                  등록
                 </Button>
                 <Button size="small" variant="contained" color="primary">
-                  팀 삭제
+                  취소
                 </Button>
               </Stack>
             </Grid>
