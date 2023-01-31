@@ -35,18 +35,22 @@ export default function SignInDialog(props) {
         console.log('로그인 성공');
         console.log(response);
         const token = response.data.accessToken;
-        setIsLogged(true);
-        // 백에서 넘어오는 값 확인
-        setUserPk(response.data.id);
-
+        const user_pk = response.data.user_pk;
         console.log(token);
+        
         // 로그인 성공 시 유저 정보 axios 요청
         axios
-          .get(`${baseUrl}/`, {
-            headers: {
-              Authorization: `Token ${token}`,
+          .get(
+            `${baseUrl}/`,
+            {
+              user_pk: user_pk,
             },
-          })
+            {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            },
+          )
           .then(response => {
             console.log(response);
           })

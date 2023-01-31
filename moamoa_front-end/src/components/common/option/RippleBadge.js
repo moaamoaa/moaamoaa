@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
+import { styled, Badge, Avatar, Stack } from '@mui/material/';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {

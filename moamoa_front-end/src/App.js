@@ -1,10 +1,13 @@
-import HomePage from './pages/HomePage';
-import TeamSearchPage from './pages/TeamSearchPage';
-import TeamMemberSearchPage from './pages/TeamMemberSearchPage';
-import TeamDetailPage from './pages/TeamDetailPage';
-import ProfilePage from './pages/ProfilePage';
+import HomePage from 'pages/HomePage';
+import TeamSearchPage from 'pages/TeamSearchPage';
+import TeamMemberSearchPage from 'pages/TeamMemberSearchPage';
+import TeamDetailPage from 'pages/TeamDetailPage';
+import TeamCreatePage from './pages/TeamCreatePage';
+import TeamUpdatePage from './pages/TeamUpdatePage';
+import ProfilePage from 'pages/ProfilePage';
 
-import Navbar from './components/common/navbar/Navbar';
+import Navbar from 'components/common/navbar/Navbar';
+import ScrollToTopButton from 'components/common/Button/ScrollToTopButton';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
@@ -16,6 +19,8 @@ export default function App() {
       <Moa>
         <Routes>
           <Route path="/TeamDetailPage" element={<TeamDetailPage />} />
+          <Route path="/TeamCreatePage" element={<TeamCreatePage />} />
+          <Route path="/TeamUpdatePage" element={<TeamUpdatePage />} />
           <Route path="/ProfilePage" element={<ProfilePage />} />
           <Route
             path="/TeamMemberSearchPage"
@@ -24,6 +29,7 @@ export default function App() {
           <Route path="/TeamSearchPage" element={<TeamSearchPage />} />
           <Route path="/" element={<HomePage />} />
         </Routes>
+        <ScrollToTopButton></ScrollToTopButton>
       </Moa>
     </BrowserRouter>
   );

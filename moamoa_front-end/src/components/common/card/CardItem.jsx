@@ -13,6 +13,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Avatar from '@mui/material/Avatar';
 
 import CardList from 'components/common/card/CardList';
+import { Link } from '@mui/material';
 
 const user = {
   id: 0,
@@ -28,7 +29,7 @@ const user = {
   },
 };
 
-export default function TeamMemberItem(props) {
+export default function CardItem(props) {
   if (props.type === 'team') {
     return (
       <MoaCard>
@@ -82,7 +83,7 @@ export default function TeamMemberItem(props) {
                 size="small"
                 variant="contained"
                 color="primary"
-                // sx={{ display: 'none' }}
+                sx={{ display: 'none' }}
               >
                 권한위임
               </Button>
@@ -94,7 +95,7 @@ export default function TeamMemberItem(props) {
                 color="primary"
                 // sx={{ display: 'none' }}
               >
-                강퇴하기
+                제안하기
               </Button>
             </Grid>
           </Grid>
@@ -136,9 +137,11 @@ export default function TeamMemberItem(props) {
   } else if (props.type === 'link') {
     if (props.card[1] !== '') {
       return (
-        <MoaImg
-          src={`${process.env.PUBLIC_URL}/images/blog_icons/${props.card[0]}@4x.png`}
-        />
+        <Link href={props.card[1]} target="_blank">
+          <MoaImg
+            src={`${process.env.PUBLIC_URL}/images/blog_icons/${props.card[0]}@4x.png`}
+          />
+        </Link>
       );
     } else {
       return <></>;
