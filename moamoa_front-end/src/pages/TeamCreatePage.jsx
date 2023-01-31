@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Calendar from 'components/common/option/Calendar';
 
-import TeamBanner from 'components/team/TeamBanner';
+import TeamBannerEdit from 'components/team/TeamBannerEdit';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
 import TextField from 'components/common/option/TextField';
@@ -16,14 +16,14 @@ import SingleSelectOnOff from 'components/common/option/SingleSelectOnOff';
 import SingleSelectRegion from 'components/common/option/SingleSelectRegion';
 
 export default function TeamCreatePage() {
-  const teamBanner = {
+  const teamBannerEdit = {
     title: <TextField></TextField>, // project_title POST
     leader: '팀장 이름', // GET
-    image: 'https://source.unsplash.com/random', // project_image POST
+    image: '',
   };
   return (
     <>
-      <TeamBanner post={teamBanner} />
+      <TeamBannerEdit post={teamBannerEdit} />
       <Container fixed>
         <h2>모집 정보</h2>
         <Box>
@@ -42,7 +42,7 @@ export default function TeamCreatePage() {
         </Box>
       </Container>
       <Container fixed>
-        <h2>팀원 소개</h2>
+        <h2>팀 소개</h2>
         <MultilineText></MultilineText>
       </Container>
       <Container fixed>
