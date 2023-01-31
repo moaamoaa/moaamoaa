@@ -1,17 +1,14 @@
 import * as React from 'react';
-
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-
 import styled from 'styled-components';
-
 import ImageUploader from 'components/common/carousel/ImageUploader';
 
-export default function TeamDetailBanner(props) {
+export default function TeamBanner(props) {
   const { post } = props;
 
   return (
@@ -58,7 +55,7 @@ export default function TeamDetailBanner(props) {
                 sx={{ pt: 4 }}
               >
                 <Button size="small" variant="contained" color="primary">
-                  지원 및 제안 확인
+                  지원 및 제안 확인 / 지원 보내기
                 </Button>
                 <Button size="small" variant="contained" color="primary">
                   등록
