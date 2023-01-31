@@ -2,9 +2,7 @@ import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import styled from 'styled-components';
 // import ImageUploader from 'components/common/carousel/ImageUploader';
 
@@ -47,24 +45,6 @@ export default function TeamBanner(props) {
             <Typography variant="h4" color="inherit" paragraph>
               {post.leader}
             </Typography>
-            <Grid container>
-              <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="flex-start"
-                sx={{ pt: 4 }}
-              >
-                <Button size="small" variant="contained" color="primary">
-                  지원 보내기 / 제안 및 지원 확인
-                </Button>
-                <Button size="small" variant="contained" color="primary">
-                  팀 수정
-                </Button>
-                <Button size="small" variant="contained" color="primary">
-                  팀 삭제
-                </Button>
-              </Stack>
-            </Grid>
           </Box>
         </Grid>
       </Grid>
