@@ -7,6 +7,7 @@ import Calendar from 'components/common/option/Calendar';
 import TeamBanner from 'components/team/TeamBanner';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
+import TextField from 'components/common/option/TextField';
 import MultipleSelect from 'components/common/option/MultipleSelect';
 import MultilineText from 'components/common/option/MultilineText';
 import SingleSelect from 'components/common/option/SingleSelect';
@@ -14,13 +15,11 @@ import SingleSelectNumber from 'components/common/option/SingleSelectNumber';
 import SingleSelectOnOff from 'components/common/option/SingleSelectOnOff';
 import SingleSelectRegion from 'components/common/option/SingleSelectRegion';
 
-// axios 입력값을 불러와서 띄우기
-
-export default function TeamDetailPage() {
+export default function TeamUpdatePage() {
   const teamBanner = {
-    title: '팀이름', // project_title GET
+    title: <TextField></TextField>, // project_title POST
     leader: '팀장 이름', // GET
-    image: 'https://source.unsplash.com/random', // project_image GET
+    image: 'https://source.unsplash.com/random', // project_image POST
   };
   return (
     <>

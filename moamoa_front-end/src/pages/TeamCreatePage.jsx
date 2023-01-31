@@ -1,22 +1,29 @@
+import * as React from 'react';
+
 import Container from '@mui/material/Container';
-import TeamDetailBanner from 'components/team/TeamDetailBanner';
+import Box from '@mui/material/Box';
+import Calendar from 'components/common/option/Calendar';
+
+import TeamBanner from 'components/team/TeamBanner';
+import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
+
+import TextField from 'components/common/option/TextField';
 import MultipleSelect from 'components/common/option/MultipleSelect';
+import MultilineText from 'components/common/option/MultilineText';
 import SingleSelect from 'components/common/option/SingleSelect';
 import SingleSelectNumber from 'components/common/option/SingleSelectNumber';
 import SingleSelectOnOff from 'components/common/option/SingleSelectOnOff';
 import SingleSelectRegion from 'components/common/option/SingleSelectRegion';
-import Calendar from 'components/common/option/Calendar';
-import Box from '@mui/material/Box';
 
-export default function TeamInfo() {
-  const teamDetailBanner = {
-    title: '팀 이름', // project_title
-    leader: '팀장 이름', // team_role
-    image: 'https://source.unsplash.com/random', // project_image
+export default function TeamCreatePage() {
+  const teamBanner = {
+    title: <TextField></TextField>, // project_title POST
+    leader: '팀장 이름', // GET
+    image: 'https://source.unsplash.com/random', // project_image POST
   };
   return (
     <>
-      <TeamDetailBanner post={teamDetailBanner} />
+      <TeamBanner post={teamBanner} />
       <Container fixed>
         <h2>모집 정보</h2>
         <Box>
@@ -33,6 +40,14 @@ export default function TeamInfo() {
           <h4>기술 스택</h4>
           <MultipleSelect></MultipleSelect>
         </Box>
+      </Container>
+      <Container fixed>
+        <h2>팀원 소개</h2>
+        <MultilineText></MultilineText>
+      </Container>
+      <Container fixed>
+        <h2>팀원 소개</h2>
+        <TeamMemberSearchList></TeamMemberSearchList>
       </Container>
     </>
   );
