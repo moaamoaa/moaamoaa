@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import Container from '@mui/material/Container';
-// import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+import { Container, Paper, Button, Stack, Grid } from '@mui/material/';
 
 import TeamBanner from 'components/team/TeamBanner';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
@@ -20,7 +18,29 @@ export default function TeamDetailPage() {
 
   return (
     <>
-      <TeamBanner post={teamBanner} />
+      <Container fixed>
+        <TeamBanner post={teamBanner} />
+      </Container>
+      <Container fixed>
+        <Grid container justifyContent="flex-end">
+          <Stack
+            direction="row"
+            spacing={2}
+            // justifyContent="flex-end"
+            sx={{ pt: 4 }}
+          >
+            <Button size="small" variant="contained" color="primary">
+              지원 보내기 / 제안 및 지원 확인
+            </Button>
+            <Button size="small" variant="contained" color="primary">
+              팀 수정
+            </Button>
+            <Button size="small" variant="contained" color="primary">
+              팀 삭제
+            </Button>
+          </Stack>
+        </Grid>
+      </Container>
       <Container fixed>
         <h2>모집 정보</h2>
         <Paper

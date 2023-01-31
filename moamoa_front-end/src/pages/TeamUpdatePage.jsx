@@ -2,18 +2,21 @@ import * as React from 'react';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Calendar from 'components/common/option/Calendar';
+import Calendar from 'components/team/Calendar';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
-import TextField from 'components/common/option/TextField';
-import MultipleSelect from 'components/common/option/MultipleSelect';
-import MultilineText from 'components/common/option/MultilineText';
-import SingleSelect from 'components/common/option/SingleSelect';
-import SingleSelectNumber from 'components/common/option/SingleSelectNumber';
-import SingleSelectOnOff from 'components/common/option/SingleSelectOnOff';
-import SingleSelectRegion from 'components/common/option/SingleSelectRegion';
+import TextField from 'components/team/TextField';
+import MultipleSelect from 'components/team/MultipleSelect';
+import MultilineText from 'components/team/MultilineText';
+import SingleSelect from 'components/team/SingleSelect';
+import SingleSelectNumber from 'components/team/SingleSelectNumber';
+import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
+import SingleSelectRegion from 'components/team/SingleSelectRegion';
 
 export default function TeamUpdatePage() {
   const teamBannerEdit = {
@@ -23,7 +26,29 @@ export default function TeamUpdatePage() {
   };
   return (
     <>
-      <TeamBannerEdit post={teamBannerEdit} />
+      <Container fixed>
+        <TeamBannerEdit post={teamBannerEdit} />
+      </Container>
+      <Container fixed>
+        <Grid container justifyContent="flex-end">
+          <Stack
+            direction="row"
+            spacing={2}
+            // justifyContent="flex-end"
+            sx={{ pt: 4 }}
+          >
+            {/* <Button size="small" variant="contained" color="primary">
+              제안 및 지원 확인
+            </Button> */}
+            <Button size="small" variant="contained" color="primary">
+              등록
+            </Button>
+            <Button size="small" variant="contained" color="primary">
+              취소
+            </Button>
+          </Stack>
+        </Grid>
+      </Container>
       <Container fixed>
         <h2>모집 정보</h2>
         <Box>
