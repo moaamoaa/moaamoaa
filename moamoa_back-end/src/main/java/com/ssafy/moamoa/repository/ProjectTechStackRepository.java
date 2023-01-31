@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.ProjectTechStack;
+import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.repository.querydsl.QProjectTechStackRepository;
 
 public interface ProjectTechStackRepository extends JpaRepository<ProjectTechStack, Long>,
@@ -16,4 +17,8 @@ public interface ProjectTechStackRepository extends JpaRepository<ProjectTechSta
 		"from ProjectTechStack projectTechStack " +
 		"where projectTechStack.project = :project")
 	List<ProjectTechStack> findByProject(Project project);
+
+	@Query(value = "SELECT p.techStack FROM ProjectTechStack p where p.project.id = :id")
+	List<TechStack> findTechStackByProject_Id(Long id);
+
 }

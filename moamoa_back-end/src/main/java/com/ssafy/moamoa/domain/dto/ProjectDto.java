@@ -5,9 +5,13 @@ import java.util.List;
 import com.querydsl.core.annotations.QueryProjection;
 import com.ssafy.moamoa.domain.entity.TechStack;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class ProjectDto {
 	private Long id;
 
@@ -35,21 +39,6 @@ public class ProjectDto {
 		this.hit = hit;
 		this.totalPeople = totalPeople;
 		this.currentPeople = currentPeople;
-		this.leaderName = leaderName;
-		this.techStacks = techStacks;
 	}
-
-	// @QueryProjection
-	// public ProjectDto(Long id, String title, String contents, int hit, int totalPeople, int currentPeople,
-	// 	String leaderName, List<TechStack> techStacks) {
-	// 	this.id = id;
-	// 	this.title = title;
-	// 	this.contents = contents;
-	// 	this.hit = hit;
-	// 	this.totalPeople = totalPeople;
-	// 	this.currentPeople = currentPeople;
-	// 	this.leaderName = leaderName;
-	// 	this.techStacks = techStacks;
-	// }
 
 }

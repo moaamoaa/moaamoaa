@@ -13,7 +13,6 @@ import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.dto.ProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
-import com.ssafy.moamoa.domain.entity.ProjectTechStack;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.service.ProjectService;
 import com.ssafy.moamoa.service.UserService;
@@ -32,22 +31,22 @@ class ProjectRepositoryImplTest {
 	UserService userService;
 
 	@Test
-	public void search() throws Exception {
+	public void search() {
 		//given
-		// List<Long> area = new ArrayList<>(Arrays.asList(1L, 2L));
-		// List<Long> stack = new ArrayList<>(Arrays.asList(1L, 2L));
-		// SearchCondition condition = new SearchCondition("hi", ProjectStatus.ONLINE, area, ProjectCategory.PROJECT,
-		// 	stack);
-		//
-		// //when
-		// List<ProjectDto> result = projectRepository.search(condition);
-		//
-		// //then
-		// System.out.println("++++++++++++++++++++");
-		// for (ProjectDto r : result) {
-		// 	System.out.println(r.toString());
-		// }
-		// System.out.println("++++++++++++++++++++");
+		List<Long> area = new ArrayList<>(Arrays.asList(1L, 2L));
+		List<Long> stack = new ArrayList<>(Arrays.asList(1L, 2L));
+		SearchCondition condition = new SearchCondition("hi", ProjectStatus.ONLINE, area, ProjectCategory.PROJECT,
+			stack);
+
+		//when
+		List<ProjectDto> result = projectRepository.search(condition);
+
+		//then
+		System.out.println("++++++++++++++++++++");
+		for (ProjectDto r : result) {
+			System.out.println(r.toString());
+		}
+		System.out.println("++++++++++++++++++++");
 	}
 
 	@Test
@@ -101,17 +100,15 @@ class ProjectRepositoryImplTest {
 	@Test
 	public void 기술스택검색() {
 		//given
-		List<Long> area = new ArrayList<>(Arrays.asList(1L, 2L));
 		List<Long> stack = new ArrayList<>(Arrays.asList(1L, 2L));
-		SearchCondition condition = new SearchCondition("hi", ProjectStatus.ONLINE, area, ProjectCategory.PROJECT,
-			stack);
+		SearchCondition condition = SearchCondition.builder().stack(stack).build();
 
 		//when
-		List<ProjectTechStack> result = projectRepository.searchTechStack(condition);
+		List<ProjectDto> result = projectRepository.search(condition);
 
 		//then
 		System.out.println("++++++++++++++++++++");
-		for (ProjectTechStack r : result) {
+		for (ProjectDto r : result) {
 			System.out.println(r.getId());
 		}
 		System.out.println("++++++++++++++++++++");

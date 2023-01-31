@@ -4,6 +4,7 @@ import static com.querydsl.jpa.JPAExpressions.*;
 import static com.ssafy.moamoa.domain.entity.QProject.*;
 import static com.ssafy.moamoa.domain.entity.QProjectArea.*;
 import static com.ssafy.moamoa.domain.entity.QProjectTechStack.*;
+import static com.ssafy.moamoa.domain.entity.QTeam.*;
 
 import java.util.List;
 
@@ -13,11 +14,10 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
+import com.ssafy.moamoa.domain.TeamRole;
 import com.ssafy.moamoa.domain.dto.ProjectDto;
 import com.ssafy.moamoa.domain.dto.QProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
-import com.ssafy.moamoa.domain.entity.ProjectArea;
-import com.ssafy.moamoa.domain.entity.ProjectTechStack;
 
 public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
@@ -47,19 +47,16 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 		//기술스택 stack -> join 필요 (리턴 데이터 필요) (select의 subquery로) / select절에 subQuery 필요
 	}
 
-	@Override
-	public List<ProjectTechStack> searchTechStack(SearchCondition condition) {
-		return queryFactory.selectFrom(projectTechStack).where(techStackIn(condition.getStack())).fetch();
-	}
-
-	@Override
-	public List<ProjectArea> searchArea(SearchCondition condition) {
-		return queryFactory.selectFrom(projectArea).where(areaIn(condition.getArea())).fetch();
-	}
-
 	private BooleanExpression titleContain(String query) {
-
 		return query != null ? project.title.contains(query) : null;
+	}
+
+	private BooleanExpression isTeamLeader() {
+		return team.role.eq(TeamRole.LEADER);
+	}
+
+	private BooleanExpression projectIdEq(Long id) {
+		return id != null ? project.id.eq(id) : null;
 	}
 
 	private BooleanExpression statusEq(ProjectStatus statusCond) {
@@ -78,12 +75,13 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 		) : null;
 	}
 
-	private BooleanExpression projectEq(List<Long> ids) {
-		return ids != null ? project.id.in(ids) : null;
-	}
-
+	//해당 기술스택을 포함한 프로젝트
 	private BooleanExpression techStackIn(List<Long> stackCond) {
-		return stackCond != null ? projectTechStack.techStack.id.in(stackCond) : null;
+		return stackCond != null ? project.id.in(
+			select(projectTechStack.project.id)
+				.distinct()
+				.from(projectTechStack)
+				.where(projectTechStack.techStack.id.in(stackCond))) : null;
 	}
 
 }
