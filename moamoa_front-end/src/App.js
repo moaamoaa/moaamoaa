@@ -22,7 +22,6 @@ export default function App() {
           <Route path="/TeamCreatePage" element={<TeamCreatePage />} />
           <Route path="/TeamUpdatePage" element={<TeamUpdatePage />} />
           <Route path="/ProfilePage" element={<ProfilePage />} />
-          <Route path="/ProfilePage" element={<ProfilePage />} />
           <Route
             path="/TeamMemberSearchPage"
             element={<TeamMemberSearchPage />}
