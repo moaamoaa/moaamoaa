@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import axios from 'axios';
+import { loginAccount } from 'redux/User';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -16,6 +17,9 @@ const baseUrl = 'http://localhost:8080';
 export default function SignInDialog(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLogged, setIsLogged] = useState(false);
+  const [userNickname, setUserNickname] = useState('');
+  const [userPk, setUserPk] = useState('');
 
   const handleCloseSignIndialog = () => {
     props.setSignInDialog(false);
@@ -32,8 +36,8 @@ export default function SignInDialog(props) {
         console.log(response);
         const token = response.data.accessToken;
         const user_pk = response.data.user_pk;
-
         console.log(token);
+        
         // 로그인 성공 시 유저 정보 axios 요청
         axios
           .get(
