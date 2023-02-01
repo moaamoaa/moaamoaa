@@ -10,18 +10,11 @@ const MultilineText = forwardRef((props, ref) => {
     ref.current = e.target.value;
   };
   return (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '125ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <FormControl>
+    <Box component="form" noValidate autoComplete="off">
+      <FormControl fullWidth>
         <TextField
           id="outlined-multiline-static"
-          placeholder="팀소개를 입력해주세요."
+          placeholder={props.placeholder}
           multiline
           rows={6}
           onChange={handleChange}

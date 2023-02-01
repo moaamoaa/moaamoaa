@@ -2,7 +2,7 @@ import React from 'react';
 
 function ProfileEditContent() {
   return (
-    <div>
+    <>
       ProfileEditContent Lorem ipsum dolor sit amet, consectetur adipisicing
       elit. Assumenda, consequuntur atque! Perferendis autem, dicta, libero,
       optio consequatur omnis doloribus commodi quae reprehenderit placeat sint
@@ -162,7 +162,7 @@ function ProfileEditContent() {
       voluptate quia eum libero esse sunt repellendus dignissimos repellat
       expedita fugit, delectus velit nobis, pariatur assumenda. Obcaecati cum
       molestiae aut commodi eos!
-    </div>
+    </>
   );
 }
 
