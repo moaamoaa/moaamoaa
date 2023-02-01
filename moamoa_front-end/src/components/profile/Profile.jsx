@@ -29,7 +29,7 @@ export default function Profile(props) {
   };
 
   const userButtons = [
-    <ProfileButton key="offer" href="/" variant="outlined">
+    <ProfileButton key="offer" href="/ProfileEditPage" variant="outlined">
       수정
     </ProfileButton>,
     <ProfileButton key="chat" variant="outlined">
