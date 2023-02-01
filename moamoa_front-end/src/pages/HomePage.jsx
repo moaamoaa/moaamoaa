@@ -1,13 +1,10 @@
 import * as React from 'react';
+import styled from '@emotion/styled';
 
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Container, Grid, Typography } from '@mui/material';
 
 import CardList from 'components/common/card/CardList';
 import MainBanner from 'components/common/carousel/MainBanner';
-
-import styled from 'styled-components';
 
 const mainBanner = {
   title: '모아모아 홈 화면 배너 이미지입니다!',
@@ -35,7 +32,7 @@ export default function HomePageSample() {
   return (
     <>
       <MainBanner post={mainBanner} />
-      <Container fixed>
+      <Container fixed sx={{ paddingTop: '56px' }}>
         <Grid container>
           <MoaGrid item xs={12}>
             <MoaTypography>금주의 추천 프로젝트 섹션</MoaTypography>
