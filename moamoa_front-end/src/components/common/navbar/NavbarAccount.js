@@ -15,6 +15,9 @@ import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/signIn/FindPasswordDialog';
 import styled from '@emotion/styled';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAccount } from 'redux/User';
+
 const settings = [
   {
     text: 'Profile',
@@ -32,6 +35,9 @@ export default function NavbarAccount() {
   const [signInDialog, setSignInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
+  // 임시 로그인 확인. 나중에 지울 것
+  const isLogin = useSelector(state => state.User.isLogged);
+  const dispatch = useDispatch();
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
@@ -88,9 +94,20 @@ export default function NavbarAccount() {
     return (
       <>
         <Box sx={{ flexGrow: 0 }}>
-          <MoaButton variant="text" onClick={handleClickOpen}>
-            Log in
-          </MoaButton>
+          {!isLogin ? (
+            <MoaButton variant="text" onClick={handleClickOpen}>
+              Log in
+            </MoaButton>
+          ) : (
+            <MoaButton
+              variant="text"
+              onClick={() => {
+                dispatch(logoutAccount());
+              }}
+            >
+              LogOut
+            </MoaButton>
+          )}
         </Box>
         <SignInDialog
           signInDialog={signInDialog}
