@@ -108,8 +108,9 @@ public class UserService {
 
 			String accessToken = issueAccessToken(user);
 			String refreshToken = issueRefreshToken(user);
+			Long id = user.getId();
 
-			return new TokenDto(accessToken, refreshToken);
+			return new TokenDto(accessToken, refreshToken, id);
 
 		} catch (AuthenticationException e) {
 			//검증 실패
@@ -152,8 +153,8 @@ public class UserService {
 		findUser.setPassword(password);
 	}
 
-	public void updateNickname(String nickname, String email) {
-		Optional<User> findUsers = userRepository.findByEmail(email);
+	public void updateNickname(String nickname, Long userId) {
+		Optional<User> findUsers = userRepository.findById(userId);
 		if (!findUsers.isPresent()) {
 			return;
 		}

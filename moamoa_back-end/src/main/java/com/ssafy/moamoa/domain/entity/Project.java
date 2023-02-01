@@ -143,4 +143,8 @@ public class Project {
 		this.countOffer = countOffer;
 	}
 
+	public void setCurrentPeople(int currentPeople){this.currentPeople = currentPeople;}
+
+	public void setLocked(boolean isLocked){this.isLocked = isLocked;}
+
 }
