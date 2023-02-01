@@ -26,7 +26,7 @@ const Calendar = forwardRef((props, ref) => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack spacing={1}>
         <DesktopDatePicker
-          label="For desktop"
+          label="달력"
           value={value}
           minDate={dayjs('2023-01-01')}
           onChange={newValue => {

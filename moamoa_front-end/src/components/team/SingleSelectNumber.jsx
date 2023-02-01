@@ -18,7 +18,7 @@ const SingleSelectNumber = forwardRef((props, ref) => {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Select</InputLabel>
+        <InputLabel id="demo-simple-select-label">선택</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
