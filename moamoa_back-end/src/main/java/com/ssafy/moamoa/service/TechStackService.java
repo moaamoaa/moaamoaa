@@ -6,43 +6,46 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.dto.TechStackForm;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.ProfileTechStack;
 import com.ssafy.moamoa.domain.entity.ProjectTechStack;
 import com.ssafy.moamoa.domain.entity.TechStack;
+import com.ssafy.moamoa.repository.ProfileRepository;
+import com.ssafy.moamoa.repository.ProfileTechStackRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TechStackRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 import com.ssafy.moamoa.repository.UserTechStackRepository;
 
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = false)
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class TechStackService {
 	@PersistenceContext
 	EntityManager em;
-	@Autowired
-	private TechStackRepository techstackRepository;
 
-	@Autowired
-	private UserTechStackRepository userTechStackRepository;
+	private final TechStackRepository techstackRepository;
 
-	@Autowired
-	private ProjectTechStackRepository projectTechStackRepository;
+	private final ProfileRepository profileRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final ProfileTechStackRepository profileTechStackRepository;
 
-	@Autowired
-	private ProjectRepository projectRepository;
+	private final UserTechStackRepository userTechStackRepository;
+
+	private final ProjectTechStackRepository projectTechStackRepository;
+
+	private final UserRepository userRepository;
+
+	private final ProjectRepository projectRepository;
 
 	public List<TechStackForm> searchTechStackByName(String techName) {
 		List<TechStack> domainResult = techstackRepository.searchTechStackByName(techName);
@@ -57,35 +60,69 @@ public class TechStackService {
 	}
 
 	// Id, techStackFormList
-	/*public List<TechStackForm> modifyUserTechStack(Long userId, List<TechStackForm> techStackFormList) {
+	public String modifyProfileTechStack(Long profileId, List<TechStackForm> techStackFormList) {
 
-		List<ProfileTechStack> profileTechStackList = new ArrayList<>();
-		List<TechStackForm> techStackFormListResult = new ArrayList<>();
-		// 유저 스택 모두 삭제
-		Long deleteCount = userTechStackRepository.deleteAllUserStackById(userId);
+		Profile profile = profileRepository.getProfileById(profileId);
+		List<ProfileTechStack> profileTechStackList = profileTechStackRepository.getProfileTechStacks(profileId);
+		// 리스트 전처리 작업
+		int inputListSize = techStackFormList.size(); // 5
+		int originListSize = profileTechStackList.size(); // 3
+		log.info("Initial size :"+inputListSize+" "+originListSize);
+		List<Integer> differOrder = new ArrayList<>();
 
-		// 유저 스택 모두 추가
-		for (TechStackForm techStackForm : techStackFormList) {
-			// profile
-			ProfileTechStack profileTechStack = ProfileTechStack.builder()
+		if (originListSize > inputListSize) {  // 삭제를 해야하는 경우
+			for (int i = originListSize; i > inputListSize; i--) {
+				differOrder.add(i);
+			}
+			for (int i : differOrder) {
+				profileTechStackRepository.deleteProfileTechStackByOrder(i);
+
+			}
+			profileTechStackList = profileTechStackRepository.getProfileTechStacks(profileId); // 다시 가져옴
+
+		}
+		else if (originListSize < inputListSize) // 추가를 해야하는 경우
+		{
+			for (int i = inputListSize - 1; i > originListSize - 1; i--) {
+				TechStackForm tempTechStackForm = techStackFormList.remove(i);
+				ProfileTechStack tempProfileTechStack = ProfileTechStack.builder()
+						.profile(profile)
+						.techStack(techstackRepository.getTechStackById(tempTechStackForm.getId()))
+						.order(i+1).build();
+				profileTechStackRepository.save(tempProfileTechStack); // 뒤에 있는 거 저장
+			}
+			inputListSize = techStackFormList.size();
+		}
+		if(inputListSize==0){
+			return "SUCCESS";
+		}
+		for (int size = 0; size < inputListSize; size++) {
+
+			TechStackForm techStackForm = techStackFormList.get(size);
+
+			ProfileTechStack tempProfileTechStack = ProfileTechStack.builder()
+				.profile(profile)
 				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
-				.profile(userRepository.findById(userId).get()).build();
+				.order(size + 1).build();
+			log.info("TechStack > "+tempProfileTechStack.getTechStack().getName());
 
-			userTechStackRepository.save(profileTechStack);
+			ProfileTechStack originProfileTechStack = profileTechStackRepository.getProfileTechStack(
+				tempProfileTechStack.getTechStack().getId());
+
+			originProfileTechStack.setTechStack(tempProfileTechStack.getTechStack());
+			profileTechStackRepository.save(originProfileTechStack);
 		}
 
-		List<ProfileTechStack> techStackList = userTechStackRepository.getAllUserTechStackByOrder(userId);
-		for (ProfileTechStack uts : techStackList) {
-			TechStackForm techStackForm = TechStackForm.builder()
-				.id(uts.getTechStack().getId())
-				.name(uts.getTechStack().getName())
-				.img(uts.getTechStack().getLogo())
-				.build();
-			techStackFormListResult.add(techStackForm);
-		}
 
-		return techStackFormListResult;
-	}*/
+		return "SUCCESS";
+	}
+
+	// public ProfileTechStack convertTechStackFormToProfileTechStack(Profile profile, TechStackForm techStackForm) {
+	// 	ProfileTechStack tempProfileTechStack = ProfileTechStack.builder()
+	// 		.profile(profile)
+	// 		.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
+	// 		.order().build();
+	// }
 
 	public List<TechStackForm> modifyTeamTechStack(Long projectId, List<TechStackForm> techStackFormList) {
 		List<ProjectTechStack> teamTechStackList = new ArrayList<>();

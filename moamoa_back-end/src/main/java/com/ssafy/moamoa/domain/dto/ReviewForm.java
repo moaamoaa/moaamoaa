@@ -10,17 +10,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class TechStackForm {
-	@JsonProperty("tech_stack_no")
-	private Long id;
-
-	@JsonProperty("techName")
-	private String name;
-
-	@JsonProperty("img")
-	private String img;
+public class ReviewForm {
+	@JsonProperty("profileId")
+	private Long profileId;
+	@JsonProperty("senderId")
+	private Long senderId;
+	@JsonProperty("time")
+	private String time;
+	@JsonProperty("context")
+	private String context;
 
 }
