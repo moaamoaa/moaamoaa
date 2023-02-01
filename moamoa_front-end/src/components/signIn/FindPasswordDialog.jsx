@@ -1,13 +1,16 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
+import {
+  styled,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  Button,
+} from '@mui/material/';
+
 import CloseIcon from '@mui/icons-material/Close';
 
 import SignUpEmailDialog from 'components/signUp/SignUpEmailForm';
-import Button from '@mui/material/Button';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {

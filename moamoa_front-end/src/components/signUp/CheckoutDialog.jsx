@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
+import {
+  Container,
+  Paper,
+  Stepper,
+  Step,
+  StepLabel,
+  Typography,
+  Dialog,
+} from '@mui/material/';
 
 import DialogHeader from 'components/common/dialog/DialogHeader';
 import SignUpEmailForm from 'components/signUp/SignUpEmailForm';
 import SignUpCertificationForm from 'components/signUp/SignUpCertificationForm';
 import SignUpNicknameForm from 'components/signUp/SignUpNicknameForm';
 import SignUpPasswordForm from 'components/signUp/SignUpPasswordForm';
-
-import styled from 'styled-components';
 
 export default function CheckoutDialog(props) {
   // 가입단계 상태

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
-import TextField from '@mui/material/TextField';
-import DialogContent from '@mui/material/DialogContent';
-import Typography from '@mui/material/Typography';
+import {
+  TextField,
+  DialogContent,
+  Typography,
+  Box,
+  Button,
+} from '@mui/material/';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 
 export default function SignUpCertificationform(props) {
   // 입력받은 코드를 저장할 state
