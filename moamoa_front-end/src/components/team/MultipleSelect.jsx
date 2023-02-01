@@ -22,12 +22,39 @@ const MenuProps = {
 };
 
 const teches = [
+  '무관',
+  'C', // 1부터 시작해야
+  'C#',
+  'C++',
+  'Java',
+  'Python',
+  'Kotlin',
+  'Go',
+  'Nest.js',
+  'Node.js',
+  'Django',
+  'Spring',
+  'MySQL',
+  'GraphQL',
+  'Redis',
+  'MongoDB',
+  'Firebase',
   'Javascript',
   'Typescript',
   'React',
   'Vue',
   'Angular',
   'Svelte',
+  'Swift',
+  'SwiftUI',
+  'Flutter',
+  'AWS',
+  'Docker',
+  'Kubernetes',
+  'Jenkins',
+  'Figma',
+  'Git',
+  'Unity',
 ];
 
 function getStyles(tech, personTech, theme) {
