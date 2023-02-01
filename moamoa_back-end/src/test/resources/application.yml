@@ -1,3 +1,42 @@
 spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MySQL;
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: create
+      use-new-id-generator-mappings: false
+  redis:
+    host: localhost
+    port: 6379
+    password: '0103'
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: moamoaofficial0@gmail.com
+    password: jhdwizmtwgpsaidm
+    properties:
+      mail:
+        smtp:
+          timeout: 5000
+          auth: true
+          starttls:
+            enable: true
 logging.level:
   org.hibernate.SQL: debug
+
+security:
+  jwt:
+    secret-key: 6ec2601c-5280-4761-810b-80a5478ec7ed
+    access-token-expire: 1800000
+    #    access-token-expire: 30000
+    refresh-token-expire: 1209600000
