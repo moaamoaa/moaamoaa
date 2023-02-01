@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-import TextField from '@mui/material/TextField';
-import DialogContent from '@mui/material/DialogContent';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import {
+  TextField,
+  DialogContent,
+  Typography,
+  Button,
+  Box,
+} from '@mui/material/';
 
 export default function SignUpEmailForm(props) {
   // 기본 url
