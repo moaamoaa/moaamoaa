@@ -153,8 +153,8 @@ public class UserService {
 		findUser.setPassword(password);
 	}
 
-	public void updateNickname(String nickname, String email) {
-		Optional<User> findUsers = userRepository.findByEmail(email);
+	public void updateNickname(String nickname, Long userId) {
+		Optional<User> findUsers = userRepository.findById(userId);
 		if (!findUsers.isPresent()) {
 			return;
 		}

@@ -11,6 +11,8 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.moamoa.config.security.CookieUtil;
 import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import com.ssafy.moamoa.domain.dto.LoginForm;
@@ -50,16 +51,16 @@ public class UserController {
 	@ApiOperation(value = "전체 사용자 정보 조회",
 		notes = "전체 사용자의 정보를 조회한다.")
 	@GetMapping
-	public ResponseEntity<?> showList() throws Exception {
+	public ResponseEntity<?> showList() {
 		List<User> users = userService.findUsers();
-		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "회원 가입",
 		notes = "email, password, nickname 정보로 회원 가입을 한다.")
 	// 회원 가입
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody @Valid SignForm signForm) throws JsonProcessingException {
+	public ResponseEntity<?> signup(@RequestBody @Valid SignForm signForm) {
 
 		String email = signForm.getEmail();
 		String password = signForm.getPassword();
@@ -67,7 +68,7 @@ public class UserController {
 
 		String userNickname = userService.signup(email, password, nickname);
 
-		return new ResponseEntity<String>(userNickname, HttpStatus.OK);
+		return new ResponseEntity<>(userNickname, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "회원 가입 시 메일 유효성 확인",
@@ -81,19 +82,19 @@ public class UserController {
 		userService.validateDuplicateUserEmail(user);
 		String code = mailService.joinEmail(email);
 
-		return new ResponseEntity<String>(code, HttpStatus.OK);
+		return new ResponseEntity<>(code, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "회원 가입 시 닉네임 중복 확인",
 		notes = "nickname의 중복 검사를 한다.")
 	// 닉네임 중복 확인
 	@GetMapping("/nickname")
-	public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) throws JsonProcessingException {
+	public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) {
 		Profile profile = Profile.builder()
 			.nickname(nickname)
 			.build();
 		userService.validateDuplicateProfileNickname(profile);
-		return new ResponseEntity<String>("닉네임 중복 검증 성공", HttpStatus.OK);
+		return new ResponseEntity<>("닉네임 중복 검증 성공", HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "비밀번호 변경",
@@ -123,15 +124,15 @@ public class UserController {
 		notes = "email에 맞는 회원의 nickname을 중복 검사 후 수정한다.")
 	// 닉네임 변경
 	@PostMapping("/nickname")
-	public ResponseEntity<?> updateNickname(@RequestBody SignForm signForm) {
-		// 받은 닉네임으로 update
-		userService.updateNickname(signForm.getNickname(), signForm.getEmail());
+	public ResponseEntity<?> updateNickname(@RequestBody SignForm signForm, Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		userService.updateNickname(signForm.getNickname(), Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "회원 삭제",
 		notes = "email에 맞는 회원을 삭제한다.")
-	// 회원 삭제
+	// 회원 삭제S
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		// 받은 이메일로 delete
