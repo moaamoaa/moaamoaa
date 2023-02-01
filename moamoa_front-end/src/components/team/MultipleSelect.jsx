@@ -57,7 +57,7 @@ const MultipleSelect = forwardRef((props, ref) => {
   return (
     <div>
       <FormControl fullWidth>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">복수 선택</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"

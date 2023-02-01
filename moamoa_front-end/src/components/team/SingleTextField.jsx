@@ -3,26 +3,23 @@ import { forwardRef } from 'react';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
 
 const SingleTextField = forwardRef((props, ref) => {
   const handleChange = e => {
     ref.current = e.target.value;
   };
   return (
-    <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField
-        onChange={handleChange}
-        id="outlined-basic"
-        label="Outlined"
-        variant="outlined"
-      />
+    <Box component="form" noValidate autoComplete="off">
+      <FormControl fullWidth>
+        <TextField
+          onChange={handleChange}
+          id="outlined-basic"
+          placeholder="팀이름을 입력해주세요."
+          // label="Outlined"
+          variant="outlined"
+        />
+      </FormControl>
     </Box>
   );
 });
