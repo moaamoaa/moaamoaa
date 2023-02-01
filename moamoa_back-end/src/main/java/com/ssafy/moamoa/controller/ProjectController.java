@@ -34,10 +34,19 @@ public class ProjectController {
 
 	@ApiOperation(value = "자기가 속한 프로젝트/스터디 조회",
 		notes = "자기가 속한 프로젝트/스터디를 조회한다.")
-	@GetMapping
-	public ResponseEntity<?> showProjects(@RequestParam("id") Long id) throws Exception {
+	@GetMapping("/{id}")
+	public ResponseEntity<?> showProjects(@PathVariable Long id) throws Exception {
 		List<Project> projects = projectService.findByUser(id);
 		return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "팀 페이지 open",
+		notes = "팀 페이지 open")
+	@GetMapping("/Leader/{userId}")
+	public ResponseEntity<?> accessProject(@PathVariable Long userId, @RequestParam("projectId") Long projectId) throws Exception {
+		ProjectForm projectForm = projectService.accessProject(userId, projectId);
+
+		return new ResponseEntity<ProjectForm>(projectForm, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 등록",
