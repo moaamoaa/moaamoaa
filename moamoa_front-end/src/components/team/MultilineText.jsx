@@ -1,9 +1,14 @@
 import * as React from 'react';
+import { forwardRef } from 'react';
+
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 
-export default function MultilineText() {
+const MultilineText = forwardRef((props, ref) => {
+  const handleChange = e => {
+    ref.current = e.target.value;
+  };
   return (
     <Box
       component="form"
@@ -13,14 +18,16 @@ export default function MultilineText() {
       noValidate
       autoComplete="off"
     >
-      <FormControl fullwidth>
+      <FormControl>
         <TextField
           id="outlined-multiline-static"
           placeholder="팀소개를 입력해주세요."
           multiline
           rows={6}
+          onChange={handleChange}
         />
       </FormControl>
     </Box>
   );
-}
+});
+export default MultilineText;
