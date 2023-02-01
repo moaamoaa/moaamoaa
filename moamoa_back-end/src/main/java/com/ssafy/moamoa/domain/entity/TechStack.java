@@ -29,8 +29,9 @@ public class TechStack {
 	@Column(name = "tech_stack_logo")
 	private String logo;
 
-	public TechStack(String name) {
+	public TechStack(String name, String logo) {
 		this.name = name;
+		this.logo = logo;
 	}
 
 	public TechStack() {
