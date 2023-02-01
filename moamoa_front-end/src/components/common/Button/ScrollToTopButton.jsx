@@ -39,6 +39,7 @@ export default function ScrollToTopButton() {
 
 const FloatingButton = styled(IconButton)`
   position: fixed;
-  bottom: 5rem;
-  right: 5rem;
+  background-color: #88888888;
+  bottom: calc(2rem + 1vw);
+  right: calc(5vw);
 `;
