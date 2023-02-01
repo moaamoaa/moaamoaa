@@ -44,103 +44,103 @@ public class InitService {
 
 		//==Techstack==//
 		// BackEnd
-		TechStack techStackC = new TechStack("C", "c");
+		TechStack techStackC = new TechStack("C");
 		techStackRepository.save(techStackC);
 
-		TechStack techStackCsharp = new TechStack("C#", "csharp");
+		TechStack techStackCsharp = new TechStack("C#");
 		techStackRepository.save(techStackCsharp);
 
-		TechStack techStackCpp = new TechStack("C++", "cpp");
-		techStackRepository.save(techStackCpp);
+		TechStack techStackCplus = new TechStack("C++");
+		techStackRepository.save(techStackCplus);
 
-		TechStack techStackJava = new TechStack("Java", "java");
+		TechStack techStackJava = new TechStack("Java");
 		techStackRepository.save(techStackJava);
 
-		TechStack techStackPython = new TechStack("Python", "python");
+		TechStack techStackPython = new TechStack("Python");
 		techStackRepository.save(techStackPython);
 
-		TechStack techStackKotlin = new TechStack("Kotlin", "python");
+		TechStack techStackKotlin = new TechStack("Kotlin");
 		techStackRepository.save(techStackKotlin);
 
-		TechStack techStackGo = new TechStack("Go", "go");
+		TechStack techStackGo = new TechStack("Go");
 		techStackRepository.save(techStackGo);
 
-		TechStack techStackNestjs = new TechStack("Nest.js", "nestjs");
+		TechStack techStackNestjs = new TechStack("Nest.js");
 		techStackRepository.save(techStackNestjs);
 
-		TechStack techStackNodejs = new TechStack("Node.js", "nextjs");
+		TechStack techStackNodejs = new TechStack("Node.js");
 		techStackRepository.save(techStackNodejs);
 
-		TechStack techStackDjango = new TechStack("Django", "django");
+		TechStack techStackDjango = new TechStack("Django");
 		techStackRepository.save(techStackDjango);
 
-		TechStack techStackSpring = new TechStack("Spring", "spring");
+		TechStack techStackSpring = new TechStack("Spring");
 		techStackRepository.save(techStackSpring);
 
-		TechStack techStackMysql = new TechStack("MySQL", "mysql");
+		TechStack techStackMysql = new TechStack("MySQL");
 		techStackRepository.save(techStackMysql);
 
-		TechStack techStackGraphQL = new TechStack("GraphQL", "graphql");
+		TechStack techStackGraphQL = new TechStack("GraphQL");
 		techStackRepository.save(techStackGraphQL);
 
-		TechStack techStackRedis = new TechStack("Redis", "redis");
+		TechStack techStackRedis = new TechStack("Redis");
 		techStackRepository.save(techStackRedis);
 
-		TechStack techStackMongodb = new TechStack("MongoDB", "mongodb");
+		TechStack techStackMongodb = new TechStack("MongoDB");
 		techStackRepository.save(techStackMongodb);
 
-		TechStack techStackFirebase = new TechStack("Firebase", "firebase");
+		TechStack techStackFirebase = new TechStack("Firebase");
 		techStackRepository.save(techStackFirebase);
 
 		// FrontEnd
-		TechStack techStackJs = new TechStack("Javascript", "javascript");
+		TechStack techStackJs = new TechStack("Javascript");
 		techStackRepository.save(techStackJs);
 
-		TechStack techStackTs = new TechStack("Typescript", "typescript");
+		TechStack techStackTs = new TechStack("Typescript");
 		techStackRepository.save(techStackTs);
 
-		TechStack techStackReact = new TechStack("React", "react");
+		TechStack techStackReact = new TechStack("React");
 		techStackRepository.save(techStackReact);
 
-		TechStack techStackVue = new TechStack("Vue", "vue");
+		TechStack techStackVue = new TechStack("Vue");
 		techStackRepository.save(techStackVue);
 
-		TechStack techStackAngular = new TechStack("Angular", "angular");
+		TechStack techStackAngular = new TechStack("Angular");
 		techStackRepository.save(techStackAngular);
 
-		TechStack techStackSvelte = new TechStack("Svelte", "svelte");
+		TechStack techStackSvelte = new TechStack("Svelte");
 		techStackRepository.save(techStackSvelte);
 
 		// Mobile
-		TechStack techStackSwift = new TechStack("Swift", "swift");
+		TechStack techStackSwift = new TechStack("Swift");
 		techStackRepository.save(techStackSwift);
 
-		TechStack techStackSwiftui = new TechStack("SwiftUI", "swiftui");
+		TechStack techStackSwiftui = new TechStack("SwiftUI");
 		techStackRepository.save(techStackSwiftui);
 
-		TechStack techStackFlutter = new TechStack("Flutter", "flutter");
+		TechStack techStackFlutter = new TechStack("Flutter");
 		techStackRepository.save(techStackFlutter);
 
 		// Etc
-		TechStack techStackAws = new TechStack("AWS", "aws");
+		TechStack techStackAws = new TechStack("AWS");
 		techStackRepository.save(techStackAws);
 
-		TechStack techStackDocker = new TechStack("Docker", "docker");
+		TechStack techStackDocker = new TechStack("Docker");
 		techStackRepository.save(techStackDocker);
 
-		TechStack techStackKubernetes = new TechStack("Kubernetes", "kubernetes");
+		TechStack techStackKubernetes = new TechStack("Kubernetes");
 		techStackRepository.save(techStackKubernetes);
 
-		TechStack techStackJenkins = new TechStack("Jenkins", "jenkins");
+		TechStack techStackJenkins = new TechStack("Jenkins");
 		techStackRepository.save(techStackJenkins);
 
-		TechStack techStackFigma = new TechStack("Figma", "figma");
+		TechStack techStackFigma = new TechStack("Figma");
 		techStackRepository.save(techStackFigma);
 
-		TechStack techStackGit = new TechStack("Git", "git");
+		TechStack techStackGit = new TechStack("Git");
 		techStackRepository.save(techStackGit);
 
-		TechStack techStackUnity = new TechStack("Unity", "unity");
+		TechStack techStackUnity = new TechStack("Unity");
 		techStackRepository.save(techStackUnity);
 
 		//==TechstackCategory==//
@@ -157,7 +157,7 @@ public class InitService {
 
 		TechStackCategory techStackCategoryB3 = new TechStackCategory();
 		techStackCategoryB3.setCategory(categoryBack);
-		techStackCategoryB3.setTechstack(techStackCpp);
+		techStackCategoryB3.setTechstack(techStackCplus);
 		techStackCategoryRepository.save(techStackCategoryB3);
 
 		TechStackCategory techStackCategoryB4 = new TechStackCategory();
