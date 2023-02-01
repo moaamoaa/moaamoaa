@@ -79,13 +79,18 @@ public class TechStackService {
 			}
 			profileTechStackList = profileTechStackRepository.getProfileTechStacks(profileId); // 다시 가져옴
 
-		} else if (originListSize < inputListSize) // 추가를 해야하는 경우
+		}
+		else if (originListSize < inputListSize) // 추가를 해야하는 경우
 		{
 			for (int i = inputListSize - 1; i > originListSize - 1; i--) {
 				TechStackForm tempTechStackForm = techStackFormList.remove(i);
-
+				ProfileTechStack tempProfileTechStack = ProfileTechStack.builder()
+						.profile(profile)
+						.techStack(techstackRepository.getTechStackById(tempTechStackForm.getId()))
+						.order(i+1).build();
+				profileTechStackRepository.save(tempProfileTechStack); // 뒤에 있는 거 저장
 			}
-
+			inputListSize = techStackFormList.size();
 		}
 		for (int size = 0; size < inputListSize; size++) {
 
@@ -103,19 +108,7 @@ public class TechStackService {
 			profileTechStackRepository.save(originProfileTechStack);
 		}
 
-		//--------------------------//
-		// for (TechStackForm techStackForm : techStackFormList) {
-		// 	// ProfileTechStack
-		// 	ProfileTechStack profileTechStack = ProfileTechStack.builder()
-		// 		.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
-		// 		.profile(profile)
-		// 		.build();
-		// 	ProfileTechStack originProfileTechStack = profileTechStackRepository.getProfileTechStack(
-		// 		profileTechStack.getTechStack().getId());
-		// 	profileTechStackRepository.save(profileTechStack);
-		// }
-		//
-		// profileRepository.save(profile);
+
 		return "SUCCESS";
 	}
 

@@ -87,7 +87,7 @@ public class ProfileController {
 	@PutMapping("/register/{profileId}")
 	public ResponseEntity<?> modifyProfile(@PathVariable Long profileId,
 		@RequestBody List<TechStackForm> techStackFormList) {
-
+	log.info("Size:"+ techStackFormList.size());
 		// 기술 스택 , 지역, 링크 리스트로 모두 리턴
 		String result = techStackService.modifyProfileTechStack(profileId, techStackFormList);
 
