@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
-import TextField from 'components/team/TextField';
+import SingleTextField from 'components/team/SingleTextField';
 import MultipleSelect from 'components/team/MultipleSelect';
 import MultilineText from 'components/team/MultilineText';
 import SingleSelect from 'components/team/SingleSelect';
@@ -20,7 +20,7 @@ import SingleSelectRegion from 'components/team/SingleSelectRegion';
 
 export default function TeamUpdatePage() {
   const teamBannerEdit = {
-    title: <TextField></TextField>, // project_title POST
+    title: <SingleTextField></SingleTextField>, // project_title POST
     leader: '팀장 이름', // GET
     image: 'https://source.unsplash.com/random', // project_image POST
   };
