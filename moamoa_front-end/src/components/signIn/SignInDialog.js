@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import axios from 'axios';
 import { loginAccount } from 'redux/User';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  TextField,
+  Grid,
+  Box,
+} from '@mui/material/';
 
 import DialogHeader from 'components/common/dialog/DialogHeader';
 
@@ -17,13 +20,14 @@ const baseUrl = 'http://localhost:8080';
 export default function SignInDialog(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLogged, setIsLogged] = useState(false);
-  const [userNickname, setUserNickname] = useState('');
-  const [userPk, setUserPk] = useState('');
 
+  const dispatch = useDispatch();
+  const isLogin = useSelector(state => state.User.isLogged);
   const handleCloseSignIndialog = () => {
     props.setSignInDialog(false);
   };
+
+  useEffect(handleCloseSignIndialog, [isLogin]);
 
   const handleLogIn = () => {
     axios
@@ -35,28 +39,29 @@ export default function SignInDialog(props) {
         console.log('로그인 성공');
         console.log(response);
         const token = response.data.accessToken;
-        const user_pk = response.data.user_pk;
+        const user_pk = response.data.id;
+        dispatch(loginAccount({ userPk: user_pk }));
         console.log(token);
-        
+
         // 로그인 성공 시 유저 정보 axios 요청
-        axios
-          .get(
-            `${baseUrl}/`,
-            {
-              user_pk: user_pk,
-            },
-            {
-              headers: {
-                Authorization: `Token ${token}`,
-              },
-            },
-          )
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        // axios
+        //   .get(
+        //     `${baseUrl}/`,
+        //     {
+        //       user_pk: user_pk,
+        //     },
+        //     {
+        //       headers: {
+        //         Authorization: `Token ${token}`,
+        //       },
+        //     },
+        //   )
+        //   .then(response => {
+        //     console.log(response);
+        //   })
+        //   .catch(error => {
+        //     console.log(error);
+        //   });
       })
       .catch(error => {
         console.log('로그인 실패');
