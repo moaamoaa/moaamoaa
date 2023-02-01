@@ -95,7 +95,10 @@ export default function TeamCreatePage() {
       </Container>
       <Container fixed>
         <h2>팀 소개</h2>
-        <MultilineText ref={inputRef}></MultilineText>
+        <MultilineText
+          placeholder="팀 소개를 작성해 주세요."
+          ref={inputRef}
+        ></MultilineText>
       </Container>
       <Container fixed>
         <h2>팀원 소개</h2>
