@@ -10,17 +10,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class TechStackForm {
-	@JsonProperty("tech_stack_no")
-	private Long id;
-
-	@JsonProperty("techName")
-	private String name;
-
-	@JsonProperty("img")
-	private String img;
-
+public class ContextForm {
+	@JsonProperty("context")
+	private String Context;
 }

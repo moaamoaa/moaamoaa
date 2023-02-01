@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.config.security.JwtTokenProvider;
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.TokenDto;
 import com.ssafy.moamoa.domain.entity.Profile;
@@ -80,6 +81,7 @@ public class UserService {
 		Profile profile = Profile.builder()
 			.nickname(nickname)
 			.searchState(ProfileSearchStatus.ALL)
+			.profileOnOffStatus(ProfileOnOffStatus.ONLINE)
 			.build();
 
 		user.setProfile(profile);

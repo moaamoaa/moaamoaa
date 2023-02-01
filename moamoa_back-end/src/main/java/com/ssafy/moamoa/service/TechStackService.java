@@ -6,43 +6,46 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.dto.TechStackForm;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.ProfileTechStack;
 import com.ssafy.moamoa.domain.entity.ProjectTechStack;
 import com.ssafy.moamoa.domain.entity.TechStack;
+import com.ssafy.moamoa.repository.ProfileRepository;
+import com.ssafy.moamoa.repository.ProfileTechStackRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TechStackRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 import com.ssafy.moamoa.repository.UserTechStackRepository;
 
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = false)
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class TechStackService {
 	@PersistenceContext
 	EntityManager em;
-	@Autowired
-	private TechStackRepository techstackRepository;
 
-	@Autowired
-	private UserTechStackRepository userTechStackRepository;
+	private final TechStackRepository techstackRepository;
 
-	@Autowired
-	private ProjectTechStackRepository projectTechStackRepository;
+	private final ProfileRepository profileRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final ProfileTechStackRepository profileTechStackRepository;
 
-	@Autowired
-	private ProjectRepository projectRepository;
+	private final UserTechStackRepository userTechStackRepository;
+
+	private final ProjectTechStackRepository projectTechStackRepository;
+
+	private final UserRepository userRepository;
+
+	private final ProjectRepository projectRepository;
 
 	public List<TechStackForm> searchTechStackByName(String techName) {
 		List<TechStack> domainResult = techstackRepository.searchTechStackByName(techName);
@@ -57,35 +60,25 @@ public class TechStackService {
 	}
 
 	// Id, techStackFormList
-	/*public List<TechStackForm> modifyUserTechStack(Long userId, List<TechStackForm> techStackFormList) {
+	public String modifyProfileTechStack(Long profileId, List<TechStackForm> techStackFormList) {
 
-		List<ProfileTechStack> profileTechStackList = new ArrayList<>();
-		List<TechStackForm> techStackFormListResult = new ArrayList<>();
-		// 유저 스택 모두 삭제
-		Long deleteCount = userTechStackRepository.deleteAllUserStackById(userId);
+		Profile profile = profileRepository.getProfileById(profileId);
+		StringBuilder sb = new StringBuilder();
 
-		// 유저 스택 모두 추가
 		for (TechStackForm techStackForm : techStackFormList) {
-			// profile
+			// ProfileTechStack
 			ProfileTechStack profileTechStack = ProfileTechStack.builder()
 				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
-				.profile(userRepository.findById(userId).get()).build();
-
-			userTechStackRepository.save(profileTechStack);
-		}
-
-		List<ProfileTechStack> techStackList = userTechStackRepository.getAllUserTechStackByOrder(userId);
-		for (ProfileTechStack uts : techStackList) {
-			TechStackForm techStackForm = TechStackForm.builder()
-				.id(uts.getTechStack().getId())
-				.name(uts.getTechStack().getName())
-				.img(uts.getTechStack().getLogo())
+				.profile(profile)
 				.build();
-			techStackFormListResult.add(techStackForm);
+			sb.append(techStackForm.getId() + ",");
+			profileTechStackRepository.save(profileTechStack);
 		}
-
-		return techStackFormListResult;
-	}*/
+		sb.deleteCharAt(sb.length() - 1);
+		profile.setTechStackOrder(sb.toString());
+		profileRepository.save(profile);
+		return "SUCCESS";
+	}
 
 	public List<TechStackForm> modifyTeamTechStack(Long projectId, List<TechStackForm> techStackFormList) {
 		List<ProjectTechStack> teamTechStackList = new ArrayList<>();

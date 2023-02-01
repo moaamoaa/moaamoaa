@@ -35,7 +35,7 @@ public class ProfileTechStack {
 
 	@NotNull
 	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "profile_no")
 	private Profile profile;
 }
 

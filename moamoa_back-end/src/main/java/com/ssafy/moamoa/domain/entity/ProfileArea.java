@@ -31,7 +31,7 @@ public class ProfileArea {
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "profile_no")
 	private Profile profile;
 
 	public ProfileArea() {

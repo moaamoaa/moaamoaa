@@ -3,6 +3,7 @@ package com.ssafy.moamoa.domain.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -21,6 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
 
 import lombok.AllArgsConstructor;
@@ -40,7 +41,6 @@ public class Profile {
 	private Long id;
 
 	@NotNull
-	@MapsId
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_no")
 	private User user;
@@ -54,6 +54,11 @@ public class Profile {
 	@Enumerated(EnumType.STRING)
 	private ProfileSearchStatus searchState = ProfileSearchStatus.ALL;
 
+	@NotNull
+	@ColumnDefault("'ONLINE'")
+	@Enumerated(EnumType.STRING)
+	private ProfileOnOffStatus profileOnOffStatus = ProfileOnOffStatus.ONLINE;
+
 	@Column(name = "profile_img")
 	private String img;
 
@@ -61,11 +66,17 @@ public class Profile {
 	@Column(name = "profile_context", columnDefinition = "TEXT")
 	private String context;
 
-	@OneToMany(mappedBy = "profile")
+	@OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
 	private List<ProfileTechStack> techStacks = new ArrayList<>();
 
-	@OneToMany(mappedBy = "profile")
+	@Column(name = "tech_stack_order")
+	private String techStackOrder;
+
+	@OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
 	private List<ProfileArea> profileAreas = new ArrayList<>();
+
+	@Column(name = "profile_area_order")
+	private String profileAreaOrder;
 
 	public Profile() {
 	}
@@ -83,4 +94,11 @@ public class Profile {
 		this.searchState = profileSearchStatus;
 	}
 
+	public void setTechStackOrder(String techStackOrder) {
+		this.techStackOrder = techStackOrder;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
 }
