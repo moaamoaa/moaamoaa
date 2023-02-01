@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { forwardRef } from 'react';
+
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -37,7 +39,7 @@ function getStyles(tech, personTech, theme) {
   };
 }
 
-export default function MultipleSelect() {
+const MultipleSelect = forwardRef((props, ref) => {
   const theme = useTheme();
   const [personTech, setPersonTech] = React.useState([]);
 
@@ -49,6 +51,7 @@ export default function MultipleSelect() {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    ref.current = event.target.value;
   };
 
   return (
@@ -84,4 +87,5 @@ export default function MultipleSelect() {
       </FormControl>
     </div>
   );
-}
+});
+export default MultipleSelect;
