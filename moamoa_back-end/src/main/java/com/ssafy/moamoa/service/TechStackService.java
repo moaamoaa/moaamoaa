@@ -63,22 +63,68 @@ public class TechStackService {
 	public String modifyProfileTechStack(Long profileId, List<TechStackForm> techStackFormList) {
 
 		Profile profile = profileRepository.getProfileById(profileId);
-		StringBuilder sb = new StringBuilder();
+		List<ProfileTechStack> profileTechStackList = profileTechStackRepository.getProfileTechStacks(profileId);
+		// 리스트 전처리 작업
+		int inputListSize = techStackFormList.size(); // 5
+		int originListSize = profileTechStackList.size(); // 3
+		List<Integer> differOrder = new ArrayList<>();
 
-		for (TechStackForm techStackForm : techStackFormList) {
-			// ProfileTechStack
-			ProfileTechStack profileTechStack = ProfileTechStack.builder()
-				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
-				.profile(profile)
-				.build();
-			sb.append(techStackForm.getId() + ",");
-			profileTechStackRepository.save(profileTechStack);
+		if (originListSize > inputListSize) {  // 삭제를 해야하는 경우
+			for (int i = originListSize; i > inputListSize; i--) {
+				differOrder.add(i);
+			}
+			for (int i : differOrder) {
+				profileTechStackRepository.deleteProfileTechStackByOrder(i);
+
+			}
+			profileTechStackList = profileTechStackRepository.getProfileTechStacks(profileId); // 다시 가져옴
+
+		} else if (originListSize < inputListSize) // 추가를 해야하는 경우
+		{
+			for (int i = inputListSize - 1; i > originListSize - 1; i--) {
+				TechStackForm tempTechStackForm = techStackFormList.remove(i);
+
+			}
+
 		}
-		sb.deleteCharAt(sb.length() - 1);
-		profile.setTechStackOrder(sb.toString());
-		profileRepository.save(profile);
+		for (int size = 0; size < inputListSize; size++) {
+
+			TechStackForm techStackForm = techStackFormList.get(size);
+
+			ProfileTechStack tempProfileTechStack = ProfileTechStack.builder()
+				.profile(profile)
+				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
+				.order(size + 1).build();
+
+			ProfileTechStack originProfileTechStack = profileTechStackRepository.getProfileTechStack(
+				tempProfileTechStack.getTechStack().getId());
+
+			originProfileTechStack.setTechStack(tempProfileTechStack.getTechStack());
+			profileTechStackRepository.save(originProfileTechStack);
+		}
+
+		//--------------------------//
+		// for (TechStackForm techStackForm : techStackFormList) {
+		// 	// ProfileTechStack
+		// 	ProfileTechStack profileTechStack = ProfileTechStack.builder()
+		// 		.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
+		// 		.profile(profile)
+		// 		.build();
+		// 	ProfileTechStack originProfileTechStack = profileTechStackRepository.getProfileTechStack(
+		// 		profileTechStack.getTechStack().getId());
+		// 	profileTechStackRepository.save(profileTechStack);
+		// }
+		//
+		// profileRepository.save(profile);
 		return "SUCCESS";
 	}
+
+	// public ProfileTechStack convertTechStackFormToProfileTechStack(Profile profile, TechStackForm techStackForm) {
+	// 	ProfileTechStack tempProfileTechStack = ProfileTechStack.builder()
+	// 		.profile(profile)
+	// 		.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
+	// 		.order().build();
+	// }
 
 	public List<TechStackForm> modifyTeamTechStack(Long projectId, List<TechStackForm> techStackFormList) {
 		List<ProjectTechStack> teamTechStackList = new ArrayList<>();

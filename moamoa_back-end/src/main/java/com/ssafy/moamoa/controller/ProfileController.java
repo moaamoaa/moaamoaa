@@ -73,8 +73,8 @@ public class ProfileController {
 	}
 
 	// 다른 사용자 페이지 접근
-	@GetMapping("/{userId}")
-	public ResponseEntity<Map<String, Object>> userPage(@PathVariable Long profileId) {
+	@GetMapping("/{profileId}")
+	public ResponseEntity<Map<String, Object>> goUserPage(@PathVariable Long profileId) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		ProfileForm profileForm = profileService.getProfile(profileId);

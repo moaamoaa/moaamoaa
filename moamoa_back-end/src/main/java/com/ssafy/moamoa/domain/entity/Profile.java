@@ -66,17 +66,11 @@ public class Profile {
 	@Column(name = "profile_context", columnDefinition = "TEXT")
 	private String context;
 
-	@OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
-	private List<ProfileTechStack> techStacks = new ArrayList<>();
-
-	@Column(name = "tech_stack_order")
-	private String techStackOrder;
+	@OneToMany(mappedBy = "profile_stack_no")
+	private List<ProfileTechStack> profileTechStack;
 
 	@OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
 	private List<ProfileArea> profileAreas = new ArrayList<>();
-
-	@Column(name = "profile_area_order")
-	private String profileAreaOrder;
 
 	public Profile() {
 	}
@@ -92,10 +86,6 @@ public class Profile {
 
 	public void setSearchState(ProfileSearchStatus profileSearchStatus) {
 		this.searchState = profileSearchStatus;
-	}
-
-	public void setTechStackOrder(String techStackOrder) {
-		this.techStackOrder = techStackOrder;
 	}
 
 	public void setContext(String context) {
