@@ -20,6 +20,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import SignInDialog from 'components/signIn/SignInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/signIn/FindPasswordDialog';
+import scrollToTop from 'utils/scrollToTop';
 
 export default function NavbarAccount() {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -48,6 +49,7 @@ export default function NavbarAccount() {
   const handleNavigate = () => {
     handleCloseUserMenu();
     navigate('/ProfilePage');
+    scrollToTop();
   };
 
   const handleUserToken = () => {
