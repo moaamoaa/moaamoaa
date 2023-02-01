@@ -1,10 +1,14 @@
 package com.ssafy.moamoa.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ssafy.moamoa.domain.dto.ProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.service.SearchService;
 
@@ -21,8 +25,8 @@ public class SearchController {
 
 	@GetMapping("/project")
 	public ResponseEntity<?> searchProject(SearchCondition condition) {
-		log.debug(condition.toString());
-		return null;
+		List<ProjectDto> results = searchService.searchProject(condition);
+		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 
 	@GetMapping("/profile")
