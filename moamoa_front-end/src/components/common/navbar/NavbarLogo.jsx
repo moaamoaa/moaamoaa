@@ -1,15 +1,18 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
+import {
+  Box,
+  IconButton,
+  Menu,
+  Button,
+  MenuItem,
+  Typography,
+} from '@mui/material/';
+
 import MenuIcon from '@mui/icons-material/Menu';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
 
 // import TemporaryDrawer from 'components/common/drawer/TemporaryDrawer';
 
@@ -22,14 +25,10 @@ const pages = [
     text: '팀원 구하기',
     link: 'TeamMemberSearchPage',
   },
-  {
-    text: '프로필',
-    link: 'ProfilePage',
-  },
 ];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
@@ -38,6 +37,7 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
   return (
     <>
       <Typography

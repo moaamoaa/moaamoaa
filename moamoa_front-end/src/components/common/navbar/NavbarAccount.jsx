@@ -1,43 +1,37 @@
 import { useState } from 'react';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAccount } from 'redux/User';
+import { useNavigate } from 'react-router-dom';
+
+import styled from '@emotion/styled';
+
+import {
+  Box,
+  IconButton,
+  Typography,
+  Menu,
+  Avatar,
+  MenuItem,
+  Button,
+} from '@mui/material/';
+
 import ChatIcon from '@mui/icons-material/Chat';
-import Button from '@mui/material/Button';
-import SvgIcon from '@mui/material/SvgIcon';
 
 import SignInDialog from 'components/signIn/SignInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/signIn/FindPasswordDialog';
-import styled from '@emotion/styled';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutAccount } from 'redux/User';
-
-const settings = [
-  {
-    text: 'Profile',
-    icon: 'LogoutIcon',
-  },
-  {
-    text: 'Logout',
-    icon: 'LogoutIcon',
-  },
-];
 
 export default function NavbarAccount() {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [isLogIn, setisLogIn] = useState(false);
   const [signInDialog, setSignInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
   // 임시 로그인 확인. 나중에 지울 것
-  const isLogin = useSelector(state => state.User.isLogged);
+  const isLogIn = useSelector(state => state.User.isLogged);
+
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
@@ -51,20 +45,40 @@ export default function NavbarAccount() {
     setSignInDialog(true);
   };
 
+  const handleNavigate = () => {
+    handleCloseUserMenu();
+    navigate('/ProfilePage');
+  };
+
+  const handleUserToken = () => {
+    handleCloseUserMenu();
+    dispatch(logoutAccount());
+  };
+
+  const settings = [
+    {
+      text: '프로필',
+      icon: 'LogoutIcon',
+      handler: handleNavigate,
+    },
+    {
+      text: '로그아웃',
+      icon: 'LogoutIcon',
+      handler: handleUserToken,
+    },
+  ];
+
   if (isLogIn) {
     return (
       <Box sx={{ flexGrow: 0 }}>
-        <Tooltip title="message">
-          <IconButton onClick={null} sx={{ mr: 2 }}>
-            <ChatIcon />
-          </IconButton>
-        </Tooltip>
+        <IconButton onClick={null} sx={{ mr: 2 }}>
+          <ChatIcon />
+        </IconButton>
 
-        <Tooltip title="hi">
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
-          </IconButton>
-        </Tooltip>
+        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
+        </IconButton>
+
         <Menu
           sx={{ mt: '45px' }}
           id="menu-appbar"
@@ -82,8 +96,7 @@ export default function NavbarAccount() {
           onClose={handleCloseUserMenu}
         >
           {settings.map(setting => (
-            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-              <SvgIcon component={setting.icon} inheritViewBox />
+            <MenuItem key={setting.text} onClick={setting.handler}>
               <Typography textAlign="center">{setting.text}</Typography>
             </MenuItem>
           ))}
@@ -94,20 +107,9 @@ export default function NavbarAccount() {
     return (
       <>
         <Box sx={{ flexGrow: 0 }}>
-          {!isLogin ? (
-            <MoaButton variant="text" onClick={handleClickOpen}>
-              Log in
-            </MoaButton>
-          ) : (
-            <MoaButton
-              variant="text"
-              onClick={() => {
-                dispatch(logoutAccount());
-              }}
-            >
-              LogOut
-            </MoaButton>
-          )}
+          <MoaButton variant="text" onClick={handleClickOpen}>
+            로그인
+          </MoaButton>
         </Box>
         <SignInDialog
           signInDialog={signInDialog}
