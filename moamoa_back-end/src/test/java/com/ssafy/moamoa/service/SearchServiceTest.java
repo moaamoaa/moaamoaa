@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ssafy.moamoa.domain.dto.ProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
+import com.ssafy.moamoa.domain.entity.TechStack;
 
 @SpringBootTest
 class SearchServiceTest {
@@ -42,6 +43,12 @@ class SearchServiceTest {
 
 		//then
 		Assertions.assertThat(setResult.getTechStacks()).isNotNull();
+
+		System.out.println("*************");
+		for (TechStack t : setResult.getTechStacks()) {
+			System.out.println(t.getName());
+		}
+		System.out.println("*************");
 	}
 
 	@Test
@@ -54,5 +61,8 @@ class SearchServiceTest {
 
 		//then
 		Assertions.assertThat(setResult.getLeaderName()).isNotNull();
+		System.out.println("*************");
+		System.out.println(setResult.getLeaderName());
+		System.out.println("*************");
 	}
 }

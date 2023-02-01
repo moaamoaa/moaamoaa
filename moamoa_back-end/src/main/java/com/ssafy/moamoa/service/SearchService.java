@@ -2,6 +2,7 @@ package com.ssafy.moamoa.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,10 @@ public class SearchService {
 	}
 
 	public ProjectDto setTechStacks(ProjectDto result) {
-		List<TechStack> findTechStacks = projectTechStackRepository.findTechStackByProject_Id(result.getId());
+		List<TechStack> findTechStacks = projectTechStackRepository.findTop4ByProject_Id(result.getId())
+			.stream()
+			.map(t -> t.getTechStack())
+			.collect(Collectors.toList());
 		if (!findTechStacks.isEmpty()) {
 			result.setTechStacks(findTechStacks);
 		}
