@@ -119,6 +119,16 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "닉네임 변경",
+		notes = "email에 맞는 회원의 nickname을 중복 검사 후 수정한다.")
+	// 닉네임 변경
+	@PostMapping("/nickname")
+	public ResponseEntity<?> updateNickname(@RequestBody SignForm signForm) {
+		// 받은 닉네임으로 update
+		userService.updateNickname(signForm.getNickname(), signForm.getEmail());
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	@ApiOperation(value = "회원 삭제",
 		notes = "email에 맞는 회원을 삭제한다.")
 	// 회원 삭제

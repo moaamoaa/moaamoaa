@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { forwardRef } from 'react';
+
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -20,12 +22,39 @@ const MenuProps = {
 };
 
 const teches = [
+  '무관',
+  'C', // 1부터 시작해야
+  'C#',
+  'C++',
+  'Java',
+  'Python',
+  'Kotlin',
+  'Go',
+  'Nest.js',
+  'Node.js',
+  'Django',
+  'Spring',
+  'MySQL',
+  'GraphQL',
+  'Redis',
+  'MongoDB',
+  'Firebase',
   'Javascript',
   'Typescript',
   'React',
   'Vue',
   'Angular',
   'Svelte',
+  'Swift',
+  'SwiftUI',
+  'Flutter',
+  'AWS',
+  'Docker',
+  'Kubernetes',
+  'Jenkins',
+  'Figma',
+  'Git',
+  'Unity',
 ];
 
 function getStyles(tech, personTech, theme) {
@@ -37,7 +66,7 @@ function getStyles(tech, personTech, theme) {
   };
 }
 
-export default function MultipleSelect() {
+const MultipleSelect = forwardRef((props, ref) => {
   const theme = useTheme();
   const [personTech, setPersonTech] = React.useState([]);
 
@@ -49,12 +78,13 @@ export default function MultipleSelect() {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    ref.current = event.target.value;
   };
 
   return (
     <div>
       <FormControl fullWidth>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">복수 선택</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
@@ -84,4 +114,5 @@ export default function MultipleSelect() {
       </FormControl>
     </div>
   );
-}
+});
+export default MultipleSelect;

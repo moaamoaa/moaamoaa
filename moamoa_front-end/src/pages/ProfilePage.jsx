@@ -9,6 +9,7 @@ import Profile from 'components/profile/Profile';
 import ProfileContentContainer from 'components/profile/ProfileContentContainer';
 import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
+import { useEffect } from 'react';
 
 const userProfileContents = [
   {
@@ -26,6 +27,8 @@ const userProfileContents = [
 ];
 
 export default function ProfilePage(props) {
+  useEffect(() => {}, []);
+
   return (
     <ProfilePageContainer fixed>
       <Grid container spacing={10}>

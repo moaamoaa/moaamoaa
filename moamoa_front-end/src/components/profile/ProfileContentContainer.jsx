@@ -7,16 +7,12 @@ import Typography from '@mui/material/Typography';
 
 export default function ProfileContentContainer(props) {
   return (
-    <ProfileContent>
+    <>
       <ContentTitle color="initial">{props.title}</ContentTitle>
       <MoaContainer>{props.content}</MoaContainer>
-    </ProfileContent>
+    </>
   );
 }
-
-const ProfileContent = styled(Container)`
-  padding: 0 !important;
-`;
 
 const ContentTitle = styled(Typography)`
   font-weight: bolder;

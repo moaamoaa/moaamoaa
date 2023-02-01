@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRef } from 'react';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -10,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
-import TextField from 'components/team/TextField';
+import SingleTextField from 'components/team/SingleTextField';
 import MultipleSelect from 'components/team/MultipleSelect';
 import MultilineText from 'components/team/MultilineText';
 import SingleSelect from 'components/team/SingleSelect';
@@ -19,12 +20,32 @@ import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
 
 export default function TeamCreatePage() {
+  //ref
+  const inputRef = useRef('');
+  const classRef = useRef('');
+  const numberRef = useRef('');
+  const onoffRef = useRef('');
+  const regionRef = useRef('');
+  const titleRef = useRef('');
+  const dateRef = useRef('');
+  const techRef = useRef('');
+  //handler
+  const handleClick = () => {
+    console.log(inputRef.current);
+    console.log(classRef.current);
+    console.log(numberRef.current);
+    console.log(onoffRef.current);
+    console.log(regionRef.current);
+    console.log(titleRef.current);
+    console.log(dateRef.current);
+    console.log(techRef.current);
+  };
+
   const teamBannerEdit = {
-    title: <TextField></TextField>, // project_title POST
+    title: <SingleTextField ref={titleRef}></SingleTextField>, // project_title POST
     leader: '팀장 이름', // GET
     image: '',
   };
-
   return (
     <>
       <Container fixed>
@@ -41,7 +62,12 @@ export default function TeamCreatePage() {
             {/* <Button size="small" variant="contained" color="primary">
               제안 및 지원 확인
             </Button> */}
-            <Button size="small" variant="contained" color="primary">
+            <Button
+              onClick={handleClick}
+              size="small"
+              variant="contained"
+              color="primary"
+            >
               등록
             </Button>
             <Button size="small" variant="contained" color="primary">
@@ -54,22 +80,25 @@ export default function TeamCreatePage() {
         <h2>모집 정보</h2>
         <Box>
           <h4>모집 구분</h4>
-          <SingleSelect></SingleSelect>
+          <SingleSelect ref={classRef}></SingleSelect>
           <h4>모집 인원</h4>
-          <SingleSelectNumber></SingleSelectNumber>
-          <h4>모집 기간</h4>
-          <Calendar></Calendar>
+          <SingleSelectNumber ref={numberRef}></SingleSelectNumber>
+          <h4>마감 날짜</h4>
+          <Calendar ref={dateRef}></Calendar>
           <h4>진행 방식</h4>
-          <SingleSelectOnOff></SingleSelectOnOff>
+          <SingleSelectOnOff ref={onoffRef}></SingleSelectOnOff>
           <h4>지역</h4>
-          <SingleSelectRegion></SingleSelectRegion>
+          <SingleSelectRegion ref={regionRef}></SingleSelectRegion>
           <h4>기술 스택</h4>
-          <MultipleSelect></MultipleSelect>
+          <MultipleSelect ref={techRef}></MultipleSelect>
         </Box>
       </Container>
       <Container fixed>
         <h2>팀 소개</h2>
-        <MultilineText></MultilineText>
+        <MultilineText
+          placeholder="팀 소개를 작성해 주세요."
+          ref={inputRef}
+        ></MultilineText>
       </Container>
       <Container fixed>
         <h2>팀원 소개</h2>

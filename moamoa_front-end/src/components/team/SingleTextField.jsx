@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 
-const MultilineText = forwardRef((props, ref) => {
+const SingleTextField = forwardRef((props, ref) => {
   const handleChange = e => {
     ref.current = e.target.value;
   };
@@ -13,14 +13,14 @@ const MultilineText = forwardRef((props, ref) => {
     <Box component="form" noValidate autoComplete="off">
       <FormControl fullWidth>
         <TextField
-          id="outlined-multiline-static"
-          placeholder={props.placeholder}
-          multiline
-          rows={6}
           onChange={handleChange}
+          id="outlined-basic"
+          placeholder="팀이름을 입력해주세요."
+          // label="Outlined"
+          variant="outlined"
         />
       </FormControl>
     </Box>
   );
 });
-export default MultilineText;
+export default SingleTextField;
