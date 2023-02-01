@@ -35,7 +35,6 @@ public class SearchService {
 		for (ProjectDto result : searchResultList) {
 			//해당 기술 스택 가져오기
 			setTechStacks(result);
-
 			//팀 리더 가져오기
 			setLeaderNickname(result);
 		}
