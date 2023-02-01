@@ -7,11 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.InitTestService;
 import com.ssafy.moamoa.domain.ProjectCategory;
@@ -24,7 +24,7 @@ import com.ssafy.moamoa.service.ProjectService;
 import com.ssafy.moamoa.service.UserService;
 
 @SpringBootTest
-@Transactional
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProjectRepositoryImplTest {
 
 	@Autowired
@@ -39,7 +39,7 @@ class ProjectRepositoryImplTest {
 	@Autowired
 	InitTestService initService;
 
-	@BeforeEach
+	@BeforeAll
 	public void setData() throws Exception {
 		initService.addUser();
 		initService.addProject();
@@ -82,7 +82,7 @@ class ProjectRepositoryImplTest {
 		//given
 		List<Long> area = new ArrayList<>(Arrays.asList(1L, 2L));
 		List<Long> stack = new ArrayList<>(Arrays.asList(1L, 2L));
-		SearchCondition condition = new SearchCondition("hi", ProjectStatus.ONLINE, area, ProjectCategory.PROJECT,
+		SearchCondition condition = new SearchCondition("hello", ProjectStatus.ONLINE, area, ProjectCategory.STUDY,
 			stack);
 
 		//when
@@ -147,7 +147,7 @@ class ProjectRepositoryImplTest {
 	@Test
 	public void 기술스택검색() {
 		//given
-		List<Long> stack = new ArrayList<>(Arrays.asList(1L, 2L));
+		List<Long> stack = new ArrayList<>(Arrays.asList(1L, 5L));
 		SearchCondition condition = SearchCondition.builder().stack(stack).build();
 
 		//when
@@ -156,7 +156,7 @@ class ProjectRepositoryImplTest {
 		//then
 		System.out.println("++++++++++++++++++++");
 		for (ProjectDto r : result) {
-			System.out.println(r.getId());
+			System.out.println(r.toString());
 		}
 		System.out.println("++++++++++++++++++++");
 
@@ -165,7 +165,7 @@ class ProjectRepositoryImplTest {
 	@Test
 	public void 지역조건검색() {
 		//given
-		List<Long> area = new ArrayList<>(Arrays.asList(1L));
+		List<Long> area = new ArrayList<>(List.of(1L));
 		SearchCondition condition = SearchCondition.builder().area(area).build();
 
 		//when
