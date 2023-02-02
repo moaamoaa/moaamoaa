@@ -5,11 +5,20 @@ import styled from '@emotion/styled';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
+import LongMenu from 'components/profile/LongMenu';
+
 export default function ProfileContentContainer(props) {
   return (
     <>
       <ContentTitle color="initial">{props.title}</ContentTitle>
-      <MoaContainer>{props.content}</MoaContainer>
+      <MoaContainer container spacing={0}>
+        {props.content}
+        {props.handler ? (
+          <ProfileLongMenu handleClick={props.handler}></ProfileLongMenu>
+        ) : (
+          <></>
+        )}
+      </MoaContainer>
     </>
   );
 }
@@ -23,6 +32,9 @@ const ContentTitle = styled(Typography)`
 
 const MoaContainer = styled(Container)`
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 
   width: 100%;
   min-height: 8rem;
@@ -32,4 +44,8 @@ const MoaContainer = styled(Container)`
 
   border: 1px solid black;
   border-radius: 5px;
+`;
+
+const ProfileLongMenu = styled(LongMenu)`
+  position: absolute;
 `;

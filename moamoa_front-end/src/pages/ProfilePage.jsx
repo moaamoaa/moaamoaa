@@ -11,23 +11,31 @@ import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
 import { useEffect } from 'react';
 
-const userProfileContents = [
-  {
-    title: '자기 소개',
-    content: <SelfIntroduction></SelfIntroduction>,
-  },
-  {
-    title: '주요 프로젝트',
-    content: <SideProject></SideProject>,
-  },
-  {
-    title: '댓글',
-    content: '댓글입니다.',
-  },
-];
-
 export default function ProfilePage(props) {
   useEffect(() => {}, []);
+
+  const handleClick = () => {
+    console.log('hi');
+  };
+
+  const userProfileContents = [
+    {
+      type: 'read',
+      title: '자기 소개',
+      content: <SelfIntroduction></SelfIntroduction>,
+      handler: [handleClick, handleClick],
+    },
+    {
+      type: 'read',
+      title: '주요 프로젝트',
+      content: <SideProject></SideProject>,
+      handler: [handleClick, handleClick],
+    },
+    {
+      title: '댓글',
+      content: '댓글입니다.',
+    },
+  ];
 
   return (
     <ProfilePageContainer fixed>
@@ -39,8 +47,10 @@ export default function ProfilePage(props) {
           {userProfileContents.map((userProfileContent, idx) => (
             <ProfileContentContainer
               key={idx}
+              type={userProfileContent.type}
               title={userProfileContent.title}
               content={userProfileContent.content}
+              handler={userProfileContent.handler}
             ></ProfileContentContainer>
           ))}
         </Grid>
