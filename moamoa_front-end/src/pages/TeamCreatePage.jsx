@@ -61,9 +61,12 @@ export default function TeamCreatePage() {
     // 팀 소개 string
     console.log(inputRef.current);
     console.log(typeof inputRef.current);
+
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
-    axios
-      .post(`${baseUrl}/projects`, {
+    axios({
+      method: 'post',
+      url: `${baseUrl}/projects`,
+      data: {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
@@ -82,7 +85,8 @@ export default function TeamCreatePage() {
         title: titleRef.current,
         totalPeople: numberRef.current,
         userid: 1,
-      })
+      },
+    })
       .then(e => {
         console.log(e);
         console.log('포스트완료!');
