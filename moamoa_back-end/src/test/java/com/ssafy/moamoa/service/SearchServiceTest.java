@@ -86,7 +86,7 @@ class SearchServiceTest {
 		ProjectResultDto projectResultDto = ProjectResultDto.builder().id(1L).build();
 
 		//when
-		ProjectResultDto setResult = searchService.setTechStacks(projectResultDto);
+		ProjectResultDto setResult = searchService.setTechStacksInProject(projectResultDto);
 
 		//then
 		Assertions.assertThat(setResult.getTechStacks()).isNotNull();

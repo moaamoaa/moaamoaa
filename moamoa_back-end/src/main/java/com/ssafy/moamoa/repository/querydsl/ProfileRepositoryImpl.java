@@ -1,13 +1,24 @@
 package com.ssafy.moamoa.repository.querydsl;
 
+import static com.querydsl.jpa.JPAExpressions.*;
+import static com.ssafy.moamoa.domain.entity.QProfileArea.*;
+import static com.ssafy.moamoa.domain.entity.QProfileTechStack.*;
+import static com.ssafy.moamoa.domain.entity.QProject.*;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
+import com.ssafy.moamoa.domain.ProfileSearchStatus;
+import com.ssafy.moamoa.domain.ProjectCategory;
+import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.dto.ProfileResultDto;
+import com.ssafy.moamoa.domain.dto.QProfileResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.QProfile;
@@ -25,47 +36,69 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
 
 	@Override
 	public List<ProfileResultDto> search(SearchCondition condition) {
-		// queryFactory
-		// 	.select(new QProfileResultDto())
-		// 	.from(profile)
-		// 	.where(nicknameContain(condition.getQuery()), categoryIn(condition.getCategory()),
-		// 		statusEq(condition.getStatus()),
-		// 		areaIn(condition.getArea()), techStackIn(condition.getStack()),
-		// 		nowDateBetween())
+		return queryFactory
+			.select(new QProfileResultDto(profile.id, profile.nickname, profile.context, profile.profileOnOffStatus))
+			.from(profile)
+			.where(nicknameContain(condition.getQuery()), categoryIn(condition.getCategory()),
+				onlineOrArea(condition.getStatus(), condition.getArea()),
+				techStackIn(condition.getStack()),
+				searchStatusNeNone())
+			.fetch();
+
+	}
+
+	//닉네임 포함 쿼리
+	private BooleanExpression nicknameContain(String query) {
+		return query != null ? profile.nickname.contains(query) : null;
+	}
+
+	//검색 상태 포함
+	private BooleanExpression categoryIn(ProjectCategory categoryCond) {
+		if (categoryCond != null) {
+			ProfileSearchStatus cond = ProfileSearchStatus.valueOf(categoryCond.toString());
+			return profile.searchState.in(ProfileSearchStatus.ALL, cond);
+		}
 		return null;
 	}
 
-	// //검색 허용 안함
-	//
-	// //닉네임 포함 쿼리
-	// private BooleanExpression nicknameContain(String query) {
-	// 	return query != null ? profile.nickname.contains(query) : null;
-	// }
-	//
-	// //검색 상태 포함
-	// private BooleanExpression categoryIn(ProjectCategory categoryCond) {
-	// 	ProfileSearchStatus cond = ProfileSearchStatus.valueOf(categoryCond.toString());
-	// 	return categoryCond != null ? profile.searchState.in(ProfileSearchStatus.ALL, cond) : null;
-	// }
-	//
-	//
-	// private BooleanExpression statusIn(ProjectStatus statusCond) {
-	// 	return statusCond != null ? profile.searchState.eq(statusCond) : null;
-	// }
-	//
-	// //해당 지역을 포함하는 프로젝트
-	// private BooleanExpression areaIn(List<Long> areaCond) {
-	// 	return areaCond != null ?
-	// 		project.id.in(select(projectArea.project.id).from(projectArea).where(projectArea.area.id.in(areaCond))) :
-	// 		null;
-	// }
-	//
-	// //해당 기술스택을 포함한 프로젝트
-	// private BooleanExpression techStackIn(List<Long> stackCond) {
-	// 	return stackCond != null ? project.id.in(select(projectTechStack.project.id).distinct()
-	// 		.from(projectTechStack)
-	// 		.where(projectTechStack.techStack.id.in(stackCond))) : null;
-	// }
+	//온라인여부
+	private BooleanExpression statusIn(ProjectStatus statusCond) {
+		if (statusCond != null && ProfileOnOffStatus.valueOf(statusCond.toString()).equals(ProfileOnOffStatus.ONLINE)) {
+			return profile.profileOnOffStatus.ne(ProfileOnOffStatus.OFFLINE);
+		}
+		return null;
+	}
+
+	//해당 지역을 포함하는 프로젝트
+	private BooleanExpression areaIn(List<Long> areaCond) {
+		return areaCond != null ?
+			profile.id.in(select(profileArea.profile.id).distinct().from(profileArea).where(profileArea.area.id.in(areaCond))) :
+			null;
+	}
+
+	//해당 지역을 포함하는 프로젝트
+	private BooleanExpression onlineOrArea(ProjectStatus statusCond, List<Long> areaCond) {
+		if (areaCond == null) {
+			return statusIn(statusCond);
+		}
+		return statusNeOnline().and(areaIn(areaCond)).or(statusIn(statusCond));
+	}
+
+	private BooleanExpression statusNeOnline() {
+		return profile.profileOnOffStatus.ne(ProfileOnOffStatus.ONLINE);
+	}
+
+	//해당 기술스택을 포함한 프로젝트
+	private BooleanExpression techStackIn(List<Long> stackCond) {
+		return stackCond != null ? project.id.in(
+			select(profileTechStack.profile.id).distinct()
+				.from(profileTechStack)
+				.where(profileTechStack.techStack.id.in(stackCond))) : null;
+	}
+
+	private BooleanExpression searchStatusNeNone() {
+		return profile.searchState.ne(ProfileSearchStatus.NONE);
+	}
 
 	@Override
 	public Profile getProfileById(Long profileId) {
