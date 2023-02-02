@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-const customAxios = axios.create({
+const authAxios = axios.create({
   baseURL: 'http://localhost:8080',
   headers: {
     Authorization: `Bearer ${getCookie('access_token')}`,
   },
+});
+
+const basicAxios = axios.create({
+  baseURL: 'http://localhost:8080',
 });
 
 function getCookie(cname) {
@@ -23,4 +27,4 @@ function getCookie(cname) {
   return '';
 }
 
-export default customAxios;
+export default { authAxios, basicAxios };

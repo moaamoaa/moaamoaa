@@ -14,7 +14,7 @@ import {
 
 import DialogHeader from 'components/common/dialog/DialogHeader';
 import Cookies from 'js-cookie';
-import customAxios from 'utils/axios';
+import axios from 'axios';
 
 export default function SignInDialog(props) {
   const [email, setEmail] = useState('');
@@ -26,11 +26,13 @@ export default function SignInDialog(props) {
     props.setSignInDialog(false);
   };
 
+  const baseURL = 'http://localhost:8080';
+
   useEffect(handleCloseSignIndialog, [isLogin]);
 
   const handleLogIn = () => {
-    customAxios
-      .post('/users/login', {
+    axios
+      .post(`${baseURL}/users/login`, {
         email: email,
         password: password,
       })
