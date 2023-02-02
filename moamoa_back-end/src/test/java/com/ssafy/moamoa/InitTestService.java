@@ -46,14 +46,50 @@ public class InitTestService {
 	}
 
 	public void addProject() throws Exception {
-		ProjectForm studyOffForm = new ProjectForm("hi", "", "", "OFFLINE", "STUDY", "2023-02-21", 2, false, 1L,
-			new Long[] {5L, 6L}, 1L);
-		ProjectForm projectOffForm = new ProjectForm("hello", "", "", "OFFLINE", "PROJECT", "2023-02-21", 2, false, 1L,
-			new Long[] {1L, 4L}, 1L);
-		ProjectForm studyOnForm = new ProjectForm("hello world!", "", "", "ONLINE", "STUDY", "2023-02-21", 2, false, 1L,
-			new Long[] {1L, 2L}, 2L);
-		ProjectForm projectOnForm = new ProjectForm("하이", "", "", "ONLINE", "PROJECT", "2023-02-21", 2, false, 1L,
-			new Long[] {3L, 2L}, 1L);
+		ProjectForm studyOffForm = ProjectForm.builder()
+			.title("hi")
+			.projectStatus("OFFLINE")
+			.category("STUDY")
+			.endDate("2023-02-21")
+			.totalPeople(4)
+			.userid(1L)
+			.techStacks(new Long[] {5L, 6L})
+			.areaId(1L)
+			.build();
+
+		ProjectForm projectOffForm = ProjectForm.builder()
+			.title("hello")
+			.projectStatus("OFFLINE")
+			.category("PROJECT")
+			.endDate("2023-02-21")
+			.totalPeople(2)
+			.userid(1L)
+			.techStacks(new Long[] {1L, 4L})
+			.areaId(2L)
+			.build();
+
+		ProjectForm studyOnForm = ProjectForm.builder()
+			.title("hello world!")
+			.projectStatus("ONLINE")
+			.category("STUDY")
+			.endDate("2023-02-21")
+			.totalPeople(2)
+			.userid(1L)
+			.techStacks(new Long[] {1L, 2L, 5L})
+			.areaId(2L)
+			.build();
+
+		ProjectForm projectOnForm = ProjectForm.builder()
+			.title("하이")
+			.projectStatus("ONLINE")
+			.category("PROJECT")
+			.endDate("2023-02-21")
+			.totalPeople(2)
+			.userid(1L)
+			.techStacks(new Long[] {3L, 2L, 5L})
+			.areaId(5L)
+			.build();
+
 		for (int i = 0; i < 20; i++) {
 			projectService.creatProject(studyOffForm);
 			projectService.creatProject(projectOffForm);
