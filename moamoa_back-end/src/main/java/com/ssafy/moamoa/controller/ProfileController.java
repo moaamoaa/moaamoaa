@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.moamoa.domain.dto.ContextForm;
 import com.ssafy.moamoa.domain.dto.ProfileForm;
 import com.ssafy.moamoa.domain.dto.ReviewForm;
-import com.ssafy.moamoa.domain.dto.SidePjtForm;
 import com.ssafy.moamoa.domain.dto.TechStackForm;
 import com.ssafy.moamoa.domain.dto.UserForm;
 import com.ssafy.moamoa.service.ProfileService;
@@ -164,27 +163,6 @@ public class ProfileController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	// 사이드 프로젝트
-	@GetMapping("/sidepjt/{profileId}")
-	public ResponseEntity<Map<String, Object>> getSidePjts(@PathVariable Long profileId) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-		List<SidePjtForm> sidePjtFormList = profileService.getSideProjects(profileId);
-		resultMap.put("sidepjt", sidePjtFormList);
-		status = HttpStatus.ACCEPTED;
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
 
-	@PutMapping("/sidepjt/{profileId}")
-	public ResponseEntity<Map<String, Object>> addSidePjt(@PathVariable Long profileId,
-		@RequestBody SidePjtForm sidePjtForm) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-
-		String result = profileService.addSidePjt(profileId, sidePjtForm);
-		resultMap.put("message", SUCCESS);
-		status = HttpStatus.ACCEPTED;
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
 
 }
