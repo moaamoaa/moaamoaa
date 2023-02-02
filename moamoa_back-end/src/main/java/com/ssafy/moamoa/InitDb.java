@@ -22,5 +22,6 @@ public class InitDb {
 		initService.addArea();
 		initService.addUser();
 		initService.addProject();
+		initService.addSite();
 	}
 }
