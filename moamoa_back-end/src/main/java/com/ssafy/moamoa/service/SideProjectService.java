@@ -31,7 +31,7 @@ public class SideProjectService {
 
 	private final TechStackRepository techStackRepository;
 
-
+	private final TechStackService techStackService;
 
 
 	// 사이드 프로젝트
@@ -62,16 +62,19 @@ public class SideProjectService {
 			.build();
 
 		sideProjectRepository.save(sidePjt);
-
 		// sidePjt = SideProjectRepository
+
+		// Get SidePjt Id
+		SidePjt tempsidePjt = sideProjectRepository.getSideProjectByAll(profileId,sidePjt);
+
+		log.info("Side Hello Project"+tempsidePjt.getId()+tempsidePjt.getName()+tempsidePjt.getContext()+tempsidePjt.getYear());
+
 
 		// Parsing SideProjectTechStack
 		List<TechStackForm> techStackFormList = sidePjtForm.getTechStackFormList();
-		for(TechStackForm techStackForm : techStackFormList){
-			SidePjtTechStack tempSidePjtTechStack = SidePjtTechStack.builder()
-				.techStack(techStackRepository.getTechStackById(techStackForm.getId()))
-				.build();
-		}
+
+		techStackService.modifySideProjectTechStack(tempsidePjt.getId(),techStackFormList);
+
 		//
 
 		return SUCCESS;

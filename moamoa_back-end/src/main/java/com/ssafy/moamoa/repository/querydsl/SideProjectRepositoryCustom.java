@@ -8,5 +8,10 @@ public interface SideProjectRepositoryCustom {
 
 	List<SidePjt> getSideProjects(Long profileId);
 
-	SidePjt getSideProjectByAll(SidePjt sidePjt);
+	SidePjt getSideProjectByAll(Long profileId, SidePjt sidePjt);
+
+	SidePjt getSideProjectById(Long projectId);
+
+
+
 }

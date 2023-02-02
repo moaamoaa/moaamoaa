@@ -36,13 +36,23 @@ public class SideProjectRepositoryImpl extends QuerydslRepositorySupport impleme
 	}
 
 	@Override
-	public SidePjt getSideProjectByAll(SidePjt sidePjt) {
+	public SidePjt getSideProjectByAll(Long profileId, SidePjt sidePjt) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 
 		return queryFactory.select(qSidePjt)
 			.from(qSidePjt)
-			.where(qSidePjt.profile.id.eq(sidePjt.getId()).and(qSidePjt.name.eq(sidePjt.getName())).and(qSidePjt.year.eq(sidePjt.getYear())))
+			.where(qSidePjt.profile.id.eq(profileId).and(qSidePjt.name.eq(sidePjt.getName())).and(qSidePjt.year.eq(sidePjt.getYear())))
 			.fetchOne();
+	}
+
+	@Override
+	public SidePjt getSideProjectById(Long projectId) {
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+		return queryFactory.select(qSidePjt)
+				.from(qSidePjt)
+				.where(qSidePjt.id.eq(projectId))
+				.fetchOne();
 	}
 }

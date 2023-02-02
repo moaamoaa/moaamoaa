@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.ssafy.moamoa.domain.dto.*;
+import com.ssafy.moamoa.service.SideProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,11 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.moamoa.domain.dto.ContextForm;
-import com.ssafy.moamoa.domain.dto.ProfileForm;
-import com.ssafy.moamoa.domain.dto.ReviewForm;
-import com.ssafy.moamoa.domain.dto.TechStackForm;
-import com.ssafy.moamoa.domain.dto.UserForm;
 import com.ssafy.moamoa.service.ProfileService;
 import com.ssafy.moamoa.service.ReviewService;
 import com.ssafy.moamoa.service.TechStackService;
@@ -44,6 +41,8 @@ public class ProfileController {
 	private final TechStackService techStackService;
 
 	private final ReviewService reviewService;
+
+	private final SideProjectService sideProjectService;
 
 	// 검색 여부 변경
 	@PutMapping("/search-state")
@@ -84,29 +83,31 @@ public class ProfileController {
 	@ApiOperation(value = "프로필 수정",
 		notes = "프로필 수정을 누를 시에 사용자의 기술스택 , 링크 ,지역을 수정합니다.")
 	@PutMapping("/register/{profileId}")
-	public ResponseEntity<?> modifyProfile(@PathVariable Long profileId,
+	public ResponseEntity<Map<String, Object>> modifyProfile(@PathVariable Long profileId,
 		@RequestBody List<TechStackForm> techStackFormList) {
-	log.info("Size:"+ techStackFormList.size());
+
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
 		// 기술 스택 , 지역, 링크 리스트로 모두 리턴
 
 		// 기술 스택
-		String result = techStackService.modifyProfileTechStack(profileId, techStackFormList);
-
-		return new ResponseEntity<String>(result, HttpStatus.OK);
+		List<TechStackForm> result = techStackService.modifyProfileTechStack(profileId, techStackFormList);
+		resultMap.put("techstack",result);
+		status = HttpStatus.ACCEPTED;
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
 
 
 	//유저 프로필 수정
-	@ApiOperation(value = "프로젝트 수정.TEST",
+	@ApiOperation(value = "사이드 프로젝트 수정.TEST",
 		notes = "프로필 수정을 누를 시에 사용자의 기술스택 , 링크 ,지역을 수정합니다.")
-	@PutMapping("/registera/{projectId}")
-	public ResponseEntity<?> modifyProject(@PathVariable Long projectId,
-		@RequestBody List<TechStackForm> techStackFormList) {
-		log.info("Size:"+ techStackFormList.size());
-		// 기술 스택 , 지역, 링크 리스트로 모두 리턴
+	@PutMapping("/registera/{profileId}")
+	public ResponseEntity<?> modifyProject(@PathVariable Long profileId,
+		@RequestBody SidePjtForm sidePjtForm) {
+		// log.info("Size:"+ sidePjtFormList.size());
 
-		// 기술 스택
-		String result = techStackService.modifyTeamTechStack(projectId,techStackFormList);
+
+		String result = sideProjectService.addSidePjt(profileId,sidePjtForm);
 
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
@@ -162,6 +163,7 @@ public class ProfileController {
 		status = HttpStatus.ACCEPTED;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+
 
 
 
