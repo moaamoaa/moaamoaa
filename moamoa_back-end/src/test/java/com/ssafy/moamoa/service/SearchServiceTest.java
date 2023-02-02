@@ -16,8 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.ssafy.moamoa.InitTestService;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
+import com.ssafy.moamoa.domain.dto.FilterDto;
 import com.ssafy.moamoa.domain.dto.ProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
+import com.ssafy.moamoa.domain.dto.TechStackCategoryDto;
+import com.ssafy.moamoa.domain.entity.Area;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.repository.ProjectRepository;
@@ -108,5 +111,41 @@ class SearchServiceTest {
 		System.out.println("*************");
 		System.out.println(setResult.getLeaderName());
 		System.out.println("*************");
+	}
+
+	@Test
+	public void 검색필터조회_지역() {
+		//given
+		FilterDto searchFilter = searchService.getSearchFilter();
+
+		//when
+		List<Area> areas = searchFilter.getAreas();
+
+		//then
+		Assertions.assertThat(areas).isNotNull();
+		System.out.println("*************");
+		for (Area a : areas) {
+			System.out.println(a.toString());
+		}
+		System.out.println("*************");
+
+	}
+
+	@Test
+	public void 검색필터조회_기술스택() {
+		//given
+		FilterDto searchFilter = searchService.getSearchFilter();
+
+		//when
+		List<TechStackCategoryDto> techs = searchFilter.getTechs();
+
+		//then
+		Assertions.assertThat(techs).isNotNull();
+		System.out.println("*************");
+		for (TechStackCategoryDto t : techs) {
+			System.out.println(t.toString());
+		}
+		System.out.println("*************");
+
 	}
 }

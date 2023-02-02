@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ssafy.moamoa.domain.dto.FilterDto;
 import com.ssafy.moamoa.domain.dto.ProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.service.SearchService;
@@ -33,5 +34,11 @@ public class SearchController {
 	public ResponseEntity<?> searchProfile(SearchCondition condition) {
 		log.debug(condition.toString());
 		return null;
+	}
+
+	@GetMapping()
+	public ResponseEntity<?> getSearchFilter() {
+		FilterDto searchFilter = searchService.getSearchFilter();
+		return new ResponseEntity<>(searchFilter, HttpStatus.OK);
 	}
 }
