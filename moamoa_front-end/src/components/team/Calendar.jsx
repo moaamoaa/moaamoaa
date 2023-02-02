@@ -9,10 +9,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const Calendar = forwardRef((props, ref) => {
+  // 미선택시, 오늘 날짜 띄우기
   const today = new Date();
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const formatted = today.toLocaleDateString('en-US', options);
-  const [value, setValue] = React.useState(dayjs(formatted));
+  const [value, setValue] = React.useState(dayjs(formatted)); // formatted = 초기값
 
   // const handleChange = e => {
   //   ref.current = e.target.value;
@@ -27,7 +28,7 @@ const Calendar = forwardRef((props, ref) => {
       <Stack spacing={1}>
         <DesktopDatePicker
           label="달력"
-          value={value}
+          value={value} // 보내지는 값
           minDate={dayjs('2023-01-01')}
           onChange={newValue => {
             setValue(newValue);

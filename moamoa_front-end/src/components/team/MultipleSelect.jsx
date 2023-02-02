@@ -22,8 +22,7 @@ const MenuProps = {
 };
 
 const teches = [
-  '무관',
-  'C', // 1부터 시작해야
+  'C', // 숫자 1로 백에 전달해야
   'C#',
   'C++',
   'Java',
@@ -76,7 +75,7 @@ const MultipleSelect = forwardRef((props, ref) => {
     } = event;
     setPersonTech(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === 'number' ? value.split(',') : value, // 값을 string -> number 로 변경*
     );
     ref.current = event.target.value;
   };
@@ -104,7 +103,7 @@ const MultipleSelect = forwardRef((props, ref) => {
           {teches.map(tech => (
             <MenuItem
               key={tech}
-              value={tech}
+              value={teches.indexOf(tech) + 1} // 숫자 리스트로 보내줘야 해서 {tech}를 이렇게 변경*
               style={getStyles(tech, personTech, theme)}
             >
               {tech}

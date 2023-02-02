@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useRef } from 'react';
+import axios from 'axios';
+import dayjs from 'dayjs';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -20,6 +22,9 @@ import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
 
 export default function TeamCreatePage() {
+  //spring boot url
+  const baseUrl = 'http://localhost:8080';
+
   //ref
   const inputRef = useRef('');
   const classRef = useRef('');
@@ -29,16 +34,62 @@ export default function TeamCreatePage() {
   const titleRef = useRef('');
   const dateRef = useRef('');
   const techRef = useRef('');
+
   //handler
   const handleClick = () => {
-    console.log(inputRef.current);
-    console.log(classRef.current);
-    console.log(numberRef.current);
-    console.log(onoffRef.current);
-    console.log(regionRef.current);
+    // 팀 이름 string
     console.log(titleRef.current);
-    console.log(dateRef.current);
+    console.log(typeof titleRef.current);
+    // 모집 구분 string
+    console.log(classRef.current);
+    console.log(typeof classRef.current);
+    // 모집 인원 1~10 number
+    console.log(numberRef.current);
+    console.log(typeof numberRef.current);
+    // 마감 날짜 2023-02-02 string
+    console.log(dayjs(dateRef.current).format('YYYY-MM-DD'));
+    console.log(typeof dayjs(dateRef.current).format('YYYY-MM-DD'));
+    // 진행 방식 string
+    console.log(onoffRef.current);
+    console.log(typeof onoffRef.current);
+    // 지역 number
+    console.log(regionRef.current);
+    console.log(typeof regionRef.current);
+    // 기술 스택 list[number]
     console.log(techRef.current);
+    console.log(typeof techRef.current);
+    // 팀 소개 string
+    console.log(inputRef.current);
+    console.log(typeof inputRef.current);
+    // 배열에 정보를 담아서 POST... image, content, techstack : null ok
+    axios
+      .post(`${baseUrl}/projects`, {
+        areaId: regionRef.current,
+        category: classRef.current,
+        contents: inputRef.current,
+        countOffer: 0,
+        createDate: 'string',
+        currentPeople: 0,
+        endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
+        hit: 0,
+        img: null,
+        isLeader: true,
+        locked: true,
+        projectId: 0,
+        projectStatus: onoffRef.current,
+        startDate: 'string',
+        techStacks: techRef.current,
+        title: titleRef.current,
+        totalPeople: numberRef.current,
+        userid: 1,
+      })
+      .then(e => {
+        console.log(e);
+        console.log('포스트완료!');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const teamBannerEdit = {
@@ -46,6 +97,7 @@ export default function TeamCreatePage() {
     leader: '팀장 이름', // GET
     image: '',
   };
+
   return (
     <>
       <Container fixed>
