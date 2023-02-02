@@ -25,7 +25,7 @@ public class ProfileTechStack {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "user_stck_no")
+	@Column(name = "profile_stack_no")
 	private Long id;
 
 	@NotNull
@@ -35,7 +35,20 @@ public class ProfileTechStack {
 
 	@NotNull
 	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "user_no")
+	@JoinColumn(name = "profile_no")
 	private Profile profile;
+
+	@Column(name = "profile_tech_stack_order")
+	private int order;
+
+	public void setTechStack(TechStack techStack) {
+		this.techStack = techStack;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+	/* Setter */
+
 }
 
