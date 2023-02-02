@@ -14,6 +14,7 @@ import {
 } from '@mui/material/';
 
 import DialogHeader from 'components/common/dialog/DialogHeader';
+import Cookies from 'js-cookie';
 
 const baseUrl = 'http://localhost:8080';
 
@@ -42,6 +43,9 @@ export default function SignInDialog(props) {
         const user_pk = response.data.id;
         dispatch(loginAccount({ userPk: user_pk }));
         console.log(token);
+
+        // Set the access token
+        Cookies.set('access_token', token, { expires: 1 });
 
         // 로그인 성공 시 유저 정보 axios 요청
         // axios
