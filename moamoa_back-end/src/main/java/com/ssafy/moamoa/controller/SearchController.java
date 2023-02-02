@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ssafy.moamoa.domain.dto.FilterDto;
-import com.ssafy.moamoa.domain.dto.ProjectDto;
+import com.ssafy.moamoa.domain.dto.ProjectResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.service.SearchService;
 
@@ -26,13 +26,13 @@ public class SearchController {
 
 	@GetMapping("/project")
 	public ResponseEntity<?> searchProject(SearchCondition condition) {
-		List<ProjectDto> results = searchService.searchProject(condition);
+		List<ProjectResultDto> results = searchService.searchProject(condition);
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 
 	@GetMapping("/profile")
 	public ResponseEntity<?> searchProfile(SearchCondition condition) {
-		log.debug(condition.toString());
+		searchService.searchProfile(condition);
 		return null;
 	}
 

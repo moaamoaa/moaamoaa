@@ -17,7 +17,7 @@ import com.ssafy.moamoa.InitTestService;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.dto.FilterDto;
-import com.ssafy.moamoa.domain.dto.ProjectDto;
+import com.ssafy.moamoa.domain.dto.ProjectResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.dto.TechStackCategoryDto;
 import com.ssafy.moamoa.domain.entity.Area;
@@ -72,7 +72,7 @@ class SearchServiceTest {
 		SearchCondition searchCondition = SearchCondition.builder().stack(stacks).build();
 
 		//when
-		List<ProjectDto> searchResult = searchService.searchProject(searchCondition);
+		List<ProjectResultDto> searchResult = searchService.searchProject(searchCondition);
 
 		//then
 		Assertions.assertThat(searchResult.get(0).getTechStacks()).isNotNull();
@@ -83,10 +83,10 @@ class SearchServiceTest {
 	@Test
 	void setTechStacks() {
 		//given
-		ProjectDto projectDto = ProjectDto.builder().id(1L).build();
+		ProjectResultDto projectResultDto = ProjectResultDto.builder().id(1L).build();
 
 		//when
-		ProjectDto setResult = searchService.setTechStacks(projectDto);
+		ProjectResultDto setResult = searchService.setTechStacks(projectResultDto);
 
 		//then
 		Assertions.assertThat(setResult.getTechStacks()).isNotNull();
@@ -101,10 +101,10 @@ class SearchServiceTest {
 	@Test
 	void setLeaderNickname() {
 		//given
-		ProjectDto projectDto = ProjectDto.builder().id(1L).build();
+		ProjectResultDto projectResultDto = ProjectResultDto.builder().id(1L).build();
 
 		//when
-		ProjectDto setResult = searchService.setLeaderNickname(projectDto);
+		ProjectResultDto setResult = searchService.setLeaderNickname(projectResultDto);
 
 		//then
 		Assertions.assertThat(setResult.getLeaderName()).isNotNull();

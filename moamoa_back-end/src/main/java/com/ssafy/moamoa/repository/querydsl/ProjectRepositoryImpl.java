@@ -15,8 +15,8 @@ import com.querydsl.core.types.dsl.DateExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
-import com.ssafy.moamoa.domain.dto.ProjectDto;
-import com.ssafy.moamoa.domain.dto.QProjectDto;
+import com.ssafy.moamoa.domain.dto.ProjectResultDto;
+import com.ssafy.moamoa.domain.dto.QProjectResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.QProject;
@@ -26,8 +26,6 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	@PersistenceContext
 	EntityManager em;
 
-
-
 	public ProjectRepositoryImpl(EntityManager em) {
 		this.queryFactory = new JPAQueryFactory(em);
 	}
@@ -35,9 +33,9 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	QProject project = QProject.project;
 
 	@Override
-	public List<ProjectDto> search(SearchCondition condition) {
+	public List<ProjectResultDto> search(SearchCondition condition) {
 		return queryFactory.select(
-				new QProjectDto(project.id, project.title, project.contents, project.hit, project.totalPeople,
+				new QProjectResultDto(project.id, project.title, project.contents, project.hit, project.totalPeople,
 					project.currentPeople))
 			.from(project)
 			.where(titleContain(condition.getQuery()), statusEq(condition.getStatus()),
@@ -75,8 +73,6 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 			.from(projectTechStack)
 			.where(projectTechStack.techStack.id.in(stackCond))) : null;
 	}
-
-
 
 	@Override
 	public Project getProjectById(Long projectId) {

@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.ssafy.moamoa.InitTestService;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
-import com.ssafy.moamoa.domain.dto.ProjectDto;
+import com.ssafy.moamoa.domain.dto.ProjectResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.repository.ProjectRepository;
@@ -70,7 +70,7 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().query("시간지남").build();
 
 		//when
-		List<ProjectDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition);
 
 		//then
 		Assertions.assertThat(result).isEmpty();
@@ -86,11 +86,11 @@ class ProjectRepositoryImplTest {
 			stack);
 
 		//when
-		List<ProjectDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition);
 
 		//then
 		System.out.println("++++++++++++++++++++");
-		for (ProjectDto r : result) {
+		for (ProjectResultDto r : result) {
 			System.out.println(r.toString());
 		}
 		System.out.println("++++++++++++++++++++");
@@ -102,11 +102,11 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().query("hello").build();
 
 		//when
-		List<ProjectDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition);
 
 		//then
 		System.out.println("++++++++++++++++++++");
-		for (ProjectDto r : result) {
+		for (ProjectResultDto r : result) {
 			System.out.println(r.toString());
 		}
 		System.out.println("++++++++++++++++++++");
@@ -118,11 +118,11 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().status(ProjectStatus.ONLINE).build();
 
 		//when
-		List<ProjectDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition);
 
 		//then
 		System.out.println("++++++++++++++++++++");
-		for (ProjectDto r : result) {
+		for (ProjectResultDto r : result) {
 			System.out.println(r.toString());
 		}
 		System.out.println("++++++++++++++++++++");
@@ -134,11 +134,11 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().category(ProjectCategory.STUDY).build();
 
 		//when
-		List<ProjectDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition);
 
 		//then
 		System.out.println("++++++++++++++++++++");
-		for (ProjectDto r : result) {
+		for (ProjectResultDto r : result) {
 			System.out.println(r.toString());
 		}
 		System.out.println("++++++++++++++++++++");
@@ -151,11 +151,11 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().stack(stack).build();
 
 		//when
-		List<ProjectDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition);
 
 		//then
 		System.out.println("++++++++++++++++++++");
-		for (ProjectDto r : result) {
+		for (ProjectResultDto r : result) {
 			System.out.println(r.toString());
 		}
 		System.out.println("++++++++++++++++++++");
@@ -169,11 +169,11 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().area(area).build();
 
 		//when
-		List<ProjectDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition);
 
 		//then
 		System.out.println("++++++++++++++++++++");
-		for (ProjectDto r : result) {
+		for (ProjectResultDto r : result) {
 			System.out.println(r.toString());
 		}
 		System.out.println("++++++++++++++++++++");

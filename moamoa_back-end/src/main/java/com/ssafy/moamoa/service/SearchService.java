@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.moamoa.domain.TeamRole;
 import com.ssafy.moamoa.domain.dto.FilterDto;
-import com.ssafy.moamoa.domain.dto.ProjectDto;
+import com.ssafy.moamoa.domain.dto.ProfileResultDto;
+import com.ssafy.moamoa.domain.dto.ProjectResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.dto.TechStackCategoryDto;
 import com.ssafy.moamoa.domain.entity.Area;
@@ -36,20 +37,25 @@ public class SearchService {
 	private final AreaRepository areaRepository;
 	private final TechStackCategoryRepository techStackCategoryRepository;
 
-	public List<ProjectDto> searchProject(SearchCondition condition) {
-		List<ProjectDto> searchResultList = projectRepository.search(condition);
+	public List<ProjectResultDto> searchProject(SearchCondition condition) {
+		List<ProjectResultDto> searchResultList = projectRepository.search(condition);
 
-		for (ProjectDto result : searchResultList) {
+		for (ProjectResultDto result : searchResultList) {
 			//해당 기술 스택 가져오기
 			setTechStacks(result);
-
 			//팀 리더 가져오기
 			setLeaderNickname(result);
 		}
 		return searchResultList;
 	}
 
-	public ProjectDto setTechStacks(ProjectDto result) {
+	public List<ProfileResultDto> searchProfile(SearchCondition condition) {
+		List<ProfileResultDto> result = profileRepository.search(condition);
+
+		return null;
+	}
+
+	public ProjectResultDto setTechStacks(ProjectResultDto result) {
 		List<TechStack> findTechStacks = projectTechStackRepository.findTop4ByProject_Id(result.getId())
 			.stream()
 			.map(t -> t.getTechStack())
@@ -60,7 +66,7 @@ public class SearchService {
 		return result;
 	}
 
-	public ProjectDto setLeaderNickname(ProjectDto result) {
+	public ProjectResultDto setLeaderNickname(ProjectResultDto result) {
 		Optional<Team> findTeam = teamRepository.findByRoleAndProject_Id(TeamRole.LEADER, result.getId());
 		if (findTeam.isPresent()) {
 			User leader = findTeam.get().getUser();
@@ -84,4 +90,5 @@ public class SearchService {
 	public List<TechStackCategoryDto> getTechStackWithCategory() {
 		return techStackCategoryRepository.findTechStackWithCategory();
 	}
+
 }
