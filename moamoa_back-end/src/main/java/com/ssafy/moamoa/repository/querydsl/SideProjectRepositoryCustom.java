@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ssafy.moamoa.domain.entity.SidePjt;
 
-public interface QSideProjectRepository {
+public interface SideProjectRepositoryCustom {
 
 	List<SidePjt> getSideProjects(Long profileId);
 }

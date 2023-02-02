@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ssafy.moamoa.domain.entity.TechStack;
 
-public interface QTechStackRepository {
+public interface TechStackRepositoryCustom {
 
 	List<TechStack> searchTechStackByName(String techName);
 

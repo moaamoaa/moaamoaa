@@ -7,4 +7,8 @@ import com.ssafy.moamoa.domain.entity.Profile;
 
 public interface ProfileRepositoryCustom {
 	List<Profile> search(SearchCondition condition);
+
+	Profile getProfileById(Long profileId);
+
+	void deleteProfileContextById(Long profileId);
 }

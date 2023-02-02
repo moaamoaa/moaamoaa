@@ -7,9 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.repository.querydsl.ProfileRepositoryCustom;
-import com.ssafy.moamoa.repository.querydsl.QProfileRepository;
 
-public interface ProfileRepository extends JpaRepository<Profile, Long>, ProfileRepositoryCustom, QProfileRepository {
+public interface ProfileRepository extends JpaRepository<Profile, Long>, ProfileRepositoryCustom {
 
 	Optional<Profile> findByNickname(String nickname);
 
