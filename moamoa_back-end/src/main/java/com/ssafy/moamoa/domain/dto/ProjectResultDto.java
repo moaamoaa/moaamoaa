@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class ProjectDto {
+public class ProjectResultDto {
 	private Long id;
 
 	private String title;
@@ -32,7 +32,7 @@ public class ProjectDto {
 	private List<TechStack> techStacks;
 
 	@QueryProjection
-	public ProjectDto(Long id, String title, String contents, int hit, int totalPeople, int currentPeople) {
+	public ProjectResultDto(Long id, String title, String contents, int hit, int totalPeople, int currentPeople) {
 		this.id = id;
 		this.title = title;
 		this.contents = contents;
