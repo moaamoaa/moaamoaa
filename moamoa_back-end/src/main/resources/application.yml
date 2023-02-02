@@ -13,7 +13,7 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       use-new-id-generator-mappings: false
     properties:
       hibernate:

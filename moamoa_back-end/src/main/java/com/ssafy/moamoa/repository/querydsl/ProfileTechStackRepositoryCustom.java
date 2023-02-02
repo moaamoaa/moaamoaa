@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ssafy.moamoa.domain.entity.ProfileTechStack;
 
-public interface QProfileTechStackRepository {
+public interface ProfileTechStackRepositoryCustom {
 
 	List<ProfileTechStack> getProfileTechStacks(Long profileId);
 
@@ -12,5 +12,10 @@ public interface QProfileTechStackRepository {
 
 	Long deleteProfileTechStackByOrder(int order);
 
-	ProfileTechStack getProfileTechStack(Long techStackId);
+	ProfileTechStack getProfileTechStack(Long profileId, Long techStackId);
+
+
+	// List<ProfileTechStack> getAllUserTechStackByOrder(Long userId);
+	//
+	// Long deleteAllProfileStackById(Long profileId);
 }

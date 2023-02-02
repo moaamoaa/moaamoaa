@@ -1,7 +1,6 @@
 package com.ssafy.moamoa.repository.querydsl;
 
 import static com.querydsl.jpa.JPAExpressions.*;
-import static com.ssafy.moamoa.domain.entity.QProject.*;
 import static com.ssafy.moamoa.domain.entity.QProjectArea.*;
 import static com.ssafy.moamoa.domain.entity.QProjectTechStack.*;
 
@@ -9,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.DateExpression;
@@ -18,13 +18,21 @@ import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.dto.ProjectDto;
 import com.ssafy.moamoa.domain.dto.QProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.QProject;
 
 public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
+	@PersistenceContext
+	EntityManager em;
+
+
 
 	public ProjectRepositoryImpl(EntityManager em) {
 		this.queryFactory = new JPAQueryFactory(em);
 	}
+
+	QProject project = QProject.project;
 
 	@Override
 	public List<ProjectDto> search(SearchCondition condition) {
@@ -66,6 +74,25 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 		return stackCond != null ? project.id.in(select(projectTechStack.project.id).distinct()
 			.from(projectTechStack)
 			.where(projectTechStack.techStack.id.in(stackCond))) : null;
+	}
+
+
+
+	@Override
+	public Project getProjectById(Long projectId) {
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+		Project tempProject = queryFactory
+			.select(project)
+			.from(project)
+			.where(project.id.eq(projectId))
+			.fetchOne();
+
+		return tempProject;
+	}
+
+	@Override
+	public List<Project> getProjects() {
+		return null;
 	}
 
 }
