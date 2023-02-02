@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import com.ssafy.moamoa.domain.dto.*;
-import com.ssafy.moamoa.service.SideProjectService;
+import com.ssafy.moamoa.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ssafy.moamoa.service.ProfileService;
-import com.ssafy.moamoa.service.ReviewService;
-import com.ssafy.moamoa.service.TechStackService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +39,8 @@ public class ProfileController {
 	private final ReviewService reviewService;
 
 	private final SideProjectService sideProjectService;
+
+	private final SiteService siteService;
 
 	// 검색 여부 변경
 	@PutMapping("/search-state")
@@ -67,6 +65,8 @@ public class ProfileController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
+
+		status = HttpStatus.ACCEPTED;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
@@ -92,24 +92,27 @@ public class ProfileController {
 
 		// 기술 스택
 		List<TechStackForm> result = techStackService.modifyProfileTechStack(profileId, techStackFormList);
+
 		resultMap.put("techstack",result);
 		status = HttpStatus.ACCEPTED;
-		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 
-	//유저 프로필 수정
-	@ApiOperation(value = "사이드 프로젝트 수정.TEST",
+	// 사이트 수정
+	@ApiOperation(value = "사이트 추가 or 수정.TEST",
 		notes = "프로필 수정을 누를 시에 사용자의 기술스택 , 링크 ,지역을 수정합니다.")
 	@PutMapping("/registera/{profileId}")
-	public ResponseEntity<?> modifyProject(@PathVariable Long profileId,
-		@RequestBody SidePjtForm sidePjtForm) {
-		// log.info("Size:"+ sidePjtFormList.size());
+	public ResponseEntity<Map<String, Object>> modifyProject(@PathVariable Long profileId,
+		@RequestBody List<SiteForm> siteFormList) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
 
+		siteService.modifySite(profileId,siteFormList);
+		resultMap.put("site",siteFormList);
 
-		String result = sideProjectService.addSidePjt(profileId,sidePjtForm);
-
-		return new ResponseEntity<String>(result, HttpStatus.OK);
+		status=HttpStatus.ACCEPTED;
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 	// 자기소개
