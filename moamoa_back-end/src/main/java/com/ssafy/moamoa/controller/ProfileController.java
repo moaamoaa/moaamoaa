@@ -42,6 +42,8 @@ public class ProfileController {
 
 	private final SiteService siteService;
 
+	private final AreaService areaService;
+
 	// 검색 여부 변경
 	@PutMapping("/search-state")
 	// input userId output String ProfileSearchStatus
@@ -100,16 +102,16 @@ public class ProfileController {
 
 
 	// 사이트 수정
-	@ApiOperation(value = "사이트 추가 or 수정.TEST",
+	@ApiOperation(value = "지역 추가 or 수정.TEST",
 		notes = "프로필 수정을 누를 시에 사용자의 기술스택 , 링크 ,지역을 수정합니다.")
 	@PutMapping("/registera/{profileId}")
 	public ResponseEntity<Map<String, Object>> modifyProject(@PathVariable Long profileId,
-		@RequestBody List<SiteForm> siteFormList) {
+		@RequestBody List<AreaForm> areaFormList) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
-		siteService.modifySite(profileId,siteFormList);
-		resultMap.put("site",siteFormList);
+		List<AreaForm> result = areaService.modifyProfileAreas(profileId, areaFormList);
+		resultMap.put("area",result);
 
 		status=HttpStatus.ACCEPTED;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);

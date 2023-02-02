@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.ssafy.moamoa.domain.entity.QProfileSite.*;
@@ -33,6 +34,16 @@ public class ProfileSiteRepositoryImpl extends QuerydslRepositorySupport impleme
                 .from(profileSite)
                 .where(profileSite.site.name.eq(name))
                 .fetchOne();
+    }
+
+    @Override
+    public List<ProfileSite> getProfileSitesById(Long profileId) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        return queryFactory.select(profileSite)
+                .from(profileSite)
+                .where(profileSite.profile.id.eq(profileId))
+                .fetch();
     }
 
     @Override

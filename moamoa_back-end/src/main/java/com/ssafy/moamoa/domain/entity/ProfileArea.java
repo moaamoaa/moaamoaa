@@ -12,16 +12,18 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProfileArea {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "project_area_no")
+	@Column(name = "profile_area_no")
 	private Long id;
 
 	@NotNull
@@ -34,7 +36,8 @@ public class ProfileArea {
 	@JoinColumn(name = "profile_no")
 	private Profile profile;
 
-	public ProfileArea() {
-	}
+	@Column(name = "profile_area_order")
+	private int order;
+
 }
 

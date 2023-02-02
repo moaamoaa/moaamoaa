@@ -7,11 +7,15 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Area {
 
 	@Id
@@ -27,6 +31,4 @@ public class Area {
 		this.name = name;
 	}
 
-	public Area() {
-	}
 }

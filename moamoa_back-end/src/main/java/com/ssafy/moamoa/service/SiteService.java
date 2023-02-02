@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +33,22 @@ public class SiteService {
 
     private final ProfileSiteRepository profileSiteRepository;
 
+    public List<SiteForm> getProfileSites(Long profileId)
+    {
+        List<ProfileSite> profileSiteList = profileSiteRepository.getProfileSitesById(profileId);
+        List<SiteForm> siteFormList = new ArrayList<>();
+        for(ProfileSite profileSite : profileSiteList)
+        {
+        SiteForm siteForm = SiteForm.builder()
+                .name(profileSite.getSite().getName())
+                .link(profileSite.getLink()).build();
 
-    public List<SiteForm> modifySite(Long profileId, List<SiteForm> siteFormList)
+        siteFormList.add(siteForm);
+        }
+        return siteFormList;
+    }
+
+    public List<SiteForm> modifyProfileSite(Long profileId, List<SiteForm> siteFormList)
     {
         Profile profile = profileRepository.getProfileById(profileId);
 
