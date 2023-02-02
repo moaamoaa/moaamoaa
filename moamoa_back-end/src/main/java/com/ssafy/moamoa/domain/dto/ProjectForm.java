@@ -57,6 +57,9 @@ public class ProjectForm {
 			.build();
 	}
 
+	public ProjectForm() {
+	}
+
 	public void setIsLeader(boolean isLeader){
 		this.isLeader = isLeader;
 	}
