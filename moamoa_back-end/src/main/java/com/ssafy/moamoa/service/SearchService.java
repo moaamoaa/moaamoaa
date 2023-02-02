@@ -7,16 +7,21 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.moamoa.domain.TeamRole;
+import com.ssafy.moamoa.domain.dto.FilterDto;
 import com.ssafy.moamoa.domain.dto.ProjectDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
+import com.ssafy.moamoa.domain.dto.TechStackCategoryDto;
+import com.ssafy.moamoa.domain.entity.Area;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Team;
 import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.domain.entity.User;
+import com.ssafy.moamoa.repository.AreaRepository;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TeamRepository;
+import com.ssafy.moamoa.repository.TechStackCategoryRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +33,8 @@ public class SearchService {
 	private final ProjectTechStackRepository projectTechStackRepository;
 	private final TeamRepository teamRepository;
 	private final ProfileRepository profileRepository;
+	private final AreaRepository areaRepository;
+	private final TechStackCategoryRepository techStackCategoryRepository;
 
 	public List<ProjectDto> searchProject(SearchCondition condition) {
 		List<ProjectDto> searchResultList = projectRepository.search(condition);
@@ -61,5 +68,20 @@ public class SearchService {
 			findProfile.ifPresent(profile -> result.setLeaderName(profile.getNickname()));
 		}
 		return result;
+	}
+
+	public FilterDto getSearchFilter() {
+		List<Area> areas = getAreaList();
+		List<TechStackCategoryDto> techs = getTechStackWithCategory();
+		return new FilterDto(techs, areas);
+
+	}
+
+	public List<Area> getAreaList() {
+		return areaRepository.findAll();
+	}
+
+	public List<TechStackCategoryDto> getTechStackWithCategory() {
+		return techStackCategoryRepository.findTechStackWithCategory();
 	}
 }
