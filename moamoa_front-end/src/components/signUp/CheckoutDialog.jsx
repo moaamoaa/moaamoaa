@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import customAxios from 'utils/axios';
 
 import {
   Container,
@@ -29,9 +29,6 @@ export default function CheckoutDialog(props) {
   //비밀번호
   const [password, setPassword] = useState('');
 
-  //스프링부트 url
-  const baseUrl = 'http://localhost:8080';
-
   //자식 컴포넌트에서 setState 값을 받기 위해 함수를 props로 전달
   //이메일
   const emailHandler = emailChange => {
@@ -60,8 +57,8 @@ export default function CheckoutDialog(props) {
       console.log('비밀번호를 입력해주세요');
     } else {
       console.log('회원가입전송');
-      axios
-        .post(`${baseUrl}/users/signup`, {
+      customAxios
+        .post('/users/signup', {
           email: email,
           nickname: name,
           password: password,
