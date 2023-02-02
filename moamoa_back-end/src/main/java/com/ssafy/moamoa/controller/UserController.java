@@ -11,6 +11,8 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -99,10 +101,11 @@ public class UserController {
 	@ApiOperation(value = "비밀번호 변경",
 		notes = "id에 맞는 회원의 password를 수정한다.")
 	// 비밀번호 변경
-	@PostMapping("/password/{id}")
-	public ResponseEntity<?> updatePassword(@PathVariable Long id, @Valid @RequestBody SignForm signForm) {
+	@PostMapping("/password")
+	public ResponseEntity<?> updatePassword(@Valid @RequestBody SignForm signForm, Authentication authentication) {
 		// 받은 비밀번호로 update
-		userService.updatePassword(signForm.getPassword(), id);
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		userService.updatePassword(signForm.getPassword(), Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -119,15 +122,16 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "회원 삭제",
+/*	@ApiOperation(value = "회원 삭제",
 		notes = "email에 맞는 회원을 삭제한다.")
 	// 회원 삭제
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+	@DeleteMapping
+	public ResponseEntity<?> deleteUser(Authentication authentication) {
 		// 받은 이메일로 delete
-		userService.deleteUser(id);
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		userService.deleteUser(Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
+	}*/
 
 	@ApiOperation(value = "로그인",
 		notes = "email, password 정보로 로그인을 한다.")
