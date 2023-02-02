@@ -1,5 +1,5 @@
 package com.ssafy.moamoa.domain;
 
 public enum ProfileOnOffStatus {
-	ONLINE, OFFLINE
+	ONLINE, OFFLINE, ALL
 }
