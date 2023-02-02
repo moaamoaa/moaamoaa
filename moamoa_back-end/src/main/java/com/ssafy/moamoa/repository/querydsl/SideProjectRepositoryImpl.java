@@ -13,9 +13,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moamoa.domain.entity.QSidePjt;
 import com.ssafy.moamoa.domain.entity.SidePjt;
 
-public class QSideProjectRepositoryImpl extends QuerydslRepositorySupport implements QSideProjectRepository {
+public class SideProjectRepositoryImpl extends QuerydslRepositorySupport implements SideProjectRepositoryCustom {
 
-	public QSideProjectRepositoryImpl() {
+	public SideProjectRepositoryImpl() {
 		super(SidePjt.class);
 	}
 

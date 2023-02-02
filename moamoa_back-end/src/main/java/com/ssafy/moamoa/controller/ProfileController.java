@@ -96,6 +96,22 @@ public class ProfileController {
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
 
+
+	//유저 프로필 수정
+	@ApiOperation(value = "프로젝트 수정.TEST",
+		notes = "프로필 수정을 누를 시에 사용자의 기술스택 , 링크 ,지역을 수정합니다.")
+	@PutMapping("/registera/{projectId}")
+	public ResponseEntity<?> modifyProject(@PathVariable Long projectId,
+		@RequestBody List<TechStackForm> techStackFormList) {
+		log.info("Size:"+ techStackFormList.size());
+		// 기술 스택 , 지역, 링크 리스트로 모두 리턴
+
+		// 기술 스택
+		String result = techStackService.modifyTeamTechStack(projectId,techStackFormList);
+
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+
 	// 자기소개
 	@PutMapping("/context/{profileId}")
 	public ResponseEntity<Map<String, Object>> addContext(@PathVariable Long profileId,

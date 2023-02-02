@@ -12,11 +12,13 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProjectTechStack {
 
 	@Id
@@ -34,6 +36,14 @@ public class ProjectTechStack {
 	@JoinColumn(name = "project_no")
 	private Project project;
 
-	public ProjectTechStack() {
+	@Column(name = "project_tech_stack_order")
+	private int order;
+
+	public void setTechStack(TechStack techStack) {
+		this.techStack = techStack;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 }

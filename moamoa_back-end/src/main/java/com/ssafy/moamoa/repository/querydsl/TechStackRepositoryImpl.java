@@ -15,12 +15,12 @@ import com.ssafy.moamoa.domain.entity.TechStack;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class QTechStackRepositoryImpl extends QuerydslRepositorySupport implements QTechStackRepository {
+public class TechStackRepositoryImpl extends QuerydslRepositorySupport implements TechStackRepositoryCustom {
 
 	@PersistenceContext
 	EntityManager em;
 
-	public QTechStackRepositoryImpl() {
+	public TechStackRepositoryImpl() {
 		super(TechStack.class);
 	}
 

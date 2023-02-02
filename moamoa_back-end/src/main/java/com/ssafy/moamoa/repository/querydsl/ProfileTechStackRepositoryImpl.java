@@ -13,14 +13,16 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moamoa.domain.entity.ProfileTechStack;
 import com.ssafy.moamoa.domain.entity.QProfileTechStack;
 
-public class QProfileTechStackRepositoryImpl extends QuerydslRepositorySupport implements QProfileTechStackRepository {
+public class ProfileTechStackRepositoryImpl extends QuerydslRepositorySupport implements
+	ProfileTechStackRepositoryCustom {
 
-	public QProfileTechStackRepositoryImpl() {
+	public ProfileTechStackRepositoryImpl() {
 		super(ProfileTechStack.class);
 	}
 
 	@PersistenceContext
 	EntityManager em;
+
 	QProfileTechStack qProfileTechStack = profileTechStack;
 
 	@Override
@@ -55,11 +57,11 @@ public class QProfileTechStackRepositoryImpl extends QuerydslRepositorySupport i
 	}
 
 	@Override
-	public ProfileTechStack getProfileTechStack(Long techStackId) {
+	public ProfileTechStack getProfileTechStack(Long profileId, Long techStackId) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 		return queryFactory.select(profileTechStack)
 			.from(profileTechStack)
-			.where(profileTechStack.techStack.id.eq(techStackId))
+			.where(profileTechStack.techStack.id.eq(techStackId).and(profileTechStack.profile.id.eq(profileId)))
 			.fetchOne();
 	}
 }
