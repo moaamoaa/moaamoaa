@@ -9,7 +9,7 @@ public class CookieUtil {
 
     public Cookie createCookie(String cookieName, String value) {
         Cookie cookie = new Cookie(cookieName, value);
-        cookie.setHttpOnly(true);
+//        cookie.setHttpOnly(true);
         // cookie.setMaxAge(60 * 60);
         // cookie.setPath("/");
         //cookie.setSecure(true);
