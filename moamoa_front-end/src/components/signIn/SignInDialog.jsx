@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import axios from 'axios';
 import { loginAccount } from 'redux/User';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,8 +14,7 @@ import {
 
 import DialogHeader from 'components/common/dialog/DialogHeader';
 import Cookies from 'js-cookie';
-
-const baseUrl = 'http://localhost:8080';
+import customAxios from 'utils/axios';
 
 export default function SignInDialog(props) {
   const [email, setEmail] = useState('');
@@ -31,8 +29,8 @@ export default function SignInDialog(props) {
   useEffect(handleCloseSignIndialog, [isLogin]);
 
   const handleLogIn = () => {
-    axios
-      .post(`${baseUrl}/users/login`, {
+    customAxios
+      .post('/users/login', {
         email: email,
         password: password,
       })
@@ -42,30 +40,9 @@ export default function SignInDialog(props) {
         const token = response.data.accessToken;
         const user_pk = response.data.id;
         dispatch(loginAccount({ userPk: user_pk }));
-        console.log(token);
 
         // Set the access token
         Cookies.set('access_token', token, { expires: 1 });
-
-        // 로그인 성공 시 유저 정보 axios 요청
-        // axios
-        //   .get(
-        //     `${baseUrl}/`,
-        //     {
-        //       user_pk: user_pk,
-        //     },
-        //     {
-        //       headers: {
-        //         Authorization: `Token ${token}`,
-        //       },
-        //     },
-        //   )
-        //   .then(response => {
-        //     console.log(response);
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //   });
       })
       .catch(error => {
         console.log('로그인 실패');

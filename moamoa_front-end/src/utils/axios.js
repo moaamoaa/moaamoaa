@@ -3,7 +3,7 @@ import axios from 'axios';
 const customAxios = axios.create({
   baseURL: 'http://localhost:8080',
   headers: {
-    Authorization: `Bearer ${getCookie('token')}`,
+    Authorization: `Bearer ${getCookie('access_token')}`,
   },
 });
 
