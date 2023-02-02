@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.service.ProjectService;
+import com.ssafy.moamoa.service.TeamService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -31,20 +34,30 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class ProjectController {
 	private final ProjectService projectService;
+	private final TeamService teamService;
 
 	@ApiOperation(value = "자기가 속한 프로젝트/스터디 조회",
 		notes = "자기가 속한 프로젝트/스터디를 조회한다.")
-	@GetMapping("/{id}")
-	public ResponseEntity<?> showProjects(@PathVariable Long id) throws Exception {
-		List<Project> projects = projectService.findByUser(id);
+	@GetMapping
+	public ResponseEntity<?> showProjects(Authentication authentication) throws Exception {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		List<Project> projects = projectService.findByUser(Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "팀 페이지 open",
 		notes = "팀 페이지 open")
-	@GetMapping("/Leader/{userId}")
-	public ResponseEntity<?> accessProject(@PathVariable Long userId, @RequestParam("projectId") Long projectId) throws Exception {
-		ProjectForm projectForm = projectService.accessProject(userId, projectId);
+	@GetMapping("/detail")
+	public ResponseEntity<?> accessProject(@RequestParam("projectId") Long projectId, Authentication authentication) throws Exception {
+		ProjectForm projectForm = projectService.accessProject(projectId);
+
+		// 로그인 한 상태
+		if(authentication != null)
+		{
+			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+			boolean isLeader = projectService.setIsLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId());
+			projectForm.setIsLeader(isLeader);
+		}
 
 		return new ResponseEntity<ProjectForm>(projectForm, HttpStatus.OK);
 	}
@@ -52,27 +65,38 @@ public class ProjectController {
 	@ApiOperation(value = "프로젝트/스터디 등록",
 		notes = "프로젝트/스터디 등록을 한다.")
 	@PostMapping
-	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm) throws Exception {
-
+	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws Exception {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		projectForm.setUserid(Long.valueOf(userDetails.getUsername()));
 		projectService.creatProject(projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 수정",
 		notes = "프로젝트/스터디 수정을 한다.")
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateProject(@PathVariable Long id, @RequestBody ProjectForm projectForm) throws
+	@PutMapping
+	public ResponseEntity<?> updateProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws
 		Exception {
-
-		projectService.updateProject(id, projectForm);
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
+		{
+			throw new Exception("팀장이 아닙니다.");
+		}
+		projectService.updateProject(Long.valueOf(userDetails.getUsername()), projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 삭제",
 		notes = "프로젝트/스터디 삭제를 한다.")
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteProject(@PathVariable Long id) {
-		projectService.deleteProject(id);
+	@DeleteMapping
+	public ResponseEntity<?> deleteProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws
+		Exception {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
+		{
+			throw new Exception("팀장이 아닙니다.");
+		}
+		projectService.deleteProject(Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
