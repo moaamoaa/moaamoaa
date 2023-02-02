@@ -260,16 +260,23 @@ public class ProjectService {
 	}
 
 	// 팀 페이지 return
-	public ProjectForm accessProject(Long userId, Long projectId)
+	public ProjectForm accessProject(Long projectId)
 	{
 		Project project = projectRepository.findById(projectId).get();
 		ProjectForm projectForm = ProjectForm.toEntity(project);
 
-		// 팀장인지 확인
-		boolean isLeader = teamService.checkLeader(userId, projectId);
-		projectForm.setIsLeader(isLeader);
-
 		return projectForm;
 	}
+
+	public boolean setIsLeader(Long userId, Long projectId)
+	{
+		boolean isLeader = teamService.checkLeader(userId, projectId);
+
+
+		//projectForm.setIsLeader(isLeader);
+
+		return isLeader;
+	}
+
 }
 
