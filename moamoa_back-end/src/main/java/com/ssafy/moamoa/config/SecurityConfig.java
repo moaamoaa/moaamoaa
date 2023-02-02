@@ -35,7 +35,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 			.authorizeRequests(auth -> auth.antMatchers("/users/login", "/users/signup", "/users/reissue", "/search/*").permitAll()
-				.anyRequest().authenticated())
+				.anyRequest().permitAll())
 			//로그인 확인x
 			//anyRequest().permitAll())
 			// .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)

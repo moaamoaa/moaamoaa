@@ -45,6 +45,9 @@ public class ProfileTechStack {
 		this.techStack = techStack;
 	}
 
+	public void setOrder(int order) {
+		this.order = order;
+	}
 	/* Setter */
 
 }

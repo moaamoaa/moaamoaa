@@ -104,12 +104,14 @@ public class TechStackService {
 				.profile(profile)
 				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
 				.order(size + 1).build();
-			log.info("TechStack > "+tempProfileTechStack.getTechStack().getName());
+			log.info("TechStack > "+tempProfileTechStack.getTechStack().getName()+tempProfileTechStack.getOrder());
 
 			ProfileTechStack originProfileTechStack = profileTechStackRepository.getProfileTechStack(
 				tempProfileTechStack.getTechStack().getId());
 
+			log.info(originProfileTechStack.getTechStack().getName()+" "+originProfileTechStack.getOrder());
 			originProfileTechStack.setTechStack(tempProfileTechStack.getTechStack());
+			originProfileTechStack.setOrder(tempProfileTechStack.getOrder());
 			profileTechStackRepository.save(originProfileTechStack);
 		}
 
