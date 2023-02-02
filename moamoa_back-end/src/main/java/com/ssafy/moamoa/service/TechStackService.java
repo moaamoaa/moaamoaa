@@ -109,7 +109,7 @@ public class TechStackService {
 			ProfileTechStack originProfileTechStack = profileTechStackRepository.getProfileTechStack(
 				tempProfileTechStack.getTechStack().getId());
 
-			log.info(originProfileTechStack.getTechStack().getName()+" "+originProfileTechStack.getOrder());
+			
 			originProfileTechStack.setTechStack(tempProfileTechStack.getTechStack());
 			originProfileTechStack.setOrder(tempProfileTechStack.getOrder());
 			profileTechStackRepository.save(originProfileTechStack);
