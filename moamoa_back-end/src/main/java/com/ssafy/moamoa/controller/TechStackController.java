@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,8 +27,7 @@ public class TechStackController {
 	private static final String SUCCESS = "SUCCESS";
 	private static final String FAIL = "FAIL";
 
-	@Autowired
-	private TechStackService techStackService;
+	private final TechStackService techStackService;
 
 	@ApiOperation(value = "기술스택 검색",
 		notes = "기술스택을 검색하여 결과를 반환해줍니다.")
