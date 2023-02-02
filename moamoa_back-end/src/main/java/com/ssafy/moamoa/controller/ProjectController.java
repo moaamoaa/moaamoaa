@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.service.ProjectService;
@@ -49,17 +50,17 @@ public class ProjectController {
 		notes = "팀 페이지 open")
 	@GetMapping("/detail")
 	public ResponseEntity<?> accessProject(@RequestParam("projectId") Long projectId, Authentication authentication) throws Exception {
-		ProjectForm projectForm = projectService.accessProject(projectId);
+		ProjectDetail projectDetail = projectService.accessProject(projectId);
 
 		// 로그인 한 상태
 		if(authentication != null)
 		{
 			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-			boolean isLeader = projectService.setIsLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId());
-			projectForm.setIsLeader(isLeader);
+			boolean isLeader = projectService.setIsLeader(Long.valueOf(userDetails.getUsername()), projectDetail.getProjectId());
+			projectDetail.setLeader(isLeader);
 		}
 
-		return new ResponseEntity<ProjectForm>(projectForm, HttpStatus.OK);
+		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 등록",

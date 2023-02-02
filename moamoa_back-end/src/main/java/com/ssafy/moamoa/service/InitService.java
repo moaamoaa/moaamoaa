@@ -402,10 +402,10 @@ public class InitService {
 	}
 
 	public void addProject() throws Exception {
-		ProjectForm studyOffForm = new ProjectForm(0L,"", "", "","OFFLINE", 0,0,2,0,"STUDY","","2023-02-21", "",false,1L,true, new Long[] {5L, 6L}, 1L);
-		ProjectForm studyOnForm = new ProjectForm(0L,"", "", "","ONLINE", 0,0,2,0,"STUDY","","2023-02-21", "",false,1L,true, new Long[] {5L, 6L}, 1L);
-		ProjectForm projectOffForm = new ProjectForm(0L,"", "", "","OFFLINE", 0,0,10,0,"PROJECT","","2023-02-21", "",false,1L,true, new Long[] {5L, 6L}, 1L);
-		ProjectForm projectOnForm = new ProjectForm(0L,"", "", "","ONLINE", 0,0,10,0,"PROJECT","","2023-02-21", "",false,1L,true, new Long[] {5L, 6L}, 1L);
+		ProjectForm studyOffForm = new ProjectForm(0L,"studyOn", "", "","OFFLINE", 2,"STUDY","2023-02-21", 1L, new Long[] {5L, 6L}, 1L);
+		ProjectForm studyOnForm = new ProjectForm(0L,"studyOff", "", "","ONLINE", 2,"STUDY","2023-02-21", 1L, new Long[] {5L, 6L}, 1L);
+		ProjectForm projectOffForm = new ProjectForm(0L,"projectOff", "", "","OFFLINE", 10,"PROJECT","2023-02-21", 1L, new Long[] {5L, 6L}, 1L);
+		ProjectForm projectOnForm = new ProjectForm(0L,"projectOn", "", "","ONLINE", 10,"PROJECT","2023-02-21", 1L, new Long[] {5L, 6L}, 1L);
 		for (int i = 0; i < 20; i++) {
 			projectService.creatProject(studyOffForm);
 			projectService.creatProject(projectOffForm);
