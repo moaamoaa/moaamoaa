@@ -129,9 +129,9 @@ export default function CustomizedSelects() {
                   진행방식
                 </Button>
                 <Menu fullWidth {...bindMenu(popupState)}>
-                  <MenuItem onClick={popupState.close}>무관</MenuItem>
-                  <MenuItem onClick={popupState.close}>온라인</MenuItem>
                   <MenuItem onClick={popupState.close}>오프라인</MenuItem>
+                  <MenuItem onClick={popupState.close}>온라인</MenuItem>
+                  <MenuItem onClick={popupState.close}>무관</MenuItem>
                 </Menu>
               </React.Fragment>
             )}
