@@ -3,8 +3,10 @@ package com.ssafy.moamoa.service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.TeamRole;
+import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.ProjectArea;
 import com.ssafy.moamoa.domain.entity.ProjectTechStack;
@@ -21,6 +25,7 @@ import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.exception.BadRequestException;
 import com.ssafy.moamoa.exception.NotFoundUserException;
+import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TeamRepository;
@@ -41,6 +46,7 @@ public class ProjectService {
 	private final ProjectTechStackRepository projectTechStackRepository;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
+	private final ProfileRepository profileRepository;
 	private final UserService userService;
 
 	public Boolean isLocked(Long id){
@@ -130,6 +136,7 @@ public class ProjectService {
 			.startDate(LocalDate.now())
 			.endDate(endDate)
 			.title(projectForm.getTitle())
+			.contents(projectForm.getContents())
 			.totalPeople(cntPeople)
 			.currentPeople(1)
 			.isLocked(false)
@@ -166,7 +173,7 @@ public class ProjectService {
 	// 프로젝트/스터디 수정
 	public void updateProject(Long id, ProjectForm projectForm) throws Exception {
 
-		Optional<Project> findProject = projectRepository.findById(id);
+		Optional<Project> findProject = projectRepository.findById(projectForm.getProjectId());
 		Project project = findProject.get();
 		LocalDate endDate = LocalDate.parse(projectForm.getEndDate(), DateTimeFormatter.ISO_DATE);
 		int cntPeople = projectForm.getTotalPeople();
@@ -179,7 +186,7 @@ public class ProjectService {
 		}
 
 		if (project.getTotalPeople() != cntPeople) {
-			List<Team> findTeam = teamRepository.findByProject(project);
+			List<Team> findTeam = teamRepository.findByProject_Id(project.getId());
 			int minCnt = findTeam.size();
 			// 인원수 10이하인지 확인 & 팀원들의 인원수보다 작은지
 			checkCntPeople(cntPeople, minCnt);
@@ -201,6 +208,7 @@ public class ProjectService {
 		project.setEndDate(endDate);
 		project.setTitle(projectForm.getTitle());
 		project.setTotalPeople(cntPeople);
+		project.setContents(projectForm.getContents());
 
 		// project techstack
 		List<ProjectTechStack> projectTechStacks = projectTechStackRepository.findByProject(project);
@@ -234,7 +242,7 @@ public class ProjectService {
 		Project project = findProject.get();
 
 		// team
-		List<Team> findTeam = teamRepository.findByProject(project);
+		List<Team> findTeam = teamRepository.findByProject_Id(project.getId());
 		for (Team t : findTeam) {
 			teamRepository.delete(t);
 		}
@@ -255,26 +263,47 @@ public class ProjectService {
 
 	public List<Project> findByUser(Long id) {
 		User user = userService.findUser(id);
-		List<Project> projectList = teamRepository.findProjectByUser(user);
-		return projectList;
+		List<Team> teams = teamRepository.findByUser_Id(id);
+		List<Project> projects = new ArrayList<>();
+		for (Team t: teams) {
+			Project project = projectRepository.findById(t.getProject().getId()).get();
+			projects.add(project);
+		}
+		return projects;
 	}
 
 	// 팀 페이지 return
-	public ProjectForm accessProject(Long projectId)
+	public ProjectDetail accessProject(Long projectId)
 	{
 		Project project = projectRepository.findById(projectId).get();
-		ProjectForm projectForm = ProjectForm.toEntity(project);
+		project.setHit(project.getHit()+1);
+		ProjectDetail projectDetail = ProjectDetail.toEntity(project);
 
-		return projectForm;
+		// Team
+		List<Team> teams = teamRepository.findByProject_Id(project.getId());
+		List<Profile> profiles = new ArrayList<>();
+		for (Team t:teams) {
+			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
+			profiles.add(profile);
+		}
+		projectDetail.setProfiles(profiles);
+
+		// TechStack
+		List<TechStack> techStacks = projectTechStackRepository.findTechstackByProject_Id(projectId)
+			.stream()
+			.map(t -> t.getTechStack())
+			.collect(Collectors.toList());
+		if (!techStacks.isEmpty()) {
+			projectDetail.setTechStacks(techStacks);
+		}
+
+
+		return projectDetail;
 	}
 
 	public boolean setIsLeader(Long userId, Long projectId)
 	{
 		boolean isLeader = teamService.checkLeader(userId, projectId);
-
-
-		//projectForm.setIsLeader(isLeader);
-
 		return isLeader;
 	}
 

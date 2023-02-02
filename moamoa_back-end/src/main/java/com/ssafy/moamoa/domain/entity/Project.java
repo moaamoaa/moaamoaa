@@ -147,4 +147,5 @@ public class Project {
 
 	public void setLocked(boolean isLocked){this.isLocked = isLocked;}
 
+	public void setHit(int hit){this.hit = hit;}
 }
