@@ -1,10 +1,18 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import InputBase from '@mui/material/InputBase';
+import {
+  styled,
+  InputBase,
+  Button,
+  Menu,
+  MenuItem,
+  Stack,
+  TextField,
+  Box,
+  Grid,
+} from '@mui/material/';
+import SearchIcon from '@mui/icons-material/Search';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import IconButton from '@mui/material/IconButton';
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   'label + &': {
@@ -39,66 +47,108 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const CommonBox = styled(Box)`
+  background-color: #ffffff;
+  border: 1px solid #c4c4c4;
+  border-radius: 0.5rem;
+  height: 4rem;
+  width: 100%;
+`;
+
 export default function CustomizedSelects() {
   const [select, setSelect] = React.useState('');
   const handleChange = event => {
     setSelect(event.target.value);
   };
+
   return (
     <div>
-      <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel htmlFor="demo-customized-textbox">이름</InputLabel>
-        <BootstrapInput id="demo-customized-textbox" />
-      </FormControl>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+          <TextField
+            fullWidth
+            id="outlined-basic"
+            label="검색"
+            variant="outlined"
+          />
+        </Grid>
 
-      <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel id="demo-customized-select-label">기술스택</InputLabel>
-        <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={select}
-          onChange={handleChange}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value="">
-            <em>무관</em>
-          </MenuItem>
-          <MenuItem value={10}>백앤드</MenuItem>
-          <MenuItem value={20}>프론트앤드</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel id="demo-customized-select-label">모집구분</InputLabel>
-        <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={select}
-          onChange={handleChange}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value="">
-            <em>무관</em>
-          </MenuItem>
-          <MenuItem value={30}>스터디</MenuItem>
-          <MenuItem value={40}>프로젝트</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel id="demo-customized-select-label">진행방식</InputLabel>
-        <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={select}
-          onChange={handleChange}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value="">
-            <em>무관</em>
-          </MenuItem>
-          <MenuItem value={50}>온라인</MenuItem>
-          <MenuItem value={60}>오프라인</MenuItem>
-        </Select>
-      </FormControl>
+        <Grid item xs={2}>
+          <PopupState variant="popover" popupId="demo-popup-menu">
+            {popupState => (
+              <React.Fragment>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  {...bindTrigger(popupState)}
+                >
+                  기술스택
+                </Button>
+                <Menu fullWidth {...bindMenu(popupState)}>
+                  <MenuItem onClick={popupState.close}>프론트엔드</MenuItem>
+                  <MenuItem onClick={popupState.close}>백엔드</MenuItem>
+                  <MenuItem onClick={popupState.close}>모바일</MenuItem>
+                  <MenuItem onClick={popupState.close}>기타</MenuItem>
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
+        </Grid>
+        <Grid item xs={2}>
+          <PopupState variant="popover" popupId="demo-popup-menu">
+            {popupState => (
+              <React.Fragment>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  {...bindTrigger(popupState)}
+                >
+                  모집구분
+                </Button>
+                <Menu fullWidth {...bindMenu(popupState)}>
+                  <MenuItem onClick={popupState.close}>프로젝트</MenuItem>
+                  <MenuItem onClick={popupState.close}>스터디</MenuItem>
+                  <MenuItem onClick={popupState.close}>무관</MenuItem>
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
+        </Grid>
+        <Grid item xs={2}>
+          <PopupState variant="popover" popupId="demo-popup-menu">
+            {popupState => (
+              <React.Fragment>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  {...bindTrigger(popupState)}
+                >
+                  진행방식
+                </Button>
+                <Menu fullWidth {...bindMenu(popupState)}>
+                  <MenuItem onClick={popupState.close}>무관</MenuItem>
+                  <MenuItem onClick={popupState.close}>온라인</MenuItem>
+                  <MenuItem onClick={popupState.close}>오프라인</MenuItem>
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
+        </Grid>
+      </Grid>
+      <Box sx={{ height: 88 }}></Box>
+      <Stack
+        spacing={2}
+        direction="row"
+        sx={{ display: 'flex', justifyContent: 'space-between' }}
+      >
+        <CommonBox></CommonBox>
+        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+          <SearchIcon />
+        </IconButton>
+      </Stack>
     </div>
   );
 }
