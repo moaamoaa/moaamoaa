@@ -67,6 +67,7 @@ public class TechStackService {
 		// 리스트 전처리 작업
 		int inputListSize = techStackFormList.size(); // 5
 		int originListSize = profileTechStackList.size(); // 3
+		log.info("Initial size :"+inputListSize+" "+originListSize);
 		List<Integer> differOrder = new ArrayList<>();
 
 		if (originListSize > inputListSize) {  // 삭제를 해야하는 경우
@@ -92,6 +93,9 @@ public class TechStackService {
 			}
 			inputListSize = techStackFormList.size();
 		}
+		if(inputListSize==0){
+			return "SUCCESS";
+		}
 		for (int size = 0; size < inputListSize; size++) {
 
 			TechStackForm techStackForm = techStackFormList.get(size);
@@ -100,6 +104,7 @@ public class TechStackService {
 				.profile(profile)
 				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
 				.order(size + 1).build();
+			log.info("TechStack > "+tempProfileTechStack.getTechStack().getName());
 
 			ProfileTechStack originProfileTechStack = profileTechStackRepository.getProfileTechStack(
 				tempProfileTechStack.getTechStack().getId());
