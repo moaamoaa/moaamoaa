@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-import { Container, Paper, Button, Stack, Grid } from '@mui/material/';
+import { Container, Paper, Button, Stack, Grid, Link } from '@mui/material/';
 
 import TeamBanner from 'components/team/TeamBanner';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
@@ -15,6 +17,30 @@ export default function TeamDetailPage() {
     leader: '팀장 이름', // GET
     image: 'https://source.unsplash.com/random', // project_image GET
   };
+
+  //spring boot url
+  const baseUrl = 'http://localhost:8080';
+
+  //get url
+  const Id = 1; //프로젝트 아이디
+
+  //READ
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [detail, setDetail] = useState([]);
+
+  // axios
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/projects/${Id}`)
+      .then(response => {
+        setDetail(response);
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    setIsLoaded(true);
+  }, [isLoaded]);
 
   return (
     <>
@@ -32,10 +58,19 @@ export default function TeamDetailPage() {
             <Button size="small" variant="contained" color="primary">
               지원 보내기 / 제안 및 지원 확인
             </Button>
-            <Button size="small" variant="contained" color="primary">
-              팀 수정
-            </Button>
-            <Button size="small" variant="contained" color="primary">
+            <Link href="http://localhost:3000/TeamUpdatePage">
+              <Button size="small" variant="contained" color="primary">
+                팀 수정
+              </Button>
+            </Link>
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={async () => {
+                await axios.delete(`${baseUrl}/projects/${Id}`);
+              }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기 ( 해당 id의 팀 data가 삭제 됨 )
+            >
               팀 삭제
             </Button>
           </Stack>
@@ -45,7 +80,7 @@ export default function TeamDetailPage() {
         <h2>모집 정보</h2>
         <Paper
           variant="outlined"
-          elevation={50}
+          elevation={0}
           style={{
             padding: 20,
             // border: '1px solid black',
@@ -81,7 +116,7 @@ export default function TeamDetailPage() {
         <h2>팀 소개</h2>
         <Paper
           variant="outlined"
-          elevation={50}
+          elevation={0}
           style={{
             padding: 20,
             // border: '1px solid black',
