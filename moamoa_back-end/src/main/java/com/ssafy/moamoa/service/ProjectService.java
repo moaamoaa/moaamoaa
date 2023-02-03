@@ -266,15 +266,8 @@ public class ProjectService {
 
 	// 프로젝트/스터디 삭제
 	public void deleteMember(ProjectForm projectForm) {
-
-		Optional<Project> findProject = projectRepository.findById(projectForm.getProjectId());
-		Project project = findProject.get();
-
-		// team
-		List<Team> findTeam = teamRepository.findByProject_Id(project.getId());
-		for (Team t : findTeam) {
-			teamRepository.delete(t);
-		}
+		Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
+		findProject.setLocked(true);
 	}
 
 	public List<ProjectForm> findByUser(Long id) {
