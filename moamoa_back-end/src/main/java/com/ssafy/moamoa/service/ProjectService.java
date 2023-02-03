@@ -18,6 +18,7 @@ import com.ssafy.moamoa.domain.TeamRole;
 import com.ssafy.moamoa.domain.dto.ProfileResultDto;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.ProjectArea;
@@ -103,7 +104,7 @@ public class ProjectService {
 		checkCntPeople(cntPeople, 1);
 
 		// 팀원 정보 확인
-		Optional<User> findUsers = userRepository.findById(projectForm.getUserid());
+		Optional<User> findUsers = userRepository.findById(projectForm.getUserId());
 		if (!findUsers.isPresent()) {
 			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
 		}
@@ -146,7 +147,7 @@ public class ProjectService {
 		projectRepository.save(project);
 
 		// team
-		Optional<User> findUser = userRepository.findById(projectForm.getUserid());
+		Optional<User> findUser = userRepository.findById(projectForm.getUserId());
 		User user = findUser.get();
 		Team team = Team.builder()
 			.role(TeamRole.LEADER)
@@ -264,7 +265,6 @@ public class ProjectService {
 	}
 
 	public List<ProjectForm> findByUser(Long id) {
-		User user = userService.findUser(id);
 		List<Team> teams = teamRepository.findByUser_Id(id);
 		List<ProjectForm> projectForms = new ArrayList<>();
 		for (Team t: teams) {
@@ -283,13 +283,19 @@ public class ProjectService {
 
 		// Team
 		List<Team> teams = teamRepository.findByProject_Id(project.getId());
-		List<ProfileResultDto> profileResultDtos = new ArrayList<>();
+		List<ProfileResultDto> profileResultDtoList = new ArrayList<>();
 		for (Team t:teams) {
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
-			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(),"","", ProfileOnOffStatus.ALL);
-			profileResultDtos.add(profileResultDto);
+			ProfileResultDto profileResultDto = new ProfileResultDto(projectId,profile.getNickname(),profile.getContext(),profile.getProfileOnOffStatus());
+			profileResultDtoList.add(profileResultDto);
+			if(t.getRole()==TeamRole.LEADER)
+			{
+				projectDetail.setLeaderId(t.getUser().getId());
+				projectDetail.setLeaderNickname(profile.getNickname());
+
+			}
 		}
-		projectDetail.setProfileResultDtos(profileResultDtos);
+		projectDetail.setProfileResultDtoList(profileResultDtoList);
 
 		// TechStack
 		List<TechStack> techStacks = projectTechStackRepository.findTechstackByProject_Id(projectId)

@@ -32,7 +32,7 @@ public class ProjectForm {
 	private String endDate;
 
 	// team
-	private Long userid;
+	private Long userId;
 
 	// project techStack
 	private Long[] techStacks;
