@@ -68,7 +68,7 @@ public class ProjectController {
 	@PostMapping
 	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		projectForm.setUserid(Long.valueOf(userDetails.getUsername()));
+		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 		projectService.creatProject(projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
