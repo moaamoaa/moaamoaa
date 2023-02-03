@@ -6,12 +6,25 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.ssafy.moamoa.domain.entity.*;
-import com.ssafy.moamoa.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.dto.TechStackForm;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.ProfileTechStack;
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.ProjectTechStack;
+import com.ssafy.moamoa.domain.entity.SidePjt;
+import com.ssafy.moamoa.domain.entity.SidePjtTechStack;
+import com.ssafy.moamoa.domain.entity.TechStack;
+import com.ssafy.moamoa.repository.ProfileRepository;
+import com.ssafy.moamoa.repository.ProfileTechStackRepository;
+import com.ssafy.moamoa.repository.ProjectRepository;
+import com.ssafy.moamoa.repository.ProjectTechStackRepository;
+import com.ssafy.moamoa.repository.SideProjectRepository;
+import com.ssafy.moamoa.repository.SideProjectTechStackRepository;
+import com.ssafy.moamoa.repository.TechStackRepository;
+import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +66,25 @@ public class TechStackService {
 	}
 
 
+
+
+	public List<TechStackForm> getProfileTechStacks(Long profileId)
+	{
+		List<ProfileTechStack> profileTechStackList= profileTechStackRepository.getProfileTechStacksByOrderAsc(profileId);
+		List<TechStackForm> techStackFormList = new ArrayList<>();
+
+		for(ProfileTechStack profileTechStack : profileTechStackList)
+		{
+			TechStackForm techStackForm = TechStackForm.builder()
+				.id(profileTechStack.getTechStack().getId())
+				.name(profileTechStack.getTechStack().getName())
+				.build();
+
+			techStackFormList.add(techStackForm);
+
+		}
+	return techStackFormList;
+	}
 
 
 
