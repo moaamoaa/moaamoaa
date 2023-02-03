@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutAccount } from 'redux/User';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSuccess, logoutSuccess, loginFailure } from 'redux/User';
+import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
 
@@ -29,7 +30,6 @@ export default function NavbarAccount() {
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
   // 임시 로그인 확인. 나중에 지울 것
   const isLogIn = useSelector(state => state.User.isLogged);
-
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -54,7 +54,8 @@ export default function NavbarAccount() {
 
   const handleUserToken = () => {
     handleCloseUserMenu();
-    dispatch(logoutAccount());
+    dispatch(logoutSuccess());
+    Cookies.remove('access_token');
   };
 
   const settings = [
