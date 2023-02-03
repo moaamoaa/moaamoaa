@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useRef } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import CustomAxios from 'utils/axios';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -22,8 +23,8 @@ import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
 
 export default function TeamCreatePage() {
-  //spring boot url
-  const baseUrl = 'http://localhost:8080';
+  // //spring boot url
+  // const baseUrl = 'http://localhost:8080';
 
   //ref
   const inputRef = useRef('');
@@ -61,12 +62,10 @@ export default function TeamCreatePage() {
     // 팀 소개 string
     console.log(inputRef.current);
     console.log(typeof inputRef.current);
-
+    
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
-    axios({
-      method: 'post',
-      url: `${baseUrl}/projects`,
-      data: {
+    CustomAxios.authAxios
+      .post('/projects', {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
@@ -85,8 +84,7 @@ export default function TeamCreatePage() {
         title: titleRef.current,
         totalPeople: numberRef.current,
         userid: 1,
-      },
-    })
+      })
       .then(e => {
         console.log(e);
         console.log('포스트완료!');
@@ -137,7 +135,7 @@ export default function TeamCreatePage() {
         <Box>
           <h4>모집 구분</h4>
           <SingleSelect ref={classRef}></SingleSelect>
-          <h4>모집 인원</h4>
+          <h4>모집 정원</h4>
           <SingleSelectNumber ref={numberRef}></SingleSelectNumber>
           <h4>마감 날짜</h4>
           <Calendar ref={dateRef}></Calendar>
