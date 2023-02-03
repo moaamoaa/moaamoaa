@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import CustomAxios from 'utils/axios';
 
 import { Container, Paper, Button, Stack, Grid, Link } from '@mui/material/';
 
@@ -18,11 +19,8 @@ export default function TeamDetailPage() {
     image: 'https://source.unsplash.com/random', // project_image GET
   };
 
-  //spring boot url
-  const baseUrl = 'http://localhost:8080';
-
-  //get url
-  const Id = 1; //프로젝트 아이디
+  // //spring boot url
+  // const baseUrl = 'http://localhost:8080';
 
   //READ
   const [isLoaded, setIsLoaded] = useState(false);
@@ -30,8 +28,8 @@ export default function TeamDetailPage() {
 
   // axios
   useEffect(() => {
-    axios
-      .get(`${baseUrl}/projects/${Id}`)
+    CustomAxios.authAxios
+      .get('/projects/detail') // 팀페이지 open
       .then(response => {
         setDetail(response);
         console.log(response);
@@ -68,8 +66,8 @@ export default function TeamDetailPage() {
               variant="contained"
               color="primary"
               onClick={async () => {
-                await axios.delete(`${baseUrl}/projects/${Id}`);
-              }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기 ( 해당 id의 팀 data가 삭제 됨 )
+                await CustomAxios.authAxios.delete('/projects'); // 프로젝트스터디 삭제
+              }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
             >
               팀 삭제
             </Button>
@@ -90,11 +88,11 @@ export default function TeamDetailPage() {
           <Typography variant="body1" color="initial">
             GET
           </Typography>
-          <h4>모집 인원</h4>
+          <h4>모집 정원</h4>
           <Typography variant="body1" color="initial">
             GET
           </Typography>
-          <h4>모집 기간</h4>
+          <h4>마감 날짜</h4>
           <Typography variant="body1" color="initial">
             GET
           </Typography>
