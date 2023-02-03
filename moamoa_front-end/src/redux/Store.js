@@ -8,15 +8,17 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 
 import UserReducer from './User';
+import searchReducer from './search';
 
 const reducers = combineReducers({
   User: UserReducer,
+  search: searchReducer,
 });
 // persisit 설정
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['User'],
+  whitelist: ['User', 'search'],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 
