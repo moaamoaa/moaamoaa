@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
@@ -23,14 +25,16 @@ import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.QProfile;
 
-public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
+public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements ProfileRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
 	@PersistenceContext
 	EntityManager em;
 
 	QProfile profile = QProfile.profile;
 
+
 	public ProfileRepositoryImpl(EntityManager em) {
+		super(Profile.class);
 		this.queryFactory = new JPAQueryFactory(em);
 	}
 
@@ -102,7 +106,6 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
 
 	@Override
 	public Profile getProfileById(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		Profile returnProfile = queryFactory
 			.select(profile)
@@ -115,7 +118,7 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
 
 	@Override
 	public Profile getProfileByName(String nickName) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
 		return queryFactory.select(profile)
 			.from(profile)
 			.where(profile.nickname.eq(nickName))
@@ -125,12 +128,31 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
 
 	@Override
 	public void deleteProfileContextById(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-
 		JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(em, profile);
 		jpaUpdateClause.where(profile.id.eq(profileId))
 			.setNull(profile.context)
 			.execute();
 
+	}
+
+	@Override
+	public String setProfileOnOffStatus(Long profileId, ProfileOnOffStatus status) {
+		JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(em,profile);
+
+		jpaUpdateClause.where(profile.id.eq(profileId))
+			.set(profile.profileOnOffStatus,status)
+			.execute();
+
+		return status.toString();
+	}
+
+	@Override
+	public void setProfile(Profile inputProfile) {
+		JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(em,profile);
+
+		jpaUpdateClause.where(profile.id.eq(inputProfile.getId()))
+			.set(profile.nickname, inputProfile.getNickname())
+			.set(profile.profileOnOffStatus,inputProfile.getProfileOnOffStatus())
+			.execute();
 	}
 }

@@ -1,13 +1,14 @@
 package com.ssafy.moamoa.repository.querydsl;
 
-import com.ssafy.moamoa.domain.entity.ProfileSite;
-
 import java.util.List;
-import java.util.Optional;
+
+import com.ssafy.moamoa.domain.entity.ProfileSite;
 
 public interface ProfileSiteRepositoryCustom {
 
     ProfileSite getProfileSiteByName(String name);
+
+    List<ProfileSite> getProfileSitesByIdAsc(Long profileId);
 
     List<ProfileSite> getProfileSitesById(Long profileId);
 
