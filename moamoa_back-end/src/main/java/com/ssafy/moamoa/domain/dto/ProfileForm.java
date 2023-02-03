@@ -12,16 +12,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileForm {
-	private Long id; // userId
+	private Long id; // profileId
 
 	private String nickname;
 
-	private String profileSearchStatus;
+	private String profileSearchStatus; // 검색 Status
 
-	private String profileOnOffStatus;
+	private String profileOnOffStatus; // 온/오프라인 유무
 
 	private String img;
 
 	private String context;
+
+
 
 }

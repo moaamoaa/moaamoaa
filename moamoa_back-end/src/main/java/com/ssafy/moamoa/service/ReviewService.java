@@ -32,6 +32,26 @@ public class ReviewService {
 
 	TimeService ts = TimeService.getInstance();
 
+	// public List<ReviewForm> getReviews(Long profileId)
+	// {
+	// 	List<Review> reviewList= reviewRepository.getReviewsByOrderAsc(profileId);
+	// 	List<ReviewForm> reviewFormList = new ArrayList<>();
+	//
+	// 	for(Review review : reviewFormList)
+	// 	{
+	// 		ReviewForm techStackForm = ReviewForm.builder()
+	// 				.profileId(profileId)
+	// 					.senderId(review.getSendUser().getId())
+	//
+	//
+	//
+	// 		techStackFormList.add(techStackForm);
+	//
+	// 	}
+	// 	return techStackFormList;
+	// }
+
+
 	public ReviewForm addReview(Long profileId, Long senderId, String context) {
 		Timestamp curTime = Timestamp.valueOf(ts.getCurrentTime());
 

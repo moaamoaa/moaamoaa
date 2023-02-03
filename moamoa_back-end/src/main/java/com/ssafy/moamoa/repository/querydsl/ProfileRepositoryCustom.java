@@ -11,5 +11,9 @@ public interface ProfileRepositoryCustom {
 
 	Profile getProfileById(Long profileId);
 
+	Profile getProfileByName(String nickName);
+
 	void deleteProfileContextById(Long profileId);
+
+
 }

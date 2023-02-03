@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.ContextForm;
-import com.ssafy.moamoa.domain.dto.ProfileForm;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
@@ -21,30 +20,42 @@ public class ProfileService {
 	private static final String SUCCESS = "SUCCESS";
 	private static final String FAIL = "FAIL";
 
+	private final TechStackService techStackService;
+
+
 	private final ProfileRepository profileRepository;
 
 	private final UserRepository userRepository;
 
 
 
-	public ProfileForm getProfile(Long profileId) {
-
-		Profile profile = profileRepository.findById(profileId).get();
-		ProfileForm profileForm = ProfileForm.builder()
-			.id(profile.getId())
-			.nickname(profile.getNickname())
-			.context(profile.getContext())
-			.img(profile.getImg())
-			.profileOnOffStatus(profile.getProfileOnOffStatus() + "")
-			.profileSearchStatus(profile.getSearchState() + "")
-			.build();
-		return profileForm;
-	}
+	// public ProfilePageForm getProfile(String nickName) {
+	//
+	// 	Profile profile = profileRepository.getProfileByName(nickName);
+	// 	Long profileId = profile.getId();
+	//
+	// 	ProfileForm profileForm = ProfileForm.builder()
+	// 		.id(profile.getId())
+	// 		.nickname(profile.getNickname())
+	// 		.context(profile.getContext())
+	// 		.img(profile.getImg())
+	// 		.profileOnOffStatus(profile.getProfileOnOffStatus() + "")
+	// 		.profileSearchStatus(profile.getSearchState() + "")
+	// 		.build();
+	//
+	//
+	// 	ProfilePageForm profilePageForm = ProfilePageForm.builder()
+	// 		.profileForm(profileForm)
+	// 		.techStackFormList(techStackService.getProfileTechStacks(profileId))
+	// 		.reviewFormList()
+	// 		.build();
+	//
+	// 	return profileForm;
+	// }
 
 	public String changeUserState(Long profileId) {
 
 		Profile profile = profileRepository.findById(profileId).get();
-		// System.out.println(profile.getId());
 
 		ProfileSearchStatus originSearchState = profile.getSearchState();
 		String searchState = String.valueOf(originSearchState);

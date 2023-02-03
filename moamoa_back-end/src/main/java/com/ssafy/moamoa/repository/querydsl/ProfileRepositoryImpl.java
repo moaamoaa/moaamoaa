@@ -114,6 +114,16 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
 	}
 
 	@Override
+	public Profile getProfileByName(String nickName) {
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+		return queryFactory.select(profile)
+			.from(profile)
+			.where(profile.nickname.eq(nickName))
+			.fetchOne();
+
+	}
+
+	@Override
 	public void deleteProfileContextById(Long profileId) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 

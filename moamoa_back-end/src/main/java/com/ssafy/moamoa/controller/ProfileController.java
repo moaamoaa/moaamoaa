@@ -6,8 +6,6 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import com.ssafy.moamoa.domain.dto.*;
-import com.ssafy.moamoa.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +16,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.moamoa.domain.dto.AreaForm;
+import com.ssafy.moamoa.domain.dto.ContextForm;
+import com.ssafy.moamoa.domain.dto.ReviewForm;
+import com.ssafy.moamoa.domain.dto.TechStackForm;
+import com.ssafy.moamoa.domain.dto.UserForm;
+import com.ssafy.moamoa.service.AreaService;
+import com.ssafy.moamoa.service.ProfileService;
+import com.ssafy.moamoa.service.ReviewService;
+import com.ssafy.moamoa.service.SideProjectService;
+import com.ssafy.moamoa.service.SiteService;
+import com.ssafy.moamoa.service.TechStackService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +56,7 @@ public class ProfileController {
 
 	// 검색 여부 변경
 	@PutMapping("/search-state")
-	// input userId output String ProfileSearchStatus
+
 	ResponseEntity<Map<String, Object>> updateSearchState(@RequestBody UserForm user) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
@@ -61,23 +71,23 @@ public class ProfileController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	// 마이페이지 접근
-	@GetMapping("/mypage")
-	public ResponseEntity<Map<String, Object>> myPage(@RequestBody Long profileId) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-
-
-		status = HttpStatus.ACCEPTED;
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
+	// // 마이페이지
+	// @GetMapping("/mypage")
+	// public ResponseEntity<Map<String, Object>> myPage(@RequestBody Long profileId) {
+	// 	Map<String, Object> resultMap = new HashMap<>();
+	// 	HttpStatus status = null;
+	//
+	// 	status = HttpStatus.ACCEPTED;
+	// 	return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	// }
 
 	// 다른 사용자 페이지 접근
 	@GetMapping("/{profileId}")
-	public ResponseEntity<Map<String, Object>> goUserPage(@PathVariable Long profileId) {
+	public ResponseEntity<?> getProfilePage(@PathVariable String nickName) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-		ProfileForm profileForm = profileService.getProfile(profileId);
+
+	//	ProfileForm profileForm = profileService.getProfile(nickName);
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
@@ -137,7 +147,7 @@ public class ProfileController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
-		// Service
+
 		String message = profileService.deleteContext(profileId);
 		if (message.equals(SUCCESS)) {
 			resultMap.put("message", SUCCESS);
@@ -150,7 +160,8 @@ public class ProfileController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	// 댓글
+	// Reviews
+
 	@PostMapping("/review/")
 	public ResponseEntity<Map<String, Object>> addReview(@RequestBody ReviewForm reviewForm) {
 		Map<String, Object> resultMap = new HashMap<>();
