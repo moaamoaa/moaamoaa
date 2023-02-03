@@ -62,7 +62,7 @@ export default function TeamCreatePage() {
     // 팀 소개 string
     console.log(inputRef.current);
     console.log(typeof inputRef.current);
-    
+
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
     CustomAxios.authAxios
       .post('/projects', {
