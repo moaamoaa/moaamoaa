@@ -33,6 +33,8 @@ class SearchServiceTest {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	CardService cardService;
 
 	@Autowired
 	InitTestService initService;
@@ -86,7 +88,7 @@ class SearchServiceTest {
 		ProjectResultDto projectResultDto = ProjectResultDto.builder().id(1L).build();
 
 		//when
-		ProjectResultDto setResult = searchService.setTechStacksInProject(projectResultDto);
+		ProjectResultDto setResult = cardService.setTechStacks(projectResultDto);
 
 		//then
 		Assertions.assertThat(setResult.getTechStacks()).isNotNull();
@@ -104,7 +106,7 @@ class SearchServiceTest {
 		ProjectResultDto projectResultDto = ProjectResultDto.builder().id(1L).build();
 
 		//when
-		ProjectResultDto setResult = searchService.setLeaderNickname(projectResultDto);
+		ProjectResultDto setResult = cardService.setLeaderNickname(projectResultDto);
 
 		//then
 		Assertions.assertThat(setResult.getLeaderName()).isNotNull();
