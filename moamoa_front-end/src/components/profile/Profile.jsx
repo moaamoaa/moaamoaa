@@ -11,12 +11,19 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
+import ScrollableTab from 'components/common/Tab/ScrollableTab';
 
 export default function Profile(props) {
   const user = {
     id: 0,
     name: '김싸피',
     tech: [
+      ['front-end_icons', 'javascript'],
+      ['front-end_icons', 'typescript'],
+      ['front-end_icons', 'javascript'],
+      ['front-end_icons', 'typescript'],
+      ['front-end_icons', 'javascript'],
+      ['front-end_icons', 'typescript'],
       ['front-end_icons', 'javascript'],
       ['front-end_icons', 'typescript'],
     ],
@@ -145,7 +152,7 @@ export default function Profile(props) {
                 {user.name}
               </Typography>
 
-              <CardList type={'tech'} cards={user.tech}></CardList>
+              <ScrollableTab type={'tech'} cards={user.tech}></ScrollableTab>
               <hr />
               <CardList type={'link'} cards={user.link}></CardList>
             </Grid>
