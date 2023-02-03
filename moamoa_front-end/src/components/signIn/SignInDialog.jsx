@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { loginAccount } from 'redux/User';
+import { loginSuccess } from 'redux/User';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -14,7 +14,7 @@ import {
 
 import DialogHeader from 'components/common/dialog/DialogHeader';
 import Cookies from 'js-cookie';
-import axios from 'axios';
+import CustomAxios from 'utils/axios';
 
 export default function SignInDialog(props) {
   const [email, setEmail] = useState('');
@@ -26,13 +26,11 @@ export default function SignInDialog(props) {
     props.setSignInDialog(false);
   };
 
-  const baseURL = 'http://localhost:8080';
-
   useEffect(handleCloseSignIndialog, [isLogin]);
 
   const handleLogIn = () => {
-    axios
-      .post(`${baseURL}/users/login`, {
+    CustomAxios.basicAxios
+      .post(`/users/login`, {
         email: email,
         password: password,
       })
@@ -41,7 +39,7 @@ export default function SignInDialog(props) {
         console.log(response);
         const token = response.data.accessToken;
         const user_pk = response.data.id;
-        dispatch(loginAccount({ userPk: user_pk }));
+        dispatch(loginSuccess({ userPk: user_pk }));
 
         // Set the access token
         Cookies.set('access_token', token, { expires: 1 });
