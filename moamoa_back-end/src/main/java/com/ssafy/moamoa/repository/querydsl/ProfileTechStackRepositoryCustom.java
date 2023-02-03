@@ -14,6 +14,7 @@ public interface ProfileTechStackRepositoryCustom {
 
 	ProfileTechStack getProfileTechStack(Long profileId, Long techStackId);
 
+	Long deleteAllProfileTechStacksById(Long profileId);
 
 	// List<ProfileTechStack> getAllUserTechStackByOrder(Long userId);
 	//

@@ -1,19 +1,13 @@
 package com.ssafy.moamoa.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.ContextForm;
 import com.ssafy.moamoa.domain.dto.ProfileForm;
-import com.ssafy.moamoa.domain.dto.SidePjtForm;
 import com.ssafy.moamoa.domain.entity.Profile;
-import com.ssafy.moamoa.domain.entity.SidePjt;
 import com.ssafy.moamoa.repository.ProfileRepository;
-import com.ssafy.moamoa.repository.SideProjectRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +25,7 @@ public class ProfileService {
 
 	private final UserRepository userRepository;
 
-	private final SideProjectRepository sideProjectRepository;
+
 
 	public ProfileForm getProfile(Long profileId) {
 
@@ -97,34 +91,5 @@ public class ProfileService {
 			return FAIL;
 
 	}
-	// 사이드 프로젝트
 
-	public List<SidePjtForm> getSideProjects(Long profileId) {
-		List<SidePjt> sidePjtList = sideProjectRepository.getSideProjects(profileId);
-		List<SidePjtForm> sidePjtFormList = new ArrayList<>();
-		for (SidePjt sidePjt : sidePjtList) {
-			SidePjtForm sidePjtForm = SidePjtForm.builder()
-				.name(sidePjt.getName())
-				.year(sidePjt.getYear())
-				.context(sidePjt.getContext())
-				.build();
-
-			sidePjtFormList.add(sidePjtForm);
-		}
-
-		return sidePjtFormList;
-	}
-
-	public String addSidePjt(Long profileId, SidePjtForm sidePjtForm) {
-		SidePjt sidePjt = SidePjt.builder()
-			.profile(profileRepository.getProfileById(profileId))
-			.name(sidePjtForm.getName())
-			.year(sidePjtForm.getYear())
-			.context(sidePjtForm.getContext())
-			.build();
-
-		sideProjectRepository.save(sidePjt);
-
-		return SUCCESS;
-	}
 }
