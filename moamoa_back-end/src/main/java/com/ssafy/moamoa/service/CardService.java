@@ -36,7 +36,7 @@ public class CardService {
 	private final UserAreaRepository userAreaRepository;
 
 	public ProjectResultDto setTechStacks(ProjectResultDto result) {
-		List<TechStack> findTechStacks = projectTechStackRepository.findTop4ByProject_Id(result.getId())
+		List<TechStack> findTechStacks = projectTechStackRepository.findTop4ByProject_IdOrderByOrderAsc(result.getId())
 			.stream()
 			.map(TechStackOnly::getTechStack)
 			.collect(Collectors.toList());
@@ -47,7 +47,7 @@ public class CardService {
 	}
 
 	public ProfileResultDto setTechStacks(ProfileResultDto result) {
-		List<TechStack> findTechStacks = profileTechStackRepository.findTop4ByProfile_Id(result.getId())
+		List<TechStack> findTechStacks = profileTechStackRepository.findTop4ByProfile_IdOrderByOrderAsc(result.getId())
 			.stream()
 			.map(TechStackOnly::getTechStack)
 			.collect(Collectors.toList());
