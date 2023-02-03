@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.data.domain.Pageable;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.DateExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -33,15 +35,21 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	QProject project = QProject.project;
 
 	@Override
-	public List<ProjectResultDto> search(SearchCondition condition) {
+	public List<ProjectResultDto> search(SearchCondition condition, Long cursorId, Pageable pageable) {
 		return queryFactory.select(
 				new QProjectResultDto(project.id, project.title, project.contents, project.hit, project.totalPeople,
 					project.currentPeople))
 			.from(project)
 			.where(titleContain(condition.getQuery()), statusEq(condition.getStatus()),
 				categoryEq(condition.getCategory()), areaIn(condition.getArea()), techStackIn(condition.getStack()),
-				nowDateBetween())
+				nowDateBetween(), cursorIdLt(cursorId), unlockedProject())
+			.orderBy(project.id.desc())
+			.limit(pageable.getPageSize())
 			.fetch();
+	}
+
+	private BooleanExpression cursorIdLt(Long cursorId) {
+		return cursorId != null ? project.id.lt(cursorId) : null;
 	}
 
 	private BooleanExpression nowDateBetween() {
@@ -58,6 +66,10 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 
 	private BooleanExpression categoryEq(ProjectCategory categoryCond) {
 		return categoryCond != null ? project.category.eq(categoryCond) : null;
+	}
+
+	private BooleanExpression unlockedProject() {
+		return project.isLocked.eq(false);
 	}
 
 	//해당 지역을 포함하는 프로젝트
@@ -77,18 +89,8 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 	@Override
 	public Project getProjectById(Long projectId) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-		Project tempProject = queryFactory
-			.select(project)
-			.from(project)
-			.where(project.id.eq(projectId))
-			.fetchOne();
+		return queryFactory.select(project).from(project).where(project.id.eq(projectId)).fetchOne();
 
-		return tempProject;
-	}
-
-	@Override
-	public List<Project> getProjects() {
-		return null;
 	}
 
 }
