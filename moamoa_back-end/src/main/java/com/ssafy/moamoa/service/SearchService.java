@@ -2,6 +2,7 @@ package com.ssafy.moamoa.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +31,8 @@ public class SearchService {
 	private final CardService cardService;
 
 	//프로젝트 검색
-	public List<ProjectResultDto> searchProject(SearchCondition condition) {
-		List<ProjectResultDto> searchResultList = projectRepository.search(condition);
+	public List<ProjectResultDto> searchProject(SearchCondition condition, Long cursorId, Pageable pageable) {
+		List<ProjectResultDto> searchResultList = projectRepository.search(condition, cursorId, pageable);
 
 		for (ProjectResultDto result : searchResultList) {
 			//해당 기술 스택 가져오기
@@ -43,8 +44,8 @@ public class SearchService {
 	}
 
 	//프로필 검색
-	public List<ProfileResultDto> searchProfile(SearchCondition condition) {
-		List<ProfileResultDto> searchResultList = profileRepository.search(condition);
+	public List<ProfileResultDto> searchProfile(SearchCondition condition, Long cursorId, Pageable pageable) {
+		List<ProfileResultDto> searchResultList = profileRepository.search(condition, cursorId, pageable);
 		for (ProfileResultDto result : searchResultList) {
 			//해당 기술 스택 가져오기
 			cardService.setTechStacks(result);
