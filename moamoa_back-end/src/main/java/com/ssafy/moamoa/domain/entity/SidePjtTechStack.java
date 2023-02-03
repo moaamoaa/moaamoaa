@@ -17,7 +17,7 @@ public class SidePjtTechStack {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "sidepjt_tech_stck_no")
+	@Column(name = "sidepjt_tech_stack_no")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
