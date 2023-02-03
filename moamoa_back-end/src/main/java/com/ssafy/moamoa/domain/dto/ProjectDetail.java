@@ -36,7 +36,7 @@ public class ProjectDetail {
 	private Long userid;
 	private String leaderNickname;
 	private boolean isLeader;
-	private List<Profile> profiles;
+	private List<ProfileResultDto> profileResultDtos;
 
 	// project techStack
 	private List<TechStack> techStacks;
@@ -58,8 +58,7 @@ public class ProjectDetail {
 			.build();
 	}
 
-/*	public void setIsLeader(boolean isLeader){
-		this.isLeader = isLeader;
-	}*/
-
+	public void setProfileResultDtos(List<ProfileResultDto> profileResultDtos) {
+		this.profileResultDtos = profileResultDtos;
+	}
 }

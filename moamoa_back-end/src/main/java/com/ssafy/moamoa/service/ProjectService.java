@@ -11,9 +11,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.TeamRole;
+import com.ssafy.moamoa.domain.dto.ProfileResultDto;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
 import com.ssafy.moamoa.domain.entity.Profile;
@@ -261,15 +263,15 @@ public class ProjectService {
 		projectRepository.delete(project);
 	}
 
-	public List<Project> findByUser(Long id) {
+	public List<ProjectForm> findByUser(Long id) {
 		User user = userService.findUser(id);
 		List<Team> teams = teamRepository.findByUser_Id(id);
-		List<Project> projects = new ArrayList<>();
+		List<ProjectForm> projectForms = new ArrayList<>();
 		for (Team t: teams) {
-			Project project = projectRepository.findById(t.getProject().getId()).get();
-			projects.add(project);
+			ProjectForm projectForm = ProjectForm.toEntity(t.getProject());
+			projectForms.add(projectForm);
 		}
-		return projects;
+		return projectForms;
 	}
 
 	// 팀 페이지 return
@@ -281,12 +283,13 @@ public class ProjectService {
 
 		// Team
 		List<Team> teams = teamRepository.findByProject_Id(project.getId());
-		List<Profile> profiles = new ArrayList<>();
+		List<ProfileResultDto> profileResultDtos = new ArrayList<>();
 		for (Team t:teams) {
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
-			profiles.add(profile);
+			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(),"","", ProfileOnOffStatus.ALL);
+			profileResultDtos.add(profileResultDto);
 		}
-		projectDetail.setProfiles(profiles);
+		projectDetail.setProfileResultDtos(profileResultDtos);
 
 		// TechStack
 		List<TechStack> techStacks = projectTechStackRepository.findTechstackByProject_Id(projectId)
