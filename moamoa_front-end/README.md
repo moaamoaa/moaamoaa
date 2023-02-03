@@ -2,6 +2,8 @@
 
 ## 소개
 
+Front-End README입니다.
+
 ## 사용법
 
 1. 리포지토리를 복제하거나 다운로드합니다.
@@ -10,6 +12,8 @@
 4. 브라우저에서 http://localhost:3000 방문하십시오 .
 
 ## 특징
+
+추후 작성 예정입니다.
 
 ## 기술스택
 
@@ -23,30 +27,25 @@
 
 ```bash
 src/
-|-- components/   # 공통 컴포넌트
-|   |-- Header/   # 헤더 컴포넌트
-|   |   |-- Header.jsx          # 컴포넌트 로직
-|   |   |-- Header.styles.js    # 컴포넌트 스타일
-|   |-- Footer/
+|-- components/   # 모든 컴포넌트
+|   |-- commons/        # 공통 컴포넌트
+|   |   |-- Button/             # 컴포넌트
+|   |   |   |-- ScrollToTop.jsx         # 컴포넌트 로직
+|   |   |-- ...
+|   |-- profile/        # 기능 컴포넌트
 |   |-- ...
-|-- containers/   # 상태 관리 컴포넌트
-|   |-- Home/           # 홈 페이지 컴포넌트
-|   |   |-- Home.jsx
-|   |   |-- Home.styles.js
-|   |-- About/
+|-- pages/        # 라우트 기반 Page
+|   |-- HomePage.jsx    # 홈 페이지 컴포넌트
 |   |-- ...
-|-- actions/      # Redux action creators
-|   |-- index.js        # action creators의 집합
-|   |-- types.js        # action type 정의
-|-- reducers/     # Redux reducers
-|   |-- index.js        # reducer의 집합
-|-- store/        # Redux store
-|   |-- index.js        # store 생성
+|-- redux/        # Redux store
+|   |-- store.js        # store 생성
+|   |-- ...
 |-- utils/        # 공통 기능
 |   |-- api.js          # API 통신 관련 기능
+|   |-- axios.js        # Custom Axios 기능
 |   |-- ...
-|-- App.js      # 각 컴포넌트들을 결합하여 애플리케이션을 구성하는 기본 컴포넌트
-|-- index.js    # 애플리케이션을 렌더링하는 엔트리 파일
+|-- App.jsx       # 각 컴포넌트들을 결합하여 애플리케이션을 구성하는 기본 컴포넌트
+|-- index.js      # 애플리케이션을 렌더링하는 엔트리 파일
 
 ```
 
