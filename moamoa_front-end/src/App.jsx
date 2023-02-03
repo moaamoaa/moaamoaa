@@ -1,23 +1,25 @@
-import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import styled from '@emotion/styled';
+
+import removeData from 'utils/removeData';
 
 import HomePage from 'pages/HomePage';
 import TeamSearchPage from 'pages/TeamSearchPage';
 import TeamMemberSearchPage from 'pages/TeamMemberSearchPage';
+import TeamCreatePage from 'pages/TeamCreatePage';
 import TeamDetailPage from 'pages/TeamDetailPage';
-import TeamCreatePage from './pages/TeamCreatePage';
-import TeamUpdatePage from './pages/TeamUpdatePage';
-import ProfileEditPage from 'pages/ProfileEditPage';
+import TeamUpdatePage from 'pages/TeamUpdatePage';
 import ProfilePage from 'pages/ProfilePage';
+import ProfileEditPage from 'pages/ProfileEditPage';
 import NotFoundPage from 'pages/NotFoundPage';
 import ErrorPage from 'pages/ErrorPage';
 
 import Navbar from 'components/common/navbar/Navbar';
 import ScrollToTopButton from 'components/common/Button/ScrollToTopButton';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import styled from 'styled-components';
-
 export default function App() {
+  window.onbeforeunload = removeData;
+
   return (
     <BrowserRouter>
       <Navbar></Navbar>
