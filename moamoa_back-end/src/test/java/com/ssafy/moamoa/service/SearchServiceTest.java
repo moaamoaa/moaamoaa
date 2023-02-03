@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.ssafy.moamoa.InitTestService;
 import com.ssafy.moamoa.domain.ProjectCategory;
@@ -72,9 +74,11 @@ class SearchServiceTest {
 		//given
 		List<Long> stacks = new ArrayList<>(Arrays.asList(1L, 2L));
 		SearchCondition searchCondition = SearchCondition.builder().stack(stacks).build();
+		Pageable pageable = PageRequest.of(0, 5);
+		Long cursorId = 1L;
 
 		//when
-		List<ProjectResultDto> searchResult = searchService.searchProject(searchCondition);
+		List<ProjectResultDto> searchResult = searchService.searchProject(searchCondition, cursorId, pageable);
 
 		//then
 		Assertions.assertThat(searchResult.get(0).getTechStacks()).isNotNull();
