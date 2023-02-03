@@ -264,6 +264,19 @@ public class ProjectService {
 		projectRepository.delete(project);
 	}
 
+	// 프로젝트/스터디 삭제
+	public void deleteMember(ProjectForm projectForm) {
+
+		Optional<Project> findProject = projectRepository.findById(projectForm.getProjectId());
+		Project project = findProject.get();
+
+		// team
+		List<Team> findTeam = teamRepository.findByProject_Id(project.getId());
+		for (Team t : findTeam) {
+			teamRepository.delete(t);
+		}
+	}
+
 	public List<ProjectForm> findByUser(Long id) {
 		List<Team> teams = teamRepository.findByUser_Id(id);
 		List<ProjectForm> projectForms = new ArrayList<>();
@@ -286,7 +299,7 @@ public class ProjectService {
 		List<ProfileResultDto> profileResultDtoList = new ArrayList<>();
 		for (Team t:teams) {
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
-			ProfileResultDto profileResultDto = new ProfileResultDto(projectId,profile.getNickname(),profile.getContext(),profile.getProfileOnOffStatus());
+			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(),profile.getNickname(),profile.getContext(),profile.getProfileOnOffStatus());
 			profileResultDtoList.add(profileResultDto);
 			if(t.getRole()==TeamRole.LEADER)
 			{

@@ -38,11 +38,11 @@ public class TeamService {
 		//List<Team> teams = teamRepository.findByProject(project);
 
 		TeamRole teamRole = TeamRole.LEADER;
-		if(teamRepository.findByUser(user, project).get().getRole() == teamRole)
-		{
-			return true;
+		if(teamRepository.findByUser(user, project).isPresent()) {
+			if (teamRepository.findByUser(user, project).get().getRole() == teamRole) {
+				return true;
+			}
 		}
-
 		return false;
 	}
 }
