@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { loginSuccess } from 'redux/User';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Cookies from 'js-cookie';
+import customAxios from 'utils/axios';
+
 import {
   Button,
   Dialog,
@@ -13,40 +16,35 @@ import {
 } from '@mui/material/';
 
 import DialogHeader from 'components/common/dialog/DialogHeader';
-import Cookies from 'js-cookie';
-import CustomAxios from 'utils/axios';
 
-export default function SignInDialog(props) {
+export default function LogInDialog(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.User.isLogged);
-  const handleCloseSignIndialog = () => {
-    props.setSignInDialog(false);
+  const handleCloseLogIndialog = () => {
+    props.setLogInDialog(false);
   };
 
-  useEffect(handleCloseSignIndialog, [isLogin]);
+  useEffect(handleCloseLogIndialog, [isLogin]);
 
   const handleLogIn = () => {
-    CustomAxios.basicAxios
+    customAxios.basicAxios
       .post(`/users/login`, {
         email: email,
         password: password,
       })
       .then(response => {
-        console.log('로그인 성공');
-        console.log(response);
         const token = response.data.accessToken;
         const user_pk = response.data.id;
-        dispatch(loginSuccess({ userPk: user_pk }));
 
         // Set the access token
         Cookies.set('access_token', token, { expires: 1 });
+        dispatch(loginSuccess({ userPk: user_pk }));
       })
       .catch(error => {
-        console.log('로그인 실패');
-        console.log(error.data);
+        console.log(error);
       });
   };
 
@@ -59,18 +57,18 @@ export default function SignInDialog(props) {
   };
 
   const handleOpenSignUpDialog = () => {
-    props.setSignInDialog(false);
+    props.setLogInDialog(false);
     props.setSignUpDialog(true);
   };
 
   const handleOpenFindPasswordDialog = () => {
-    props.setSignInDialog(false);
+    props.setLogInDialog(false);
     props.setFindPasswordDialog(true);
   };
 
   return (
-    <Dialog onClose={handleCloseSignIndialog} open={props.signInDialog}>
-      <DialogHeader onClose={handleCloseSignIndialog}>
+    <Dialog onClose={handleCloseLogIndialog} open={props.logInDialog}>
+      <DialogHeader onClose={handleCloseLogIndialog}>
         모아모아에 오신 것을 환영합니다.
       </DialogHeader>
       <DialogContent dividers>
