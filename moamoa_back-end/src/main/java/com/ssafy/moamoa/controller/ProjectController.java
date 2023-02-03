@@ -42,8 +42,8 @@ public class ProjectController {
 	@GetMapping
 	public ResponseEntity<?> showProjects(Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		List<Project> projects = projectService.findByUser(Long.valueOf(userDetails.getUsername()));
-		return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
+		List<ProjectForm> projectForms = projectService.findByUser(Long.valueOf(userDetails.getUsername()));
+		return new ResponseEntity<List<ProjectForm>>(projectForms, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "팀 페이지 open",
