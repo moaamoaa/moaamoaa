@@ -13,10 +13,22 @@ export default function SignUpPasswordForm(props) {
   const [checkPassword, setcheckPassword] = useState('');
   const [message, setMessage] = useState('');
   const [passwordError, setPasswordError] = useState(false);
+  const [passwordValidation, setPasswordValidation] = useState(
+    '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요',
+  );
+
+  const regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
 
   //비밀번호 상태 바꾸는 함수
   const handlePassword = e => {
     setPassword(e.target.value);
+    if (!regPass.test(password)) {
+      setPasswordValidation(
+        '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요',
+      );
+    } else {
+      setPasswordValidation(false);
+    }
   };
   const handleCheckPassword = e => {
     setcheckPassword(e.target.value);
@@ -54,19 +66,35 @@ export default function SignUpPasswordForm(props) {
           required={true}
           value={password}
           onChange={handlePassword}
+          helperText={passwordValidation}
         />
         <Box sx={{ mt: 1 }} />
-        <TextField
-          type="password"
-          id="outlined-basic2"
-          label="비밀번호 확인 "
-          fullWidth
-          variant="outlined"
-          required={true}
-          value={checkPassword}
-          onChange={handleCheckPassword}
-          helperText={message}
-        />
+        {passwordValidation ? (
+          <TextField
+            type="password"
+            id="outlined-basic2"
+            label="비밀번호 확인 "
+            fullWidth
+            variant="outlined"
+            required={true}
+            value={checkPassword}
+            onChange={handleCheckPassword}
+            helperText={message}
+            disabled
+          />
+        ) : (
+          <TextField
+            type="password"
+            id="outlined-basic2"
+            label="비밀번호 확인 "
+            fullWidth
+            variant="outlined"
+            required={true}
+            value={checkPassword}
+            onChange={handleCheckPassword}
+            helperText={message}
+          />
+        )}
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button onClick={handleBackStep} sx={{ mt: 3, ml: 1 }}>
@@ -77,7 +105,6 @@ export default function SignUpPasswordForm(props) {
               variant="contained"
               onClick={props.userSignUp}
               sx={{ mt: 3, ml: 1 }}
-              disabled
             >
               회원가입
             </Button>
@@ -86,6 +113,7 @@ export default function SignUpPasswordForm(props) {
               variant="contained"
               onClick={props.userSignUp}
               sx={{ mt: 3, ml: 1 }}
+              disabled
             >
               회원가입
             </Button>
