@@ -64,4 +64,15 @@ public class ProfileTechStackRepositoryImpl extends QuerydslRepositorySupport im
 			.where(profileTechStack.techStack.id.eq(techStackId).and(profileTechStack.profile.id.eq(profileId)))
 			.fetchOne();
 	}
+
+	@Override
+	public Long deleteAllProfileTechStacksById(Long profileId) {
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+		return queryFactory.delete(profileTechStack)
+				.where(profileTechStack.profile.id.eq(profileId))
+				.execute();
+
+
+	}
 }

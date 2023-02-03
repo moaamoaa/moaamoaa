@@ -1,17 +1,11 @@
 package com.ssafy.moamoa.service;
 
+import com.ssafy.moamoa.domain.entity.*;
+import com.ssafy.moamoa.repository.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.dto.ProjectForm;
-import com.ssafy.moamoa.domain.entity.Area;
-import com.ssafy.moamoa.domain.entity.Category;
-import com.ssafy.moamoa.domain.entity.TechStack;
-import com.ssafy.moamoa.domain.entity.TechStackCategory;
-import com.ssafy.moamoa.repository.AreaRepository;
-import com.ssafy.moamoa.repository.CategoryRepository;
-import com.ssafy.moamoa.repository.TechStackCategoryRepository;
-import com.ssafy.moamoa.repository.TechStackRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +17,7 @@ public class InitService {
 	private final TechStackRepository techStackRepository;
 	private final AreaRepository areaRepository;
 	private final TechStackCategoryRepository techStackCategoryRepository;
+	private final SiteRepository siteRepository;
 
 	//==배포시 삭제==//
 	private final UserService userService;
@@ -413,6 +408,20 @@ public class InitService {
 			projectService.creatProject(projectOnForm);
 
 		}
+
+	}
+
+	public void addSite()
+	{
+		Site github = Site.builder().name("Github").build();
+		Site velog = Site.builder().name("Velog").build();
+		Site tistory = Site.builder().name("Tistory").build();
+		Site cutsom = Site.builder().name("Custom").build();
+
+		siteRepository.save(github);
+		siteRepository.save(velog);
+		siteRepository.save(tistory);
+		siteRepository.save(cutsom);
 
 	}
 

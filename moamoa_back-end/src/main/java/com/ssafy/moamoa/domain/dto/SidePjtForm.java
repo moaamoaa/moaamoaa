@@ -1,5 +1,8 @@
 package com.ssafy.moamoa.domain.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -23,5 +26,8 @@ public class SidePjtForm {
 
 	@JsonProperty("context")
 	private String context;
+
+	@JsonProperty("pjt_tech_stack")
+	private List<TechStackForm> techStackFormList = new ArrayList<>();
 
 }

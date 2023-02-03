@@ -1,8 +1,11 @@
 package com.ssafy.moamoa.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.ssafy.moamoa.domain.dto.AreaForm;
+import com.ssafy.moamoa.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +15,6 @@ import com.ssafy.moamoa.domain.entity.ProfileArea;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.ProjectArea;
 import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.repository.AreaRepository;
-import com.ssafy.moamoa.repository.ProjectAreaRepository;
-import com.ssafy.moamoa.repository.UserAreaRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +26,11 @@ public class AreaService {
 	private final AreaRepository areaRepository;
 	private final UserAreaRepository userAreaRepository;
 	private final ProjectAreaRepository projectAreaRepository;
+
+
+	private final ProfileAreaRepository profileAreaRepository;
+	private final ProfileRepository profileRepository;
+
 
 	// 매칭되는 지역 찾기 -> list 형식으로 return
 	public ProjectArea findProjectAreaList(Project project) {
@@ -74,4 +79,43 @@ public class AreaService {
 			userAreaRepository.delete(ua);
 		}
 	}
-}
+
+	//////////////////// Profile Area ///////////////
+
+	public List<AreaForm> getProfileAreas(Long profileId)
+	{
+	List<ProfileArea> profileAreaList = profileAreaRepository.getAreasByIdAsc(profileId);
+		List<AreaForm> areaFormList = new ArrayList<>();
+	for(ProfileArea profileArea : profileAreaList)
+	{
+		AreaForm areaForm = AreaForm.builder()
+				.name(profileArea.getArea().getName()).build();
+		areaFormList.add(areaForm);
+	}
+	return areaFormList;
+	}
+
+	public List<AreaForm> modifyProfileAreas(Long profileId,List<AreaForm> areaFormList)
+	{
+	// List<ProfileArea> profileAreaList =  profileAreaRepository.getAreasByIdAsc(profileId);
+	Long deleteCount =  profileAreaRepository.deleteAreasById(profileId);
+		List<AreaForm> returnList = new ArrayList<>();
+	for(int i=0;i <areaFormList.size();i++)
+	{
+		AreaForm areaForm = areaFormList.get(i);
+		ProfileArea profileArea = ProfileArea.builder()
+				.profile(profileRepository.getProfileById(profileId))
+				.area(areaRepository.getAreaById(areaForm.getId()))
+				.order(i+1).build();
+
+		AreaForm returnAreaForm = AreaForm.builder()
+				.id(areaForm.getId())
+				.name(profileArea.getArea().getName())
+				.build();
+
+		profileAreaRepository.save(profileArea);
+		returnList.add(returnAreaForm);
+	}
+	return returnList;
+	}
+ }
