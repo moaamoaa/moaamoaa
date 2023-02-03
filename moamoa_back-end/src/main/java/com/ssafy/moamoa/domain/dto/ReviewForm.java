@@ -14,6 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewForm {
+
+	@JsonProperty("id")
+	private Long id;
+
 	@JsonProperty("profileId")
 	private Long profileId;
 	@JsonProperty("senderId")

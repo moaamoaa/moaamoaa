@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.moamoa.domain.dto.SidePjtForm;
 import com.ssafy.moamoa.domain.dto.TechStackForm;
 import com.ssafy.moamoa.domain.entity.SidePjt;
-import com.ssafy.moamoa.domain.entity.SidePjtTechStack;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.SideProjectRepository;
 import com.ssafy.moamoa.repository.TechStackRepository;
@@ -37,10 +36,11 @@ public class SideProjectService {
 	// 사이드 프로젝트
 
 	public List<SidePjtForm> getSideProjects(Long profileId) {
-		List<SidePjt> sidePjtList = sideProjectRepository.getSideProjects(profileId);
+		List<SidePjt> sidePjtList = sideProjectRepository.getSideProjectsByIdAsc(profileId);
 		List<SidePjtForm> sidePjtFormList = new ArrayList<>();
 		for (SidePjt sidePjt : sidePjtList) {
 			SidePjtForm sidePjtForm = SidePjtForm.builder()
+				.id(sidePjt.getId())
 				.name(sidePjt.getName())
 				.year(sidePjt.getYear())
 				.context(sidePjt.getContext())
@@ -52,13 +52,14 @@ public class SideProjectService {
 		return sidePjtFormList;
 	}
 
-	public String addSidePjt(Long profileId, SidePjtForm sidePjtForm) {
+	public List<SidePjtForm> addSidePjt(Long profileId, SidePjtForm sidePjtForm) {
 
 		SidePjt sidePjt = SidePjt.builder()
 			.profile(profileRepository.getProfileById(profileId))
 			.name(sidePjtForm.getName())
 			.year(sidePjtForm.getYear())
 			.context(sidePjtForm.getContext())
+
 			.build();
 
 		sideProjectRepository.save(sidePjt);
@@ -67,16 +68,26 @@ public class SideProjectService {
 		// Get SidePjt Id
 		SidePjt tempsidePjt = sideProjectRepository.getSideProjectByAll(profileId,sidePjt);
 
-		log.info("Side Hello Project"+tempsidePjt.getId()+tempsidePjt.getName()+tempsidePjt.getContext()+tempsidePjt.getYear());
-
 
 		// Parsing SideProjectTechStack
 		List<TechStackForm> techStackFormList = sidePjtForm.getTechStackFormList();
 
 		techStackService.modifySideProjectTechStack(tempsidePjt.getId(),techStackFormList);
 
-		//
+		// Return
 
-		return SUCCESS;
+		List<SidePjt> sideProjectList = sideProjectRepository.getSideProjectsByIdAsc(profileId);
+		List<SidePjtForm> returnList = new ArrayList<>();
+		for(SidePjt sp : sideProjectList)
+		{
+			SidePjtForm tempSidePjtForm = SidePjtForm.builder()
+				.name(sp.getName())
+				.context(sp.getContext())
+				.year(sp.getYear())
+				.techStackFormList(techStackService.getSideProjectTechStacks(sp.getId())).build();
+			returnList.add(tempSidePjtForm);
+		}
+
+		return returnList;
 	}
 }

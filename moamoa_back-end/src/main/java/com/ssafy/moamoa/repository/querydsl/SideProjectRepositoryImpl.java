@@ -25,13 +25,14 @@ public class SideProjectRepositoryImpl extends QuerydslRepositorySupport impleme
 	QSidePjt qSidePjt = sidePjt;
 
 	@Override
-	public List<SidePjt> getSideProjects(Long profileId) {
+	public List<SidePjt> getSideProjectsByIdAsc(Long profileId) {
 		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		return queryFactory
 			.select(qSidePjt)
 			.from(qSidePjt)
 			.where(qSidePjt.profile.id.eq(profileId))
+			.orderBy(qSidePjt.year.asc())
 			.fetch();
 	}
 

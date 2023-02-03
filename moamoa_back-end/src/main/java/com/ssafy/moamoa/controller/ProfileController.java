@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.moamoa.domain.dto.AreaForm;
 import com.ssafy.moamoa.domain.dto.ContextForm;
+import com.ssafy.moamoa.domain.dto.ProfilePageForm;
 import com.ssafy.moamoa.domain.dto.ReviewForm;
-import com.ssafy.moamoa.domain.dto.TechStackForm;
+import com.ssafy.moamoa.domain.dto.SidePjtForm;
 import com.ssafy.moamoa.domain.dto.UserForm;
 import com.ssafy.moamoa.service.AreaService;
 import com.ssafy.moamoa.service.ProfileService;
@@ -63,7 +63,7 @@ public class ProfileController {
 
 		log.info("userId log={}", user.getId());
 
-		String resultSearchState = profileService.changeUserState(user.getId());
+		String resultSearchState = profileService.changeUserSearchState(user.getId());
 		resultMap.put("message", resultSearchState);
 
 		status = HttpStatus.ACCEPTED;
@@ -83,70 +83,52 @@ public class ProfileController {
 
 	// 다른 사용자 페이지 접근
 	@GetMapping("/{profileId}")
-	public ResponseEntity<?> getProfilePage(@PathVariable String nickName) {
+	public ResponseEntity<?> getProfilePage(@PathVariable Long profileId) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-
-	//	ProfileForm profileForm = profileService.getProfile(nickName);
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		status = HttpStatus.ACCEPTED;
+	ProfilePageForm profilePageForm = profileService.getProfile("test",profileId);
+		return new ResponseEntity<ProfilePageForm>(profilePageForm, status);
 	}
 
 	//유저 프로필 수정
 	@ApiOperation(value = "프로필 수정",
 		notes = "프로필 수정을 누를 시에 사용자의 기술스택 , 링크 ,지역을 수정합니다.")
-	@PutMapping("/register/{profileId}")
-	public ResponseEntity<Map<String, Object>> modifyProfile(@PathVariable Long profileId,
-		@RequestBody List<TechStackForm> techStackFormList) {
-
-		Map<String, Object> resultMap = new HashMap<>();
+	@PutMapping("/modify/{profileId}")
+	public ResponseEntity<ProfilePageForm> modifyProfile(@PathVariable Long profileId,
+		@RequestBody ProfilePageForm profilePageForm) {
 		HttpStatus status = null;
-		// 기술 스택 , 지역, 링크 리스트로 모두 리턴
 
 		// 기술 스택
-		List<TechStackForm> result = techStackService.modifyProfileTechStack(profileId, techStackFormList);
+		// List<TechStackForm> result = techStackService.modifyProfileTechStack(profileId, techStackFormList);
 
-		resultMap.put("techstack",result);
+		ProfilePageForm result = profileService.modifyProfile(profileId,profilePageForm);
 		status = HttpStatus.ACCEPTED;
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<ProfilePageForm>(result, status);
 	}
 
 
-	// 사이트 수정
-	@ApiOperation(value = "지역 추가 or 수정.TEST",
-		notes = "프로필 수정을 누를 시에 사용자의 기술스택 , 링크 ,지역을 수정합니다.")
-	@PutMapping("/registera/{profileId}")
-	public ResponseEntity<Map<String, Object>> modifyProject(@PathVariable Long profileId,
-		@RequestBody List<AreaForm> areaFormList) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
 
-		List<AreaForm> result = areaService.modifyProfileAreas(profileId, areaFormList);
-		resultMap.put("area",result);
-
-		status=HttpStatus.ACCEPTED;
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
 
 	// 자기소개
 	@PutMapping("/context/{profileId}")
-	public ResponseEntity<Map<String, Object>> addContext(@PathVariable Long profileId,
+	public ResponseEntity<?> addContext(@PathVariable Long profileId,
 		@RequestBody ContextForm contextForm) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
 		// Service
 		ContextForm contextFormReturn = profileService.addContext(profileId, contextForm.getContext());
-		resultMap.put("context", contextFormReturn.getContext());
-		resultMap.put("message", SUCCESS);
+		// resultMap.put("context", contextFormReturn.getContext());
+		// resultMap.put("message", SUCCESS);
 		status = HttpStatus.ACCEPTED;
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<ContextForm>(contextFormReturn, status);
 	}
 
 	@DeleteMapping("/context/{profileId}")
 	public ResponseEntity<Map<String, Object>> deleteContext(@PathVariable Long profileId) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-
 
 		String message = profileService.deleteContext(profileId);
 		if (message.equals(SUCCESS)) {
@@ -159,6 +141,16 @@ public class ProfileController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	// SidePjt
+	@PostMapping ("/sidepjt/{profileId}")
+	public ResponseEntity<?> addSideProject(@PathVariable Long profileId , @RequestBody SidePjtForm sidePjtForm)
+	{
+		HttpStatus status =null;
+		List<SidePjtForm> result = sideProjectService.addSidePjt(profileId,sidePjtForm);
+		status = HttpStatus.ACCEPTED;
+		return new ResponseEntity<List<SidePjtForm>>(result,status);
+	}
+
 
 	// Reviews
 
