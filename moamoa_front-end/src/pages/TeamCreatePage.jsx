@@ -62,20 +62,7 @@ export default function TeamCreatePage() {
     // 팀 소개 string
     console.log(inputRef.current);
     console.log(typeof inputRef.current);
-
-    // .post(`${baseURL}/users/login`, {
-    //   email: email,
-    //   password: password,
-    // })
-
-    //   useEffect(() => {
-    // authAxios.authAxios
-    //   .get('/projects/detail') // 팀페이지 open
-    //   .then(response => {
-    //     setDetail(response);
-    //     console.log(response);
-    //   })
-
+    
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
     CustomAxios.authAxios
       .post('/projects', {
