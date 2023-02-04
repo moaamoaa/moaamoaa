@@ -15,7 +15,7 @@ import NotFoundPage from 'pages/NotFoundPage';
 import ErrorPage from 'pages/ErrorPage';
 
 import Navbar from 'components/common/navbar/Navbar';
-import ScrollToTopButton from 'components/common/Button/ScrollToTopButton';
+import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
 
 export default function App() {
   // window.onbeforeunload = removeData;
