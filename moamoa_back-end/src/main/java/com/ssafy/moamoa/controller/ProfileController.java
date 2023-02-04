@@ -87,7 +87,7 @@ public class ProfileController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		status = HttpStatus.ACCEPTED;
-	ProfilePageForm profilePageForm = profileService.getProfile("test",profileId);
+	ProfilePageForm profilePageForm = profileService.getProfile(profileId);
 		return new ResponseEntity<ProfilePageForm>(profilePageForm, status);
 	}
 
