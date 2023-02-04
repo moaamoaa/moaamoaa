@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moamoa.domain.dto.TechStackCategoryDto;
@@ -15,6 +16,9 @@ import com.ssafy.moamoa.domain.entity.Category;
 import com.ssafy.moamoa.domain.entity.TechStack;
 
 public class TechStackCategoryRepositoryImpl implements TechStackCategoryRepositoryCustom {
+	@PersistenceContext
+	EntityManager em;
+
 	private final JPAQueryFactory queryFactory;
 
 	public TechStackCategoryRepositoryImpl(EntityManager em) {

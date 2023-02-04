@@ -14,15 +14,17 @@ import com.ssafy.moamoa.domain.entity.QSidePjt;
 import com.ssafy.moamoa.domain.entity.SidePjt;
 
 public class SideProjectRepositoryImpl extends QuerydslRepositorySupport implements SideProjectRepositoryCustom {
+	@PersistenceContext
+	EntityManager em;
+
 	private final JPAQueryFactory queryFactory;
+
+
 	public SideProjectRepositoryImpl(EntityManager em) {
 
 		super(SidePjt.class);
 		this.queryFactory = new JPAQueryFactory(em);
 	}
-
-	@PersistenceContext
-	EntityManager em;
 
 	QSidePjt qSidePjt = sidePjt;
 

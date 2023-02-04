@@ -14,19 +14,20 @@ import com.ssafy.moamoa.domain.entity.QReview;
 import com.ssafy.moamoa.domain.entity.Review;
 
 public class ReviewRepositoryImpl extends QuerydslRepositorySupport implements ReviewRepositoryCustom {
-
-
-	public ReviewRepositoryImpl() {
-		super(Review.class);
-	}
 	@PersistenceContext
 	EntityManager em;
+
+	private final JPAQueryFactory queryFactory;
+
+	public ReviewRepositoryImpl(EntityManager em) {
+		super(Review.class);
+		this.queryFactory =new JPAQueryFactory(em);
+	}
 
 	QReview qReview = review;
 
 	@Override
 	public List<Review> getReviewsByOrderAsc(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		return queryFactory.select(review)
 			.from(review)

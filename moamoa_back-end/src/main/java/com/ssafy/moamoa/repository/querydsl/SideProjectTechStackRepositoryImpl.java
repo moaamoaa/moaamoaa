@@ -15,6 +15,9 @@ import static com.ssafy.moamoa.domain.entity.QSidePjtTechStack.*;
 
 public class SideProjectTechStackRepositoryImpl extends QuerydslRepositorySupport implements SideProjectTechStackRepositoryCustom {
 
+    @PersistenceContext
+    EntityManager em;
+
     private final JPAQueryFactory queryFactory;
 
     public SideProjectTechStackRepositoryImpl(EntityManager em) {
@@ -22,8 +25,6 @@ public class SideProjectTechStackRepositoryImpl extends QuerydslRepositorySuppor
         super(SidePjtTechStack.class);
         this.queryFactory = new JPAQueryFactory(em);
     }
-    @PersistenceContext
-    EntityManager em;
 
     QSidePjtTechStack qSidePjtTechStack = sidePjtTechStack;
 
