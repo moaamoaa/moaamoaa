@@ -42,8 +42,8 @@ public class ProjectController {
 	@GetMapping
 	public ResponseEntity<?> showProjects(Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		List<Project> projects = projectService.findByUser(Long.valueOf(userDetails.getUsername()));
-		return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
+		List<ProjectForm> projectForms = projectService.findByUser(Long.valueOf(userDetails.getUsername()));
+		return new ResponseEntity<List<ProjectForm>>(projectForms, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "팀 페이지 open",
@@ -68,7 +68,7 @@ public class ProjectController {
 	@PostMapping
 	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		projectForm.setUserid(Long.valueOf(userDetails.getUsername()));
+		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 		projectService.creatProject(projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -98,6 +98,20 @@ public class ProjectController {
 			throw new Exception("팀장이 아닙니다.");
 		}
 		projectService.deleteProject(Long.valueOf(userDetails.getUsername()));
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "팀원 강퇴",
+		notes = "팀장이 팀원을 강퇴한다.")
+	@DeleteMapping("/member")
+	public ResponseEntity<?> deleteMember(@RequestBody ProjectForm projectForm, Authentication authentication) throws
+		Exception {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
+		{
+			throw new Exception("팀장이 아닙니다.");
+		}
+		projectService.deleteMember(projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

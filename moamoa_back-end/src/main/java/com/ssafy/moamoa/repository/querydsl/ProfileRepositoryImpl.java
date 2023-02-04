@@ -39,16 +39,21 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 	}
 
 	@Override
-	public List<ProfileResultDto> search(SearchCondition condition) {
+	public List<ProfileResultDto> search(SearchCondition condition, Long cursorId, Pageable pageable) {
 		return queryFactory
 			.select(new QProfileResultDto(profile.id, profile.nickname, profile.context, profile.profileOnOffStatus))
 			.from(profile)
 			.where(nicknameContain(condition.getQuery()), categoryIn(condition.getCategory()),
 				onlineOrArea(condition.getStatus(), condition.getArea()),
 				techStackIn(condition.getStack()),
-				searchStatusNeNone())
+				searchStatusNeNone(), cursorIdLt(cursorId))
+			.orderBy(profile.id.desc())
 			.fetch();
 
+	}
+
+	private BooleanExpression cursorIdLt(Long cursorId) {
+		return cursorId != null ? profile.id.lt(cursorId) : null;
 	}
 
 	//닉네임 포함 쿼리
@@ -76,7 +81,8 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 	//해당 지역을 포함하는 프로젝트
 	private BooleanExpression areaIn(List<Long> areaCond) {
 		return areaCond != null ?
-			profile.id.in(select(profileArea.profile.id).distinct().from(profileArea).where(profileArea.area.id.in(areaCond))) :
+			profile.id.in(
+				select(profileArea.profile.id).distinct().from(profileArea).where(profileArea.area.id.in(areaCond))) :
 			null;
 	}
 
@@ -107,7 +113,7 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 	@Override
 	public Profile getProfileById(Long profileId) {
 
-		Profile returnProfile = queryFactory
+		return queryFactory
 			.select(profile)
 			.from(profile)
 			.where(profile.id.eq(profileId))

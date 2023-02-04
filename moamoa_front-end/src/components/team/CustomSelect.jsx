@@ -11,8 +11,8 @@ import {
   Grid,
 } from '@mui/material/';
 import SearchIcon from '@mui/icons-material/Search';
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import IconButton from '@mui/material/IconButton';
+import CustomSelectFilter from './CustomSelectFilter';
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   'label + &': {
@@ -56,18 +56,29 @@ const CommonBox = styled(Box)`
 `;
 
 export default function CustomizedSelects() {
-  const [select, setSelect] = React.useState('');
-  const handleChange = event => {
-    setSelect(event.target.value);
-  };
+  const filterDrops = [
+    {
+      title: '기술스택',
+      menus: ['백엔드', '프론트엔드', '모바일', '기타'],
+    },
+    {
+      title: '모집구분',
+      menus: ['전체', '프로젝트', '스터디'],
+    },
+    {
+      title: '진행방식',
+      menus: ['전체', '온라인', '오프라인'],
+    },
+  ];
 
   return (
-    <div>
-      <Grid container spacing={2}>
+    <>
+      <Grid spacing={2}>
         <Grid item xs={6}>
           <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
           </IconButton>
+
           <TextField
             fullWidth
             id="outlined-basic"
@@ -77,68 +88,20 @@ export default function CustomizedSelects() {
         </Grid>
 
         <Grid item xs={2}>
-          <PopupState variant="popover" popupId="demo-popup-menu">
-            {popupState => (
-              <React.Fragment>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  {...bindTrigger(popupState)}
-                >
-                  기술스택
-                </Button>
-                <Menu fullWidth {...bindMenu(popupState)}>
-                  <MenuItem onClick={popupState.close}>프론트엔드</MenuItem>
-                  <MenuItem onClick={popupState.close}>백엔드</MenuItem>
-                  <MenuItem onClick={popupState.close}>모바일</MenuItem>
-                  <MenuItem onClick={popupState.close}>기타</MenuItem>
-                </Menu>
-              </React.Fragment>
-            )}
-          </PopupState>
-        </Grid>
-        <Grid item xs={2}>
-          <PopupState variant="popover" popupId="demo-popup-menu">
-            {popupState => (
-              <React.Fragment>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  {...bindTrigger(popupState)}
-                >
-                  모집구분
-                </Button>
-                <Menu fullWidth {...bindMenu(popupState)}>
-                  <MenuItem onClick={popupState.close}>프로젝트</MenuItem>
-                  <MenuItem onClick={popupState.close}>스터디</MenuItem>
-                  <MenuItem onClick={popupState.close}>무관</MenuItem>
-                </Menu>
-              </React.Fragment>
-            )}
-          </PopupState>
-        </Grid>
-        <Grid item xs={2}>
-          <PopupState variant="popover" popupId="demo-popup-menu">
-            {popupState => (
-              <React.Fragment>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  {...bindTrigger(popupState)}
-                >
-                  진행방식
-                </Button>
-                <Menu fullWidth {...bindMenu(popupState)}>
-                  <MenuItem onClick={popupState.close}>오프라인</MenuItem>
-                  <MenuItem onClick={popupState.close}>온라인</MenuItem>
-                  <MenuItem onClick={popupState.close}>무관</MenuItem>
-                </Menu>
-              </React.Fragment>
-            )}
-          </PopupState>
+          <Stack
+            spacing={2}
+            direction="row"
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {filterDrops.map((filterDrop, idx) => {
+              return <CustomSelectFilter key={idx} filterDrop={filterDrop} />;
+            })}
+          </Stack>
         </Grid>
       </Grid>
+
       <Box sx={{ height: 88 }}></Box>
+
       <Stack
         spacing={2}
         direction="row"
@@ -149,6 +112,6 @@ export default function CustomizedSelects() {
           <SearchIcon />
         </IconButton>
       </Stack>
-    </div>
+    </>
   );
 }

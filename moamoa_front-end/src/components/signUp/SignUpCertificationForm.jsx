@@ -11,7 +11,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 export default function SignUpCertificationform(props) {
   // 입력받은 코드를 저장할 state
-  const [userVaildCode, setUserVaildCode] = useState('');
+  const [userVaildCode, setUserVaildCode] = useState(props.code);
   const [codeError, setCodeError] = useState(false);
 
   // 입력받은 코드를 state에 변경해서 저장
@@ -51,7 +51,7 @@ export default function SignUpCertificationform(props) {
           required={true}
           value={userVaildCode}
           onChange={changeCodeHandler}
-          helperText={codeError ? '잘못된 인증코드입니다' : ''}
+          helperText={codeError ? '인증코드가 틀렸습니다.' : ''}
         />
         <AutorenewIcon fontSize="large" />
 
