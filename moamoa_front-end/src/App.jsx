@@ -18,7 +18,8 @@ import Navbar from 'components/common/navbar/Navbar';
 import ScrollToTopButton from 'components/common/Button/ScrollToTopButton';
 
 export default function App() {
-  window.onbeforeunload = removeData;
+  // window.onbeforeunload = removeData;
+  // 이거있으면 리덕스 상태유지 안 됩니다
 
   return (
     <BrowserRouter>
