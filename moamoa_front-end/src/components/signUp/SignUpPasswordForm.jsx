@@ -105,6 +105,7 @@ export default function SignUpPasswordForm(props) {
               variant="contained"
               onClick={props.userSignUp}
               sx={{ mt: 3, ml: 1 }}
+              disabled
             >
               회원가입
             </Button>
@@ -113,7 +114,6 @@ export default function SignUpPasswordForm(props) {
               variant="contained"
               onClick={props.userSignUp}
               sx={{ mt: 3, ml: 1 }}
-              disabled
             >
               회원가입
             </Button>
