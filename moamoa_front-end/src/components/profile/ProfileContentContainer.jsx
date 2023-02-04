@@ -11,7 +11,7 @@ export default function ProfileContentContainer(props) {
   return (
     <>
       <ContentTitle color="initial">{props.title}</ContentTitle>
-      <MoaContainer container spacing={0}>
+      <MoaContainer spacing={0}>
         {props.content}
         {props.handler ? (
           <ProfileLongMenu handleClick={props.handler}></ProfileLongMenu>

@@ -11,7 +11,9 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
-import ScrollableTab from 'components/common/Tab/ScrollableTab';
+
+import ScrollableTab from 'components/common/tab/ScrollableTab';
+import Carousel from 'components/common/carousel/Carousel';
 
 export default function Profile(props) {
   const user = {
@@ -148,11 +150,12 @@ export default function Profile(props) {
               />
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="h4" color="initial" fontWeight={600}>
+              <Typography variant="h5" color="initial" fontWeight={600}>
                 {user.name}
               </Typography>
 
-              <ScrollableTab type={'tech'} cards={user.tech}></ScrollableTab>
+              {/* <ScrollableTab type={'tech'} cards={user.tech}></ScrollableTab> */}
+              <Carousel type={'tech'} cards={user.tech}></Carousel>
               <hr />
               <CardList type={'link'} cards={user.link}></CardList>
             </Grid>
