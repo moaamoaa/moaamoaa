@@ -65,6 +65,7 @@ public class ProfileService {
 			.reviewFormList(reviewService.getReviews(profileId))
 			.sidePjtFormList(sideProjectService.getSideProjects(profileId))
 			.siteFormList(siteService.getProfileSites(profileId))
+			.areaList(areaService.getProfileAreas(profileId))
 			.build();
 
 		return profilePageForm;

@@ -20,5 +20,7 @@ public interface ProfileRepositoryCustom {
 
 	void setProfile(Profile profile);
 
+	Profile getProfileByUserId(Long userId);
+
 
 }

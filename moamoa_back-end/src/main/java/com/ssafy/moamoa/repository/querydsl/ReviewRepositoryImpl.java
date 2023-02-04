@@ -35,4 +35,21 @@ public class ReviewRepositoryImpl extends QuerydslRepositorySupport implements R
 			.orderBy(review.time.asc())
 			.fetch();
 	}
+
+	@Override
+	public Review getReviewById(Long reviewId) {
+		return queryFactory.select(review)
+				.from(review)
+				.where(review.id.eq(reviewId))
+				.fetchOne();
+	}
+
+	@Override
+	public Long deleteReviewById(Long reviewId) {
+		return queryFactory.delete(review)
+				.where(review.id.eq(reviewId))
+				.execute();
+
+
+	}
 }

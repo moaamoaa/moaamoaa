@@ -20,10 +20,20 @@ public class ReviewForm {
 
 	@JsonProperty("profileId")
 	private Long profileId;
+
+	// 프로필 아이디
 	@JsonProperty("senderId")
 	private Long senderId;
+
+	@JsonProperty("img")
+	private String img;
+
+	@JsonProperty("sender")
+	private String name;
+
 	@JsonProperty("time")
 	private String time;
+
 	@JsonProperty("context")
 	private String context;
 

@@ -155,4 +155,12 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 			.set(profile.profileOnOffStatus,inputProfile.getProfileOnOffStatus())
 			.execute();
 	}
+
+	@Override
+	public Profile getProfileByUserId(Long userId) {
+		return queryFactory.select(profile)
+				.from(profile)
+				.where(profile.user.id.eq(userId))
+				.fetchOne();
+	}
 }

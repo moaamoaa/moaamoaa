@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import com.ssafy.moamoa.domain.dto.*;
+import org.apache.http.protocol.HTTP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,6 +39,10 @@ public class ProfileController {
 	private static final String SUCCESS = "SUCCESS";
 	private static final String FAIL = "FAIL";
 
+	private static final HttpStatus OK = HttpStatus.OK;
+	private static final HttpStatus ACCEPTED = HttpStatus.ACCEPTED;
+	private static final HttpStatus BAD_REQUEST=  HttpStatus.BAD_REQUEST;
+
 	private final ProfileService profileService;
 
 	private final TechStackService techStackService;
@@ -51,51 +56,43 @@ public class ProfileController {
 	private final AreaService areaService;
 
 	// 검색 여부 변경
+	@ApiOperation(value = "검색 여부 변경",notes = "검색 여부를 (ALL -> PROJECT -> STUDY -> NONE ) 순으로 변경해줍니다. ")
 	@PutMapping("/search-state")
 
 	ResponseEntity<ProfileSearchStatusForm> updateSearchState(@RequestBody ProfileSearchStatusForm profileSearchStatusForm) {
 
-		HttpStatus status = null;
-
-
 		ProfileSearchStatusForm result = profileService.changeUserSearchState(profileSearchStatusForm.getId());
 
-		status = HttpStatus.ACCEPTED;
-
-		return new ResponseEntity<ProfileSearchStatusForm>(result, status);
+		return new ResponseEntity<ProfileSearchStatusForm>(result, OK);
 	}
 
 
-	// 마이페이지 or 다른 사용자 페이지 접근
+
+	@ApiOperation(value="사용자 페이지 접근", notes = "사용자 페이지 정보를 리턴해줍니다.")
 	@GetMapping("/{profileId}")
 	public ResponseEntity<?> getProfilePage(@PathVariable Long profileId) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-		status = HttpStatus.ACCEPTED;
-	ProfilePageForm profilePageForm = profileService.getProfile(profileId);
-		return new ResponseEntity<ProfilePageForm>(profilePageForm, status);
+
+		ProfilePageForm profilePageForm = profileService.getProfile(profileId);
+		return new ResponseEntity<ProfilePageForm>(profilePageForm, OK);
 	}
 
 	//유저 프로필 수정
 	@ApiOperation(value = "프로필 수정",
-		notes = "프로필 수정을 누를 시에 사용자의 기술스택 , 링크 ,지역을 수정합니다.")
+		notes = "프로필의 기술스택 , 링크, 진행방식 ,지역을 수정합니다.")
 	@PutMapping("/modify/{profileId}")
 	public ResponseEntity<ProfilePageForm> modifyProfile(@PathVariable Long profileId,
 		@RequestBody ProfilePageForm profilePageForm) {
-		HttpStatus status = null;
-
-		// 기술 스택
-		// List<TechStackForm> result = techStackService.modifyProfileTechStack(profileId, techStackFormList);
 
 		ProfilePageForm result = profileService.modifyProfile(profileId,profilePageForm);
-		status = HttpStatus.ACCEPTED;
-		return new ResponseEntity<ProfilePageForm>(result, status);
+
+		return new ResponseEntity<ProfilePageForm>(result, OK);
 	}
 
 
 
 
 	// 자기소개
+	@ApiOperation(value = "자기소개 수정",notes = "자기소개 수정을 합니다.")
 	@PutMapping("/context/{profileId}")
 	public ResponseEntity<?> modifyContext(@PathVariable Long profileId,
 		@RequestBody ContextForm contextForm) {
@@ -109,24 +106,17 @@ public class ProfileController {
 		return new ResponseEntity<ContextForm>(contextFormReturn, status);
 	}
 
+	@ApiOperation(value = "자기소개 삭제",notes = "자기소개 삭제를 합니다.")
 	@DeleteMapping("/context/{profileId}")
-	public ResponseEntity<Map<String, Object>> deleteContext(@PathVariable Long profileId) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
+	public ResponseEntity<?> deleteContext(@PathVariable Long profileId) {
 
-		String message = profileService.deleteContext(profileId);
-		if (message.equals(SUCCESS)) {
-			resultMap.put("message", SUCCESS);
-			status = HttpStatus.ACCEPTED;
-		} else {
-			resultMap.put("message", FAIL);
-			status = HttpStatus.NOT_ACCEPTABLE;
-		}
+		profileService.deleteContext(profileId);
 
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<Map<String, Object>>(OK);
 	}
 
 	// SidePjt
+	@ApiOperation(value = "사이드 프로젝트 추가",notes = "사이드 프로젝트를 추가합니다.")
 	@PostMapping ("/sidepjt/{profileId}")
 	public ResponseEntity<?> addSideProject(@PathVariable Long profileId , @RequestBody SidePjtForm sidePjtForm)
 	{
@@ -136,7 +126,7 @@ public class ProfileController {
 		return new ResponseEntity<List<SidePjtForm>>(result,status);
 	}
 
-
+	@ApiOperation(value = "사이드 프로젝트 수정",notes = "사이드 프로젝트를 수정합니다.")
 	@PutMapping("/sidepjt/{profileId}")
 	public ResponseEntity<?> modifySideProject(@PathVariable Long profileId , @RequestBody SidePjtForm sidePjtForm)
 	{
@@ -146,6 +136,7 @@ public class ProfileController {
 		return new ResponseEntity<List<SidePjtForm>>(result,status);
 	}
 
+	@ApiOperation(value = "사이드 프로젝트 삭제",notes = "사이드 프로젝트를 삭제합니다.")
 	@DeleteMapping("/sidepjt/{profileId}")
 	public ResponseEntity<?> deleteSideProject(@PathVariable Long profileId,@RequestBody SidePjtForm sidePjtForm)
 	{
@@ -157,20 +148,65 @@ public class ProfileController {
 
 
 	// Reviews
-
-	@PostMapping("/review/")
-	public ResponseEntity<Map<String, Object>> addReview(@RequestBody ReviewForm reviewForm) {
+	@ApiOperation(value = "리뷰 목록 조회",notes = "사이드 프로젝트를 수정합니다.")
+	@GetMapping("review/{profileId}")
+	public ResponseEntity<?> getReviews(@PathVariable Long profileId) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-		// Service
-		ReviewForm reviewFormReturn = reviewService.addReview(reviewForm.getProfileId(), reviewForm.getSenderId(),
-			reviewForm.getContext());
-		resultMap.put("receiverId", reviewFormReturn.getProfileId());
-		resultMap.put("senderId", reviewFormReturn.getSenderId());
-		resultMap.put("time", reviewFormReturn.getTime());
-		resultMap.put("context", reviewFormReturn.getContext());
 
-		resultMap.put("message", SUCCESS);
+		// Service
+		List<ReviewForm> result = reviewService.getReviews(profileId);
+
+
+		resultMap.put("review", result);
+
+		status = HttpStatus.ACCEPTED;
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	@ApiOperation(value = "댓글 추가 ",notes = "댓글을 추가합니다.")
+	@PostMapping("/review/{profileId}")
+	public ResponseEntity<?> addReview(@PathVariable Long profileId, @RequestBody ReviewForm reviewForm) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		// Service
+		ReviewForm result = reviewService.addReview(profileId, reviewForm);
+
+
+		resultMap.put("review", result);
+
+		status = HttpStatus.OK;
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	@ApiOperation(value = "댓글 수정",notes = "댓글을 수정합니다.")
+	@PutMapping("/review/{profileId}")
+	public ResponseEntity<?> modifyReview(@PathVariable Long profileId, @RequestBody ReviewForm reviewForm) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		// Service
+		ReviewForm result = reviewService.modifyReview(profileId, reviewForm);
+
+
+		resultMap.put("review", result);
+
+		status = HttpStatus.ACCEPTED;
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	@ApiOperation(value = "댓글 삭제",notes = "댓글을 삭제합니다.")
+	@DeleteMapping("/review/{profileId}")
+	public ResponseEntity<?> deleteReview(@PathVariable Long profileId , @RequestBody ReviewForm reviewForm) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		// Service
+		List<ReviewForm> result = reviewService.deleteReview(profileId, reviewForm);
+
+
+		resultMap.put("review", result);
 
 		status = HttpStatus.ACCEPTED;
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
