@@ -22,9 +22,11 @@ function CustomSelectFilter(props) {
 
             <Menu {...bindMenu(popupState)}>
               {filterDrop.menus.map((menu, idx) => {
-                <MenuItem key={idx} onClick={popupState.close}>
-                  {menu}
-                </MenuItem>;
+                return (
+                  <MenuItem key={idx} onClick={popupState.close}>
+                    {menu}
+                  </MenuItem>
+                );
               })}
             </Menu>
           </React.Fragment>

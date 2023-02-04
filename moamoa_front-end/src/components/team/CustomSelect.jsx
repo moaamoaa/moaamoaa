@@ -72,8 +72,8 @@ export default function CustomizedSelects() {
   ];
 
   return (
-    <div>
-      <Grid container spacing={2}>
+    <>
+      <Grid spacing={2}>
         <Grid item xs={6}>
           <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
@@ -88,9 +88,15 @@ export default function CustomizedSelects() {
         </Grid>
 
         <Grid item xs={2}>
-          {filterDrops.map((filterDrop, idx) => {
-            <CustomSelectFilter key={idx} filterDrop={filterDrop} />;
-          })}
+          <Stack
+            spacing={2}
+            direction="row"
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {filterDrops.map((filterDrop, idx) => {
+              return <CustomSelectFilter key={idx} filterDrop={filterDrop} />;
+            })}
+          </Stack>
         </Grid>
       </Grid>
 
@@ -106,6 +112,6 @@ export default function CustomizedSelects() {
           <SearchIcon />
         </IconButton>
       </Stack>
-    </div>
+    </>
   );
 }
