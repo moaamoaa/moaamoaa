@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { useRef } from 'react';
-import axios from 'axios';
+import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import CustomAxios from 'utils/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSuccess } from 'redux/User';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -23,9 +24,6 @@ import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
 
 export default function TeamCreatePage() {
-  // //spring boot url
-  // const baseUrl = 'http://localhost:8080';
-
   //ref
   const inputRef = useRef('');
   const classRef = useRef('');
@@ -36,8 +34,11 @@ export default function TeamCreatePage() {
   const dateRef = useRef('');
   const techRef = useRef('');
 
+  // redux
+  const { userPk } = useSelector(state => state.User);
+
   //handler
-  const handleClick = () => {
+  const handleClick = e => {
     // 팀 이름 string
     console.log(titleRef.current);
     console.log(typeof titleRef.current);
@@ -69,21 +70,15 @@ export default function TeamCreatePage() {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
-        countOffer: 0,
         createDate: 'string',
-        currentPeople: 0,
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
-        hit: 0,
         img: null,
-        isLeader: true,
-        locked: true,
-        projectId: 0,
+        projectId: 1,
         projectStatus: onoffRef.current,
-        startDate: 'string',
         techStacks: techRef.current,
         title: titleRef.current,
         totalPeople: numberRef.current,
-        userid: 1,
+        userid: userPk,
       })
       .then(e => {
         console.log(e);
@@ -93,11 +88,11 @@ export default function TeamCreatePage() {
         console.log(error);
       });
   };
-
+  // banner
   const teamBannerEdit = {
     title: <SingleTextField ref={titleRef}></SingleTextField>, // project_title POST
     leader: '팀장 이름', // GET
-    image: '',
+    image: '', // string
   };
 
   return (
