@@ -1,5 +1,7 @@
 package com.ssafy.moamoa.service;
 
+import com.ssafy.moamoa.domain.dto.ProfileSearchStatusForm;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,7 +100,7 @@ public class ProfileService {
 	return profilePageForm;
 	}
 
-	public String changeUserSearchState(Long profileId) {
+	public ProfileSearchStatusForm changeUserSearchState(Long profileId) {
 
 		Profile profile = profileRepository.findById(profileId).get();
 
@@ -121,13 +123,9 @@ public class ProfileService {
 		profile.setSearchState(originSearchState);
 		profileRepository.save(profile);
 
-		return String.valueOf(profile.getSearchState());
+		return	ProfileSearchStatusForm.builder().id(profile.getId()).status(originSearchState.toString()).build();
 	}
 
-	// public String modifyOnOffStatus(Long profileId, String status) {
-	// 	ProfileOnOffStatus profileOnOffStatus = ProfileOnOffStatus.valueOf(status);
-	// 	return profileRepository.setProfileOnOffStatus(profileId, profileOnOffStatus);
-	// }
 
 	public ContextForm addContext(Long profileId, String context) {
 		Profile profile = profileRepository.getProfileById(profileId);

@@ -12,6 +12,6 @@ public interface SideProjectRepositoryCustom {
 
 	SidePjt getSideProjectById(Long projectId);
 
-
+	Long deleteSideProjectById(Long projectId);
 
 }

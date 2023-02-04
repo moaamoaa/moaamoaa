@@ -3,6 +3,7 @@ package com.ssafy.moamoa.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ssafy.moamoa.repository.SideProjectTechStackRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,11 @@ public class SideProjectService {
 
 	private final TechStackRepository techStackRepository;
 
+	private final SideProjectTechStackRepository sideProjectTechStackRepository;
+
 	private final TechStackService techStackService;
+
+
 
 
 	// 사이드 프로젝트
@@ -81,10 +86,74 @@ public class SideProjectService {
 		for(SidePjt sp : sideProjectList)
 		{
 			SidePjtForm tempSidePjtForm = SidePjtForm.builder()
+				.id(sp.getId())
 				.name(sp.getName())
 				.context(sp.getContext())
 				.year(sp.getYear())
 				.techStackFormList(techStackService.getSideProjectTechStacks(sp.getId())).build();
+			returnList.add(tempSidePjtForm);
+		}
+
+		return returnList;
+	}
+
+	public List<SidePjtForm> modifySidePjt(Long profileId, SidePjtForm sidePjtForm) {
+
+		SidePjt sidePjt = sideProjectRepository.getSideProjectById(sidePjtForm.getId());
+
+		sidePjt.setName(sidePjtForm.getName());
+		sidePjt.setContext(sidePjtForm.getContext());
+		sidePjt.setYear(sidePjtForm.getYear());
+
+
+
+		// Parsing SideProjectTechStack
+		List<TechStackForm> techStackFormList = sidePjtForm.getTechStackFormList();
+
+		techStackService.modifySideProjectTechStack(sidePjt.getId(),techStackFormList);
+
+
+		sideProjectRepository.save(sidePjt);
+		// Return
+
+		List<SidePjt> sideProjectList = sideProjectRepository.getSideProjectsByIdAsc(profileId);
+		List<SidePjtForm> returnList = new ArrayList<>();
+		for(SidePjt sp : sideProjectList)
+		{
+			SidePjtForm tempSidePjtForm = SidePjtForm.builder()
+					.id(sp.getId())
+					.name(sp.getName())
+					.context(sp.getContext())
+					.year(sp.getYear())
+					.techStackFormList(techStackService.getSideProjectTechStacks(sp.getId())).build();
+			returnList.add(tempSidePjtForm);
+		}
+
+		return returnList;
+	}
+
+	public List<SidePjtForm> deleteSidePjt(Long profileId, SidePjtForm sidePjtForm) {
+
+		// 외래키 Side Project TechStack 삭제
+
+		sideProjectTechStackRepository.deleteAllSideProjectTechStack(sidePjtForm.getId());
+
+
+		// SideProject 삭제
+		Long deleteCount = sideProjectRepository.deleteSideProjectById(sidePjtForm.getId());
+
+		// Return
+
+		List<SidePjt> sideProjectList = sideProjectRepository.getSideProjectsByIdAsc(profileId);
+		List<SidePjtForm> returnList = new ArrayList<>();
+		for(SidePjt sp : sideProjectList)
+		{
+			SidePjtForm tempSidePjtForm = SidePjtForm.builder()
+					.id(sp.getId())
+					.name(sp.getName())
+					.context(sp.getContext())
+					.year(sp.getYear())
+					.techStackFormList(techStackService.getSideProjectTechStacks(sp.getId())).build();
 			returnList.add(tempSidePjtForm);
 		}
 

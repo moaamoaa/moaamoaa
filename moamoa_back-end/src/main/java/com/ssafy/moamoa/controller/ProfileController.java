@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.ssafy.moamoa.domain.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,11 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.moamoa.domain.dto.ContextForm;
-import com.ssafy.moamoa.domain.dto.ProfilePageForm;
-import com.ssafy.moamoa.domain.dto.ReviewForm;
-import com.ssafy.moamoa.domain.dto.SidePjtForm;
-import com.ssafy.moamoa.domain.dto.UserForm;
 import com.ssafy.moamoa.service.AreaService;
 import com.ssafy.moamoa.service.ProfileService;
 import com.ssafy.moamoa.service.ReviewService;
@@ -57,31 +53,20 @@ public class ProfileController {
 	// 검색 여부 변경
 	@PutMapping("/search-state")
 
-	ResponseEntity<Map<String, Object>> updateSearchState(@RequestBody UserForm user) {
-		Map<String, Object> resultMap = new HashMap<>();
+	ResponseEntity<ProfileSearchStatusForm> updateSearchState(@RequestBody ProfileSearchStatusForm profileSearchStatusForm) {
+
 		HttpStatus status = null;
 
-		log.info("userId log={}", user.getId());
 
-		String resultSearchState = profileService.changeUserSearchState(user.getId());
-		resultMap.put("message", resultSearchState);
+		ProfileSearchStatusForm result = profileService.changeUserSearchState(profileSearchStatusForm.getId());
 
 		status = HttpStatus.ACCEPTED;
-		resultMap.put("status", status);
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+		return new ResponseEntity<ProfileSearchStatusForm>(result, status);
 	}
 
-	// // 마이페이지
-	// @GetMapping("/mypage")
-	// public ResponseEntity<Map<String, Object>> myPage(@RequestBody Long profileId) {
-	// 	Map<String, Object> resultMap = new HashMap<>();
-	// 	HttpStatus status = null;
-	//
-	// 	status = HttpStatus.ACCEPTED;
-	// 	return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	// }
 
-	// 다른 사용자 페이지 접근
+	// 마이페이지 or 다른 사용자 페이지 접근
 	@GetMapping("/{profileId}")
 	public ResponseEntity<?> getProfilePage(@PathVariable Long profileId) {
 		Map<String, Object> resultMap = new HashMap<>();
@@ -112,15 +97,14 @@ public class ProfileController {
 
 	// 자기소개
 	@PutMapping("/context/{profileId}")
-	public ResponseEntity<?> addContext(@PathVariable Long profileId,
+	public ResponseEntity<?> modifyContext(@PathVariable Long profileId,
 		@RequestBody ContextForm contextForm) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
 		// Service
 		ContextForm contextFormReturn = profileService.addContext(profileId, contextForm.getContext());
-		// resultMap.put("context", contextFormReturn.getContext());
-		// resultMap.put("message", SUCCESS);
+
 		status = HttpStatus.ACCEPTED;
 		return new ResponseEntity<ContextForm>(contextFormReturn, status);
 	}
@@ -141,12 +125,32 @@ public class ProfileController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+
 	// SidePjt
 	@PostMapping ("/sidepjt/{profileId}")
 	public ResponseEntity<?> addSideProject(@PathVariable Long profileId , @RequestBody SidePjtForm sidePjtForm)
 	{
 		HttpStatus status =null;
 		List<SidePjtForm> result = sideProjectService.addSidePjt(profileId,sidePjtForm);
+		status = HttpStatus.ACCEPTED;
+		return new ResponseEntity<List<SidePjtForm>>(result,status);
+	}
+
+
+	@PutMapping("/sidepjt/{profileId}")
+	public ResponseEntity<?> modifySideProject(@PathVariable Long profileId , @RequestBody SidePjtForm sidePjtForm)
+	{
+		HttpStatus status =null;
+		List<SidePjtForm> result = sideProjectService.modifySidePjt(profileId,sidePjtForm);
+		status = HttpStatus.ACCEPTED;
+		return new ResponseEntity<List<SidePjtForm>>(result,status);
+	}
+
+	@DeleteMapping("/sidepjt/{profileId}")
+	public ResponseEntity<?> deleteSideProject(@PathVariable Long profileId,@RequestBody SidePjtForm sidePjtForm)
+	{
+		HttpStatus status =null;
+		List<SidePjtForm> result = sideProjectService.deleteSidePjt(profileId,sidePjtForm);
 		status = HttpStatus.ACCEPTED;
 		return new ResponseEntity<List<SidePjtForm>>(result,status);
 	}

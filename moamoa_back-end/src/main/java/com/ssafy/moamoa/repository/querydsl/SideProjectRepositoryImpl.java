@@ -14,9 +14,11 @@ import com.ssafy.moamoa.domain.entity.QSidePjt;
 import com.ssafy.moamoa.domain.entity.SidePjt;
 
 public class SideProjectRepositoryImpl extends QuerydslRepositorySupport implements SideProjectRepositoryCustom {
+	private final JPAQueryFactory queryFactory;
+	public SideProjectRepositoryImpl(EntityManager em) {
 
-	public SideProjectRepositoryImpl() {
 		super(SidePjt.class);
+		this.queryFactory = new JPAQueryFactory(em);
 	}
 
 	@PersistenceContext
@@ -26,7 +28,6 @@ public class SideProjectRepositoryImpl extends QuerydslRepositorySupport impleme
 
 	@Override
 	public List<SidePjt> getSideProjectsByIdAsc(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		return queryFactory
 			.select(qSidePjt)
@@ -38,8 +39,6 @@ public class SideProjectRepositoryImpl extends QuerydslRepositorySupport impleme
 
 	@Override
 	public SidePjt getSideProjectByAll(Long profileId, SidePjt sidePjt) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-
 
 		return queryFactory.select(qSidePjt)
 			.from(qSidePjt)
@@ -49,11 +48,17 @@ public class SideProjectRepositoryImpl extends QuerydslRepositorySupport impleme
 
 	@Override
 	public SidePjt getSideProjectById(Long projectId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		return queryFactory.select(qSidePjt)
 				.from(qSidePjt)
 				.where(qSidePjt.id.eq(projectId))
 				.fetchOne();
+	}
+
+	@Override
+	public Long deleteSideProjectById(Long projectId) {
+		return queryFactory.delete(qSidePjt)
+				.where(qSidePjt.id.eq(projectId))
+				.execute();
 	}
 }
