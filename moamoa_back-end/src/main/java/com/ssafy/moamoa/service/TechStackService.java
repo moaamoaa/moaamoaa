@@ -87,6 +87,25 @@ public class TechStackService {
 	}
 
 
+	public List<TechStackForm> getSideProjectTechStacks(Long projectId)
+	{
+		List<SidePjtTechStack> sidePjtTechStackList= sideProjectTechStackRepository.getSideProjectsByOrderAsc(projectId);
+		List<TechStackForm> techStackFormList = new ArrayList<>();
+
+		for(SidePjtTechStack sidePjtTechStack : sidePjtTechStackList)
+		{
+			TechStackForm techStackForm = TechStackForm.builder()
+				.id(sidePjtTechStack.getTechStack().getId())
+				.name(sidePjtTechStack.getTechStack().getName())
+				.build();
+
+			techStackFormList.add(techStackForm);
+
+		}
+		return techStackFormList;
+	}
+
+
 
 	// Id, techStackFormList
 	public List<TechStackForm> modifyProfileTechStack(Long profileId, List<TechStackForm> techStackFormList) {

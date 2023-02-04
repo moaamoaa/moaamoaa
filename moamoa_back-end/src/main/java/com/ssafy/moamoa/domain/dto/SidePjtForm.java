@@ -18,6 +18,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SidePjtForm {
 
+	@JsonProperty("id")
+	private Long id;
+
 	@JsonProperty("name")
 	private String name;
 

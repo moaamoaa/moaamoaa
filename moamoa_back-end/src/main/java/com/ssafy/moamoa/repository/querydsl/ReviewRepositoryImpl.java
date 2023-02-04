@@ -14,24 +14,42 @@ import com.ssafy.moamoa.domain.entity.QReview;
 import com.ssafy.moamoa.domain.entity.Review;
 
 public class ReviewRepositoryImpl extends QuerydslRepositorySupport implements ReviewRepositoryCustom {
-
-
-	public ReviewRepositoryImpl() {
-		super(Review.class);
-	}
 	@PersistenceContext
 	EntityManager em;
+
+	private final JPAQueryFactory queryFactory;
+
+	public ReviewRepositoryImpl(EntityManager em) {
+		super(Review.class);
+		this.queryFactory =new JPAQueryFactory(em);
+	}
 
 	QReview qReview = review;
 
 	@Override
 	public List<Review> getReviewsByOrderAsc(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		return queryFactory.select(review)
 			.from(review)
 			.where(review.receiveProfile.id.eq(profileId))
 			.orderBy(review.time.asc())
 			.fetch();
+	}
+
+	@Override
+	public Review getReviewById(Long reviewId) {
+		return queryFactory.select(review)
+				.from(review)
+				.where(review.id.eq(reviewId))
+				.fetchOne();
+	}
+
+	@Override
+	public Long deleteReviewById(Long reviewId) {
+		return queryFactory.delete(review)
+				.where(review.id.eq(reviewId))
+				.execute();
+
+
 	}
 }
