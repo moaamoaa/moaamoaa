@@ -17,6 +17,7 @@ const profileSlice = createSlice({
   initialState: initialStateValue,
   reducers: {
     profileOpenSuccess: (state, action) => {
+      console.log(action);
       state.userProfile = action.payload.userProfile;
       state.sideProject = action.payload.sideProject;
       state.review = action.payload.review;
