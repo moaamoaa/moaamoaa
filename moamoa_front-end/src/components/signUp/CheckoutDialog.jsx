@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import customAxios from 'utils/axios';
 
-import { loginSuccess } from 'redux/User';
+import { loginSuccess } from 'redux/user';
 import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
 
@@ -73,11 +73,11 @@ export default function CheckoutDialog(props) {
             })
             .then(response => {
               const token = response.data.accessToken;
-              const user_pk = response.data.id;
+              const userPk = response.data.id;
 
               // Set the access token
               Cookies.set('access_token', token, { expires: 1 });
-              dispatch(loginSuccess({ userPk: user_pk }));
+              dispatch(loginSuccess({ userPk: userPk }));
             })
             .catch(error => {
               console.log(error);
