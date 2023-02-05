@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { profileOpenSuccess, profileCloseSuccess } from 'redux/profile';
 
 import styled from '@emotion/styled';
+
+import customAxios from 'utils/axios';
 
 import { Container, Grid } from '@mui/material/';
 
@@ -8,23 +12,30 @@ import Profile from 'components/profile/Profile';
 import ProfileContentContainer from 'components/profile/ProfileContentContainer';
 import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
-import customAxios from 'utils/axios';
-import { useSelector } from 'react-redux';
 import CommentList from 'components/profile/CommontList';
 
 export default function ProfilePage(props) {
-  const userPk = useSelector(state => state.user.userPk);
+  const userPK = useSelector(state => state.user.userPK);
+  const userProfile = useSelector(state => state.profile.userProfile);
+  const sideProject = useSelector(state => state.profile.sideProject);
+  const review = useSelector(state => state.profile.review);
 
+  const dispatch = useDispatch();
   useEffect(() => {
+    // console.log(userProfile);
+    // console.log(sideProject);
+    // console.log(review);
     customAxios.basicAxios
-      .get(`/profile/nickName?nickName=${userPk}`)
+      .get(`/profile/nickName?nickName=${userPK}`)
       .then(response => {
         console.log(response);
+
+        dispatch(profileOpenSuccess({ userPk: userProfile.userPk }));
       })
       .catch(error => {
         console.log(error);
       });
-  }, [userPk]);
+  }, [userProfile.userPk]);
 
   const handleClick = () => {
     console.log('hi');
@@ -45,7 +56,13 @@ export default function ProfilePage(props) {
     },
     {
       title: '댓글',
-      content: <CommentList comments={['hi']} />,
+      content: (
+        <CommentList
+          comments={[
+            { name: '임싸피', context: '안녕하세요', time: '2023-02-05' },
+          ]}
+        />
+      ),
       handler: null,
     },
   ];
