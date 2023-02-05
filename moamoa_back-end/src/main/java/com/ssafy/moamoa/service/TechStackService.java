@@ -110,6 +110,7 @@ public class TechStackService {
 	// Id, techStackFormList
 	public List<TechStackForm> modifyProfileTechStack(Long profileId, List<TechStackForm> techStackFormList) {
 
+
 		Profile profile = profileRepository.getProfileById(profileId);
 		List<ProfileTechStack> profileTechStackList = profileTechStackRepository.getProfileTechStacksByOrderAsc(profileId);
 
@@ -153,56 +154,6 @@ public class TechStackService {
 			}
 		}
 
-		// 리스트 전처리 작업
-//		int inputListSize = techStackFormList.size(); // 5
-//		int originListSize = profileTechStackList.size(); // 3
-//		log.info("Initial size :"+inputListSize+" "+originListSize);
-//		List<Integer> differOrder = new ArrayList<>();
-//
-//		if (originListSize > inputListSize) {  // 삭제를 해야하는 경우
-//			for (int i = originListSize; i > inputListSize; i--) {
-//				differOrder.add(i);
-//			}
-//			for (int i : differOrder) {
-//				profileTechStackRepository.deleteProfileTechStackByOrder(i);
-//
-//			}
-//			profileTechStackList = profileTechStackRepository.getProfileTechStacks(profileId); // 다시 가져옴
-//
-//		}
-//		else if (originListSize < inputListSize) // 추가를 해야하는 경우
-//		{
-//			for (int i = inputListSize - 1; i > originListSize - 1; i--) {
-//				TechStackForm tempTechStackForm = techStackFormList.remove(i);
-//				ProfileTechStack tempProfileTechStack = ProfileTechStack.builder()
-//						.profile(profile)
-//						.techStack(techstackRepository.getTechStackById(tempTechStackForm.getId()))
-//						.order(i+1).build();
-//				profileTechStackRepository.save(tempProfileTechStack); // 뒤에 있는 거 저장
-//			}
-//			inputListSize = techStackFormList.size();
-//		}
-//		if(inputListSize==0){
-//			return "SUCCESS";
-//		}
-//		for (int size = 0; size < inputListSize; size++) {
-//
-//			TechStackForm techStackForm = techStackFormList.get(size);
-//
-//			ProfileTechStack tempProfileTechStack = ProfileTechStack.builder()
-//				.profile(profile)
-//				.techStack(techstackRepository.getTechStackById(techStackForm.getId()))
-//				.order(size + 1).build();
-//			log.info("TechStack > "+tempProfileTechStack.getTechStack().getName()+tempProfileTechStack.getOrder());
-//
-//			ProfileTechStack originProfileTechStack = profileTechStackRepository.getProfileTechStack(profileId,
-//				tempProfileTechStack.getTechStack().getId());
-//
-//
-//			originProfileTechStack.setTechStack(tempProfileTechStack.getTechStack());
-//			originProfileTechStack.setOrder(tempProfileTechStack.getOrder());
-//			profileTechStackRepository.save(originProfileTechStack);
-//		}
 
 		List<ProfileTechStack> resultList= profileTechStackRepository.getProfileTechStacksByOrderAsc(profileId);
 		List<TechStackForm> returnList = new ArrayList<>();
@@ -219,7 +170,17 @@ public class TechStackService {
 	}
 
 
-	public List<TechStackForm> modifyProjectTechStack(Long projectId, List<TechStackForm> techStackFormList) {
+	public List<TechStackForm> modifyProjectTechStack(Long projectId, Long[] techStackList) {
+
+		List<TechStackForm> techStackFormList = new ArrayList<>();
+
+		// Parse Long[] into TechStackFormList
+		for(Long id: techStackList)
+		{
+			TechStackForm techStackForm = TechStackForm.builder()
+					.id(id).build();
+			techStackFormList.add(techStackForm);
+		}
 
 		Project project = projectRepository.getProjectById(projectId);
 		List<ProjectTechStack> projectTechStackList = projectTechStackRepository.getAllProjectTechStackByOrder(projectId);
