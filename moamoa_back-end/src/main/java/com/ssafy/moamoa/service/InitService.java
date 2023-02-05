@@ -1,11 +1,19 @@
 package com.ssafy.moamoa.service;
 
-import com.ssafy.moamoa.domain.entity.*;
-import com.ssafy.moamoa.repository.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.domain.entity.Area;
+import com.ssafy.moamoa.domain.entity.Category;
+import com.ssafy.moamoa.domain.entity.Site;
+import com.ssafy.moamoa.domain.entity.TechStack;
+import com.ssafy.moamoa.domain.entity.TechStackCategory;
+import com.ssafy.moamoa.repository.AreaRepository;
+import com.ssafy.moamoa.repository.CategoryRepository;
+import com.ssafy.moamoa.repository.SiteRepository;
+import com.ssafy.moamoa.repository.TechStackCategoryRepository;
+import com.ssafy.moamoa.repository.TechStackRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -54,7 +62,7 @@ public class InitService {
 		TechStack techStackPython = new TechStack("Python", "python");
 		techStackRepository.save(techStackPython);
 
-		TechStack techStackKotlin = new TechStack("Kotlin", "python");
+		TechStack techStackKotlin = new TechStack("Kotlin", "kotlin");
 		techStackRepository.save(techStackKotlin);
 
 		TechStack techStackGo = new TechStack("Go", "go");
@@ -63,7 +71,7 @@ public class InitService {
 		TechStack techStackNestjs = new TechStack("Nest.js", "nestjs");
 		techStackRepository.save(techStackNestjs);
 
-		TechStack techStackNodejs = new TechStack("Node.js", "nextjs");
+		TechStack techStackNodejs = new TechStack("Node.js", "nodejs");
 		techStackRepository.save(techStackNodejs);
 
 		TechStack techStackDjango = new TechStack("Django", "django");
@@ -105,6 +113,9 @@ public class InitService {
 
 		TechStack techStackSvelte = new TechStack("Svelte", "svelte");
 		techStackRepository.save(techStackSvelte);
+
+		TechStack techStackNextjs = new TechStack("Next.js", "nextjs");
+		techStackRepository.save(techStackNextjs);
 
 		// Mobile
 		TechStack techStackSwift = new TechStack("Swift", "swift");
@@ -252,6 +263,11 @@ public class InitService {
 		techStackCategoryF6.setTechstack(techStackSvelte);
 		techStackCategoryRepository.save(techStackCategoryF6);
 
+		TechStackCategory techStackCategoryF7 = new TechStackCategory();
+		techStackCategoryF7.setCategory(categoryFront);
+		techStackCategoryF7.setTechstack(techStackNextjs);
+		techStackCategoryRepository.save(techStackCategoryF7);
+
 		// Mobile
 		TechStackCategory techStackCategoryM1 = new TechStackCategory();
 		techStackCategoryM1.setCategory(categoryMobile);
@@ -397,10 +413,14 @@ public class InitService {
 	}
 
 	public void addProject() throws Exception {
-		ProjectForm studyOffForm = new ProjectForm(0L,"studyOn", "", "","OFFLINE", 2,"STUDY","2023-02-21", 1L, new Long[] {5L, 6L}, 1L);
-		ProjectForm studyOnForm = new ProjectForm(0L,"studyOff", "", "","ONLINE", 2,"STUDY","2023-02-21", 1L, new Long[] {5L, 6L}, 1L);
-		ProjectForm projectOffForm = new ProjectForm(0L,"projectOff", "", "","OFFLINE", 10,"PROJECT","2023-02-21", 1L, new Long[] {5L, 6L}, 1L);
-		ProjectForm projectOnForm = new ProjectForm(0L,"projectOn", "", "","ONLINE", 10,"PROJECT","2023-02-21", 1L, new Long[] {5L, 6L}, 1L);
+		ProjectForm studyOffForm = new ProjectForm(0L, "studyOn", "", "", "OFFLINE", 2, "STUDY", "2023-02-21", 1L,
+			new Long[] {5L, 6L}, 1L);
+		ProjectForm studyOnForm = new ProjectForm(0L, "studyOff", "", "", "ONLINE", 2, "STUDY", "2023-02-21", 1L,
+			new Long[] {5L, 6L}, 1L);
+		ProjectForm projectOffForm = new ProjectForm(0L, "projectOff", "", "", "OFFLINE", 10, "PROJECT", "2023-02-21",
+			1L, new Long[] {5L, 6L}, 1L);
+		ProjectForm projectOnForm = new ProjectForm(0L, "projectOn", "", "", "ONLINE", 10, "PROJECT", "2023-02-21", 1L,
+			new Long[] {5L, 6L}, 1L);
 		for (int i = 0; i < 20; i++) {
 			projectService.creatProject(studyOffForm);
 			projectService.creatProject(projectOffForm);
@@ -411,8 +431,7 @@ public class InitService {
 
 	}
 
-	public void addSite()
-	{
+	public void addSite() {
 		Site github = Site.builder().name("Github").build();
 		Site velog = Site.builder().name("Velog").build();
 		Site tistory = Site.builder().name("Tistory").build();
