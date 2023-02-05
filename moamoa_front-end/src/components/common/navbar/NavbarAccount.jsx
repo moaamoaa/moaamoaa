@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, logoutSuccess, loginFailure } from 'redux/User';
+import { loginSuccess, logoutSuccess, loginFailure } from 'redux/user';
 import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
@@ -29,7 +29,7 @@ export default function NavbarAccount() {
   const [signUpDialog, setSignUpDialog] = useState(false);
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
   // 임시 로그인 확인. 나중에 지울 것
-  const isLogIn = useSelector(state => state.User.isLogged);
+  const isLogIn = useSelector(state => state.user.isLogged);
 
   const dispatch = useDispatch();
 
