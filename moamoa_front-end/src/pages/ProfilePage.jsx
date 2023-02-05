@@ -10,12 +10,13 @@ import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
 import customAxios from 'utils/axios';
 import { useSelector } from 'react-redux';
+import CommentList from 'components/profile/CommontList';
 
 export default function ProfilePage(props) {
   const userPk = useSelector(state => state.user.userPk);
 
   useEffect(() => {
-    customAxios.authAxios
+    customAxios.basicAxios
       .get(`/profile/nickName?nickName=${userPk}`)
       .then(response => {
         console.log(response);
@@ -44,7 +45,8 @@ export default function ProfilePage(props) {
     },
     {
       title: '댓글',
-      content: '댓글입니다.',
+      content: <CommentList comments={['hi']} />,
+      handler: null,
     },
   ];
 
