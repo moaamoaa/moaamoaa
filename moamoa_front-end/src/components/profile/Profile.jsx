@@ -154,8 +154,8 @@ export default function Profile(props) {
                 {user.name}
               </Typography>
 
-              {/* <ScrollableTab type={'tech'} cards={user.tech}></ScrollableTab> */}
-              <Carousel type={'tech'} cards={user.tech}></Carousel>
+              <ScrollableTab type={'tech'} cards={user.tech}></ScrollableTab>
+              {/* <Carousel type={'tech'} cards={user.tech}></Carousel> */}
               <hr />
               <CardList type={'link'} cards={user.link}></CardList>
             </Grid>
