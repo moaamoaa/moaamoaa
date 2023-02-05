@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -119,18 +120,8 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 			.where(profile.id.eq(profileId))
 			.fetchOne();
 
-		return returnProfile;
 	}
 
-	@Override
-	public Profile getProfileByName(String nickName) {
-
-		return queryFactory.select(profile)
-			.from(profile)
-			.where(profile.nickname.eq(nickName))
-			.fetchOne();
-
-	}
 
 	@Override
 	public void deleteProfileContextById(Long profileId) {
