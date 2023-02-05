@@ -15,22 +15,20 @@ import SideProject from 'components/profile/SideProject';
 import CommentList from 'components/profile/CommontList';
 
 export default function ProfilePage(props) {
-  const userPK = useSelector(state => state.user.userPK);
+  const userPk = useSelector(state => state.user.userPk);
   const userProfile = useSelector(state => state.profile.userProfile);
   const sideProject = useSelector(state => state.profile.sideProject);
   const review = useSelector(state => state.profile.review);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    // console.log(userProfile);
-    // console.log(sideProject);
-    // console.log(review);
+    console.log(userPk);
     customAxios.basicAxios
-      .get(`/profile/nickName?nickName=${userPK}`)
+      .get(`/profile/profileid?profileid=${userPk}`)
       .then(response => {
         console.log(response);
 
-        dispatch(profileOpenSuccess({ userPk: userProfile.userPk }));
+        // dispatch(profileOpenSuccess({ userPk: userProfile.userPk }));
       })
       .catch(error => {
         console.log(error);
