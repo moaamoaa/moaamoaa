@@ -1,35 +1,34 @@
 package com.ssafy.moamoa.repository.querydsl;
 
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.jpa.impl.JPAUpdateClause;
-import com.ssafy.moamoa.domain.entity.ProfileSite;
-import com.ssafy.moamoa.domain.entity.QProfileSite;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import static com.ssafy.moamoa.domain.entity.QProfileSite.*;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
+import com.ssafy.moamoa.domain.entity.ProfileSite;
+import com.ssafy.moamoa.domain.entity.QProfileSite;
 
 public class ProfileSiteRepositoryImpl extends QuerydslRepositorySupport implements ProfileSiteRepositoryCustom {
-
-
-
-    public ProfileSiteRepositoryImpl() {
-        super(ProfileSite.class);
-    }
-
     @PersistenceContext
     EntityManager em;
 
+    private final JPAQueryFactory queryFactory;
+
+
+    public ProfileSiteRepositoryImpl(EntityManager em) {
+        super(ProfileSite.class);
+        this.queryFactory = new JPAQueryFactory(em);
+    }
+
+
     QProfileSite profileSite = QProfileSite.profileSite;
+
     @Override
     public ProfileSite getProfileSiteByName(String name) {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         return queryFactory.select(profileSite)
                 .from(profileSite)
                 .where(profileSite.site.name.eq(name))
@@ -37,8 +36,17 @@ public class ProfileSiteRepositoryImpl extends QuerydslRepositorySupport impleme
     }
 
     @Override
+    public List<ProfileSite> getProfileSitesByIdAsc(Long profileId) {
+
+        return queryFactory.select(profileSite)
+            .from(profileSite)
+            .where(profileSite.profile.id.eq(profileId))
+            .orderBy(profileSite.site.id.asc())
+            .fetch();
+    }
+
+    @Override
     public List<ProfileSite> getProfileSitesById(Long profileId) {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return queryFactory.select(profileSite)
                 .from(profileSite)
@@ -58,7 +66,6 @@ public class ProfileSiteRepositoryImpl extends QuerydslRepositorySupport impleme
 
     @Override
     public Long deleteProfileSiteById(Long profileId) {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return queryFactory.delete(profileSite)
                 .where(profileSite.profile.id.eq(profileId))
