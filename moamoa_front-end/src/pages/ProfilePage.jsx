@@ -1,18 +1,29 @@
-import React from 'react';
+import { useEffect } from 'react';
 
 import styled from '@emotion/styled';
 
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
+import { Container, Grid } from '@mui/material/';
 
 import Profile from 'components/profile/Profile';
 import ProfileContentContainer from 'components/profile/ProfileContentContainer';
 import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
-import { useEffect } from 'react';
+import customAxios from 'utils/axios';
+import { useSelector } from 'react-redux';
 
 export default function ProfilePage(props) {
-  useEffect(() => {}, []);
+  const userPk = useSelector(state => state.user.userPk);
+
+  useEffect(() => {
+    customAxios.authAxios
+      .get(`/profile/nickName?nickName=${userPk}`)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [userPk]);
 
   const handleClick = () => {
     console.log('hi');

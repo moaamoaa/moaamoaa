@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import CustomAxios from 'utils/axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess } from 'redux/User';
+import { useSelector } from 'react-redux';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -35,7 +34,7 @@ export default function TeamCreatePage() {
   const techRef = useRef('');
 
   // redux
-  const { userPk } = useSelector(state => state.User);
+  const { userPk } = useSelector(state => state.user.userPk);
 
   //handler
   const handleClick = e => {

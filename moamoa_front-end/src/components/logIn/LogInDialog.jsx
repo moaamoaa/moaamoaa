@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { loginSuccess } from 'redux/User';
+import { loginSuccess } from 'redux/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Cookies from 'js-cookie';
@@ -22,7 +22,7 @@ export default function LogInDialog(props) {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
-  const isLogin = useSelector(state => state.User.isLogged);
+  const isLogin = useSelector(state => state.user.isLogged);
   const handleCloseLogIndialog = () => {
     props.setLogInDialog(false);
   };
