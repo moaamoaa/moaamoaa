@@ -11,18 +11,18 @@ export default function ScrollableTab(props) {
   };
 
   return (
-    <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        variant="scrollable"
-        scrollButtons="auto"
-        aria-label="scrollable auto tabs example"
-      >
-        {props.cards.map(card => (
-          <Tab label={<CardItem card={card} type={props.type}></CardItem>} />
-        ))}
-      </Tabs>
-    </Box>
+    <Tabs
+      value={value}
+      onChange={handleChange}
+      variant="scrollable"
+      scrollButtons="auto"
+    >
+      {props.cards.map((card, idx) => (
+        <Tab
+          key={idx}
+          label={<CardItem card={card} type={props.type}></CardItem>}
+        />
+      ))}
+    </Tabs>
   );
 }
