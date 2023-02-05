@@ -16,17 +16,20 @@ import static com.ssafy.moamoa.domain.entity.QArea.*;
 import static com.ssafy.moamoa.domain.entity.QProfileArea.*;
 
 public class ProfileAreaRepositoryImpl extends QuerydslRepositorySupport implements ProfileAreaRepositoryCustom {
-
-    public ProfileAreaRepositoryImpl() {
-        super(ProfileArea.class);
-    }
     @PersistenceContext
     EntityManager em;
+
+    private final JPAQueryFactory queryFactory;
+
+    public ProfileAreaRepositoryImpl(EntityManager em) {
+        super(ProfileArea.class);
+        this.queryFactory = new JPAQueryFactory(em);
+    }
+
    QProfileArea qProfileArea = profileArea;
 
     @Override
     public List<ProfileArea> getAreasByIdAsc(Long profileId) {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return queryFactory.select(profileArea).from(profileArea)
                 .where(profileArea.profile.id.eq(profileId))
@@ -36,7 +39,6 @@ public class ProfileAreaRepositoryImpl extends QuerydslRepositorySupport impleme
 
     @Override
     public Long deleteAreasById(Long profileId) {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return queryFactory.delete(profileArea)
                 .where(profileArea.profile.id.eq(profileId))

@@ -6,12 +6,12 @@ import com.ssafy.moamoa.domain.entity.SidePjt;
 
 public interface SideProjectRepositoryCustom {
 
-	List<SidePjt> getSideProjects(Long profileId);
+	List<SidePjt> getSideProjectsByIdAsc(Long profileId);
 
 	SidePjt getSideProjectByAll(Long profileId, SidePjt sidePjt);
 
 	SidePjt getSideProjectById(Long projectId);
 
-
+	Long deleteSideProjectById(Long projectId);
 
 }

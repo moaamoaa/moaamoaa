@@ -38,6 +38,10 @@ spring:
 
 logging:
   level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: ERROR
     org:
       hibernate:
         SQL: DEBUG
@@ -53,6 +57,20 @@ security:
     access-token-expire: 1800000
     #    access-token-expire: 30000
     refresh-token-expire: 1209600000
+
+
+cloud:
+  aws:
+    s3:
+      bucket: ssafy.moamoa.image.bucket
+    credentials:
+      access-key: AKIAVYLW4VT3B4HD4ENH
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
 
 
 

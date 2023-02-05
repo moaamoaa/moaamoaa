@@ -39,4 +39,16 @@ public class SidePjt {
 
 	@Column(name = "sidepjt_year")
 	private String year;
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
 }

@@ -11,18 +11,21 @@ import javax.persistence.PersistenceContext;
 import static com.ssafy.moamoa.domain.entity.QSite.*;
 
 public class SiteRepositoryImpl extends QuerydslRepositorySupport implements SiteRepositoryCustom {
-
-    public SiteRepositoryImpl() {
-        super(Site.class);
-    }
     @PersistenceContext
     EntityManager em;
+
+    private final JPAQueryFactory queryFactory;
+
+    public SiteRepositoryImpl(EntityManager em) {
+        super(Site.class);
+        this.queryFactory = new JPAQueryFactory(em);
+    }
+
 
     QSite site = QSite.site;
 
     @Override
     public Site getSiteByName(String name) {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return queryFactory.select(site)
                 .from(site)

@@ -19,16 +19,18 @@ public class ProjectTechStackRepositoryImpl extends QuerydslRepositorySupport im
 	@PersistenceContext
 	EntityManager em;
 
+	private final JPAQueryFactory queryFactory;
+
 	QProjectTechStack qProjectTechStack = projectTechStack;
 
-	public ProjectTechStackRepositoryImpl() {
+	public ProjectTechStackRepositoryImpl(EntityManager em) {
 		super(ProjectTechStack.class);
+		this.queryFactory = new JPAQueryFactory(em);
 	}
 
 	// order 순서대로 DB에서 가져온다.
 	@Override
 	public List<ProjectTechStack> getAllProjectTechStackByOrder(Long projectId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		List<ProjectTechStack> projectTechStackList = queryFactory
 			.select(projectTechStack)
@@ -42,7 +44,8 @@ public class ProjectTechStackRepositoryImpl extends QuerydslRepositorySupport im
 
 	@Override
 	public Long deleteAllProjectStackById(Long projectId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+
 		Long count = queryFactory.delete(projectTechStack)
 			.where(projectTechStack.project.id.eq(projectId))
 			.execute();
@@ -51,7 +54,7 @@ public class ProjectTechStackRepositoryImpl extends QuerydslRepositorySupport im
 
 	@Override
 	public Long deleteProjectTechStackByOrder(int order) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
 		Long count = queryFactory.delete(projectTechStack)
 			.where(projectTechStack.order.eq(order))
 			.execute();
@@ -60,7 +63,7 @@ public class ProjectTechStackRepositoryImpl extends QuerydslRepositorySupport im
 
 	@Override
 	public ProjectTechStack getProjectTechStack(Long projectId, Long techStackId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
 
 		ProjectTechStack tempProjectTechStack = queryFactory.select(projectTechStack)
 			.from(projectTechStack)
@@ -68,6 +71,7 @@ public class ProjectTechStackRepositoryImpl extends QuerydslRepositorySupport im
 			.fetchOne();
 
 
+		
 		return tempProjectTechStack;
 	}
 
