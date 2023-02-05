@@ -23,11 +23,6 @@ export default function LogInDialog(props) {
 
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.user.isLogged);
-  const handleCloseLogIndialog = () => {
-    props.setLogInDialog(false);
-  };
-
-  useEffect(handleCloseLogIndialog, [isLogin]);
 
   const handleLogIn = () => {
     customAxios.basicAxios
@@ -37,11 +32,11 @@ export default function LogInDialog(props) {
       })
       .then(response => {
         const token = response.data.accessToken;
-        const user_pk = response.data.id;
+        const userPk = response.data.id;
 
         // Set the access token
         Cookies.set('access_token', token, { expires: 1 });
-        dispatch(loginSuccess({ userPk: user_pk }));
+        dispatch(loginSuccess({ userPk: userPk }));
       })
       .catch(error => {
         console.log(error);
@@ -65,6 +60,12 @@ export default function LogInDialog(props) {
     props.setLogInDialog(false);
     props.setFindPasswordDialog(true);
   };
+
+  const handleCloseLogIndialog = () => {
+    props.setLogInDialog(false);
+  };
+
+  useEffect(handleCloseLogIndialog, [isLogin]);
 
   return (
     <Dialog onClose={handleCloseLogIndialog} open={props.logInDialog}>
