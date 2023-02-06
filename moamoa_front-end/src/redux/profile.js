@@ -1,15 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialStateValue = {
+  areas: [],
+  reviews: [],
+  sideProject: [],
+  sites: [],
+  techStacks: [],
   userProfile: {
+    context: '안녕하세요.',
     userPk: null,
-    nickName: null,
+    nickName: '싸피인',
+    profileOnOffStatus: 'online',
     profileSearchStatus: 'all',
     img: null,
-    context: '안녕하세요.',
   },
-  sideProject: [{ name: null, context: null, year: null }],
-  review: [{ name: null, context: null, time: null }],
 };
 
 const profileSlice = createSlice({
@@ -17,10 +21,20 @@ const profileSlice = createSlice({
   initialState: initialStateValue,
   reducers: {
     profileOpenSuccess: (state, action) => {
-      console.log(action);
-      state.userProfile = action.payload.userProfile;
+      state.areas = action.payload.areas;
+      state.reviews = action.payload.reviews;
       state.sideProject = action.payload.sideProject;
-      state.review = action.payload.review;
+      state.sites = action.payload.sites;
+      state.techStacks = action.payload.techStacks;
+
+      state.userProfile.context = action.payload.userProfile.context;
+      state.userProfile.userPk = action.payload.userProfile.id;
+      state.userProfile.img = action.payload.userProfile.img;
+      state.userProfile.profileOnOffStatus =
+        action.payload.userProfile.profileOnOffStatus;
+      state.userProfile.nickName = action.payload.userProfile.nickname;
+      state.userProfile.profileSearchStatus =
+        action.payload.userProfile.profileSearchStatus;
     },
     profileCloseSuccess: state => {
       state.userProfile = null;
