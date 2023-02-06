@@ -14,26 +14,17 @@ import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
 import CommentList from 'components/profile/CommontList';
 
-export default function ProfilePage(props) {
+export default function ProfilePage() {
   const userPk = useSelector(state => state.user.userPk);
-  const userProfile = useSelector(state => state.profile.userProfile);
-  const sideProject = useSelector(state => state.profile.sideProject);
-  const review = useSelector(state => state.profile.review);
+  const curProfile = useSelector(state => state.profile);
 
+  const defaultSideProject = {
+    year: new Date().getFullYear(),
+    title: '프로젝트명',
+    techStacks: ['HTML', 'CSS', 'JavaScript'],
+    context: '프로젝트소개',
+  };
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log(userPk);
-    customAxios.basicAxios
-      .get(`/profile/profileid?profileid=${userPk}`)
-      .then(response => {
-        console.log(response);
-
-        // dispatch(profileOpenSuccess({ userPk: userProfile.userPk }));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [userProfile.userPk]);
 
   const handleClick = () => {
     console.log('hi');
@@ -49,7 +40,13 @@ export default function ProfilePage(props) {
     {
       type: 'read',
       title: '주요 프로젝트',
-      content: <SideProject></SideProject>,
+      content: curProfile.sideProject ? (
+        curProfile.sideProject.map(project => {
+          <SideProject props={project}></SideProject>;
+        })
+      ) : (
+        <SideProject props={defaultSideProject}></SideProject>
+      ),
       handler: [handleClick, handleClick],
     },
     {
@@ -65,6 +62,34 @@ export default function ProfilePage(props) {
     },
   ];
 
+  useEffect(() => {
+    customAxios.basicAxios
+      .get(`/profile/${userPk}`)
+      .then(response => {
+        const [areas, profile, reviews, sideProject, sites, techStacks] = [
+          response.data.areas,
+          response.data.profile,
+          response.data.reviews,
+          response.data.sideproject,
+          response.data.sites,
+          response.data.techstacks,
+        ];
+
+        dispatch(
+          profileOpenSuccess({
+            areas: areas,
+            userProfile: profile,
+            reviews: reviews,
+            sideProject: sideProject,
+            sites: sites,
+            techStacks: techStacks,
+          }),
+        );
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [curProfile.userProfile.userPk]);
   return (
     <ProfilePageContainer fixed>
       <Grid container spacing={10}>
