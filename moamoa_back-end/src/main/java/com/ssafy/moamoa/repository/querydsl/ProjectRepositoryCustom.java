@@ -9,7 +9,7 @@ import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Project;
 
 public interface ProjectRepositoryCustom {
-	List<ProjectResultDto> search(SearchCondition condition, Long cursorId, Pageable pageable);
+	List<ProjectResultDto> search(SearchCondition condition, String cursorId, Pageable pageable);
 
 	Project getProjectById(Long projectId);
 

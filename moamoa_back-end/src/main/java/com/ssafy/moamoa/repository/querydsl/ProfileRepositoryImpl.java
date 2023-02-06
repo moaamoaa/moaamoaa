@@ -62,9 +62,7 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 	}
 
 	private StringExpression getCustomCursor(Pageable pageable) {
-		Sort.Order hitOrder = pageable.getSort().getOrderFor("hit");
-
-		if (hitOrder != null) {
+		if (pageable.getSort().getOrderFor("hit") != null) {
 			return StringExpressions.lpad(profile.hit.stringValue(), 10, '0')
 				.concat(StringExpressions.lpad(profile.id.stringValue(), 10, '0'));
 		}
@@ -73,8 +71,7 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 	}
 
 	private BooleanExpression cursorIdLt(String cursorId, Pageable pageable) {
-		Sort.Order hitOrder = pageable.getSort().getOrderFor("hit");
-		if (hitOrder != null) {
+		if (pageable.getSort().getOrderFor("hit") != null) {
 			return cursorId != null ? StringExpressions.lpad(profile.hit.stringValue(), 10, '0')
 				.concat(StringExpressions.lpad(profile.id.stringValue(), 10, '0'))
 				.lt(cursorId) : null;

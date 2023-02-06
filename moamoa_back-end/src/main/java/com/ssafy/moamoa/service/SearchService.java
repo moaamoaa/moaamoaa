@@ -31,7 +31,7 @@ public class SearchService {
 	private final CardService cardService;
 
 	//프로젝트 검색
-	public List<ProjectResultDto> searchProject(SearchCondition condition, Long cursorId, Pageable pageable) {
+	public List<ProjectResultDto> searchProject(SearchCondition condition, String cursorId, Pageable pageable) {
 		List<ProjectResultDto> searchResultList = projectRepository.search(condition, cursorId, pageable);
 
 		for (ProjectResultDto result : searchResultList) {
