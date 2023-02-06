@@ -1,21 +1,18 @@
 package com.ssafy.moamoa.service;
 
-import com.ssafy.moamoa.domain.dto.ProfileSearchStatusForm;
-import org.springframework.security.core.parameters.P;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.ContextForm;
 import com.ssafy.moamoa.domain.dto.ProfileForm;
 import com.ssafy.moamoa.domain.dto.ProfilePageForm;
+import com.ssafy.moamoa.domain.dto.ProfileSearchStatusForm;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -80,8 +77,14 @@ public class ProfileService {
 	Profile inputProfile = Profile.builder()
 		.id(profileId)
 		.profileOnOffStatus(ProfileOnOffStatus.valueOf(profileForm.getProfileOnOffStatus()))
-		.nickname(profileForm.getNickname()).build();
-	profileRepository.setProfile(inputProfile);
+	.nickname(profileForm.getNickname())
+		.img(profileForm.getImg()).build();
+
+	// Profile
+	profile.setProfileOnOffStatus(inputProfile.getProfileOnOffStatus());
+	profile.setNickname(inputProfile.getNickname());
+	profile.setImg(inputProfile.getImg());
+
 
 	// TechStack
 
@@ -98,7 +101,7 @@ public class ProfileService {
 		areaService.modifyProfileAreas(profileId,profilePageForm.getAreaList());
 
 
-	return profilePageForm;
+	return getProfile(profileId);
 	}
 
 	public ProfileSearchStatusForm changeUserSearchState(Long profileId) {
