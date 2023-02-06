@@ -69,8 +69,9 @@ public class ProjectController {
 	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
-		projectService.creatProject(projectForm);
-		return new ResponseEntity<>(HttpStatus.OK);
+		ProjectDetail projectDetail = projectService.creatProject(projectForm);
+		projectDetail.setLeader(true);
+		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 수정",
@@ -83,8 +84,9 @@ public class ProjectController {
 		{
 			throw new Exception("팀장이 아닙니다.");
 		}
-		projectService.updateProject(Long.valueOf(userDetails.getUsername()), projectForm);
-		return new ResponseEntity<>(HttpStatus.OK);
+		ProjectDetail projectDetail = projectService.updateProject(projectForm);
+		projectDetail.setLeader(true);
+		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 삭제",
