@@ -2,37 +2,35 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-
-const SideProjectInfo = {
-  year: '2023',
-  title: '프로젝트명',
-  techStacks: ['JavaScript', 'TypeScript', 'React'],
-  content: '프로젝트 소개',
-};
+import { Typography, Grid, Container } from '@mui/material';
 
 export default function SideProject(props) {
+  console.log(props);
   return (
     <>
       <Grid container spacing={2}>
-        <SideProjectYear item>{SideProjectInfo.year}</SideProjectYear>
-        <Grid item>
+        <Grid item xs={1}>
+          <SideProjectYear item>{props.year}</SideProjectYear>
+        </Grid>
+        <Grid item xs={11}>
           <SideProjectTitle variant="body1" color="initial">
-            {SideProjectInfo.title}
+            {props.title}
           </SideProjectTitle>
-          {SideProjectInfo.techStacks.map((techStack, idx) => (
-            <TechStackContainer key={idx}>{techStack}</TechStackContainer>
-          ))}
-          <SideProjectContent>{SideProjectInfo.content}</SideProjectContent>
+          {props.techStacks ? (
+            props.techStacks.map((techStack, idx) => (
+              <TechStackContainer key={idx}>{techStack}</TechStackContainer>
+            ))
+          ) : (
+            <></>
+          )}
+          <SideProjectContext>{props.context}</SideProjectContext>
         </Grid>
       </Grid>
     </>
   );
 }
 
-const SideProjectYear = styled(Grid)`
+const SideProjectYear = styled(Typography)`
   font-weight: bolder;
   font-size: 1.2rem;
 
@@ -46,7 +44,7 @@ const SideProjectTitle = styled(Typography)`
   margin-bottom: 0.5rem;
 `;
 
-const TechStackContainer = styled.span`
+const TechStackContainer = styled(Container)`
   position: relative;
   font-weight: 400;
   font-size: 0.8em;
@@ -61,7 +59,7 @@ const TechStackContainer = styled.span`
   border-radius: 0.5rem;
 `;
 
-const SideProjectContent = styled(Typography)`
+const SideProjectContext = styled(Typography)`
   position: relative;
   font-weight: 600;
   font-size: 1em;
