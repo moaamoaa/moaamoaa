@@ -1,21 +1,19 @@
 package com.ssafy.moamoa.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.ssafy.moamoa.repository.SideProjectTechStackRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ssafy.moamoa.domain.dto.SidePjtForm;
 import com.ssafy.moamoa.domain.dto.TechStackForm;
 import com.ssafy.moamoa.domain.entity.SidePjt;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.SideProjectRepository;
+import com.ssafy.moamoa.repository.SideProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TechStackRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -48,6 +46,7 @@ public class SideProjectService {
 				.id(sidePjt.getId())
 				.name(sidePjt.getName())
 				.year(sidePjt.getYear())
+				.techStackFormList(techStackService.getSideProjectTechStacks(sidePjt.getId()))
 				.context(sidePjt.getContext())
 				.build();
 
@@ -56,6 +55,24 @@ public class SideProjectService {
 
 		return sidePjtFormList;
 	}
+
+//	public List<TechStackForm> getSideProjectTechStackList(Long projectId)
+//	{
+//		List<SidePjtTechStack> sidePjtTechStackList = sideProjectTechStackRepository.getSideProjectTechStacks(projectId);
+//		List<TechStackForm> techStackFormList = new ArrayList<>();
+//		for(SidePjtTechStack sidePjtTechStack :  sidePjtTechStackList)
+//		{
+//			TechStackForm techStackForm = TechStackForm.builder()
+//					.id(sidePjtTechStack.getTechStack().getId())
+//					.name(sidePjtTechStack.getTechStack().getName())
+//					.img(sidePjtTechStack.getTechStack().getLogo()).build();
+//
+//			techStackFormList.add(techStackForm);
+//		}
+//
+//		return techStackFormList;
+//
+//	}
 
 	public List<SidePjtForm> addSidePjt(Long profileId, SidePjtForm sidePjtForm) {
 

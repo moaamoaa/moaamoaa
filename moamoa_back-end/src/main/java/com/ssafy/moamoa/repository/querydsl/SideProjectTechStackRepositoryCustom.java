@@ -1,6 +1,5 @@
 package com.ssafy.moamoa.repository.querydsl;
 
-import com.ssafy.moamoa.domain.entity.ProjectTechStack;
 import com.ssafy.moamoa.domain.entity.SidePjtTechStack;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 public interface SideProjectTechStackRepositoryCustom {
 
 
-    List<SidePjtTechStack> getSideProjectsByOrderAsc(Long projectId);
+    List<SidePjtTechStack> getSideProjectTechStacks(Long projectId);
 
     Long deleteSideProjectTechStackByOrder(int order);
 

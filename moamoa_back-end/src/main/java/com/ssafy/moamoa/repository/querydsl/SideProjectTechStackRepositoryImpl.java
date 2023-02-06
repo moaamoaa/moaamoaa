@@ -1,7 +1,6 @@
 package com.ssafy.moamoa.repository.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.moamoa.domain.entity.ProjectTechStack;
 import com.ssafy.moamoa.domain.entity.QSidePjtTechStack;
 import com.ssafy.moamoa.domain.entity.SidePjtTechStack;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -10,8 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-import static com.ssafy.moamoa.domain.entity.QProjectTechStack.projectTechStack;
-import static com.ssafy.moamoa.domain.entity.QSidePjtTechStack.*;
+import static com.ssafy.moamoa.domain.entity.QSidePjtTechStack.sidePjtTechStack;
 
 public class SideProjectTechStackRepositoryImpl extends QuerydslRepositorySupport implements SideProjectTechStackRepositoryCustom {
 
@@ -29,7 +27,7 @@ public class SideProjectTechStackRepositoryImpl extends QuerydslRepositorySuppor
     QSidePjtTechStack qSidePjtTechStack = sidePjtTechStack;
 
     @Override
-    public List<SidePjtTechStack> getSideProjectsByOrderAsc(Long projectId) {
+    public List<SidePjtTechStack> getSideProjectTechStacks(Long projectId) {
 
         List<SidePjtTechStack> sidePjtTechStackList = queryFactory.select(sidePjtTechStack)
                 .from(sidePjtTechStack)
