@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import CustomAxios from 'utils/axios';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
+import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -36,6 +37,8 @@ export default function TeamCreatePage() {
 
   // redux
   const { userPk } = useSelector(state => state.user.userPk);
+  const teamInfo = useSelector(state => state.team.teamInfo);
+  const techStacks = useSelector(state => state.team.techStacks);
 
   //handler
   const handleClick = () => {
