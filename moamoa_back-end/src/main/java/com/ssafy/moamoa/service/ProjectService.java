@@ -298,11 +298,7 @@ public class ProjectService {
 			.collect(Collectors.toList());
 		if (!techStacks.isEmpty()) {
 			for (TechStack t: techStacks) {
-				TechStackForm techStackForm = TechStackForm.builder()
-					.id(t.getId())
-					.img(t.getLogo())
-					.name(t.getName())
-					.build();
+				TechStackForm techStackForm = TechStackForm.toEntity(t);
 				techStackForms.add(techStackForm);
 			}
 			projectDetail.setProjectTechStacks(techStackForms);
