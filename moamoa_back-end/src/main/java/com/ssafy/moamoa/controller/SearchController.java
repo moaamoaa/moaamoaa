@@ -27,13 +27,14 @@ public class SearchController {
 	private final SearchService searchService;
 
 	@GetMapping("/project")
-	public ResponseEntity<?> searchProject(SearchCondition condition, Long cursorId, Pageable pageable) {
+	public ResponseEntity<?> searchProject(SearchCondition condition, String cursorId, Pageable pageable) {
+		log.debug(pageable.getSort().toString());
 		List<ProjectResultDto> results = searchService.searchProject(condition, cursorId, pageable);
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 
 	@GetMapping("/profile")
-	public ResponseEntity<?> searchProfile(SearchCondition condition, Long cursorId, Pageable pageable) {
+	public ResponseEntity<?> searchProfile(SearchCondition condition, String cursorId, Pageable pageable) {
 		List<ProfileResultDto> results = searchService.searchProfile(condition, cursorId, pageable);
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}

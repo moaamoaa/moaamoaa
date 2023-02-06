@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
 import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.service.ProjectService;
 import com.ssafy.moamoa.service.TeamService;
 
@@ -50,7 +51,7 @@ public class ProjectController {
 		notes = "팀 페이지 open")
 	@GetMapping("/detail")
 	public ResponseEntity<?> accessProject(@RequestParam("projectId") Long projectId, Authentication authentication) throws Exception {
-		ProjectDetail projectDetail = projectService.accessProject(projectId);
+		ProjectDetail projectDetail = projectService.accessProject(projectId, 1);
 
 		// 로그인 한 상태
 		if(authentication != null)
@@ -69,8 +70,9 @@ public class ProjectController {
 	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
-		projectService.creatProject(projectForm);
-		return new ResponseEntity<>(HttpStatus.OK);
+		ProjectDetail projectDetail = projectService.creatProject(projectForm);
+		projectDetail.setLeader(true);
+		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 수정",
@@ -83,8 +85,10 @@ public class ProjectController {
 		{
 			throw new Exception("팀장이 아닙니다.");
 		}
-		projectService.updateProject(Long.valueOf(userDetails.getUsername()), projectForm);
-		return new ResponseEntity<>(HttpStatus.OK);
+		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
+		ProjectDetail projectDetail = projectService.updateProject(projectForm);
+		projectDetail.setLeader(true);
+		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "프로젝트/스터디 삭제",
@@ -97,6 +101,7 @@ public class ProjectController {
 		{
 			throw new Exception("팀장이 아닙니다.");
 		}
+		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 		projectService.deleteProject(Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

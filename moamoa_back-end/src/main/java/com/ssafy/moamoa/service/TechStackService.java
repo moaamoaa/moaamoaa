@@ -1,33 +1,17 @@
 package com.ssafy.moamoa.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.ssafy.moamoa.domain.dto.TechStackForm;
+import com.ssafy.moamoa.domain.entity.*;
+import com.ssafy.moamoa.repository.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.moamoa.domain.dto.TechStackForm;
-import com.ssafy.moamoa.domain.entity.Profile;
-import com.ssafy.moamoa.domain.entity.ProfileTechStack;
-import com.ssafy.moamoa.domain.entity.Project;
-import com.ssafy.moamoa.domain.entity.ProjectTechStack;
-import com.ssafy.moamoa.domain.entity.SidePjt;
-import com.ssafy.moamoa.domain.entity.SidePjtTechStack;
-import com.ssafy.moamoa.domain.entity.TechStack;
-import com.ssafy.moamoa.repository.ProfileRepository;
-import com.ssafy.moamoa.repository.ProfileTechStackRepository;
-import com.ssafy.moamoa.repository.ProjectRepository;
-import com.ssafy.moamoa.repository.ProjectTechStackRepository;
-import com.ssafy.moamoa.repository.SideProjectRepository;
-import com.ssafy.moamoa.repository.SideProjectTechStackRepository;
-import com.ssafy.moamoa.repository.TechStackRepository;
-import com.ssafy.moamoa.repository.UserRepository;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = false)
@@ -89,7 +73,7 @@ public class TechStackService {
 
 	public List<TechStackForm> getSideProjectTechStacks(Long projectId)
 	{
-		List<SidePjtTechStack> sidePjtTechStackList= sideProjectTechStackRepository.getSideProjectsByOrderAsc(projectId);
+		List<SidePjtTechStack> sidePjtTechStackList= sideProjectTechStackRepository.getSideProjectTechStacks(projectId);
 		List<TechStackForm> techStackFormList = new ArrayList<>();
 
 		for(SidePjtTechStack sidePjtTechStack : sidePjtTechStackList)
@@ -159,11 +143,7 @@ public class TechStackService {
 		List<TechStackForm> returnList = new ArrayList<>();
 		for(ProfileTechStack profileTechStack : resultList)
 		{
-		TechStackForm techStackForm = TechStackForm.builder()
-				.id(profileTechStack.getTechStack().getId())
-				.name(profileTechStack.getTechStack().getName())
-				.img(profileTechStack.getTechStack().getLogo()).build();
-
+		TechStackForm techStackForm = TechStackForm.toEntity(profileTechStack.getTechStack());
 			returnList.add(techStackForm);
 		}
 		return returnList;
@@ -281,10 +261,7 @@ public class TechStackService {
 		List<TechStackForm> returnList = new ArrayList<>();
 		for(ProjectTechStack projectTechStack : resultList)
 		{
-			TechStackForm techStackForm = TechStackForm.builder()
-					.id(projectTechStack.getTechStack().getId())
-					.name(projectTechStack.getTechStack().getName())
-					.img(projectTechStack.getTechStack().getLogo()).build();
+			TechStackForm techStackForm = TechStackForm.toEntity(projectTechStack.getTechStack());
 
 			returnList.add(techStackForm);
 		}
@@ -294,7 +271,7 @@ public class TechStackService {
 	public List<TechStackForm> modifySideProjectTechStack(Long projectId, List<TechStackForm> techStackFormList) {
 
 		SidePjt sidePjt = sideProjectRepository.getSideProjectById(projectId);
-		List<SidePjtTechStack> sidePjtTechStackList = sideProjectTechStackRepository.getSideProjectsByOrderAsc(projectId);
+		List<SidePjtTechStack> sidePjtTechStackList = sideProjectTechStackRepository.getSideProjectTechStacks(projectId);
 
 		boolean isChanged = false;
 		int inputListSize = techStackFormList.size(); // 5
@@ -390,14 +367,11 @@ public class TechStackService {
 //		}
 
 
-		List<SidePjtTechStack> resultList= sideProjectTechStackRepository.getSideProjectsByOrderAsc(projectId);
+		List<SidePjtTechStack> resultList= sideProjectTechStackRepository.getSideProjectTechStacks(projectId);
 		List<TechStackForm> returnList = new ArrayList<>();
 		for(SidePjtTechStack sidePjtTechStack : resultList)
 		{
-			TechStackForm techStackForm = TechStackForm.builder()
-					.id(sidePjtTechStack.getTechStack().getId())
-					.name(sidePjtTechStack.getTechStack().getName())
-					.img(sidePjtTechStack.getTechStack().getLogo()).build();
+			TechStackForm techStackForm = TechStackForm.toEntity(sidePjtTechStack.getTechStack());
 
 			returnList.add(techStackForm);
 		}

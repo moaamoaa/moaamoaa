@@ -53,7 +53,7 @@ class SearchServiceTest {
 
 		Project project = Project.builder()
 			.category(ProjectCategory.STUDY)
-			.countOffer(0)
+			.countApply(0)
 			.hit(0)
 			.onoffline(ProjectStatus.ONLINE)
 			.createDate(startDate)
@@ -75,7 +75,7 @@ class SearchServiceTest {
 		List<Long> stacks = new ArrayList<>(Arrays.asList(1L, 2L));
 		SearchCondition searchCondition = SearchCondition.builder().stack(stacks).build();
 		Pageable pageable = PageRequest.of(0, 5);
-		Long cursorId = 1L;
+		String cursorId = "1";
 
 		//when
 		List<ProjectResultDto> searchResult = searchService.searchProject(searchCondition, cursorId, pageable);

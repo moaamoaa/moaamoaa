@@ -29,7 +29,7 @@ import com.ssafy.moamoa.service.UserService;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProjectRepositoryImplTest {
 	private static Pageable pageable = PageRequest.of(0, 10);
-	private static Long cursorId = 1L;
+	private static String cursorId = "1";
 
 	@Autowired
 	ProjectRepository projectRepository;
@@ -52,7 +52,7 @@ class ProjectRepositoryImplTest {
 
 		Project project = Project.builder()
 			.category(ProjectCategory.STUDY)
-			.countOffer(0)
+			.countApply(0)
 			.hit(0)
 			.onoffline(ProjectStatus.ONLINE)
 			.createDate(startDate)

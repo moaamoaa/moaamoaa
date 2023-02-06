@@ -45,7 +45,7 @@ public class ApplyService {
 		if(teamRepository.findByUser(user, project).isPresent() || project.isLocked()){throw new Exception();}
 		else
 		{
-			project.setCountOffer(project.getCountOffer() + 1);
+			project.setCountApply(project.getCountApply() + 1);
 			Apply apply = Apply.builder()
 				.user(user)
 				.project(project)
@@ -105,7 +105,7 @@ public class ApplyService {
 	public void deleteSendApply(MatchingForm matchingForm) {
 		// cnt_apply--
 		Project project = projectRepository.findById(matchingForm.getProjectId()).get();
-		project.setCountOffer(project.getCountOffer() - 1);
+		project.setCountApply(project.getCountApply() - 1);
 		applyRepository.deleteById(matchingForm.getApplyId());
 	}
 

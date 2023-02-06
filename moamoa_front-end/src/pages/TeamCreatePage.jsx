@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import dayjs from 'dayjs';
 import CustomAxios from 'utils/axios';
 import { useSelector } from 'react-redux';
@@ -69,10 +69,9 @@ export default function TeamCreatePage() {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
-        createDate: 'string',
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
         img: null,
-        projectId: 1,
+        projectId: null,
         projectStatus: onoffRef.current,
         techStacks: techRef.current,
         title: titleRef.current,
@@ -81,7 +80,7 @@ export default function TeamCreatePage() {
       })
       .then(e => {
         console.log(e);
-        console.log('포스트완료!');
+        console.log('생성완료!');
       })
       .catch(error => {
         console.log(error);
@@ -90,7 +89,7 @@ export default function TeamCreatePage() {
   // banner
   const teamBannerEdit = {
     title: <SingleTextField ref={titleRef}></SingleTextField>, // project_title POST
-    leader: '팀장 이름', // GET
+    leader: '',
     image: '', // string
   };
 
