@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import CardList from 'components/common/card/CardList';
@@ -13,34 +14,39 @@ import {
 } from '@mui/material';
 
 import ScrollableTab from 'components/common/tab/ScrollableTab';
-import Carousel from 'components/common/carousel/Carousel';
 
-export default function Profile(props) {
-  const user = {
-    id: 0,
-    name: '김싸피',
-    tech: [
-      ['front-end_icons', 'javascript'],
-      ['front-end_icons', 'typescript'],
-      ['front-end_icons', 'javascript'],
-      ['front-end_icons', 'typescript'],
-      ['front-end_icons', 'javascript'],
-      ['front-end_icons', 'typescript'],
-      ['front-end_icons', 'javascript'],
-      ['front-end_icons', 'typescript'],
-    ],
-    link: {
-      github: 'https://github.com/LimSB-dev',
-      tistory: '',
-      velog: '',
-    },
+export default function Profile() {
+  const sites = useSelector(state => state.profile.sites);
+  const techStacks = useSelector(state => state.profile.techStacks);
+  const userProfile = useSelector(state => state.profile.userProfile);
+  const userPk = useSelector(state => state.user.userPk);
+
+  const [type, setType] = useState('normal');
+
+  const dispatch = useDispatch();
+
+  const handleOpenEditPage = () => {};
+
+  const handleOpenOfferList = () => {};
+
+  const handleEditSuccess = () => {
+    setType('normal');
+  };
+
+  const handleCloseEditPage = () => {
+    setType('normal');
   };
 
   const userButtons = [
-    <ProfileButton key="offer" href="/ProfileEditPage" variant="outlined">
+    <ProfileButton
+      key="offer"
+      href="/ProfileEditPage"
+      onClick={handleOpenEditPage}
+      variant="outlined"
+    >
       수정
     </ProfileButton>,
-    <ProfileButton key="chat" variant="outlined">
+    <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
       신청 목록
     </ProfileButton>,
   ];
@@ -55,15 +61,25 @@ export default function Profile(props) {
   ];
 
   const editButtons = [
-    <ProfileButton key="offer" variant="outlined">
+    <ProfileButton
+      key="offer"
+      href="/ProfilePage"
+      onClick={handleEditSuccess}
+      variant="outlined"
+    >
       수정 완료
     </ProfileButton>,
-    <ProfileButton key="chat" variant="outlined">
+    <ProfileButton
+      key="chat"
+      href="/ProfilePage"
+      onClick={handleCloseEditPage}
+      variant="outlined"
+    >
       수정 취소
     </ProfileButton>,
   ];
 
-  if (props.type === 'edit') {
+  if (type === 'edit') {
     return (
       <>
         {/* 반응형 md 이상 */}
@@ -81,7 +97,11 @@ export default function Profile(props) {
             sx={{ width: '320px', height: '320px' }}
           />
 
-          <TextField fullWidth placeholder={user.name} onChange={null} />
+          <TextField
+            fullWidth
+            placeholder={userProfile.nickName}
+            onChange={null}
+          />
 
           <ProfileButtonContainer>{editButtons}</ProfileButtonContainer>
         </MoaProfile>
@@ -99,7 +119,11 @@ export default function Profile(props) {
               />
             </Grid>
             <Grid item xs={8}>
-              <TextField fullWidth placeholder={user.name} onChange={null} />
+              <TextField
+                fullWidth
+                placeholder={userProfile?.nickName}
+                onChange={null}
+              />
             </Grid>
           </Grid>
 
@@ -125,22 +149,22 @@ export default function Profile(props) {
             sx={{ width: '320px', height: '320px' }}
           />
           <Typography variant="h4" color="initial" fontWeight={900}>
-            {user.name}
+            {userProfile.nickName}
           </Typography>
 
-          <CardList type={'tech'} cards={user.tech}></CardList>
+          <CardList type={'tech'} cards={techStacks}></CardList>
           <hr />
-          <CardList type={'link'} cards={user.link}></CardList>
+          <CardList type={'link'} cards={sites}></CardList>
 
           <ProfileButtonContainer>
-            {user.id ? otherButtons : userButtons}
+            {userProfile.userPk === userPk ? userButtons : otherButtons}
           </ProfileButtonContainer>
         </MoaProfile>
 
         {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
-          sx={{ display: { xs: 'block', md: 'none' }, padding: '0 !important' }}
+          sx={{ display: { xs: 'block', md: 'none' } }}
         >
           <Grid container spacing={10}>
             <Grid item xs={4}>
@@ -151,18 +175,18 @@ export default function Profile(props) {
             </Grid>
             <Grid item xs={8}>
               <Typography variant="h5" color="initial" fontWeight={600}>
-                {user.name}
+                {userProfile.nickName}
               </Typography>
 
-              <ScrollableTab type={'tech'} cards={user.tech}></ScrollableTab>
-              {/* <Carousel type={'tech'} cards={user.tech}></Carousel> */}
+              <ScrollableTab type={'tech'} cards={techStacks}></ScrollableTab>
+              {/* <Carousel type={'tech'} cards={tech}></Carousel> */}
               <hr />
-              <CardList type={'link'} cards={user.link}></CardList>
+              <CardList type={'link'} cards={sites}></CardList>
             </Grid>
           </Grid>
 
           <ProfileButtonContainer>
-            {user.id ? otherButtons : userButtons}
+            {userPk === userProfile.userPk ? userButtons : otherButtons}
           </ProfileButtonContainer>
         </MoaProfile>
       </>
@@ -171,7 +195,7 @@ export default function Profile(props) {
 }
 
 const MoaProfile = styled(Container)`
-  padding: 0;
+  padding: 0 !important;
 `;
 
 const MoaSkeleton = styled(Skeleton)`

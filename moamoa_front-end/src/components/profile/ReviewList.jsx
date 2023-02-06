@@ -1,16 +1,18 @@
-import styled from '@emotion/styled';
-import { Container, Typography } from '@mui/material';
-import React from 'react';
+import { useSelector } from 'react-redux';
 
-function ProfileEditContent() {
+import Review from 'components/profile/Review';
+import { Container, Typography } from '@mui/material';
+import styled from '@emotion/styled';
+
+function ReviewList() {
+  const reviews = useSelector(state => state.profile.reviews);
   return (
     <>
-      <ContentTitle color="initial">기본 정보 수정</ContentTitle>
+      <ContentTitle color="initial">댓글</ContentTitle>
       <MoaContainer spacing={0}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque,
-        totam error dolorem blanditiis at nostrum eum possimus voluptate
-        corrupti distinctio consequatur iste perspiciatis ullam dolore. Sequi
-        similique sapiente ea nihil.
+        {reviews.map((review, idx) => {
+          <Review key={idx} review={review}></Review>;
+        })}
       </MoaContainer>
     </>
   );
@@ -39,4 +41,4 @@ const MoaContainer = styled(Container)`
   border-radius: 5px;
 `;
 
-export default ProfileEditContent;
+export default ReviewList;
