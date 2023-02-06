@@ -140,7 +140,7 @@ export default function Profile(props) {
         {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
-          sx={{ display: { xs: 'block', md: 'none' } }}
+          sx={{ display: { xs: 'block', md: 'none' }, padding: '0 !important' }}
         >
           <Grid container spacing={10}>
             <Grid item xs={4}>
