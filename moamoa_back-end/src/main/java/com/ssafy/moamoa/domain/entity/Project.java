@@ -52,7 +52,7 @@ public class Project {
 	private int hit;
 
 	@NotNull
-	@Column(name = "project_cnt_offer")
+	@Column(name = "project_cnt_apply")
 	@ColumnDefault("0")
 	private int countOffer;
 
