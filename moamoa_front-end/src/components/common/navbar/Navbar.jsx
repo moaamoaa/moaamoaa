@@ -1,7 +1,4 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
+import { AppBar, Toolbar, Container } from '@mui/material/';
 
 import NavbarLogo from 'components/common/navbar/NavbarLogo';
 import NavbarAccount from 'components/common/navbar/NavbarAccount';

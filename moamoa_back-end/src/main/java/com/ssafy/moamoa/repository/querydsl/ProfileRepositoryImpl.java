@@ -10,6 +10,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
@@ -23,28 +26,35 @@ import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.QProfile;
 
-public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
+public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements ProfileRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
 	@PersistenceContext
 	EntityManager em;
 
 	QProfile profile = QProfile.profile;
 
+
 	public ProfileRepositoryImpl(EntityManager em) {
+		super(Profile.class);
 		this.queryFactory = new JPAQueryFactory(em);
 	}
 
 	@Override
-	public List<ProfileResultDto> search(SearchCondition condition) {
+	public List<ProfileResultDto> search(SearchCondition condition, Long cursorId, Pageable pageable) {
 		return queryFactory
 			.select(new QProfileResultDto(profile.id, profile.nickname, profile.context, profile.profileOnOffStatus))
 			.from(profile)
 			.where(nicknameContain(condition.getQuery()), categoryIn(condition.getCategory()),
 				onlineOrArea(condition.getStatus(), condition.getArea()),
 				techStackIn(condition.getStack()),
-				searchStatusNeNone())
+				searchStatusNeNone(), cursorIdLt(cursorId))
+			.orderBy(profile.id.desc())
 			.fetch();
 
+	}
+
+	private BooleanExpression cursorIdLt(Long cursorId) {
+		return cursorId != null ? profile.id.lt(cursorId) : null;
 	}
 
 	//닉네임 포함 쿼리
@@ -72,7 +82,8 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
 	//해당 지역을 포함하는 프로젝트
 	private BooleanExpression areaIn(List<Long> areaCond) {
 		return areaCond != null ?
-			profile.id.in(select(profileArea.profile.id).distinct().from(profileArea).where(profileArea.area.id.in(areaCond))) :
+			profile.id.in(
+				select(profileArea.profile.id).distinct().from(profileArea).where(profileArea.area.id.in(areaCond))) :
 			null;
 	}
 
@@ -102,35 +113,51 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
 
 	@Override
 	public Profile getProfileById(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
-		Profile returnProfile = queryFactory
+		return queryFactory
 			.select(profile)
 			.from(profile)
 			.where(profile.id.eq(profileId))
 			.fetchOne();
 
-		return returnProfile;
 	}
 
-	@Override
-	public Profile getProfileByName(String nickName) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-		return queryFactory.select(profile)
-			.from(profile)
-			.where(profile.nickname.eq(nickName))
-			.fetchOne();
-
-	}
 
 	@Override
 	public void deleteProfileContextById(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-
 		JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(em, profile);
 		jpaUpdateClause.where(profile.id.eq(profileId))
 			.setNull(profile.context)
 			.execute();
 
+	}
+
+	@Override
+	public String setProfileOnOffStatus(Long profileId, ProfileOnOffStatus status) {
+		JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(em,profile);
+
+		jpaUpdateClause.where(profile.id.eq(profileId))
+			.set(profile.profileOnOffStatus,status)
+			.execute();
+
+		return status.toString();
+	}
+
+	@Override
+	public void setProfile(Profile inputProfile) {
+		JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(em,profile);
+
+		jpaUpdateClause.where(profile.id.eq(inputProfile.getId()))
+			.set(profile.nickname, inputProfile.getNickname())
+			.set(profile.profileOnOffStatus,inputProfile.getProfileOnOffStatus())
+			.execute();
+	}
+
+	@Override
+	public Profile getProfileByUserId(Long userId) {
+		return queryFactory.select(profile)
+				.from(profile)
+				.where(profile.user.id.eq(userId))
+				.fetchOne();
 	}
 }

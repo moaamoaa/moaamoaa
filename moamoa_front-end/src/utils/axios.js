@@ -27,6 +27,6 @@ function getCookie(cname) {
   return '';
 }
 
-const CustomAxios = { basicAxios, authAxios };
+const customAxios = { basicAxios, authAxios };
 
-export default CustomAxios;
+export default customAxios;

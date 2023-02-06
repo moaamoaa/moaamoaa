@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useRef } from 'react';
-import axios from 'axios';
+import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import CustomAxios from 'utils/axios';
+import { useSelector } from 'react-redux';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -23,9 +23,6 @@ import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
 
 export default function TeamCreatePage() {
-  // //spring boot url
-  // const baseUrl = 'http://localhost:8080';
-
   //ref
   const inputRef = useRef('');
   const classRef = useRef('');
@@ -36,8 +33,11 @@ export default function TeamCreatePage() {
   const dateRef = useRef('');
   const techRef = useRef('');
 
+  // redux
+  const { userPk } = useSelector(state => state.user.userPk);
+
   //handler
-  const handleClick = () => {
+  const handleClick = e => {
     // 팀 이름 string
     console.log(titleRef.current);
     console.log(typeof titleRef.current);
@@ -62,28 +62,21 @@ export default function TeamCreatePage() {
     // 팀 소개 string
     console.log(inputRef.current);
     console.log(typeof inputRef.current);
-    
+
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
     CustomAxios.authAxios
       .post('/projects', {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
-        countOffer: 0,
-        createDate: 'string',
-        currentPeople: 0,
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
-        hit: 0,
         img: null,
-        isLeader: true,
-        locked: true,
-        projectId: 0,
+        projectId: null,
         projectStatus: onoffRef.current,
-        startDate: 'string',
         techStacks: techRef.current,
         title: titleRef.current,
         totalPeople: numberRef.current,
-        userid: 1,
+        userid: userPk,
       })
       .then(e => {
         console.log(e);
@@ -93,11 +86,11 @@ export default function TeamCreatePage() {
         console.log(error);
       });
   };
-
+  // banner
   const teamBannerEdit = {
     title: <SingleTextField ref={titleRef}></SingleTextField>, // project_title POST
-    leader: '팀장 이름', // GET
-    image: '',
+    leader: '',
+    image: '', // string
   };
 
   return (

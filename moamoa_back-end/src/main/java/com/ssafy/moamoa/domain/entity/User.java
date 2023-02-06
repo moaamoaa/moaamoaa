@@ -11,6 +11,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +45,11 @@ public class User {
 	@Column(name = "user_join_date")
 	@NotNull
 	private LocalDate joinDate;
+
+	@NotNull
+	@ColumnDefault("0")
+	@Column(name = "user_state")
+	private boolean isLocked = false;
 
 	public User() {
 	}

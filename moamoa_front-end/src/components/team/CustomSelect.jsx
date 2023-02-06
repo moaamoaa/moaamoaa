@@ -1,18 +1,18 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   styled,
   InputBase,
-  Button,
-  Menu,
-  MenuItem,
   Stack,
   TextField,
   Box,
   Grid,
+  Container,
+  Avatar,
 } from '@mui/material/';
 import SearchIcon from '@mui/icons-material/Search';
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import IconButton from '@mui/material/IconButton';
+import CustomSelectFilter from './CustomSelectFilter';
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   'label + &': {
@@ -47,27 +47,74 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const CommonBox = styled(Box)`
-  background-color: #ffffff;
-  border: 1px solid #c4c4c4;
-  border-radius: 0.5rem;
-  height: 4rem;
-  width: 100%;
-`;
-
 export default function CustomizedSelects() {
-  const [select, setSelect] = React.useState('');
-  const handleChange = event => {
-    setSelect(event.target.value);
+  const menu = useSelector(state => state.search.menu);
+  const area = useSelector(state => state.search.area);
+  const tech = useSelector(state => state.search.tech);
+  console.log(menu);
+  const [filterArray, setFilterArray] = useState([]);
+  const [category, setCategory] = useState('');
+  const [searchList, setSearchList] = useState([]);
+  const handlersearchInput = logo => {
+    const newSearchList = [...searchList, logo.name];
+    setSearchList([...new Set(newSearchList)]);
   };
 
+  const removeSearchList = removeItem => {
+    const delSearchList = searchList.filter((m, a) => m !== removeItem);
+    setSearchList(delSearchList);
+  };
+  useEffect(() => {
+    if (
+      menu === '전체' ||
+      menu === '프로젝트' ||
+      menu === '스터디' ||
+      menu === '상관없음' ||
+      menu === '온라인'
+    ) {
+      const newSearchList = [...searchList, menu];
+      setSearchList([...new Set(newSearchList)]);
+    }
+  }, [menu]);
+
+  const filterDrops = [
+    {
+      title: '기술스택',
+      menus: ['백엔드', '프론트엔드', '모바일', '기타'],
+    },
+    {
+      title: '모집구분',
+      menus: ['전체', '프로젝트', '스터디'],
+    },
+    {
+      title: '진행방식',
+      menus: ['상관없음', '온라인', '오프라인'],
+    },
+  ];
+  useEffect(() => {
+    if (menu === '백엔드') {
+      setCategory('back-end_icons');
+      setFilterArray(tech[0].techStacks);
+    } else if (menu === '프론트엔드') {
+      setCategory('front-end_icons');
+      setFilterArray(tech[1].techStacks);
+    } else if (menu === '모바일') {
+      setCategory('mobile_icons');
+      setFilterArray(tech[2].techStacks);
+    } else if (menu === '기타') {
+      setCategory('ect_icons');
+      setFilterArray(tech[3].techStacks);
+    }
+  }, [menu]);
+
   return (
-    <div>
-      <Grid container spacing={2}>
+    <Container>
+      <Grid>
         <Grid item xs={6}>
           <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
           </IconButton>
+
           <TextField
             fullWidth
             id="outlined-basic"
@@ -77,78 +124,90 @@ export default function CustomizedSelects() {
         </Grid>
 
         <Grid item xs={2}>
-          <PopupState variant="popover" popupId="demo-popup-menu">
-            {popupState => (
-              <React.Fragment>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  {...bindTrigger(popupState)}
-                >
-                  기술스택
-                </Button>
-                <Menu fullWidth {...bindMenu(popupState)}>
-                  <MenuItem onClick={popupState.close}>프론트엔드</MenuItem>
-                  <MenuItem onClick={popupState.close}>백엔드</MenuItem>
-                  <MenuItem onClick={popupState.close}>모바일</MenuItem>
-                  <MenuItem onClick={popupState.close}>기타</MenuItem>
-                </Menu>
-              </React.Fragment>
-            )}
-          </PopupState>
-        </Grid>
-        <Grid item xs={2}>
-          <PopupState variant="popover" popupId="demo-popup-menu">
-            {popupState => (
-              <React.Fragment>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  {...bindTrigger(popupState)}
-                >
-                  모집구분
-                </Button>
-                <Menu fullWidth {...bindMenu(popupState)}>
-                  <MenuItem onClick={popupState.close}>프로젝트</MenuItem>
-                  <MenuItem onClick={popupState.close}>스터디</MenuItem>
-                  <MenuItem onClick={popupState.close}>무관</MenuItem>
-                </Menu>
-              </React.Fragment>
-            )}
-          </PopupState>
-        </Grid>
-        <Grid item xs={2}>
-          <PopupState variant="popover" popupId="demo-popup-menu">
-            {popupState => (
-              <React.Fragment>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  {...bindTrigger(popupState)}
-                >
-                  진행방식
-                </Button>
-                <Menu fullWidth {...bindMenu(popupState)}>
-                  <MenuItem onClick={popupState.close}>오프라인</MenuItem>
-                  <MenuItem onClick={popupState.close}>온라인</MenuItem>
-                  <MenuItem onClick={popupState.close}>무관</MenuItem>
-                </Menu>
-              </React.Fragment>
-            )}
-          </PopupState>
+          <Stack
+            spacing={2}
+            direction="row"
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            {filterDrops.map((filterDrop, idx) => {
+              return <CustomSelectFilter key={idx} filterDrop={filterDrop} />;
+            })}
+          </Stack>
         </Grid>
       </Grid>
-      <Box sx={{ height: 88 }}></Box>
+
+      <CommonBox direction="row">
+        {menu === '오프라인'
+          ? area.map((v, idx) => {
+              return (
+                <div
+                  key={idx}
+                  onClick={() => {
+                    handlersearchInput(v);
+                  }}
+                >
+                  {v.name}
+                </div>
+              );
+            })
+          : filterArray.map((logo, idx) => (
+              <Stack
+                key={logo.name}
+                onClick={() => {
+                  handlersearchInput(logo);
+                }}
+                direction="row"
+                sx={{ display: 'inline-flex', justifyContent: 'space-between' }}
+              >
+                <MoaImg
+                  key={idx}
+                  src={`${process.env.PUBLIC_URL}/images/tech-stack_icons/${category}/${logo.logo}@4x.png`}
+                />
+                <span>{logo.name}</span>
+              </Stack>
+            ))}
+      </CommonBox>
+
       <Stack
         spacing={2}
         direction="row"
         sx={{ display: 'flex', justifyContent: 'space-between' }}
       >
-        <CommonBox></CommonBox>
+        <CommonBox>
+          {searchList.length !== 0 &&
+            searchList.map(v => {
+              return (
+                <div
+                  key={v}
+                  onClick={() => {
+                    removeSearchList(v);
+                  }}
+                >
+                  {v}
+                </div>
+              );
+            })}
+        </CommonBox>
+
         <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
       </Stack>
-    </div>
+    </Container>
   );
 }
+const CommonBox = styled(Box)`
+  background-color: #ffffff;
+  border: 1px solid #c4c4c4;
+  border-radius: 0.5rem;
+  height: 8rem;
+  width: 100%;
+  // 이건 박스 안에 맞게 줄바꿈해주는 css
+  flex-flow: row-reverse wrap;
+`;
+
+const MoaImg = styled(Avatar)`
+  min-width: 40px;
+  min-height: 40px;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+`;

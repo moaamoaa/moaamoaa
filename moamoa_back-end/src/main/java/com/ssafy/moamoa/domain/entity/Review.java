@@ -43,6 +43,9 @@ public class Review {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "review_send")
-	private User sendUser;
+	private Profile sendUser;
 
+	public void setContext(String context) {
+		this.context = context;
+	}
 }

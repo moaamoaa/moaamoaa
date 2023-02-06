@@ -1,18 +1,30 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { profileOpenSuccess, profileCloseSuccess } from 'redux/profile';
 
 import styled from '@emotion/styled';
 
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
+import customAxios from 'utils/axios';
+
+import { Container, Grid } from '@mui/material/';
 
 import Profile from 'components/profile/Profile';
 import ProfileContentContainer from 'components/profile/ProfileContentContainer';
 import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
-import { useEffect } from 'react';
+import CommentList from 'components/profile/CommontList';
 
-export default function ProfilePage(props) {
-  useEffect(() => {}, []);
+export default function ProfilePage() {
+  const userPk = useSelector(state => state.user.userPk);
+  const curProfile = useSelector(state => state.profile);
+
+  const defaultSideProject = {
+    year: new Date().getFullYear(),
+    title: '프로젝트명',
+    techStacks: ['HTML', 'CSS', 'JavaScript'],
+    context: '프로젝트소개',
+  };
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     console.log('hi');
@@ -28,15 +40,56 @@ export default function ProfilePage(props) {
     {
       type: 'read',
       title: '주요 프로젝트',
-      content: <SideProject></SideProject>,
+      content: curProfile.sideProject ? (
+        curProfile.sideProject.map(project => {
+          <SideProject props={project}></SideProject>;
+        })
+      ) : (
+        <SideProject props={defaultSideProject}></SideProject>
+      ),
       handler: [handleClick, handleClick],
     },
     {
       title: '댓글',
-      content: '댓글입니다.',
+      content: (
+        <CommentList
+          comments={[
+            { name: '임싸피', context: '안녕하세요', time: '2023-02-05' },
+          ]}
+        />
+      ),
+      handler: null,
     },
   ];
 
+  useEffect(() => {
+    customAxios.basicAxios
+      .get(`/profile/${userPk}`)
+      .then(response => {
+        const [areas, profile, reviews, sideProject, sites, techStacks] = [
+          response.data.areas,
+          response.data.profile,
+          response.data.reviews,
+          response.data.sideproject,
+          response.data.sites,
+          response.data.techstacks,
+        ];
+
+        dispatch(
+          profileOpenSuccess({
+            areas: areas,
+            userProfile: profile,
+            reviews: reviews,
+            sideProject: sideProject,
+            sites: sites,
+            techStacks: techStacks,
+          }),
+        );
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [curProfile.userProfile.userPk]);
   return (
     <ProfilePageContainer fixed>
       <Grid container spacing={10}>

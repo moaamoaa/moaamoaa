@@ -11,11 +11,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.TeamRole;
+import com.ssafy.moamoa.domain.dto.ProfileResultDto;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.ProjectArea;
@@ -101,7 +104,7 @@ public class ProjectService {
 		checkCntPeople(cntPeople, 1);
 
 		// 팀원 정보 확인
-		Optional<User> findUsers = userRepository.findById(projectForm.getUserid());
+		Optional<User> findUsers = userRepository.findById(projectForm.getUserId());
 		if (!findUsers.isPresent()) {
 			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
 		}
@@ -129,7 +132,7 @@ public class ProjectService {
 		}
 		Project project = Project.builder()
 			.category(projectCategory)
-			.countOffer(0)
+			.countApply(0)
 			.hit(0)
 			.onoffline(projectStatus)
 			.createDate(LocalDate.now())
@@ -144,7 +147,7 @@ public class ProjectService {
 		projectRepository.save(project);
 
 		// team
-		Optional<User> findUser = userRepository.findById(projectForm.getUserid());
+		Optional<User> findUser = userRepository.findById(projectForm.getUserId());
 		User user = findUser.get();
 		Team team = Team.builder()
 			.role(TeamRole.LEADER)
@@ -261,15 +264,20 @@ public class ProjectService {
 		projectRepository.delete(project);
 	}
 
-	public List<Project> findByUser(Long id) {
-		User user = userService.findUser(id);
+	// 프로젝트/스터디 삭제
+	public void deleteMember(ProjectForm projectForm) {
+		Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
+		findProject.setLocked(true);
+	}
+
+	public List<ProjectForm> findByUser(Long id) {
 		List<Team> teams = teamRepository.findByUser_Id(id);
-		List<Project> projects = new ArrayList<>();
+		List<ProjectForm> projectForms = new ArrayList<>();
 		for (Team t: teams) {
-			Project project = projectRepository.findById(t.getProject().getId()).get();
-			projects.add(project);
+			ProjectForm projectForm = ProjectForm.toEntity(t.getProject());
+			projectForms.add(projectForm);
 		}
-		return projects;
+		return projectForms;
 	}
 
 	// 팀 페이지 return
@@ -281,12 +289,19 @@ public class ProjectService {
 
 		// Team
 		List<Team> teams = teamRepository.findByProject_Id(project.getId());
-		List<Profile> profiles = new ArrayList<>();
+		List<ProfileResultDto> profileResultDtoList = new ArrayList<>();
 		for (Team t:teams) {
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
-			profiles.add(profile);
+			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(),profile.getNickname(),profile.getContext(),profile.getProfileOnOffStatus());
+			profileResultDtoList.add(profileResultDto);
+			if(t.getRole()==TeamRole.LEADER)
+			{
+				projectDetail.setLeaderId(t.getUser().getId());
+				projectDetail.setLeaderNickname(profile.getNickname());
+
+			}
 		}
-		projectDetail.setProfiles(profiles);
+		projectDetail.setProfileResultDtoList(profileResultDtoList);
 
 		// TechStack
 		List<TechStack> techStacks = projectTechStackRepository.findTechstackByProject_Id(projectId)

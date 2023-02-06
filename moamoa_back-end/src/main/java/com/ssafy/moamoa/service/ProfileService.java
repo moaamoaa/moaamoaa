@@ -1,16 +1,18 @@
 package com.ssafy.moamoa.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.ContextForm;
+import com.ssafy.moamoa.domain.dto.ProfileForm;
+import com.ssafy.moamoa.domain.dto.ProfilePageForm;
+import com.ssafy.moamoa.domain.dto.ProfileSearchStatusForm;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -22,6 +24,14 @@ public class ProfileService {
 
 	private final TechStackService techStackService;
 
+	private final ReviewService reviewService;
+
+	private final SideProjectService sideProjectService;
+
+	private final SiteService siteService;
+
+	private final AreaService areaService;
+
 
 	private final ProfileRepository profileRepository;
 
@@ -29,31 +39,72 @@ public class ProfileService {
 
 
 
-	// public ProfilePageForm getProfile(String nickName) {
-	//
-	// 	Profile profile = profileRepository.getProfileByName(nickName);
-	// 	Long profileId = profile.getId();
-	//
-	// 	ProfileForm profileForm = ProfileForm.builder()
-	// 		.id(profile.getId())
-	// 		.nickname(profile.getNickname())
-	// 		.context(profile.getContext())
-	// 		.img(profile.getImg())
-	// 		.profileOnOffStatus(profile.getProfileOnOffStatus() + "")
-	// 		.profileSearchStatus(profile.getSearchState() + "")
-	// 		.build();
-	//
-	//
-	// 	ProfilePageForm profilePageForm = ProfilePageForm.builder()
-	// 		.profileForm(profileForm)
-	// 		.techStackFormList(techStackService.getProfileTechStacks(profileId))
-	// 		.reviewFormList()
-	// 		.build();
-	//
-	// 	return profileForm;
-	// }
 
-	public String changeUserState(Long profileId) {
+	public ProfilePageForm getProfile(Long profileId) {
+
+
+		Profile profile = profileRepository.getProfileById(profileId);
+		log.info(profile.getNickname());
+
+		ProfileForm profileForm = ProfileForm.builder()
+			.id(profile.getId())
+			.nickname(profile.getNickname())
+			.context(profile.getContext())
+			.img(profile.getImg())
+			.profileOnOffStatus(profile.getProfileOnOffStatus() + "")
+			.profileSearchStatus(profile.getSearchState() + "")
+			.build();
+
+
+		ProfilePageForm profilePageForm = ProfilePageForm.builder()
+			.profileForm(profileForm)
+			.techStackFormList(techStackService.getProfileTechStacks(profileId))
+			.reviewFormList(reviewService.getReviews(profileId))
+			.sidePjtFormList(sideProjectService.getSideProjects(profileId))
+			.siteFormList(siteService.getProfileSites(profileId))
+			.areaList(areaService.getProfileAreas(profileId))
+			.build();
+
+		return profilePageForm;
+	}
+
+	public ProfilePageForm modifyProfile(Long profileId, ProfilePageForm profilePageForm)
+	{
+	// Profile
+	Profile profile = profileRepository.getProfileById(profileId);
+	ProfileForm profileForm = profilePageForm.getProfileForm();
+
+	Profile inputProfile = Profile.builder()
+		.id(profileId)
+		.profileOnOffStatus(ProfileOnOffStatus.valueOf(profileForm.getProfileOnOffStatus()))
+	.nickname(profileForm.getNickname())
+		.img(profileForm.getImg()).build();
+
+	// Profile
+	profile.setProfileOnOffStatus(inputProfile.getProfileOnOffStatus());
+	profile.setNickname(inputProfile.getNickname());
+	profile.setImg(inputProfile.getImg());
+
+
+	// TechStack
+
+	techStackService.modifyProfileTechStack(profileId,profilePageForm.getTechStackFormList());
+
+	// Site
+
+		siteService.modifyProfileSite(profileId, profilePageForm.getSiteFormList());
+
+
+
+	// Area
+
+		areaService.modifyProfileAreas(profileId,profilePageForm.getAreaList());
+
+
+	return getProfile(profileId);
+	}
+
+	public ProfileSearchStatusForm changeUserSearchState(Long profileId) {
 
 		Profile profile = profileRepository.findById(profileId).get();
 
@@ -76,12 +127,9 @@ public class ProfileService {
 		profile.setSearchState(originSearchState);
 		profileRepository.save(profile);
 
-		return String.valueOf(profile.getSearchState());
+		return	ProfileSearchStatusForm.builder().id(profile.getId()).status(originSearchState.toString()).build();
 	}
 
-	public String modifyOnOffStatus(String status) {
-		return "SUCCESS";
-	}
 
 	public ContextForm addContext(Long profileId, String context) {
 		Profile profile = profileRepository.getProfileById(profileId);
