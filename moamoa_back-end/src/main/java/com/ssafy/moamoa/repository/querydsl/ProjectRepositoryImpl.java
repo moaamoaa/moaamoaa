@@ -14,12 +14,15 @@ import javax.persistence.PersistenceContext;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.DateExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringExpressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
@@ -61,6 +64,13 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 			return StringExpressions.lpad(project.hit.stringValue(), 10, '0')
 				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'));
 		}
+
+		if (pageable.getSort().getOrderFor("date") != null) {
+			StringTemplate stringTemplate = Expressions.stringTemplate("DATE_FORMAT({0}, {1})", project.startDate,
+				ConstantImpl.create("%Y%m%d"));
+			return StringExpressions.lpad(stringTemplate, 10, '0')
+				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'));
+		}
 		return project.id.stringValue();
 
 	}
@@ -71,6 +81,16 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'))
 				.lt(cursorId) : null;
 		}
+
+		if (pageable.getSort().getOrderFor("date") != null) {
+			StringTemplate stringTemplate = Expressions.stringTemplate("DATE_FORMAT({0}, {1})", project.startDate,
+				ConstantImpl.create("%Y%m%d"));
+
+			return cursorId != null ? StringExpressions.lpad(stringTemplate, 10, '0')
+				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'))
+				.lt(cursorId) : null;
+		}
+
 		return cursorId != null ? project.id.lt(Integer.parseInt(cursorId)) : null;
 	}
 
