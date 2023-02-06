@@ -28,7 +28,6 @@ public class ProjectDetail {
 	private String endDate;
 
 	// team
-	private Long userId;
 	private String leaderNickname;
 	private Long leaderId;
 	private boolean isLeader;

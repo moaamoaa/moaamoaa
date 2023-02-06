@@ -167,7 +167,7 @@ public class ProjectService {
 		// project area
 		areaService.addProjectAreaList(project, projectForm.getAreaId());
 
-		ProjectDetail projectDetail = accessProject(project.getId());
+		ProjectDetail projectDetail = accessProject(project.getId(), 0);
 		return projectDetail;
 	}
 
@@ -221,7 +221,7 @@ public class ProjectService {
 		areaService.deleteProjectAreaList(projectArea);
 		areaService.addProjectAreaList(project, areaId);
 
-		ProjectDetail projectDetail = accessProject(project.getId());
+		ProjectDetail projectDetail = accessProject(project.getId(), 0);
 		return projectDetail;
 	}
 
@@ -268,10 +268,10 @@ public class ProjectService {
 	}
 
 	// 팀 페이지 return
-	public ProjectDetail accessProject(Long projectId)
+	public ProjectDetail accessProject(Long projectId, int hit)
 	{
 		Project project = projectRepository.findById(projectId).get();
-		project.setHit(project.getHit()+1);
+		project.setHit(project.getHit()+hit);
 		ProjectDetail projectDetail = ProjectDetail.toEntity(project);
 
 		// Team
