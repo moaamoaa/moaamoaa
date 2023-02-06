@@ -1,10 +1,13 @@
-import * as React from 'react';
+import { React, useEffect } from 'react';
 import styled from '@emotion/styled';
 
 import { Container, Grid, Typography } from '@mui/material';
 
 import CardList from 'components/common/card/CardList';
 import MainBanner from 'components/common/carousel/MainBanner';
+import CustomAxios from 'utils/axios';
+import { searchState } from 'redux/search';
+import { useDispatch } from 'react-redux';
 
 const mainBanner = {
   title: '모아모아 홈 화면 배너 이미지입니다!',
@@ -29,6 +32,30 @@ const cards = [
 ];
 
 export default function HomePageSample() {
+  // redux
+  const dispatch = useDispatch();
+
+  // axios
+  useEffect(() => {
+    CustomAxios.basicAxios
+      .get('/search')
+      .then(response => {
+        console.log(response);
+        const areas = response.data.areas;
+        const techs = response.data.techs;
+        dispatch(
+          searchState({
+            area: areas,
+            tech: techs,
+            menu: '',
+          }),
+        );
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
+
   return (
     <>
       <MainBanner post={mainBanner} />
