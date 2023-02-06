@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialStateValue = {
   area: [],
   tech: [],
+  menu: '',
 };
 
 const searchSlice = createSlice({
@@ -13,6 +14,7 @@ const searchSlice = createSlice({
     searchState: (state, action) => {
       state.area = action.payload.area;
       state.tech = action.payload.tech;
+      state.menu = action.payload.menu;
     },
   },
 });
