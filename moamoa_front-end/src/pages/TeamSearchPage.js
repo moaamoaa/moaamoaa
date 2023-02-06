@@ -23,6 +23,7 @@ export default function TeamSearchPage() {
           searchState({
             area: areas,
             tech: techs,
+            menu: '',
           }),
         );
       })
