@@ -10,8 +10,8 @@ import com.ssafy.moamoa.domain.entity.ProjectArea;
 
 public interface ProjectAreaRepository extends JpaRepository<ProjectArea, Long> {
 
-	@Query(value = "select projectArea " +
+/*	@Query(value = "select projectArea " +
 		"from ProjectArea projectArea " +
-		"where projectArea.project = :project")
-	Optional<ProjectArea> findByProject(Project project);
+		"where projectArea.project = :project")*/
+	Optional<ProjectArea> findByProject_Id(Long id);
 }
