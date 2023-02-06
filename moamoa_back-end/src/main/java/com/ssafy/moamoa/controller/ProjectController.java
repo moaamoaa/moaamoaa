@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
 import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.service.ProjectService;
 import com.ssafy.moamoa.service.TeamService;
 
@@ -68,6 +69,10 @@ public class ProjectController {
 	@PostMapping
 	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
+		{
+			throw new Exception("팀장이 아닙니다.");
+		}
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 		ProjectDetail projectDetail = projectService.creatProject(projectForm);
 		projectDetail.setLeader(true);

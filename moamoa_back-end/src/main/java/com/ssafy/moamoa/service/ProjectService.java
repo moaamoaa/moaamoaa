@@ -291,26 +291,22 @@ public class ProjectService {
 		projectDetail.setProfileResultDtoList(profileResultDtoList);
 
 		// TechStack
+		List<TechStackForm> techStackForms = new ArrayList<>();
 		List<TechStack> techStacks = projectTechStackRepository.findByProject_Id(projectId)
 			.stream()
 			.map(t -> t.getTechStack())
 			.collect(Collectors.toList());
 		if (!techStacks.isEmpty()) {
-			/*System.out.println("not null");
 			for (TechStack t: techStacks) {
-				System.out.println(t);
-			}*/
-			projectDetail.setTechStacks(techStacks);
-		}
-		/*List<ProjectTechStack> resultList = projectTechStackRepository.getAllProjectTechStackByOrder(projectId);
-		List<TechStack> techStacks = new ArrayList<>();
-		//if (!resultList.isEmpty()) {
-			for (ProjectTechStack pt: resultList) {
-				TechStack techStack = pt.getTechStack();
-				techStacks.add(techStack);
+				TechStackForm techStackForm = TechStackForm.builder()
+					.id(t.getId())
+					.img(t.getLogo())
+					.name(t.getName())
+					.build();
+				techStackForms.add(techStackForm);
 			}
-			projectDetail.setTechStacks(techStacks);
-		//}*/
+			projectDetail.setProjectTechStacks(techStackForms);
+		}
 
 		// area
 		projectDetail.setAreaId(projectAreaRepository.findByProject_Id(projectId).get().getArea().getId());
