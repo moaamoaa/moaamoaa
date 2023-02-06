@@ -52,9 +52,9 @@ public class Project {
 	private int hit;
 
 	@NotNull
-	@Column(name = "project_cnt_offer")
+	@Column(name = "project_cnt_apply")
 	@ColumnDefault("0")
-	private int countOffer;
+	private int countApply;
 
 	@NotNull
 	@Column(name = "project_total_people")
@@ -91,7 +91,7 @@ public class Project {
 	public Project() {
 	}
 
-	public Project(Long id, String title, String contents, String img, ProjectStatus onoffline, int hit, int countOffer,
+	public Project(Long id, String title, String contents, String img, ProjectStatus onoffline, int hit, int countApply,
 		int totalPeople, int currentPeople, ProjectCategory category, LocalDate startDate, LocalDate endDate,
 		LocalDate createDate, boolean isLocked) {
 		this.id = id;
@@ -100,7 +100,7 @@ public class Project {
 		this.img = img;
 		this.onoffline = onoffline;
 		this.hit = hit;
-		this.countOffer = countOffer;
+		this.countApply = countApply;
 		this.totalPeople = totalPeople;
 		this.currentPeople = currentPeople;
 		this.category = category;
@@ -139,8 +139,8 @@ public class Project {
 		this.endDate = endDate;
 	}
 
-	public void setCountOffer(int countOffer) {
-		this.countOffer = countOffer;
+	public void setCountApply(int countOffer) {
+		this.countApply = countApply;
 	}
 
 	public void setCurrentPeople(int currentPeople){this.currentPeople = currentPeople;}
