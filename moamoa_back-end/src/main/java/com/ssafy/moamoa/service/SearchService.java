@@ -44,7 +44,7 @@ public class SearchService {
 	}
 
 	//프로필 검색
-	public List<ProfileResultDto> searchProfile(SearchCondition condition, Long cursorId, Pageable pageable) {
+	public List<ProfileResultDto> searchProfile(SearchCondition condition, String cursorId, Pageable pageable) {
 		List<ProfileResultDto> searchResultList = profileRepository.search(condition, cursorId, pageable);
 		for (ProfileResultDto result : searchResultList) {
 			//해당 기술 스택 가져오기

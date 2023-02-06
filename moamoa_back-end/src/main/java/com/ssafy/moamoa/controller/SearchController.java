@@ -33,7 +33,7 @@ public class SearchController {
 	}
 
 	@GetMapping("/profile")
-	public ResponseEntity<?> searchProfile(SearchCondition condition, Long cursorId, Pageable pageable) {
+	public ResponseEntity<?> searchProfile(SearchCondition condition, String cursorId, Pageable pageable) {
 		List<ProfileResultDto> results = searchService.searchProfile(condition, cursorId, pageable);
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
