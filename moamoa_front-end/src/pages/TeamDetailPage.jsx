@@ -3,7 +3,16 @@ import { useEffect, useState } from 'react';
 // import axios from 'axios';
 import CustomAxios from 'utils/axios';
 
-import { Container, Paper, Button, Stack, Grid, Link } from '@mui/material/';
+import {
+  Container,
+  Paper,
+  Button,
+  Stack,
+  Grid,
+  Link,
+  styled,
+  Avatar,
+} from '@mui/material/';
 
 import TeamBanner from 'components/team/TeamBanner';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
@@ -109,9 +118,12 @@ export default function TeamDetailPage() {
           <Typography component="div" variant="body1" color="initial">
             {detail.techStacks &&
               detail.techStacks.map(tech => (
-                <p key={tech.name}>
-                  {tech.name} 로고는 {tech.logo}
-                </p> // 로고가 이미지가 아니네!
+                <span key={tech.name}>
+                  <span>{tech.name}</span>
+                  <MoaImg
+                    src={`${process.env.PUBLIC_URL}/images/whole_icons/${tech.logo}@4x.png`} // 다른 폴더에 있는 건 어쩌지?
+                  />
+                </span>
               ))}
           </Typography>
         </Paper>
@@ -138,3 +150,9 @@ export default function TeamDetailPage() {
     </>
   );
 }
+
+const MoaImg = styled(Avatar)`
+  min-width: 40px;
+  min-height: 40px;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+`;
