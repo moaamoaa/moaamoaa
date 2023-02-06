@@ -1,26 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialStateValue = {
-  areas: [],
-  reviews: [],
-  sideProject: [
+  areas: null,
+  profile: [
     {
-      year: new Date().getFullYear(),
-      title: '프로젝트명',
-      techStacks: ['HTML', 'CSS', 'JavaScript'],
-      context: '프로젝트소개',
+      context: null,
+      id: null,
+      img: null,
+      nickName: null,
+      profileOnOffStatus: null,
+      profileSearchStatus: null,
     },
   ],
-  sites: [],
-  techStacks: [],
-  userProfile: {
-    context: '안녕하세요.',
-    userPk: null,
-    nickName: '싸피인',
-    profileOnOffStatus: 'online',
-    profileSearchStatus: 'all',
-    img: null,
-  },
+  reviews: null,
+  sideprojects: [{}],
 };
 
 const profileSlice = createSlice({
@@ -28,25 +21,18 @@ const profileSlice = createSlice({
   initialState: initialStateValue,
   reducers: {
     profileOpenSuccess: (state, action) => {
-      state.areas = action.payload.areas;
-      state.reviews = action.payload.reviews;
-      state.sideProject = action.payload.sideProject;
-      state.sites = action.payload.sites;
-      state.techStacks = action.payload.techStacks;
-
-      state.userProfile.context = action.payload.userProfile.context;
-      state.userProfile.userPk = action.payload.userProfile.id;
-      state.userProfile.img = action.payload.userProfile.img;
-      state.userProfile.profileOnOffStatus =
-        action.payload.userProfile.profileOnOffStatus;
-      state.userProfile.nickName = action.payload.userProfile.nickname;
-      state.userProfile.profileSearchStatus =
-        action.payload.userProfile.profileSearchStatus;
+      state = action.payload.curProfile;
     },
-    profileCloseSuccess: state => {},
+    profileCloseSuccess: state => {
+      state = null;
+    },
+    profileEditSuccess: (state, action) => {
+      state = action.payload;
+    },
   },
 });
 
-export const { profileOpenSuccess, profileCloseSuccess } = profileSlice.actions;
+export const { profileOpenSuccess, profileCloseSuccess, profileEditSuccess } =
+  profileSlice.actions;
 
 export default profileSlice.reducer;
