@@ -132,7 +132,7 @@ public class ProjectService {
 		}
 		Project project = Project.builder()
 			.category(projectCategory)
-			.countOffer(0)
+			.countApply(0)
 			.hit(0)
 			.onoffline(projectStatus)
 			.createDate(LocalDate.now())
