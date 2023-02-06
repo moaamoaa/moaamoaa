@@ -51,7 +51,7 @@ public class ProjectController {
 		notes = "팀 페이지 open")
 	@GetMapping("/detail")
 	public ResponseEntity<?> accessProject(@RequestParam("projectId") Long projectId, Authentication authentication) throws Exception {
-		ProjectDetail projectDetail = projectService.accessProject(projectId);
+		ProjectDetail projectDetail = projectService.accessProject(projectId, 1);
 
 		// 로그인 한 상태
 		if(authentication != null)
@@ -69,10 +69,6 @@ public class ProjectController {
 	@PostMapping
 	public ResponseEntity<?> createProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
-		{
-			throw new Exception("팀장이 아닙니다.");
-		}
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 		ProjectDetail projectDetail = projectService.creatProject(projectForm);
 		projectDetail.setLeader(true);
@@ -89,6 +85,7 @@ public class ProjectController {
 		{
 			throw new Exception("팀장이 아닙니다.");
 		}
+		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 		ProjectDetail projectDetail = projectService.updateProject(projectForm);
 		projectDetail.setLeader(true);
 		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
@@ -104,6 +101,7 @@ public class ProjectController {
 		{
 			throw new Exception("팀장이 아닙니다.");
 		}
+		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 		projectService.deleteProject(Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
