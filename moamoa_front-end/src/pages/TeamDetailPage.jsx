@@ -35,6 +35,7 @@ export default function TeamDetailPage() {
       .then(response => {
         setDetail(response.data);
         console.log(response);
+        console.log('조회완료!');
       })
       .catch(error => {
         console.log(error);
@@ -75,7 +76,16 @@ export default function TeamDetailPage() {
               variant="contained"
               color="primary"
               onClick={async () => {
-                await CustomAxios.authAxios.delete; // 프로젝트스터디 삭제
+                console.log(`프로젝트아이디는 ${detail.projectId}`);
+                console.log(detail.projectId);
+                await CustomAxios.authAxios
+                  .delete('/project', {
+                    projectId: detail.projectId, // 팀관리에서 선택
+                  })
+                  .then(e => {
+                    console.log(e);
+                    console.log('삭제완료!');
+                  });
               }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
             >
               팀 삭제
@@ -116,8 +126,8 @@ export default function TeamDetailPage() {
           </Typography>
           <h4>기술 스택</h4>
           <Typography component="div" variant="body1" color="initial">
-            {detail.techStacks &&
-              detail.techStacks.map(tech => (
+            {detail.projectTechStacks &&
+              detail.projectTechStacks.map(tech => (
                 <span key={tech.name}>
                   <span>{tech.name}</span>
                   <MoaImg

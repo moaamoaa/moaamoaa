@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import CustomAxios from 'utils/axios';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
-import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
+// import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -12,6 +12,7 @@ import Calendar from 'components/team/Calendar';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
@@ -23,6 +24,7 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
+// import { teamOpenSuccess } from 'redux/team';
 
 export default function TeamCreatePage() {
   //ref
@@ -37,8 +39,9 @@ export default function TeamCreatePage() {
 
   // redux
   const { userPk } = useSelector(state => state.user.userPk);
-  const teamInfo = useSelector(state => state.team.teamInfo);
-  const techStacks = useSelector(state => state.team.techStacks);
+  // const teamInfo = useSelector(state => state.team.teamInfo);
+  // const techStacks = useSelector(state => state.team.techStacks);
+  // const dispatch = useDispatch();
 
   //handler
   const handleClick = () => {
@@ -84,7 +87,7 @@ export default function TeamCreatePage() {
       })
       .then(e => {
         console.log(e);
-        console.log('포스트완료!');
+        console.log('수정완료!');
       })
       .catch(error => {
         console.log(error);
@@ -121,9 +124,11 @@ export default function TeamCreatePage() {
             >
               등록
             </Button>
-            <Button size="small" variant="contained" color="primary">
-              취소
-            </Button>
+            <Link href="http://localhost:3000/TeamDetailPage/?projectId=1">
+              <Button size="small" variant="contained" color="primary">
+                취소
+              </Button>
+            </Link>
           </Stack>
         </Grid>
       </Container>

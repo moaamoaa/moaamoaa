@@ -18,7 +18,7 @@ const initialStateValue = {
 };
 
 const teamSlice = createSlice({
-  name: 'profile',
+  name: 'team',
   initialState: initialStateValue,
   reducers: {
     teamOpenSuccess: (state, action) => {
