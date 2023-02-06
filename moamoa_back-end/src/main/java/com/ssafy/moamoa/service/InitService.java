@@ -134,7 +134,7 @@ public class InitService {
 		TechStack techStackDocker = new TechStack("Docker", "docker");
 		techStackRepository.save(techStackDocker);
 
-		TechStack techStackKubernetes = new TechStack("Kubernetes", "kubernetes");
+		TechStack techStackKubernetes = new TechStack("K8s", "k8s");
 		techStackRepository.save(techStackKubernetes);
 
 		TechStack techStackJenkins = new TechStack("Jenkins", "jenkins");
