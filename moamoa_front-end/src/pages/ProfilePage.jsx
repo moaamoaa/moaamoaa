@@ -9,43 +9,21 @@ import customAxios from 'utils/axios';
 import { Container, Grid } from '@mui/material/';
 
 import Profile from 'components/profile/Profile';
-import ProfileContentContainer from 'components/profile/ProfileContentContainer';
 import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
-import CommentList from 'components/profile/CommontList';
+import ReviewList from 'components/profile/ReviewList';
 
 export default function ProfilePage() {
   const curProfile = useSelector(state => state.profile);
 
+  console.log(curProfile);
   const dispatch = useDispatch();
-
-  const handleCancel = () => {
-    console.log('hi');
-  };
 
   useEffect(() => {
     customAxios.basicAxios
       .get(`/profile/${curProfile.userProfile.userPk}`)
       .then(response => {
-        const [areas, userProfile, reviews, sideProject, sites, techStacks] = [
-          response.data.areas,
-          response.data.profile,
-          response.data.reviews,
-          response.data.sideproject,
-          response.data.sites,
-          response.data.techstacks,
-        ];
-
-        dispatch(
-          profileOpenSuccess({
-            areas: areas,
-            userProfile: userProfile,
-            reviews: reviews,
-            sideProject: sideProject,
-            sites: sites,
-            techStacks: techStacks,
-          }),
-        );
+        dispatch(profileOpenSuccess({ curProfile: response.data }));
       })
       .catch(error => {
         console.log(error);
@@ -59,23 +37,11 @@ export default function ProfilePage() {
           <Profile></Profile>
         </Grid>
         <Grid item xs={12} md={6} lg={8}>
-          <ProfileContentContainer
-            title={'자기 소개'}
-            content={<SelfIntroduction></SelfIntroduction>}
-          ></ProfileContentContainer>
+          <SelfIntroduction></SelfIntroduction>
 
-          <ProfileContentContainer
-            title={'주요 프로젝트'}
-            content={<SideProject></SideProject>}
-          ></ProfileContentContainer>
+          <SideProject></SideProject>
 
-          <ProfileContentContainer title={'댓글'}>
-            <CommentList
-              comments={[
-                { name: '임싸피', context: '안녕하세요', time: '2023-02-05' },
-              ]}
-            ></CommentList>
-          </ProfileContentContainer>
+          <ReviewList></ReviewList>
         </Grid>
       </Grid>
     </ProfilePageContainer>
