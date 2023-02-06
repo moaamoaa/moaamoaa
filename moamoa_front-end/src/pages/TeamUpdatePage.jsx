@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import CustomAxios from 'utils/axios';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -23,9 +24,6 @@ import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
 
 export default function TeamCreatePage() {
-  // //spring boot url
-  // const baseUrl = 'http://localhost:8080';
-
   //ref
   const inputRef = useRef('');
   const classRef = useRef('');
@@ -35,6 +33,9 @@ export default function TeamCreatePage() {
   const titleRef = useRef('');
   const dateRef = useRef('');
   const techRef = useRef('');
+
+  // redux
+  const { userPk } = useSelector(state => state.user.userPk);
 
   //handler
   const handleClick = () => {
@@ -69,21 +70,14 @@ export default function TeamCreatePage() {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
-        countOffer: 0,
-        createDate: 'string',
-        currentPeople: 0,
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
-        hit: 0,
         img: null,
-        isLeader: true,
-        locked: true,
-        projectId: 0,
+        projectId: 1, // 받아와야함 (해당 id의 프로젝트 수정됨)
         projectStatus: onoffRef.current,
-        startDate: 'string',
         techStacks: techRef.current,
         title: titleRef.current,
         totalPeople: numberRef.current,
-        userid: 1,
+        userid: userPk,
       })
       .then(e => {
         console.log(e);
@@ -96,7 +90,7 @@ export default function TeamCreatePage() {
 
   const teamBannerEdit = {
     title: <SingleTextField ref={titleRef}></SingleTextField>, // project_title POST
-    leader: '팀장 이름', // GET
+    leader: '', // GET
     image: '',
   };
 
