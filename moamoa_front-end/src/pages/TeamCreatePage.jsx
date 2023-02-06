@@ -80,7 +80,7 @@ export default function TeamCreatePage() {
       })
       .then(e => {
         console.log(e);
-        console.log('포스트완료!');
+        console.log('생성완료!');
       })
       .catch(error => {
         console.log(error);
