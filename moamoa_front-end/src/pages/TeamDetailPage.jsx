@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import CustomAxios from 'utils/axios';
 
 import { Container, Paper, Button, Stack, Grid, Link } from '@mui/material/';
@@ -20,6 +20,7 @@ export default function TeamDetailPage() {
   // axios
   useEffect(() => {
     CustomAxios.authAxios
+      // 해당 id의 프로젝트 조회됨
       // .get(`/projects/detail?projectId=${projectId}`) // 팀페이지 open ${projectId}를 받아오거나 1 입력하면 조회됨
       .get(`/projects/detail?projectId=1`)
       .then(response => {
@@ -35,8 +36,8 @@ export default function TeamDetailPage() {
   // 배너
   const teamBanner = {
     title: <p>{detail.title}</p>,
-    leader: '팀장 이름',
-    image: <p>{detail.img}</p>,
+    leader: <span>{detail.leaderNickname}</span>,
+    image: <span>{detail.img}</span>,
   };
 
   return (
@@ -65,7 +66,7 @@ export default function TeamDetailPage() {
               variant="contained"
               color="primary"
               onClick={async () => {
-                await CustomAxios.authAxios.delete('/projects'); // 프로젝트스터디 삭제
+                await CustomAxios.authAxios.delete; // 프로젝트스터디 삭제
               }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
             >
               팀 삭제
@@ -101,7 +102,8 @@ export default function TeamDetailPage() {
           </Typography>
           <h4>지역</h4>
           <Typography variant="body1" color="initial">
-            GET
+            {detail.areaId}
+            {/* 매칭해줘야하나 */}
           </Typography>
           <h4>기술 스택</h4>
           <Typography component="div" variant="body1" color="initial">

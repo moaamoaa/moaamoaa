@@ -69,10 +69,9 @@ export default function TeamCreatePage() {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
-        createDate: 'string',
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
         img: null,
-        projectId: 1,
+        projectId: null,
         projectStatus: onoffRef.current,
         techStacks: techRef.current,
         title: titleRef.current,
@@ -90,7 +89,7 @@ export default function TeamCreatePage() {
   // banner
   const teamBannerEdit = {
     title: <SingleTextField ref={titleRef}></SingleTextField>, // project_title POST
-    leader: '팀장 이름', // GET
+    leader: '',
     image: '', // string
   };
 
