@@ -1,14 +1,14 @@
-import * as React from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   styled,
   InputBase,
-  Button,
-  Menu,
-  MenuItem,
   Stack,
   TextField,
   Box,
   Grid,
+  Container,
+  Avatar,
 } from '@mui/material/';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
@@ -56,6 +56,9 @@ const CommonBox = styled(Box)`
 `;
 
 export default function CustomizedSelects() {
+  const menu = useSelector(state => state.search.menu);
+  const area = useSelector(state => state.search.area);
+  const tech = useSelector(state => state.search.tech);
   const filterDrops = [
     {
       title: '기술스택',
@@ -67,13 +70,30 @@ export default function CustomizedSelects() {
     },
     {
       title: '진행방식',
-      menus: ['전체', '온라인', '오프라인'],
+      menus: ['상관없음', '온라인', '오프라인'],
     },
   ];
 
+  let category = '';
+  let logoArray = [];
+
+  if (menu === '백엔드') {
+    category = 'back-end_icons';
+    logoArray = tech[0].techStacks;
+  } else if (menu === '프론트엔드') {
+    category = 'front-end_icons';
+    logoArray = tech[1].techStacks;
+  } else if (menu === '모바일') {
+    category = 'mobile_icons';
+    logoArray = tech[2].techStacks;
+  } else if (menu === '기타') {
+    category = 'ect_icons';
+    logoArray = tech[3].techStacks;
+  }
+
   return (
-    <>
-      <Grid spacing={2}>
+    <Container>
+      <Grid>
         <Grid item xs={6}>
           <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
@@ -100,7 +120,16 @@ export default function CustomizedSelects() {
         </Grid>
       </Grid>
 
-      <Box sx={{ height: 88 }}></Box>
+      <Box sx={{ height: 88 }}>
+        {logoArray.map((logo, idx) => (
+          <MoaImg
+            key={idx}
+            src={`${process.env.PUBLIC_URL}/images/tech-stack_icons/${category}/${logo.logo}@4x.png`}
+          >
+            {logo.name}
+          </MoaImg>
+        ))}
+      </Box>
 
       <Stack
         spacing={2}
@@ -108,10 +137,16 @@ export default function CustomizedSelects() {
         sx={{ display: 'flex', justifyContent: 'space-between' }}
       >
         <CommonBox></CommonBox>
+
         <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
       </Stack>
-    </>
+    </Container>
   );
 }
+const MoaImg = styled(Avatar)`
+  min-width: 40px;
+  min-height: 40px;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+`;
