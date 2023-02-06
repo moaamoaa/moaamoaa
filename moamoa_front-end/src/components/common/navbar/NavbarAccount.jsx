@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
 
+import { profileOpenSuccess } from 'redux/profile';
+
 import {
   Box,
   IconButton,
@@ -28,6 +30,7 @@ export default function NavbarAccount() {
   const [logInDialog, setLogInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
+  const userPk = useSelector(state => state.user.userPk);
   // 임시 로그인 확인. 나중에 지울 것
   const isLogIn = useSelector(state => state.user.isLogged);
 
@@ -48,6 +51,12 @@ export default function NavbarAccount() {
   };
 
   const handleNavigate = () => {
+    console.log(userPk);
+    dispatch(
+      profileOpenSuccess({
+        userProfile: { id: userPk },
+      }),
+    );
     handleCloseUserMenu();
     navigate('/ProfilePage');
     scrollToTop();
