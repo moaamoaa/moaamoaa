@@ -1,37 +1,9 @@
-import { React, useEffect, useState } from 'react';
+import React from 'react';
 import { Container, Link } from '@mui/material/';
 import TeamSearchList from 'components/common/card/TeamSearchList';
 import CustomSelect from 'components/team/CustomSelect';
 
-import CustomAxios from 'utils/axios';
-import { searchState } from 'redux/search';
-import { useDispatch } from 'react-redux';
-
 export default function TeamSearchPage() {
-  // redux
-  const dispatch = useDispatch();
-
-  // axios
-  useEffect(() => {
-    CustomAxios.basicAxios
-      .get('/search')
-      .then(response => {
-        console.log(response);
-        const areas = response.data.areas;
-        const techs = response.data.techs;
-        dispatch(
-          searchState({
-            area: areas,
-            tech: techs,
-            menu: '',
-          }),
-        );
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  });
-
   return (
     <>
       <Container fixed sx={{ py: 4 }}>
