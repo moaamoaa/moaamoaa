@@ -3,7 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialStateValue = {
   areas: [],
   reviews: [],
-  sideProject: [],
+  sideProject: [
+    {
+      year: new Date().getFullYear(),
+      title: '프로젝트명',
+      techStacks: ['HTML', 'CSS', 'JavaScript'],
+      context: '프로젝트소개',
+    },
+  ],
   sites: [],
   techStacks: [],
   userProfile: {
@@ -36,11 +43,7 @@ const profileSlice = createSlice({
       state.userProfile.profileSearchStatus =
         action.payload.userProfile.profileSearchStatus;
     },
-    profileCloseSuccess: state => {
-      state.userProfile = null;
-      state.sideProject = null;
-      state.review = null;
-    },
+    profileCloseSuccess: state => {},
   },
 });
 

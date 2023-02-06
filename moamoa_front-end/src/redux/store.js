@@ -9,7 +9,7 @@ import profileReducer from 'redux/profile';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user', 'search'],
+  whitelist: ['user', 'search', 'profile'],
 };
 
 const reducers = combineReducers({

@@ -6,19 +6,13 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import LongMenu from 'components/profile/LongMenu';
+import { useSelector } from 'react-redux';
 
 export default function ProfileContentContainer(props) {
   return (
     <>
       <ContentTitle color="initial">{props.title}</ContentTitle>
-      <MoaContainer spacing={0}>
-        {props.content}
-        {props.handler ? (
-          <ProfileLongMenu handleClick={props.handler}></ProfileLongMenu>
-        ) : (
-          <></>
-        )}
-      </MoaContainer>
+      <MoaContainer spacing={0}>{props.content}</MoaContainer>
     </>
   );
 }

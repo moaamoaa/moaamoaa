@@ -58,7 +58,7 @@ export default function Profile(props) {
     <ProfileButton key="offer" variant="outlined">
       수정 완료
     </ProfileButton>,
-    <ProfileButton key="chat" variant="outlined">
+    <ProfileButton key="chat" href="/ProfilePage" variant="outlined">
       수정 취소
     </ProfileButton>,
   ];
@@ -140,7 +140,7 @@ export default function Profile(props) {
         {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
-          sx={{ display: { xs: 'block', md: 'none' }, padding: '0 !important' }}
+          sx={{ display: { xs: 'block', md: 'none' } }}
         >
           <Grid container spacing={10}>
             <Grid item xs={4}>
@@ -171,7 +171,7 @@ export default function Profile(props) {
 }
 
 const MoaProfile = styled(Container)`
-  padding: 0;
+  padding: 0 !important;
 `;
 
 const MoaSkeleton = styled(Skeleton)`
