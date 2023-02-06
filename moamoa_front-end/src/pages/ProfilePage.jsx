@@ -15,8 +15,6 @@ import ReviewList from 'components/profile/ReviewList';
 
 export default function ProfilePage() {
   const curProfile = useSelector(state => state.profile);
-
-  console.log(curProfile);
   const dispatch = useDispatch();
 
   useEffect(() => {

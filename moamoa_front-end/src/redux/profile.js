@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialStateValue = {
   areas: null,
-  profile: [
+  reviews: null,
+  sites: null,
+  userProfile: [
     {
       context: null,
       id: null,
@@ -12,7 +14,6 @@ const initialStateValue = {
       profileSearchStatus: null,
     },
   ],
-  reviews: null,
   sideprojects: [{}],
 };
 
@@ -29,10 +30,17 @@ const profileSlice = createSlice({
     profileEditSuccess: (state, action) => {
       state = action.payload;
     },
+    contextEditSuccess: (state, action) => {
+      state.userProfile.context = action.payload.context;
+    },
   },
 });
 
-export const { profileOpenSuccess, profileCloseSuccess, profileEditSuccess } =
-  profileSlice.actions;
+export const {
+  profileOpenSuccess,
+  profileCloseSuccess,
+  profileEditSuccess,
+  contextEditSuccess,
+} = profileSlice.actions;
 
 export default profileSlice.reducer;
