@@ -58,6 +58,11 @@ public class Profile {
 	@Column(name="profile_cnt_offer")
 	@ColumnDefault("0")
 	private int countOffer;
+
+	@Column(name="profile_hit")
+	@ColumnDefault("0")
+	private int hit;
+
 	public Profile() {
 	}
 
@@ -76,5 +81,13 @@ public class Profile {
 
 	public void setContext(String context) {
 		this.context = context;
+	}
+
+	public void setProfileOnOffStatus(ProfileOnOffStatus profileOnOffStatus) {
+		this.profileOnOffStatus = profileOnOffStatus;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 }
