@@ -23,53 +23,54 @@ const profileSlice = createSlice({
   initialState: initialStateValue,
   reducers: {
     changeProfilePk: (state, action) => {
+      console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
     },
     profileOpenSuccess: (state, action) => {
-      state.areas = action.payload.curProfile.areas;
-      state.reviews = action.payload.curProfile.reviews;
-      state.sites = action.payload.curProfile.sites;
+      state.areas = action.payload.profile.areas;
+      state.reviews = action.payload.profile.reviews;
+      state.sites = action.payload.profile.sites;
 
-      state.userProfile[0].context = action.payload.curProfile.profile.context;
-      state.userProfile[0].id = action.payload.curProfile.profile.id;
-      state.userProfile[0].img = action.payload.curProfile.profile.img;
-      state.userProfile[0].nickname =
-        action.payload.curProfile.profile.nickname;
+      state.userProfile[0].context = action.payload.profile.profile.context;
+      state.userProfile[0].id = action.payload.profile.profile.id;
+      state.userProfile[0].img = action.payload.profile.profile.img;
+      state.userProfile[0].nickname = action.payload.profile.profile.nickname;
       state.userProfile[0].profileOnOffStatus =
-        action.payload.curProfile.profile.profileOnOffStatus;
+        action.payload.profile.profile.profileOnOffStatus;
       state.userProfile[0].profileSearchStatus =
-        action.payload.curProfile.profile.profileSearchStatus;
+        action.payload.profile.profile.profileSearchStatus;
 
-      state.sideProjects = action.payload.curProfile.sideprojects;
-      state.techStacks = action.payload.curProfile.techStacks;
+      state.sideProjects = action.payload.profile.sideprojects;
+      state.techStacks = action.payload.profile.techStacks;
     },
     profileCloseSuccess: state => {
       state.areas = null;
       state.reviews = null;
       state.sites = null;
 
-      state.userProfile.context = null;
-      state.userProfile.id = null;
-      state.userProfile.img = null;
-      state.userProfile.nickname = null;
-      state.userProfile.profileOnOffStatus = null;
-      state.userProfile.profileSearchStatus = null;
+      state.userProfile[0].context = null;
+      state.userProfile[0].id = null;
+      state.userProfile[0].img = null;
+      state.userProfile[0].nickname = null;
+      state.userProfile[0].profileOnOffStatus = null;
+      state.userProfile[0].profileSearchStatus = null;
 
       state.sideProjects = null;
+      state.techStacks = null;
     },
     profileEditSuccess: (state, action) => {
       state.areas = action.payload.areas;
       state.sites = action.payload.sites;
 
-      state.userProfile.img = action.payload.userProfile.img;
-      state.userProfile.nickname = action.payload.userProfile.nickname;
-      state.userProfile.profileOnOffStatus =
+      state.userProfile[0].img = action.payload.userProfile.img;
+      state.userProfile[0].nickname = action.payload.userProfile.nickname;
+      state.userProfile[0].profileOnOffStatus =
         action.payload.userProfile.profileOnOffStatus;
 
       state.sideProjects = action.payload.userProfile;
     },
     contextEditSuccess: (state, action) => {
-      state.userProfile.context = action.payload.context;
+      state.userProfile[0].context = action.payload.context;
     },
   },
 });
