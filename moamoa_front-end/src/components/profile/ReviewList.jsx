@@ -10,9 +10,13 @@ function ReviewList() {
     <>
       <ContentTitle color="initial">댓글</ContentTitle>
       <MoaContainer spacing={0}>
-        {reviews.map((review, idx) => {
-          <Review key={idx} review={review}></Review>;
-        })}
+        {reviews ? (
+          reviews.map((review, idx) => {
+            <Review key={idx} review={review}></Review>;
+          })
+        ) : (
+          <></>
+        )}
       </MoaContainer>
     </>
   );

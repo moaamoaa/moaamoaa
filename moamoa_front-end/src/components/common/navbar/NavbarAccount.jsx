@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, logoutSuccess, loginFailure } from 'redux/user';
+import { logoutSuccess } from 'redux/user';
+import { changeProfilePk } from 'redux/profile';
+
 import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
-
-import { profileOpenSuccess } from 'redux/profile';
 
 import {
   Box,
@@ -30,8 +30,8 @@ export default function NavbarAccount() {
   const [logInDialog, setLogInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
+
   const userPk = useSelector(state => state.user.userPk);
-  // 임시 로그인 확인. 나중에 지울 것
   const isLogIn = useSelector(state => state.user.isLogged);
 
   const dispatch = useDispatch();
@@ -51,12 +51,7 @@ export default function NavbarAccount() {
   };
 
   const handleNavigate = () => {
-    console.log(userPk);
-    dispatch(
-      profileOpenSuccess({
-        userProfile: { id: userPk },
-      }),
-    );
+    dispatch(changeProfilePk({ id: userPk }));
     handleCloseUserMenu();
     navigate('/ProfilePage');
     scrollToTop();
@@ -66,6 +61,7 @@ export default function NavbarAccount() {
     handleCloseUserMenu();
     dispatch(logoutSuccess());
     Cookies.remove('access_token');
+    navigate('/HomePage');
   };
 
   const settings = [

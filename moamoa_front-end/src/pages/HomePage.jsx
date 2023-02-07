@@ -40,7 +40,6 @@ export default function HomePageSample() {
     CustomAxios.basicAxios
       .get('/search')
       .then(response => {
-        console.log(response);
         const areas = response.data.areas;
         const techs = response.data.techs;
         dispatch(
