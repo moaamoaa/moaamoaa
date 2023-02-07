@@ -29,21 +29,29 @@ export default function CardList(props) {
   } else if (props.type === 'tech') {
     return (
       <Grid container>
-        {props.cards.map((card, idx) => (
-          <Grid item key={idx} xs={3}>
-            <CardItem card={card} type={props.type}></CardItem>
-          </Grid>
-        ))}
+        {props.cards ? (
+          props.cards.map((card, idx) => (
+            <Grid item key={idx} xs={3}>
+              <CardItem card={card} type={props.type}></CardItem>
+            </Grid>
+          ))
+        ) : (
+          <></>
+        )}
       </Grid>
     );
   } else if (props.type === 'link') {
     return (
       <Grid container>
-        {Object.entries(props.cards).map((card, idx) => (
-          <Grid item key={idx} xs={3}>
-            <CardItem card={card} type={props.type}></CardItem>
-          </Grid>
-        ))}
+        {props.cards ? (
+          Object.entries(props.cards).map((card, idx) => (
+            <Grid item key={idx} xs={3}>
+              <CardItem card={card} type={props.type}></CardItem>
+            </Grid>
+          ))
+        ) : (
+          <></>
+        )}
       </Grid>
     );
   }
