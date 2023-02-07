@@ -26,8 +26,8 @@ const SingleSelectOnOff = forwardRef((props, ref) => {
           label="Select"
           onChange={handleChange}
         >
-          <MenuItem value={'online'}>온라인</MenuItem>
-          <MenuItem value={'offline'}>오프라인</MenuItem>
+          <MenuItem value={'ONLINE'}>온라인</MenuItem>
+          <MenuItem value={'OFFLINE'}>오프라인</MenuItem>
         </Select>
       </FormControl>
     </Box>
