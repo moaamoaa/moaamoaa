@@ -54,7 +54,7 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 			.from(profile)
 			.where(nicknameContain(condition.getQuery()), categoryIn(condition.getCategory()),
 				onlineOrArea(condition.getStatus(), condition.getArea()), techStackIn(condition.getStack()),
-				searchStatusNeNone(), cursorIdLt(cursorId, pageable))
+				searchStatusNeNone(), cursorIdLt(cursorId, pageable), unlockedUser())
 			.orderBy(orders.toArray(OrderSpecifier[]::new))
 			.limit(pageable.getPageSize())
 			.fetch();
@@ -148,6 +148,10 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 		}
 		orderSpecifierList.add(new OrderSpecifier(Order.DESC, profile.id));
 		return orderSpecifierList;
+	}
+
+	private BooleanExpression unlockedUser() {
+		return profile.user.isLocked.eq(false);
 	}
 
 	@Override
