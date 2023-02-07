@@ -128,12 +128,19 @@ export default function TeamDetailPage() {
           <Typography component="div" variant="body1" color="initial">
             {detail.projectTechStacks &&
               detail.projectTechStacks.map(tech => (
-                <span key={tech.name}>
+                <Stack
+                  key={tech.name}
+                  direction="row"
+                  sx={{
+                    display: 'inline-flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
                   <span>{tech.name}</span>
                   <MoaImg
                     src={`${process.env.PUBLIC_URL}/images/whole_icons/${tech.logo}@4x.png`} // 다른 폴더에 있는 건 어쩌지?
                   />
-                </span>
+                </Stack>
               ))}
           </Typography>
         </Paper>
