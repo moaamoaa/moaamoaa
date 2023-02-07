@@ -48,6 +48,10 @@ export default function CheckoutDialog(props) {
 
   const handleClose = () => {
     props.setSignUpDialog(false);
+    setActiveStep(0);
+    setEmail('');
+    setName('');
+    setPassword('');
   };
 
   /** 맨 마지막 회원가입 버튼을 눌렀을 때 가입정보를 백앤드로 보냄*/
