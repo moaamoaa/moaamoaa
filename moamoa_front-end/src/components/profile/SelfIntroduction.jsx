@@ -52,8 +52,8 @@ export default function SelfIntroduction() {
   return (
     <>
       <ContentTitle color="initial">자기 소개</ContentTitle>
-      <MoaContainer spacing={0}>
-        <Grid container spacing={0}>
+      <MoaContainer container>
+        <Grid item container xs={12} alignItems="start">
           <Grid item xs={11}>
             {isEdit ? (
               <TextField
@@ -76,7 +76,7 @@ export default function SelfIntroduction() {
               </Typography>
             )}
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={1} justifyContent="end" sx={{ display: 'flex' }}>
             <LongMenu
               isEdit={isEdit}
               handleOpenEdit={handleOpenEdit}
@@ -84,15 +84,17 @@ export default function SelfIntroduction() {
               handleSuccessEdit={handleSuccessEdit}
               handleCancelEdit={handleCancelEdit}
             ></LongMenu>
-            {isEdit ? (
-              <Typography variant="caption" color="gray">
-                {context.length}/100
-              </Typography>
-            ) : (
-              <></>
-            )}
           </Grid>
         </Grid>
+        {isEdit ? (
+          <Grid item xs={12} justifyContent="end" sx={{ display: 'flex' }}>
+            <Typography variant="caption" color="gray">
+              {context.length}/100
+            </Typography>
+          </Grid>
+        ) : (
+          <></>
+        )}
       </MoaContainer>
     </>
   );
@@ -104,7 +106,7 @@ const ContentTitle = styled(Typography)`
   margin-bottom: 0.5rem;
 `;
 
-const MoaContainer = styled(Container)`
+const MoaContainer = styled(Grid)`
   position: relative;
   display: flex;
   justify-content: space-between;
