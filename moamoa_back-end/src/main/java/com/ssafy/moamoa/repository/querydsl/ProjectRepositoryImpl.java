@@ -53,7 +53,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 			.from(project)
 			.where(titleContain(condition.getQuery()), statusEq(condition.getStatus()),
 				categoryEq(condition.getCategory()), areaIn(condition.getArea()), techStackIn(condition.getStack()),
-				nowDateBetween(), cursorIdLt(cursorId, pageable), unlockedProject())
+				nowDateBetween(), cursorIdLt(cursorId, pageable), unlockedProject(), currentPeopleLt())
 			.orderBy(orders.toArray(OrderSpecifier[]::new))
 			.limit(pageable.getPageSize())
 			.fetch();
@@ -118,6 +118,10 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 
 	private BooleanExpression unlockedProject() {
 		return project.isLocked.eq(false);
+	}
+
+	private BooleanExpression currentPeopleLt() {
+		return project.currentPeople.lt(project.totalPeople);
 	}
 
 	//해당 지역을 포함하는 프로젝트
