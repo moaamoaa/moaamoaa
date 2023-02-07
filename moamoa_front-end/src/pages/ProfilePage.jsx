@@ -14,19 +14,20 @@ import SideProject from 'components/profile/SideProject';
 import ReviewList from 'components/profile/ReviewList';
 
 export default function ProfilePage() {
-  const curProfile = useSelector(state => state.profile);
+  const profileId = useSelector(state => state.profile.userProfile[0].id);
   const dispatch = useDispatch();
 
   useEffect(() => {
     customAxios.basicAxios
-      .get(`/profile/${curProfile.userProfile.userPk}`)
+      .get(`/profile/${profileId}`)
       .then(response => {
-        dispatch(profileOpenSuccess({ curProfile: response.data }));
+        const curProfile = response.data;
+        dispatch(profileOpenSuccess({ curProfile: curProfile }));
       })
       .catch(error => {
         console.log(error);
       });
-  }, [curProfile.userProfile.userPk]);
+  }, [profileId]);
 
   return (
     <ProfilePageContainer fixed>

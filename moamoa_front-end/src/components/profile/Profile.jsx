@@ -16,10 +16,11 @@ import {
 import ScrollableTab from 'components/common/tab/ScrollableTab';
 
 export default function Profile() {
+  const userPk = useSelector(state => state.user.userPk);
+
   const sites = useSelector(state => state.profile.sites);
   const techStacks = useSelector(state => state.profile.techStacks);
-  const userProfile = useSelector(state => state.profile.userProfile);
-  const userPk = useSelector(state => state.user.userPk);
+  const userProfile = useSelector(state => state.profile.userProfile[0]);
 
   const [type, setType] = useState('normal');
 
@@ -99,7 +100,7 @@ export default function Profile() {
 
           <TextField
             fullWidth
-            placeholder={userProfile.nickName}
+            placeholder={userProfile.nickname}
             onChange={null}
           />
 
@@ -121,7 +122,7 @@ export default function Profile() {
             <Grid item xs={8}>
               <TextField
                 fullWidth
-                placeholder={userProfile?.nickName}
+                placeholder={userProfile?.nickname}
                 onChange={null}
               />
             </Grid>
@@ -149,7 +150,7 @@ export default function Profile() {
             sx={{ width: '320px', height: '320px' }}
           />
           <Typography variant="h4" color="initial" fontWeight={900}>
-            {userProfile.nickName}
+            {userProfile.nickname}
           </Typography>
 
           <CardList type={'tech'} cards={techStacks}></CardList>
@@ -157,7 +158,7 @@ export default function Profile() {
           <CardList type={'link'} cards={sites}></CardList>
 
           <ProfileButtonContainer>
-            {userProfile.userPk === userPk ? userButtons : otherButtons}
+            {userProfile.id === userPk ? userButtons : otherButtons}
           </ProfileButtonContainer>
         </MoaProfile>
 
@@ -175,7 +176,7 @@ export default function Profile() {
             </Grid>
             <Grid item xs={8}>
               <Typography variant="h5" color="initial" fontWeight={600}>
-                {userProfile.nickName}
+                {userProfile.nickname}
               </Typography>
 
               <ScrollableTab type={'tech'} cards={techStacks}></ScrollableTab>
@@ -186,7 +187,7 @@ export default function Profile() {
           </Grid>
 
           <ProfileButtonContainer>
-            {userPk === userProfile.userPk ? userButtons : otherButtons}
+            {userPk === userProfile.id ? userButtons : otherButtons}
           </ProfileButtonContainer>
         </MoaProfile>
       </>
