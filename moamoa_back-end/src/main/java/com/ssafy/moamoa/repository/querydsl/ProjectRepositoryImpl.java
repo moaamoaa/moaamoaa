@@ -72,6 +72,12 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 			return StringExpressions.lpad(stringTemplate, 10, '0')
 				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'));
 		}
+
+		if (pageable.getSort().getOrderFor("apply") != null) {
+			return StringExpressions.lpad(project.countApply.stringValue(), 10, '0')
+				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'));
+		}
+
 		return project.id.stringValue();
 
 	}
@@ -84,6 +90,10 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 		}
 
 		if (pageable.getSort().getOrderFor("date") != null) {
+			return cursorId != null ? cursor.lt(cursorId) : null;
+		}
+
+		if (pageable.getSort().getOrderFor("apply") != null) {
 			return cursorId != null ? cursor.lt(cursorId) : null;
 		}
 
@@ -136,6 +146,9 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 						break;
 					case "date":
 						orderSpecifierList.add(new OrderSpecifier(direction, project.startDate));
+						break;
+					case "apply":
+						orderSpecifierList.add(new OrderSpecifier(direction, project.countApply));
 						break;
 					default:
 						break;

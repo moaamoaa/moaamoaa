@@ -66,15 +66,25 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 			return StringExpressions.lpad(profile.hit.stringValue(), 10, '0')
 				.concat(StringExpressions.lpad(profile.id.stringValue(), 10, '0'));
 		}
+
+		if (pageable.getSort().getOrderFor("offer") != null) {
+			return StringExpressions.lpad(profile.countOffer.stringValue(), 10, '0')
+				.concat(StringExpressions.lpad(profile.id.stringValue(), 10, '0'));
+		}
 		return profile.id.stringValue();
 
 	}
 
 	private BooleanExpression cursorIdLt(String cursorId, Pageable pageable) {
 		StringExpression customCursor = getCustomCursor(pageable);
+
 		if (pageable.getSort().getOrderFor("hit") != null) {
 			return cursorId != null ? customCursor.lt(cursorId) : null;
 		}
+		if (pageable.getSort().getOrderFor("offer") != null) {
+			return cursorId != null ? customCursor.lt(cursorId) : null;
+		}
+
 		return cursorId != null ? profile.id.lt(Integer.parseInt(cursorId)) : null;
 
 	}
@@ -140,6 +150,9 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 				switch (order.getProperty()) {
 					case "hit":
 						orderSpecifierList.add(new OrderSpecifier(direction, profile.hit));
+						break;
+					case "offer":
+						orderSpecifierList.add(new OrderSpecifier(direction, profile.countOffer));
 						break;
 					default:
 						break;
