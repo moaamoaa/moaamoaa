@@ -1,10 +1,6 @@
 package com.ssafy.moamoa.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,18 +8,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileForm {
-	private Long id; // profileId
+    private Long id; // profileId
 
-	private String nickname;
+    private String nickname;
 
-	private String profileSearchStatus; // 검색 Status
+    private String profileSearchStatus; // 검색 Status
 
-	private String profileOnOffStatus; // 온/오프라인 유무
+    private String profileOnOffStatus; // 온/오프라인 유무
 
-	private String img;
+    private String img;
 
-	private String context;
-
+    private String context;
 
 
 }

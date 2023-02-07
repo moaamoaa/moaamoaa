@@ -29,7 +29,8 @@ public class S3Controller {
 
     @PostMapping("/api/upload")
     public String uploadFile(FileDto fileDto) throws IOException {
-        String url = s3Service.uploadFile(fileDto.getFile());
+        Long profileId = 1L;
+        String url = s3Service.uploadProfileImg(profileId, fileDto.getFile()); // profileId, MultipartFile
         log.info(url);
         fileDto.setUrl(url);
         fileService.save(fileDto);
