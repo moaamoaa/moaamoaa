@@ -90,4 +90,6 @@ public class Profile {
 	public void setImg(String img) {
 		this.img = img;
 	}
+
+	public void setCountOffer(int countOffer){this.countOffer = countOffer;}
 }

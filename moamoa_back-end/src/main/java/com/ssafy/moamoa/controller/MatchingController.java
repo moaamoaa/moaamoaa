@@ -37,8 +37,6 @@ public class MatchingController {
 	private final OfferService offerService;
 	private final TeamService teamService;
 
-	// 팀장인지 확인
-
 	// 지원 보내기
 	@ApiOperation(value = "지원 보내기",
 		notes = "개인이 팀에게 지원을 한다.")
@@ -80,8 +78,6 @@ public class MatchingController {
 		notes = "팀장이 개인에게 받은 지원을 수락한다.")
 	@PutMapping("/apply/project")
 	public ResponseEntity<?> acceptApply(@RequestBody MatchingForm matchingForm, Authentication authentication) throws Exception {
-
-		// 수락할 user id를 받고 -> team에 등록
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId()))
 		{
@@ -92,13 +88,10 @@ public class MatchingController {
 	}
 
 	// 지원 철회
-	// 팀의 cnt_apply--
 	@ApiOperation(value = "지원 철회",
 		notes = "개인이 팀에게 보낸 지원을 철회한다.")
 	@DeleteMapping("/apply/user")
 	public ResponseEntity<?> deleteSendApply(@RequestBody MatchingForm matchingForm, Authentication authentication) {
-
-		// 철회할 apply id를 받고 -> apply에서 삭제
 		applyService.deleteSendApply(matchingForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -109,8 +102,6 @@ public class MatchingController {
 	@DeleteMapping("/apply/project")
 	public ResponseEntity<?> deleteReceiveApply(@RequestBody MatchingForm matchingForm, Authentication authentication) throws
 		Exception {
-
-		// 철회할 apply id를 받고 -> apply에서 삭제
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId()))
 		{
@@ -165,9 +156,6 @@ public class MatchingController {
 	@PutMapping("/offer/user")
 	public ResponseEntity<?> acceptOffer(Authentication authentication, @RequestBody MatchingForm matchingForm) throws
 		Exception {
-
-		// 수락할 project id를 받고 -> team에 등록
-		// offer id받고 user id, project id 검증
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		offerService.acceptOffer(Long.valueOf(userDetails.getUsername()), matchingForm);
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -178,9 +166,7 @@ public class MatchingController {
 		notes = "개인이 팀에게 받은 제안을 거절한다.")
 	@DeleteMapping("/offer/user")
 	public ResponseEntity<?> deleteReceiveOffer(@RequestBody MatchingForm matchingForm) {
-
-		// 철회할 apply id를 받고 -> apply에서 삭제
-		offerService.deleteOffer(matchingForm);
+		offerService.deleteReceiveOffer(matchingForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -190,14 +176,12 @@ public class MatchingController {
 	@DeleteMapping("/offer/project")
 	public ResponseEntity<?> deleteSendOffer(@RequestBody MatchingForm matchingForm, Authentication authentication) throws
 		Exception {
-
-		// 철회할 apply id를 받고 -> apply에서 삭제
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId()))
 		{
 			throw new Exception("팀장이 아닙니다.");
 		}
-		offerService.deleteOffer(matchingForm);
+		offerService.deleteSendOffer(matchingForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
