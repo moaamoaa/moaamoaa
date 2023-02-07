@@ -21,8 +21,7 @@ export default function ProfilePage() {
     customAxios.basicAxios
       .get(`/profile/${profileId}`)
       .then(response => {
-        const curProfile = response.data;
-        dispatch(profileOpenSuccess({ curProfile: curProfile }));
+        dispatch(profileOpenSuccess({ profile: response.data }));
       })
       .catch(error => {
         console.log(error);
