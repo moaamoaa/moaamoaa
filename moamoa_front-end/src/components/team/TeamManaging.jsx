@@ -13,7 +13,7 @@ import MailIcon from '@mui/icons-material/Mail';
 
 export default function TeamManage() {
   const [state, setState] = React.useState({
-    right: false, // 오른쪽에 뜨게
+    right: false,
   });
 
   const toggleDrawer = (anchor, open) => event => {
