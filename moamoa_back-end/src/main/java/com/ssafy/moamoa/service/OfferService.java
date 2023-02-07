@@ -99,9 +99,6 @@ public class OfferService {
 			int change = project.getCurrentPeople() + 1;
 			project.setCurrentPeople(change);
 
-			// 인원수 다 차면 잠그기
-			if(project.getTotalPeople() == change) {project.setLocked(true);}
-
 			User user = userRepository.findById(userId).get();
 			Team team = Team.builder()
 				.role(TeamRole.MEMBER)
