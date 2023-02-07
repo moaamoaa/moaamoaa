@@ -53,13 +53,14 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 			.from(project)
 			.where(titleContain(condition.getQuery()), statusEq(condition.getStatus()),
 				categoryEq(condition.getCategory()), areaIn(condition.getArea()), techStackIn(condition.getStack()),
-				nowDateBetween(), cursorIdLt(cursorId, pageable), unlockedProject())
+				nowDateBetween(), cursorIdLt(cursorId, pageable), unlockedProject(), currentPeopleLt())
 			.orderBy(orders.toArray(OrderSpecifier[]::new))
 			.limit(pageable.getPageSize())
 			.fetch();
 	}
 
 	private StringExpression getCustomCursor(Pageable pageable) {
+
 		if (pageable.getSort().getOrderFor("hit") != null) {
 			return StringExpressions.lpad(project.hit.stringValue(), 10, '0')
 				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'));
@@ -71,24 +72,29 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 			return StringExpressions.lpad(stringTemplate, 10, '0')
 				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'));
 		}
+
+		if (pageable.getSort().getOrderFor("apply") != null) {
+			return StringExpressions.lpad(project.countApply.stringValue(), 10, '0')
+				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'));
+		}
+
 		return project.id.stringValue();
 
 	}
 
 	private BooleanExpression cursorIdLt(String cursorId, Pageable pageable) {
+		StringExpression cursor = getCustomCursor(pageable);
+
 		if (pageable.getSort().getOrderFor("hit") != null) {
-			return cursorId != null ? StringExpressions.lpad(project.hit.stringValue(), 10, '0')
-				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'))
-				.lt(cursorId) : null;
+			return cursorId != null ? cursor.lt(cursorId) : null;
 		}
 
 		if (pageable.getSort().getOrderFor("date") != null) {
-			StringTemplate stringTemplate = Expressions.stringTemplate("DATE_FORMAT({0}, {1})", project.startDate,
-				ConstantImpl.create("%Y%m%d"));
+			return cursorId != null ? cursor.lt(cursorId) : null;
+		}
 
-			return cursorId != null ? StringExpressions.lpad(stringTemplate, 10, '0')
-				.concat(StringExpressions.lpad(project.id.stringValue(), 10, '0'))
-				.lt(cursorId) : null;
+		if (pageable.getSort().getOrderFor("apply") != null) {
+			return cursorId != null ? cursor.lt(cursorId) : null;
 		}
 
 		return cursorId != null ? project.id.lt(Integer.parseInt(cursorId)) : null;
@@ -114,6 +120,10 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 		return project.isLocked.eq(false);
 	}
 
+	private BooleanExpression currentPeopleLt() {
+		return project.currentPeople.lt(project.totalPeople);
+	}
+
 	//해당 지역을 포함하는 프로젝트
 	private BooleanExpression areaIn(List<Long> areaCond) {
 		return areaCond != null ?
@@ -135,14 +145,14 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 			for (Sort.Order order : pageable.getSort()) {
 				Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
 				switch (order.getProperty()) {
-					case "id":
-						orderSpecifierList.add(new OrderSpecifier(direction, project.id));
-						break;
 					case "hit":
 						orderSpecifierList.add(new OrderSpecifier(direction, project.hit));
 						break;
 					case "date":
 						orderSpecifierList.add(new OrderSpecifier(direction, project.startDate));
+						break;
+					case "apply":
+						orderSpecifierList.add(new OrderSpecifier(direction, project.countApply));
 						break;
 					default:
 						break;
@@ -150,6 +160,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 			}
 		}
 
+		orderSpecifierList.add(new OrderSpecifier(Order.DESC, project.id));
 		return orderSpecifierList;
 	}
 

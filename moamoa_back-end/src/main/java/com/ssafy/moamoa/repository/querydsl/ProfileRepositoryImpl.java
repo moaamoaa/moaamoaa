@@ -54,7 +54,7 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 			.from(profile)
 			.where(nicknameContain(condition.getQuery()), categoryIn(condition.getCategory()),
 				onlineOrArea(condition.getStatus(), condition.getArea()), techStackIn(condition.getStack()),
-				searchStatusNeNone(), cursorIdLt(cursorId, pageable))
+				searchStatusNeNone(), cursorIdLt(cursorId, pageable), unlockedUser())
 			.orderBy(orders.toArray(OrderSpecifier[]::new))
 			.limit(pageable.getPageSize())
 			.fetch();
@@ -66,16 +66,25 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 			return StringExpressions.lpad(profile.hit.stringValue(), 10, '0')
 				.concat(StringExpressions.lpad(profile.id.stringValue(), 10, '0'));
 		}
+
+		if (pageable.getSort().getOrderFor("offer") != null) {
+			return StringExpressions.lpad(profile.countOffer.stringValue(), 10, '0')
+				.concat(StringExpressions.lpad(profile.id.stringValue(), 10, '0'));
+		}
 		return profile.id.stringValue();
 
 	}
 
 	private BooleanExpression cursorIdLt(String cursorId, Pageable pageable) {
+		StringExpression customCursor = getCustomCursor(pageable);
+
 		if (pageable.getSort().getOrderFor("hit") != null) {
-			return cursorId != null ? StringExpressions.lpad(profile.hit.stringValue(), 10, '0')
-				.concat(StringExpressions.lpad(profile.id.stringValue(), 10, '0'))
-				.lt(cursorId) : null;
+			return cursorId != null ? customCursor.lt(cursorId) : null;
 		}
+		if (pageable.getSort().getOrderFor("offer") != null) {
+			return cursorId != null ? customCursor.lt(cursorId) : null;
+		}
+
 		return cursorId != null ? profile.id.lt(Integer.parseInt(cursorId)) : null;
 
 	}
@@ -139,19 +148,23 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 			for (Sort.Order order : pageable.getSort()) {
 				Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
 				switch (order.getProperty()) {
-					case "id":
-						orderSpecifierList.add(new OrderSpecifier(direction, profile.id));
-						break;
 					case "hit":
 						orderSpecifierList.add(new OrderSpecifier(direction, profile.hit));
+						break;
+					case "offer":
+						orderSpecifierList.add(new OrderSpecifier(direction, profile.countOffer));
 						break;
 					default:
 						break;
 				}
 			}
 		}
-
+		orderSpecifierList.add(new OrderSpecifier(Order.DESC, profile.id));
 		return orderSpecifierList;
+	}
+
+	private BooleanExpression unlockedUser() {
+		return profile.user.isLocked.eq(false);
 	}
 
 	@Override
