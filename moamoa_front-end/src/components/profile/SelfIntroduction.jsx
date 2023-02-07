@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Typography from '@mui/material/Typography';
+
 import styled from '@emotion/styled';
-import LongMenu from './LongMenu';
-import { Container, Grid, TextField } from '@mui/material';
-import { border, height } from '@mui/system';
+
+import { Container, Grid, TextField, Typography } from '@mui/material';
+import LongMenu from 'components/profile/LongMenu';
 import customAxios from 'utils/axios';
 import { contextEditSuccess } from 'redux/profile';
 
 export default function SelfIntroduction() {
-  const curProfile = useSelector(state => state.profile.userProfile);
+  const userProfile = useSelector(state => state.profile.userProfile[0]);
   const [isEdit, setIsEdit] = useState(false);
   const [context, setContext] = useState(
-    curProfile.context ? curProfile.context : '',
+    userProfile.context ? userProfile.context : '',
   );
 
   const dispatch = useDispatch();
@@ -32,10 +32,11 @@ export default function SelfIntroduction() {
 
   const handleSuccessEdit = () => {
     customAxios.authAxios
-      .put(`/profile/context/${curProfile.userPk}`, {
+      .put(`/profile/context/${userProfile.id}`, {
         context: context,
       })
       .then(response => {
+        console.log(response);
         dispatch(contextEditSuccess({ context: response.data.context }));
         setIsEdit(false);
       })
@@ -69,9 +70,9 @@ export default function SelfIntroduction() {
               ></TextField>
             ) : (
               <Typography variant="body1" color="initial">
-                {curProfile.context
-                  ? curProfile.context
-                  : `안녕하세요. ${curProfile.nickName}입니다.`}
+                {userProfile.context
+                  ? userProfile.context
+                  : `안녕하세요. ${userProfile.nickname}입니다.`}
               </Typography>
             )}
           </Grid>
