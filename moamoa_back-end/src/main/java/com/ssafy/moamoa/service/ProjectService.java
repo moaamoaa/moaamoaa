@@ -57,9 +57,16 @@ public class ProjectService {
 	private final ProfileRepository profileRepository;
 	private final ProjectAreaRepository projectAreaRepository;
 
-	public Boolean isLocked(Long id){
-		Project project = projectRepository.findById(id).get();
-		return project.isLocked();
+	public void isProjectLocked(Long id) throws Exception {
+		if(projectRepository.findById(id).get().isLocked())
+		{
+			if(projectRepository.findById(id).get().getCategory()==ProjectCategory.PROJECT)
+			{
+				throw new Exception("해당 프로젝트는 존재하지 않습니다.");
+			} else if (projectRepository.findById(id).get().getCategory()==ProjectCategory.STUDY) {
+				throw new Exception("해당 스터디는 존재하지 않습니다.");
+			}
+		}
 	}
 	public Project findProjectById(Long id) {
 		Optional<Project> findProject = projectRepository.findById(id);
@@ -174,9 +181,10 @@ public class ProjectService {
 
 	// 프로젝트/스터디 수정
 	public ProjectDetail updateProject(ProjectForm projectForm) throws Exception {
+		// locked check
+		isProjectLocked(projectForm.getProjectId());
 
-		Optional<Project> findProject = projectRepository.findById(projectForm.getProjectId());
-		Project project = findProject.get();
+		Project project = projectRepository.findById(projectForm.getProjectId()).get();
 		LocalDate endDate = LocalDate.parse(projectForm.getEndDate(), DateTimeFormatter.ISO_DATE);
 		int cntPeople = projectForm.getTotalPeople();
 
@@ -227,13 +235,19 @@ public class ProjectService {
 	}
 
 	// 프로젝트/스터디 삭제
-	public void deleteProject(ProjectForm projectForm) {
+	public void deleteProject(ProjectForm projectForm) throws Exception {
+		// locked check
+		isProjectLocked(projectForm.getProjectId());
+
 		Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
 		findProject.setLocked(true);
 	}
 
 	// 팀원 삭제
 	public void deleteMember(ProjectForm projectForm) throws Exception {
+		// locked check
+		isProjectLocked(projectForm.getProjectId());
+
 		if(!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
 		|| userRepository.findById(projectForm.getUserId()).get().isLocked())
 		{
@@ -243,10 +257,12 @@ public class ProjectService {
 		teamRepository.delete(fineTeam);
 	}
 
-	public List<ProjectForm> findByUser(Long id) {
-		List<Team> teams = teamRepository.findByUser_Id(id);
+	// 자신이 속한 프로젝트/스터디 반환
+	public List<ProjectForm> findByUser(Long id, ProjectCategory projectCategory) {
+		List<Team> teams = teamRepository.findByUser_IdAndProjectCategory(id, projectCategory);
 		List<ProjectForm> projectForms = new ArrayList<>();
 		for (Team t: teams) {
+			if(t.getProject().isLocked()) continue;
 			ProjectForm projectForm = ProjectForm.toEntity(t.getProject());
 			projectForms.add(projectForm);
 		}
@@ -254,8 +270,10 @@ public class ProjectService {
 	}
 
 	// 팀 페이지 return
-	public ProjectDetail accessProject(Long projectId, int hit)
-	{
+	public ProjectDetail accessProject(Long projectId, int hit) throws Exception {
+		// locked check
+		isProjectLocked(projectId);
+
 		Project project = projectRepository.findById(projectId).get();
 		project.setHit(project.getHit()+hit);
 		ProjectDetail projectDetail = ProjectDetail.toEntity(project);
@@ -264,6 +282,7 @@ public class ProjectService {
 		List<Team> teams = teamRepository.findByProject_Id(project.getId());
 		List<ProfileResultDto> profileResultDtoList = new ArrayList<>();
 		for (Team t:teams) {
+			if(t.getUser().isLocked()) continue;
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
 			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(),profile.getNickname(),profile.getContext(),profile.getProfileOnOffStatus());
 			profileResultDtoList.add(profileResultDto);
