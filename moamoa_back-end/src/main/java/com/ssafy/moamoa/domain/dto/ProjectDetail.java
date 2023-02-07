@@ -37,7 +37,7 @@ public class ProjectDetail {
 	private List<TechStackForm> projectTechStacks;
 
 	// project area
-	private Long areaId;
+	private AreaForm areaForm;
 
 	public static ProjectDetail toEntity(Project project){
 		return ProjectDetail.builder()

@@ -15,6 +15,7 @@ import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.TeamRole;
+import com.ssafy.moamoa.domain.dto.AreaForm;
 import com.ssafy.moamoa.domain.dto.ProfileResultDto;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
@@ -305,7 +306,7 @@ public class ProjectService {
 		}
 
 		// area
-		projectDetail.setAreaId(projectAreaRepository.findByProject_Id(projectId).get().getArea().getId());
+		projectDetail.setAreaForm(AreaForm.toEntity(projectAreaRepository.findByProject_Id(projectId).get().getArea()));
 
 		return projectDetail;
 	}
