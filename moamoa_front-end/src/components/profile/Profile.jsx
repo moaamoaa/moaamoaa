@@ -22,7 +22,7 @@ export default function Profile() {
   const techStacks = useSelector(state => state.profile.techStacks);
   const userProfile = useSelector(state => state.profile.userProfile[0]);
 
-  const [type, setType] = useState('normal');
+  const type = 'normal';
 
   const dispatch = useDispatch();
 
@@ -30,13 +30,9 @@ export default function Profile() {
 
   const handleOpenOfferList = () => {};
 
-  const handleEditSuccess = () => {
-    setType('normal');
-  };
+  const handleEditSuccess = () => {};
 
-  const handleCloseEditPage = () => {
-    setType('normal');
-  };
+  const handleCloseEditPage = () => {};
 
   const userButtons = [
     <ProfileButton
