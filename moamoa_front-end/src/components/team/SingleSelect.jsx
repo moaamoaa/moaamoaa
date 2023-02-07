@@ -30,8 +30,8 @@ const SingleSelect = forwardRef((props, ref) => {
           label="Select"
           onChange={handleChange}
         >
-          <MenuItem value={'project'}>프로젝트</MenuItem>
-          <MenuItem value={'study'}>스터디</MenuItem>
+          <MenuItem value={'PROJECT'}>프로젝트</MenuItem>
+          <MenuItem value={'STUDY'}>스터디</MenuItem>
         </Select>
       </FormControl>
     </Box>
