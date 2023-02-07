@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
 import com.ssafy.moamoa.domain.entity.Project;
@@ -38,12 +39,22 @@ public class ProjectController {
 	private final ProjectService projectService;
 	private final TeamService teamService;
 
-	@ApiOperation(value = "자기가 속한 프로젝트/스터디 조회",
-		notes = "자기가 속한 프로젝트/스터디를 조회한다.")
-	@GetMapping
+	@ApiOperation(value = "자기가 속한 프로젝트 조회",
+		notes = "자기가 속한 프로젝트를 조회한다.")
+	@GetMapping("/project")
 	public ResponseEntity<?> showProjects(Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		List<ProjectForm> projectForms = projectService.findByUser(Long.valueOf(userDetails.getUsername()));
+		List<ProjectForm> projectForms = projectService.findByUser(Long.valueOf(userDetails.getUsername()),
+			ProjectCategory.PROJECT);
+		return new ResponseEntity<List<ProjectForm>>(projectForms, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "자기가 속한 스터디 조회",
+		notes = "자기가 속한 스터디를 조회한다.")
+	@GetMapping("/study")
+	public ResponseEntity<?> showStudies(Authentication authentication) throws Exception {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		List<ProjectForm> projectForms = projectService.findByUser(Long.valueOf(userDetails.getUsername()), ProjectCategory.STUDY);
 		return new ResponseEntity<List<ProjectForm>>(projectForms, HttpStatus.OK);
 	}
 
