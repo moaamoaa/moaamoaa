@@ -1,6 +1,8 @@
 package com.ssafy.moamoa.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.moamoa.domain.entity.Area;
+
 import lombok.*;
 
 @Getter
@@ -15,5 +17,12 @@ public class AreaForm {
 
     @JsonProperty("name")
     private String name;
+
+    public static AreaForm toEntity(Area area){
+        return AreaForm.builder()
+            .id(area.getId())
+            .name(area.getName())
+            .build();
+    }
 
 }
