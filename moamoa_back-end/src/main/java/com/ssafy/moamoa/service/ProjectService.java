@@ -227,35 +227,20 @@ public class ProjectService {
 	}
 
 	// 프로젝트/스터디 삭제
-	public void deleteProject(Long id) {
-
-		Optional<Project> findProject = projectRepository.findById(id);
-		Project project = findProject.get();
-
-		// team
-		List<Team> findTeam = teamRepository.findByProject_Id(project.getId());
-		for (Team t : findTeam) {
-			teamRepository.delete(t);
-		}
-
-		// project techstack
-		List<ProjectTechStack> projectTechStacks = projectTechStackRepository.findByProject(project);
-		for (ProjectTechStack ts : projectTechStacks) {
-			projectTechStackRepository.delete(ts);
-		}
-
-		// project area
-		ProjectArea projectArea = areaService.findProjectAreaList(project);
-		areaService.deleteProjectAreaList(projectArea);
-
-		// project
-		projectRepository.delete(project);
-	}
-
-	// 프로젝트/스터디 삭제
-	public void deleteMember(ProjectForm projectForm) {
+	public void deleteProject(ProjectForm projectForm) {
 		Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
 		findProject.setLocked(true);
+	}
+
+	// 팀원 삭제
+	public void deleteMember(ProjectForm projectForm) throws Exception {
+		if(!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
+		|| userRepository.findById(projectForm.getUserId()).get().isLocked())
+		{
+			throw new Exception("존재하지 않는 팀원입니다.");
+		}
+		Team fineTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).get();
+		teamRepository.delete(fineTeam);
 	}
 
 	public List<ProjectForm> findByUser(Long id) {
