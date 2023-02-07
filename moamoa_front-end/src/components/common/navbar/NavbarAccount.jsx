@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutSuccess } from 'redux/user';
 import { changeProfilePk } from 'redux/profile';
-
 import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
@@ -19,6 +18,7 @@ import {
 } from '@mui/material/';
 
 import ChatIcon from '@mui/icons-material/Chat';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
@@ -81,10 +81,15 @@ export default function NavbarAccount() {
     return (
       <>
         <Box sx={{ flexGrow: 0 }}>
+          {/* 팀관리아이콘 */}
+          <IconButton onClick={null} sx={{ mr: 2 }}>
+            <Diversity3Icon />
+          </IconButton>
+          {/* 채팅아이콘 */}
           <IconButton onClick={null} sx={{ mr: 2 }}>
             <ChatIcon />
           </IconButton>
-
+          {/* 아바타버튼 */}
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
           </IconButton>
