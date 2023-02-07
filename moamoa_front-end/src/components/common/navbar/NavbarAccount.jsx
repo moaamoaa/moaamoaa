@@ -50,30 +50,30 @@ export default function NavbarAccount() {
     setLogInDialog(true);
   };
 
-  const handleNavigate = () => {
+  const handleOpenProfile = () => {
     dispatch(changeProfilePk({ id: userPk }));
     handleCloseUserMenu();
     navigate('/ProfilePage');
     scrollToTop();
   };
 
-  const handleUserToken = () => {
+  const handleLogOut = () => {
     handleCloseUserMenu();
     dispatch(logoutSuccess());
     Cookies.remove('access_token');
-    navigate('/HomePage');
+    navigate('/');
   };
 
   const settings = [
     {
       text: '프로필',
       icon: 'LogoutIcon',
-      handler: handleNavigate,
+      handler: handleOpenProfile,
     },
     {
       text: '로그아웃',
       icon: 'LogoutIcon',
-      handler: handleUserToken,
+      handler: handleLogOut,
     },
   ];
 
