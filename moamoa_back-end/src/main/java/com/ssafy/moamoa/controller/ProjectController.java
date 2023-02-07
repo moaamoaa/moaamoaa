@@ -102,7 +102,7 @@ public class ProjectController {
 			throw new Exception("팀장이 아닙니다.");
 		}
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
-		projectService.deleteProject(Long.valueOf(userDetails.getUsername()));
+		projectService.deleteProject(projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -115,6 +115,10 @@ public class ProjectController {
 		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
 		{
 			throw new Exception("팀장이 아닙니다.");
+		}
+		if(Long.valueOf(userDetails.getUsername()).equals(projectForm.getUserId()))
+		{
+			throw new Exception("팀장은 강퇴할 수 없습니다.");
 		}
 		projectService.deleteMember(projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
