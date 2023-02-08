@@ -6,13 +6,14 @@ import customAxios from 'utils/axios';
 import SearchFilterCategory from 'components/team/searchFilter/SearchFilterCategory';
 import SearchFilterStatus from 'components/team/searchFilter/SearchFilterSatus';
 import SearchFilterTech from 'components/team/searchFilter/SearchFilterTech';
-import TeamSearchbar from 'components/team/searchFilter/TeamSearchbar';
+import MemberSearchbar from 'components/team/searchFilter/MemberSearchbar';
 import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOffline';
 
 import TeamSearchList from 'components/common/card/TeamSearchList';
 import { Stack } from '@mui/system';
 
 export default function TeamSearchPage(props) {
+  // 기술스택 id 리스트를 스트링으로 바꾼 값을 담음
   let axiosStackId = '';
   // usestate
   // 자식에서 받는 값
@@ -20,6 +21,7 @@ export default function TeamSearchPage(props) {
   const [techstack, setTechstack] = useState('');
   const [category, setCategory] = useState('');
   const [region, setRegion] = useState('');
+  const [query, setQuery] = useState('');
 
   // axios로 보내줄 기술스택 id값
   const [stackId, setStackId] = useState([]);
@@ -43,10 +45,9 @@ export default function TeamSearchPage(props) {
     setStackId(delStackId);
   };
 
-  // 기술스택의 id값을 모아둠
-  const sandTechId = () => {
-    console.log(stackId);
-    console.log(techNameList);
+  // 검색바
+  const handleQuery = queryChange => {
+    setQuery(queryChange);
   };
 
   // 진행방식
@@ -78,7 +79,7 @@ export default function TeamSearchPage(props) {
     console.log(axiosStackId);
     customAxios.basicAxios
       .get(
-        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}`,
+        `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}`,
       )
       .then(response => {
         console.log(response);
@@ -102,14 +103,8 @@ export default function TeamSearchPage(props) {
 
   return (
     <>
-      <Container fixed sx={{ py: 4 }}>
-        <Link href="http://localhost:3000/TeamCreatePage">
-          팀을 생성하시겠습니까?
-        </Link>
-      </Container>
-
       <Container>
-        <TeamSearchbar></TeamSearchbar>
+        <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
         <SearchFilterTech handleTechstack={handleTechstack}></SearchFilterTech>
         <SearchFilterCategory
           handleCategory={handleCategory}
