@@ -72,6 +72,15 @@ const profileSlice = createSlice({
     contextEditSuccess: (state, action) => {
       state.userProfile[0].context = action.payload.context;
     },
+    searchStatusChange: (state, action) => {
+      if (action.payload.profileSearchStatus === 'ALL') {
+        state.userProfile[0].profileSearchStatus = 'ONLINE';
+      } else if (action.payload.profileSearchStatus === 'ONLINE') {
+        state.userProfile[0].profileSearchStatus = 'OFFLINE';
+      } else if (action.payload.profileSearchStatus === 'OFFLINE') {
+        state.userProfile[0].profileSearchStatus = 'ALL';
+      }
+    },
   },
 });
 
@@ -81,6 +90,7 @@ export const {
   profileCloseSuccess,
   profileEditSuccess,
   contextEditSuccess,
+  searchStatusChange,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;
