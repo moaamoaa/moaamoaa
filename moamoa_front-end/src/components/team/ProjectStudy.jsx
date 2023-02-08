@@ -21,6 +21,9 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import ReceiveApply from 'components/team/ReceiveApply';
 import SendOffer from 'components/team/SendOffer';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ProjectList from 'components/team/ProjectList';
+import StudyList from 'components/team/StudyList';
 
 export default function ApplyOffer() {
   // 오른쪽에 사이드바 열리는
@@ -74,24 +77,10 @@ export default function ApplyOffer() {
           <Divider />
           <List component="div" disablePadding>
             {/* 프로젝트 리스트 */}
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="빅데이터팀" />
+            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+              <ProjectList></ProjectList>
             </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="블록체인팀" />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="인공지능팀" />
-            </ListItemButton>
+            {/* 리스트 종료 */}
           </List>
         </Collapse>
         {/* 스터디 리스트 열리게 만들어야 */}
@@ -105,25 +94,11 @@ export default function ApplyOffer() {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            {/* 스터디 리스트 */}
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="모빌리티팀" />
+            {/* 스터디 리스트 목록 */}
+            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+              <StudyList></StudyList>
             </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="메타버스팀" />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="동동팀" />
-            </ListItemButton>
+            {/* 리스트 종료 */}
           </List>
         </Collapse>
       </List>

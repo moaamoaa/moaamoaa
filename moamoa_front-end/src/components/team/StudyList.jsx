@@ -1,23 +1,23 @@
 import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
-export default function ChattingList() {
+export default function StudyList() {
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {/* 1번째 */}
-      <ListItemButton alignItems="flex-start">
+      {/* 첫번째 */}
+      <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="안녕하세요!"
+          primary="빅데이터!"
           secondary={
             <React.Fragment>
               <Typography
@@ -26,21 +26,20 @@ export default function ChattingList() {
                 variant="body2"
                 color="text.primary"
               >
-                장유하
+                팀소개
               </Typography>
-              {'프로필이동'}
+              {'팀페이지이동'}
             </React.Fragment>
           }
         />
       </ListItemButton>
-      <Divider variant="inset" component="li" />
-      {/* 2번째 */}
-      <ListItemButton alignItems="flex-start">
+      {/* 두번째 */}
+      <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="팀구하셨나요?"
+          primary="빅데이터!"
           secondary={
             <React.Fragment>
               <Typography
@@ -49,21 +48,20 @@ export default function ChattingList() {
                 variant="body2"
                 color="text.primary"
               >
-                임성빈
+                팀소개
               </Typography>
-              {'프로필이동'}
+              {'팀페이지이동'}
             </React.Fragment>
           }
         />
       </ListItemButton>
-      <Divider variant="inset" component="li" />
-      {/* 3번째 */}
-      <ListItemButton alignItems="flex-start">
+      {/* 세번째 */}
+      <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="팀원구해요~"
+          primary="빅데이터!"
           secondary={
             <React.Fragment>
               <Typography
@@ -72,13 +70,14 @@ export default function ChattingList() {
                 variant="body2"
                 color="text.primary"
               >
-                황다솔
+                팀소개
               </Typography>
-              {'프로필이동'}
+              {'팀페이지이동'}
             </React.Fragment>
           }
         />
       </ListItemButton>
+      {/* 리스트 종료 */}
     </List>
   );
 }
