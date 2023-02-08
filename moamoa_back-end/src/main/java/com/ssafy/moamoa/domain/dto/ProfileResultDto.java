@@ -14,7 +14,7 @@ public class ProfileResultDto {
 
 	private String nickname;
 
-	// private MultipartFile img;
+	private String img;
 
 	private String context;
 

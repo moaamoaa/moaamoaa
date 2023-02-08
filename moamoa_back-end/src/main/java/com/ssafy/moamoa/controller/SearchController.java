@@ -28,6 +28,7 @@ public class SearchController {
 
 	@GetMapping("/project")
 	public ResponseEntity<?> searchProject(SearchCondition condition, String cursorId, Pageable pageable) {
+		log.debug(condition.toString());
 		List<ProjectResultDto> results = searchService.searchProject(condition, cursorId, pageable);
 		if (results.isEmpty()) {
 			return new ResponseEntity<>(results, HttpStatus.NO_CONTENT);

@@ -19,7 +19,7 @@ public class ProjectResultDto {
 
 	private String contents;
 
-	// private MultipartFile img;
+	private String img;
 
 	private int hit;
 
