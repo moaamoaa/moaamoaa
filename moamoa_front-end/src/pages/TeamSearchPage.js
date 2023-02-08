@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Container, Link, Box, styled } from '@mui/material/';
+import { Container, Link, Box, styled, Button } from '@mui/material/';
+import customAxios from 'utils/axios';
 // 검색 상단 컴포넌트
 import SearchFilterCategory from 'components/team/searchFilter/SearchFilterCategory';
 import SearchFilterStatus from 'components/team/searchFilter/SearchFilterSatus';
@@ -9,13 +10,44 @@ import TeamSearchbar from 'components/team/searchFilter/TeamSearchbar';
 import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOffline';
 
 import TeamSearchList from 'components/common/card/TeamSearchList';
+import { Stack } from '@mui/system';
 
 export default function TeamSearchPage(props) {
-  //usestate
+  let axiosStackId = '';
+  // usestate
+  // 자식에서 받는 값
   const [status, setStatus] = useState('');
   const [techstack, setTechstack] = useState('');
   const [category, setCategory] = useState('');
   const [region, setRegion] = useState('');
+
+  // axios로 보내줄 기술스택 id값
+  const [stackId, setStackId] = useState([]);
+
+  // 기술스택 아이콘 리스트
+  const [techNameList, setTechNameList] = useState([]);
+
+  // 기술스택 이름이 box에 쌓임
+  const handleSearchStack = event => {
+    const newTechNameList = [...techNameList, event];
+    const newStackId = [...stackId, event.id];
+    setTechNameList([...new Set(newTechNameList)]);
+    setStackId([...new Set(newStackId)]);
+  };
+
+  // box에 있는 기술 스택 클릭시 제거
+  const removeTechNameList = removeItem => {
+    const delTechNameList = techNameList.filter(name => name !== removeItem);
+    const delStackId = stackId.filter(id => id !== removeItem.id);
+    setTechNameList(delTechNameList);
+    setStackId(delStackId);
+  };
+
+  // 기술스택의 id값을 모아둠
+  const sandTechId = () => {
+    console.log(stackId);
+    console.log(techNameList);
+  };
 
   // 진행방식
   const handleStatus = statusChange => {
@@ -34,13 +66,39 @@ export default function TeamSearchPage(props) {
     setRegion(regionChange);
   };
 
+  // redux에 담아둔 tech스택의 array를 저장
+  const [filterArray, setFilterArray] = useState([]);
+
   //redux
   const area = useSelector(state => state.search.area);
   const tech = useSelector(state => state.search.tech);
 
-  const check = () => {
-    console.log(status);
+  const search = () => {
+    axiosStackId = stackId.join(',');
+    console.log(axiosStackId);
+    customAxios.basicAxios
+      .get(
+        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}`,
+      )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
+
+  useEffect(() => {
+    if (techstack === 'BackEnd') {
+      setFilterArray(tech[0].techStacks);
+    } else if (techstack === 'FrontEnd') {
+      setFilterArray(tech[1].techStacks);
+    } else if (techstack === 'Mobile') {
+      setFilterArray(tech[2].techStacks);
+    } else if (techstack === 'Etc') {
+      setFilterArray(tech[3].techStacks);
+    }
+  }, [techstack]);
 
   return (
     <>
@@ -57,16 +115,54 @@ export default function TeamSearchPage(props) {
           handleCategory={handleCategory}
         ></SearchFilterCategory>
         <SearchFilterStatus handleStatus={handleStatus}></SearchFilterStatus>
-        {status === 'offline' ? (
+        {status === 'OFFLINE' ? (
           <SearchFilterOffline
             handleRegion={handleRegion}
           ></SearchFilterOffline>
         ) : (
           <></>
         )}
-        <CommonBox></CommonBox>
+
+        <CommonBox direction="row">
+          {filterArray.map((techstack, idx) => (
+            <Stack
+              key={techstack.id}
+              direction="row"
+              sx={{ display: 'inline-flex', justifyContent: 'space-between' }}
+              onClick={() => {
+                handleSearchStack(techstack);
+              }}
+            >
+              <span>{techstack.logo}</span>
+              <span>{techstack.name}</span>
+            </Stack>
+          ))}
+        </CommonBox>
+
+        <CommonBox>
+          {techNameList.length !== 0 &&
+            techNameList.map(name => {
+              return (
+                <Button
+                  variant="contained"
+                  key={name.id}
+                  value={name}
+                  onClick={() => {
+                    removeTechNameList(name);
+                  }}
+                >
+                  {name.name}
+                  {name.id}
+                </Button>
+              );
+            })}
+        </CommonBox>
       </Container>
       <Container fixed sx={{ py: 4 }}>
+        <Button variant="contained" onClick={search}>
+          백엔드로 보냄
+        </Button>
+
         <TeamSearchList></TeamSearchList>
       </Container>
     </>

@@ -7,7 +7,8 @@ export default function SearchFilterCategory(props) {
   const handleCategory = event => {
     setCategory(event.target.value);
     console.log(event.target.value);
-    props.handleCategory(event.target.value);
+    if (event.target.value === 'all') props.handleCategory('');
+    else props.handleCategory(event.target.value);
   };
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -21,8 +22,8 @@ export default function SearchFilterCategory(props) {
           onChange={handleCategory}
         >
           <MenuItem value={'all'}>전체</MenuItem>
-          <MenuItem value={'project'}>프로젝트</MenuItem>
-          <MenuItem value={'study'}>스터디</MenuItem>
+          <MenuItem value={'PROJECT'}>프로젝트</MenuItem>
+          <MenuItem value={'STUDY'}>스터디</MenuItem>
         </Select>
       </FormControl>
     </Box>
