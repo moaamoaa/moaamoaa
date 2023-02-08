@@ -12,8 +12,8 @@ import { useNavigate } from 'react-router-dom';
 export default function ProjectItem(props) {
   const navigate = useNavigate();
   const goToDetail = () => {
-    // 주소가 정확히 어떻게 되지?
-    navigate(`/projects/detail?projectId=${props.project.projectId}`);
+    // 이동할 프론트 주소
+    navigate(`/TeamDetailPage/?projectId=${props.project.projectId}`);
   };
 
   if (props.type === 'project') {
