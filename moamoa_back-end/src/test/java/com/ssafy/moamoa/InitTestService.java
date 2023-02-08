@@ -52,7 +52,7 @@ public class InitTestService {
 			.category("STUDY")
 			.endDate("2023-02-21")
 			.totalPeople(4)
-			.userid(1L)
+			.userId(1L)
 			.techStacks(new Long[] {5L, 6L})
 			.areaId(1L)
 			.build();
@@ -63,7 +63,7 @@ public class InitTestService {
 			.category("PROJECT")
 			.endDate("2023-02-21")
 			.totalPeople(2)
-			.userid(1L)
+			.userId(1L)
 			.techStacks(new Long[] {1L, 4L})
 			.areaId(2L)
 			.build();
@@ -74,7 +74,7 @@ public class InitTestService {
 			.category("STUDY")
 			.endDate("2023-02-21")
 			.totalPeople(2)
-			.userid(1L)
+			.userId(1L)
 			.techStacks(new Long[] {1L, 2L, 5L})
 			.areaId(2L)
 			.build();
@@ -85,7 +85,7 @@ public class InitTestService {
 			.category("PROJECT")
 			.endDate("2023-02-21")
 			.totalPeople(2)
-			.userid(1L)
+			.userId(1L)
 			.techStacks(new Long[] {3L, 2L, 5L})
 			.areaId(5L)
 			.build();
