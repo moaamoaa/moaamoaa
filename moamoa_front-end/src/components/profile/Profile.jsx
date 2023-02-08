@@ -11,11 +11,21 @@ import {
   Box,
   Grid,
   TextField,
+  Badge,
+  Tooltip,
+  Fade,
 } from '@mui/material';
 
 import ScrollableTab from 'components/common/tab/ScrollableTab';
+import { searchStatusChange } from 'redux/profile';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
+  const [badgeInfo, setBadgeInfo] = useState({
+    color: 'primary',
+    context: '온라인 오프라인 팀을 구하고 있습니다.',
+  });
+
   const userPk = useSelector(state => state.user.userPk);
 
   const sites = useSelector(state => state.profile.sites);
@@ -24,9 +34,13 @@ export default function Profile() {
 
   const type = 'normal';
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
-  const handleOpenEditPage = () => {};
+  const handleOpenEditPage = () => {
+    navigate('/ProfileEditPage');
+  };
 
   const handleOpenOfferList = () => {};
 
@@ -34,13 +48,32 @@ export default function Profile() {
 
   const handleCloseEditPage = () => {};
 
+  const handleBadge = () => {
+    if (badgeInfo.color === 'primary') {
+      setBadgeInfo({
+        color: 'secondary',
+        context: '온라인 팀을 구하고 있습니다.',
+      });
+    } else if (badgeInfo.color === 'secondary') {
+      setBadgeInfo({
+        color: 'success',
+        context: '오프라인 팀을 구하고 있습니다.',
+      });
+    } else if (badgeInfo.color === 'success') {
+      setBadgeInfo({
+        color: 'primary',
+        context: '온라인 오프라인 팀을 구하고 있습니다.',
+      });
+    }
+    dispatch(
+      searchStatusChange({
+        profileSearchStatus: userProfile.profileSearchStatus,
+      }),
+    );
+  };
+
   const userButtons = [
-    <ProfileButton
-      key="offer"
-      href="/ProfileEditPage"
-      onClick={handleOpenEditPage}
-      variant="outlined"
-    >
+    <ProfileButton key="offer" onClick={handleOpenEditPage} variant="outlined">
       수정
     </ProfileButton>,
     <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
@@ -58,20 +91,10 @@ export default function Profile() {
   ];
 
   const editButtons = [
-    <ProfileButton
-      key="offer"
-      href="/ProfilePage"
-      onClick={handleEditSuccess}
-      variant="outlined"
-    >
+    <ProfileButton key="offer" onClick={handleEditSuccess} variant="outlined">
       수정 완료
     </ProfileButton>,
-    <ProfileButton
-      key="chat"
-      href="/ProfilePage"
-      onClick={handleCloseEditPage}
-      variant="outlined"
-    >
+    <ProfileButton key="chat" onClick={handleCloseEditPage} variant="outlined">
       수정 취소
     </ProfileButton>,
   ];
@@ -141,10 +164,33 @@ export default function Profile() {
             padding: '0 !important',
           }}
         >
-          <MoaSkeleton
-            variant="circular"
-            sx={{ width: '320px', height: '320px' }}
-          />
+          <Tooltip
+            title={badgeInfo.context}
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 600 }}
+            placement="top-end"
+            followCursor
+            onClick={handleBadge}
+          >
+            <Badge
+              badgeContent=" "
+              color={badgeInfo.color}
+              overlap="circular"
+              sx={{
+                '& .MuiBadge-badge': {
+                  fontSize: 9,
+                  height: 50,
+                  minWidth: 50,
+                  borderRadius: 50,
+                },
+              }}
+            >
+              <MoaSkeleton
+                variant="circular"
+                sx={{ width: '320px', height: '320px' }}
+              />
+            </Badge>
+          </Tooltip>
           <Typography variant="h4" color="initial" fontWeight={900}>
             {userProfile.nickname}
           </Typography>
@@ -164,11 +210,33 @@ export default function Profile() {
           sx={{ display: { xs: 'block', md: 'none' } }}
         >
           <Grid container spacing={10}>
-            <Grid item xs={4}>
-              <MoaSkeleton
-                variant="circular"
-                sx={{ width: '10rem', height: '10rem' }}
-              />
+            <Grid item xs={4} sx={{ display: 'flex' }}>
+              <Tooltip
+                title={badgeInfo.context}
+                TransitionComponent={Fade}
+                TransitionProps={{ timeout: 600 }}
+                onClick={handleBadge}
+                followCursor
+              >
+                <Badge
+                  badgeContent=" "
+                  color={badgeInfo.color}
+                  overlap="circular"
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      fontSize: 9,
+                      height: 30,
+                      minWidth: 30,
+                      borderRadius: 5,
+                    },
+                  }}
+                >
+                  <MoaSkeleton
+                    variant="circular"
+                    sx={{ minWidth: '10rem', minHeight: '10rem' }}
+                  />
+                </Badge>
+              </Tooltip>
             </Grid>
             <Grid item xs={8}>
               <Typography variant="h5" color="initial" fontWeight={600}>
