@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Typography } from '@mui/material/';
+import scrollToTop from 'utils/scrollToTop';
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function ResponsiveAppBar() {
 
   const handleOpenHome = () => {
     navigate('/');
+    scrollToTop();
   };
 
   return (
