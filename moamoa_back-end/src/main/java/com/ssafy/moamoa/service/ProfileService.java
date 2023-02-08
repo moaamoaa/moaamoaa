@@ -96,21 +96,31 @@ public class ProfileService {
         profile.setImg(output);
 
 
-        // TechStack
+//        // TechStack
+//
+//        techStackService.modifyProfileTechStack(profileId, profilePageForm.getTechStackFormList());
+//
+//        // Site
+//
+//        siteService.modifyProfileSite(profileId, profilePageForm.getSiteFormList());
+//
+//
+//        // Area
+//
+//        areaService.modifyProfileAreas(profileId, profilePageForm.getAreaList());
 
-        techStackService.modifyProfileTechStack(profileId, profilePageForm.getTechStackFormList());
+        // Return
+        ProfilePageForm returnForm  = ProfilePageForm.builder()
+                .profileForm(profileForm)
+                .techStackFormList(techStackService.modifyProfileTechStack(profileId, profilePageForm.getTechStackFormList()))
+                .reviewFormList(reviewService.getReviews(profileId))
+                .sidePjtFormList(sideProjectService.getSideProjects(profileId))
+                .siteFormList(siteService.modifyProfileSite(profileId, profilePageForm.getSiteFormList()))
+                .areaList(areaService.modifyProfileAreas(profileId, profilePageForm.getAreaList()))
+                .build();
 
-        // Site
 
-        siteService.modifyProfileSite(profileId, profilePageForm.getSiteFormList());
-
-
-        // Area
-
-        areaService.modifyProfileAreas(profileId, profilePageForm.getAreaList());
-
-
-        return getProfile(profileId);
+        return returnForm;
     }
 
     public ProfileSearchStatusForm changeUserSearchState(Long profileId) {

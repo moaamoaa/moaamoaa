@@ -147,7 +147,7 @@ public class TechStackService {
 				.id(profileTechStack.getTechStack().getId())
 				.name(profileTechStack.getTechStack().getName())
 				.img(profileTechStack.getTechStack().getLogo()).build();
-
+		log.info(profileTechStack.getTechStack().getName() +" "+profileTechStack.getTechStack().getLogo());
 			returnList.add(techStackForm);
 		}
 		return returnList;

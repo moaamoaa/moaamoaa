@@ -83,6 +83,18 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @GetMapping("/{profileId}")
+    public ResponseEntity<?> deleteUser(@ApiParam(value = "profileId") @PathVariable Long profileId) {
+
+        ProfilePageForm profilePageForm = profileService.getProfile(profileId);
+        return new ResponseEntity<ProfilePageForm>(profilePageForm, OK);
+    }
+    @ApiOperation(value = "사용자 페이지 접근", notes = "사용자 페이지 정보를 리턴해줍니다.", response = ProfilePageForm.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "유저의 프로필 정보들을 리턴해줍니다."),
+            @ApiResponse(code = 404, message = "User not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    @GetMapping("/{profileId}")
     public ResponseEntity<?> getProfilePage(@ApiParam(value = "profileId") @PathVariable Long profileId) {
 
         ProfilePageForm profilePageForm = profileService.getProfile(profileId);
