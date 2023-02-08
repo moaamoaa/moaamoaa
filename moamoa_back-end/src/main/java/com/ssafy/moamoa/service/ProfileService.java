@@ -2,6 +2,7 @@ package com.ssafy.moamoa.service;
 
 import java.io.IOException;
 
+import com.ssafy.moamoa.domain.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -96,18 +97,6 @@ public class ProfileService {
         profile.setImg(output);
 
 
-//        // TechStack
-//
-//        techStackService.modifyProfileTechStack(profileId, profilePageForm.getTechStackFormList());
-//
-//        // Site
-//
-//        siteService.modifyProfileSite(profileId, profilePageForm.getSiteFormList());
-//
-//
-//        // Area
-//
-//        areaService.modifyProfileAreas(profileId, profilePageForm.getAreaList());
 
         // Return
         ProfilePageForm returnForm  = ProfilePageForm.builder()
@@ -167,6 +156,13 @@ public class ProfileService {
             return SUCCESS;
         } else
             return FAIL;
+
+    }
+
+    public void deleteUser(Long profileId)
+    {
+        User user = profileRepository.getUserByProfileId(profileId);
+        user.setLocked(true);
 
     }
 

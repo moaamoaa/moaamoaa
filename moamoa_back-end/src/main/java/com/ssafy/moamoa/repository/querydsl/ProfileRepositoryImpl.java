@@ -12,6 +12,8 @@ import com.ssafy.moamoa.domain.dto.QProfileResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.QProfile;
+import com.ssafy.moamoa.domain.entity.QUser;
+import com.ssafy.moamoa.domain.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -23,6 +25,7 @@ import static com.querydsl.jpa.JPAExpressions.select;
 import static com.ssafy.moamoa.domain.entity.QProfileArea.profileArea;
 import static com.ssafy.moamoa.domain.entity.QProfileTechStack.profileTechStack;
 import static com.ssafy.moamoa.domain.entity.QProject.project;
+import static com.ssafy.moamoa.domain.entity.QUser.*;
 
 public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements ProfileRepositoryCustom {
     private final JPAQueryFactory queryFactory;
@@ -32,6 +35,7 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
     EntityManager em;
 
     QProfile profile = QProfile.profile;
+    QUser qUser = user;
 
 
     public ProfileRepositoryImpl(EntityManager em) {
@@ -175,6 +179,14 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
         return queryFactory.select(profile)
                 .from(profile)
                 .where(profile.user.id.eq(userId))
+                .fetchOne();
+    }
+
+    @Override
+    public User getUserByProfileId(Long profileId) {
+        return queryFactory.select(user)
+                .from(profile)
+                .where(profile.id.eq(profileId))
                 .fetchOne();
     }
 }

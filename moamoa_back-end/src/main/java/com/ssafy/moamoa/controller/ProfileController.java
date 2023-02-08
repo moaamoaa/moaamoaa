@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,17 +77,17 @@ public class ProfileController {
     }
 
 
-    @ApiOperation(value = "사용자 페이지 접근", notes = "사용자 페이지 정보를 리턴해줍니다.", response = ProfilePageForm.class)
+    @ApiOperation(value = "회원 탈퇴", notes = "회원을 탈퇴합니다.", response = ProfilePageForm.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "유저의 프로필 정보들을 리턴해줍니다."),
+            @ApiResponse(code = 200, message = "HttpStatus.OK"),
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @GetMapping("/{profileId}")
+    @DeleteMapping("/{profileId}")
     public ResponseEntity<?> deleteUser(@ApiParam(value = "profileId") @PathVariable Long profileId) {
 
-        ProfilePageForm profilePageForm = profileService.getProfile(profileId);
-        return new ResponseEntity<ProfilePageForm>(profilePageForm, OK);
+        profileService.deleteUser(profileId);
+        return new ResponseEntity<ProfilePageForm>(OK);
     }
     @ApiOperation(value = "사용자 페이지 접근", notes = "사용자 페이지 정보를 리턴해줍니다.", response = ProfilePageForm.class)
     @ApiResponses({
@@ -95,8 +96,7 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @GetMapping("/{profileId}")
-    public ResponseEntity<?> getProfilePage(@ApiParam(value = "profileId") @PathVariable Long profileId) {
-
+    public ResponseEntity<?> getProfilePage(@ApiParam(value = "profileId") @PathVariable Long profileId, Authentication authentication) {
         ProfilePageForm profilePageForm = profileService.getProfile(profileId);
         return new ResponseEntity<ProfilePageForm>(profilePageForm, OK);
     }
