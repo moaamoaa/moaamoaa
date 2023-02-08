@@ -17,7 +17,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import TechStackSeletor from 'components/profile/TechStackSeletor';
 
 export default function SideProject() {
-  let context = '';
+  const [context, setContext] = useState('');
 
   const [isAdd, setIsAdd] = useState(false);
 
@@ -29,8 +29,11 @@ export default function SideProject() {
   };
 
   const handleChangeContext = event => {
-    context = event.target.value;
-    console.log(context);
+    if (context.length <= 100) {
+      setContext(event.target.value);
+    } else {
+      setContext(context.slice(0, 200));
+    }
   };
 
   if (isAdd) {
