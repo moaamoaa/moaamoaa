@@ -43,4 +43,5 @@ const imageAxios = axios.create({
   },
 });
 
-export default { basicAxios, authAxios };
+const customAxios = { basicAxios, authAxios };
+export default customAxios;
