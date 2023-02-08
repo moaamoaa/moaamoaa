@@ -4,6 +4,9 @@ import dayjs from 'dayjs';
 import CustomAxios from 'utils/axios';
 import { useSelector } from 'react-redux';
 
+import { useDispatch } from 'react-redux';
+import { teamOpenSuccess } from 'redux/team';
+
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Calendar from 'components/team/Calendar';
@@ -35,6 +38,7 @@ export default function TeamCreatePage() {
 
   // redux
   const { userPk } = useSelector(state => state.user.userPk);
+  const dispatch = useDispatch();
 
   //handler
   const handleClick = e => {
@@ -71,16 +75,18 @@ export default function TeamCreatePage() {
         contents: inputRef.current,
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
         img: null,
-        projectId: null,
+        projectId: null, // 생성 요청 시에 줄 수 있는 값은 아니니까
         projectStatus: onoffRef.current,
         techStacks: techRef.current,
         title: titleRef.current,
         totalPeople: numberRef.current,
         userid: userPk,
       })
-      .then(e => {
-        console.log(e);
+      .then(response => {
+        console.log(response.data);
         console.log('생성완료!');
+        const projectId = response.data.projectId;
+        dispatch(teamOpenSuccess({ projectId: projectId })); // 저장시키기
       })
       .catch(error => {
         console.log(error);

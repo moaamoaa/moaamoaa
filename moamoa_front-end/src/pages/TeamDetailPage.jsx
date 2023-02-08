@@ -31,7 +31,7 @@ export default function TeamDetailPage() {
     CustomAxios.authAxios
       // 해당 id의 프로젝트 조회됨
       // .get(`/projects/detail?projectId=${projectId}`) // 팀페이지 open ${projectId}를 받아오거나 1 입력하면 조회됨
-      .get(`/projects/detail?projectId=1`)
+      .get(`/projects/detail?projectId=1`) //하드코딩
       .then(response => {
         setDetail(response.data);
         console.log(response);
