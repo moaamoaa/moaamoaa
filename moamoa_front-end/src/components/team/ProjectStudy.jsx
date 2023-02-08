@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
+import CustomAxios from 'utils/axios';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -23,9 +25,47 @@ import ReceiveApply from 'components/team/ReceiveApply';
 import SendOffer from 'components/team/SendOffer';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ProjectList from 'components/team/ProjectList';
-import StudyList from 'components/team/StudyList';
+import StudyList from 'components/team/ProjectItem';
 
 export default function ApplyOffer() {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [studies, setStudies] = useState([]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      CustomAxios.authAxios
+        .get('/projects/project')
+        .then(response => {
+          setProjects(response.data);
+          console.log(response.data);
+          console.log('프로젝트조회완료!');
+        })
+        .catch(error => {
+          console.log(error.data);
+        });
+    } else {
+      setIsLoaded(true);
+    }
+  }, [isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      CustomAxios.authAxios
+        .get('/projects/study')
+        .then(response => {
+          setStudies(response.data);
+          console.log(response.data);
+          console.log('스터디조회완료!');
+        })
+        .catch(error => {
+          console.log(error.data);
+        });
+    } else {
+      setIsLoaded(true);
+    }
+  }, [isLoaded]);
+
   // 오른쪽에 사이드바 열리는
   const [state, setState] = React.useState({
     right: false,
@@ -65,7 +105,6 @@ export default function ApplyOffer() {
           </ListSubheader>
         }
       >
-        {/* 프로젝트 리스트 열리게 만들거야 */}
         <ListItemButton onClick={handleClick}>
           <ListItemIcon>
             <InboxIcon />
@@ -76,14 +115,12 @@ export default function ApplyOffer() {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            {/* 프로젝트 리스트 */}
             <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
-              <ProjectList></ProjectList>
+              {/* 프로젝트 리스트 컴포넌트 */}
+              <ProjectList projects={projects} type={'project'}></ProjectList>
             </ListItemButton>
-            {/* 리스트 종료 */}
           </List>
         </Collapse>
-        {/* 스터디 리스트 열리게 만들어야 */}
         <ListItemButton onClick={handleClick}>
           <ListItemIcon>
             <InboxIcon />
@@ -94,11 +131,10 @@ export default function ApplyOffer() {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            {/* 스터디 리스트 목록 */}
             <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
-              <StudyList></StudyList>
+              {/* 스터디 리스트 컴포넌트 */}
+              <ProjectList studies={studies} type={'study'}></ProjectList>
             </ListItemButton>
-            {/* 리스트 종료 */}
           </List>
         </Collapse>
       </List>
