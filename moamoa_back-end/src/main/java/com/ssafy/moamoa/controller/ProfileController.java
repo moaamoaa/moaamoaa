@@ -1,44 +1,24 @@
 package com.ssafy.moamoa.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.transaction.Transactional;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.ssafy.moamoa.domain.dto.ContextForm;
-import com.ssafy.moamoa.domain.dto.ProfilePageForm;
-import com.ssafy.moamoa.domain.dto.ProfileSearchStatusForm;
-import com.ssafy.moamoa.domain.dto.ReviewForm;
-import com.ssafy.moamoa.domain.dto.SidePjtForm;
-import com.ssafy.moamoa.service.AreaService;
-import com.ssafy.moamoa.service.ProfileService;
-import com.ssafy.moamoa.service.ReviewService;
-import com.ssafy.moamoa.service.SideProjectService;
-import com.ssafy.moamoa.service.SiteService;
-import com.ssafy.moamoa.service.TechStackService;
-
+import com.ssafy.moamoa.domain.dto.*;
+import com.ssafy.moamoa.service.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -97,10 +77,10 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @PostMapping(value = "/modify/{profileId}", consumes = {MediaType.APPLICATION_JSON_VALUE,
-        MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/modify/{profileId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ProfilePageForm> modifyProfile(@ApiParam(value = "profileId") @PathVariable Long profileId,
-      @ApiParam(value = "profilePageForm")  @RequestPart ProfilePageForm profilePageForm , @RequestPart(value = "file") MultipartFile file)
+                                                         @RequestBody ProfilePageForm profilePageForm
+            , @RequestPart MultipartFile file)
             throws IOException {
 
         ProfilePageForm result = profileService.modifyProfile(profileId, profilePageForm, file);

@@ -52,7 +52,7 @@ public class InitTestService {
 			.category("STUDY")
 			.endDate("2023-02-21")
 			.totalPeople(4)
-			.userId(1L)
+			.userid(1L)
 			.techStacks(new Long[] {5L, 6L})
 			.areaId(1L)
 			.build();
@@ -63,7 +63,7 @@ public class InitTestService {
 			.category("PROJECT")
 			.endDate("2023-02-21")
 			.totalPeople(2)
-			.userId(1L)
+			.userid(1L)
 			.techStacks(new Long[] {1L, 4L})
 			.areaId(2L)
 			.build();
@@ -74,7 +74,7 @@ public class InitTestService {
 			.category("STUDY")
 			.endDate("2023-02-21")
 			.totalPeople(2)
-			.userId(1L)
+			.userid(1L)
 			.techStacks(new Long[] {1L, 2L, 5L})
 			.areaId(2L)
 			.build();
@@ -85,16 +85,16 @@ public class InitTestService {
 			.category("PROJECT")
 			.endDate("2023-02-21")
 			.totalPeople(2)
-			.userId(1L)
+			.userid(1L)
 			.techStacks(new Long[] {3L, 2L, 5L})
 			.areaId(5L)
 			.build();
 
 		for (int i = 0; i < 20; i++) {
-			projectService.creatProject(studyOffForm,null);
-			projectService.creatProject(projectOffForm,null);
-			projectService.creatProject(studyOnForm,null);
-			projectService.creatProject(projectOnForm,null);
+			projectService.creatProject(studyOffForm);
+			projectService.creatProject(projectOffForm);
+			projectService.creatProject(studyOnForm);
+			projectService.creatProject(projectOnForm);
 
 		}
 

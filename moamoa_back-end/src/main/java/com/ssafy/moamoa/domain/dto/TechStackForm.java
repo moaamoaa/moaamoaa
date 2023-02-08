@@ -14,13 +14,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class TechStackForm {
-	@JsonProperty("id")
+	@JsonProperty("tech_stack_no")
 	private Long id;
 
-	@JsonProperty("name")
+	@JsonProperty("techName")
 	private String name;
 
-	@JsonProperty("logo")
+	@JsonProperty("img")
 	private String img;
 
 }

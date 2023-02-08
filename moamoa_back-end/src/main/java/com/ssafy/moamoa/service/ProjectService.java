@@ -10,14 +10,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.TeamRole;
 import com.ssafy.moamoa.domain.dto.ProfileResultDto;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.ProjectArea;
@@ -50,7 +51,6 @@ public class ProjectService {
 	private final TeamRepository teamRepository;
 	private final ProfileRepository profileRepository;
 	private final UserService userService;
-	private final S3Service s3Service;
 
 	public Boolean isLocked(Long id){
 		Project project = projectRepository.findById(id).get();
@@ -93,11 +93,8 @@ public class ProjectService {
 	}
 
 	// 프로젝트/스터디 등록
-	public void creatProject(ProjectForm projectForm, MultipartFile file) throws Exception {
-	boolean isImgNull= false;
-	if(file==null){
-		isImgNull = true;
-	}
+	public void creatProject(ProjectForm projectForm) throws Exception {
+
 		// 기간 4주이내인지 확인
 		LocalDate endDate = LocalDate.parse(projectForm.getEndDate(), DateTimeFormatter.ISO_DATE);
 		checkPeriod(endDate);
@@ -141,19 +138,14 @@ public class ProjectService {
 			.createDate(LocalDate.now())
 			.startDate(LocalDate.now())
 			.endDate(endDate)
-
 			.title(projectForm.getTitle())
 			.contents(projectForm.getContents())
 			.totalPeople(cntPeople)
 			.currentPeople(1)
 			.isLocked(false)
 			.build();
-		Project projectSaved = projectRepository.save(project);
+		projectRepository.save(project);
 
-		// Setting img to our Project
-		if(!isImgNull) {
-			projectSaved.setImg(s3Service.uploadProjectImg(projectSaved.getId(), file, projectSaved.getTitle()));
-		}
 		// team
 		Optional<User> findUser = userRepository.findById(projectForm.getUserId());
 		User user = findUser.get();
@@ -182,8 +174,7 @@ public class ProjectService {
 	}
 
 	// 프로젝트/스터디 수정
-	// 유저 id, projectForm, file
-	public void updateProject(Long id, ProjectForm projectForm, MultipartFile file) throws Exception {
+	public void updateProject(Long id, ProjectForm projectForm) throws Exception {
 
 		Optional<Project> findProject = projectRepository.findById(projectForm.getProjectId());
 		Project project = findProject.get();
@@ -213,8 +204,6 @@ public class ProjectService {
 				projectStatus = ProjectStatus.OFFLINE;
 				break;
 		}
-		// Set Project Img
-		project.setImg(s3Service.uploadProjectImg(project.getId(), file, projectForm.getTitle()));
 
 		// project
 		project.setOnoffline(projectStatus);
@@ -223,8 +212,6 @@ public class ProjectService {
 		project.setTitle(projectForm.getTitle());
 		project.setTotalPeople(cntPeople);
 		project.setContents(projectForm.getContents());
-
-
 
 		// project techstack
 		List<ProjectTechStack> projectTechStacks = projectTechStackRepository.findByProject(project);
