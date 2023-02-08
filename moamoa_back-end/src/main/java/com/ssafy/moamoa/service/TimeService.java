@@ -1,5 +1,6 @@
 package com.ssafy.moamoa.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -39,6 +40,13 @@ public class TimeService {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY.MM.dd HH:mm");
 
 		return localDateTime.format(dateTimeFormatter);
+	}
+
+	public String parseCreatedTime(LocalDate localDate)
+	{
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY.MM.dd");
+
+		return localDate.format(dateTimeFormatter);
 	}
 
 
