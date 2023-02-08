@@ -1,25 +1,36 @@
 import { Autocomplete, TextField } from '@mui/material';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-function TechStackSeletor() {
-  let tech = useSelector(state => state.search.tech);
+function TechStackSeletor(props) {
+  let techs = [];
+  const tech = useSelector(state => state.search.tech);
 
-  useEffect(() => {
-    let techs = tech.map(category => {
-      console.log(category.techStacks);
-      return category.techStacks;
-    });
+  tech.map(category => {
+    techs.push(...category.techStacks);
+  });
 
-    console.log(techs);
+  const deduplicatedTechs = techs.reduce((acc, current) => {
+    const found = acc.find(obj => obj.name === current.name);
+    if (!found || current.id < found.id) {
+      return [...acc, current];
+    }
+    return acc;
   }, []);
+
+  const handleSelectedTech = (event, value) => {
+    props.setSelectedValue(value);
+    console.log(value);
+  };
+
   return (
     <Autocomplete
       fullWidth
-      multiple
+      multiple={true}
       id="tags-standard"
-      options={tech}
-      getOptionLabel={option => option.title}
+      options={deduplicatedTechs}
+      getOptionLabel={option => option.name}
+      onChange={handleSelectedTech}
       renderInput={params => (
         <TextField
           {...params}

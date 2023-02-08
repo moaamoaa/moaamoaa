@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
@@ -15,24 +15,54 @@ import LongMenu from './LongMenu';
 import AddIcon from '@mui/icons-material/Add';
 import CreateIcon from '@mui/icons-material/Create';
 import TechStackSeletor from 'components/profile/TechStackSeletor';
+import customAxios from 'utils/axios';
 
 export default function SideProject() {
-  const [context, setContext] = useState('');
-
   const [isAdd, setIsAdd] = useState(false);
+
+  const profileId = useSelector(state => state.user.userPk);
 
   const SideProjects = useSelector(state => state.profile.SideProjects);
   const techStacks = useSelector(state => state.profile.techStacks);
+
+  const [year, setYear] = useState(String(new Date().getFullYear()));
+  const [name, setName] = useState('');
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [context, setContext] = useState(
+    SideProjects ? SideProjects[0].context : '',
+  );
+
+  const handleChangeName = event => {
+    setName(event.target.value);
+  };
 
   const handleAddSidProject = () => {
     setIsAdd(true);
   };
 
+  const handleCreateSidProject = () => {
+    console.log(year, name, selectedValue, context);
+    customAxios.authAxios
+      .post(`profile/sidepjt/${profileId}`, {
+        year: year,
+        name: name,
+        pjt_tech_stack: selectedValue,
+        context: context,
+      })
+      .then(response => {
+        console.log(response);
+        setIsAdd(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const handleChangeContext = event => {
-    if (context.length <= 100) {
+    if (context.length <= 10) {
       setContext(event.target.value);
     } else {
-      setContext(context.slice(0, 200));
+      setContext(context.slice(0, 10));
     }
   };
 
@@ -41,22 +71,25 @@ export default function SideProject() {
       <>
         <ContentTitle color="initial">주요 프로젝트</ContentTitle>
         <MoaContainer container>
-          <Grid item container alignItems="start">
-            <Grid item xs={1} md={1}>
+          <Grid item container xs={12} alignItems="start">
+            <Grid item xs={1}>
               <SideProjectYear></SideProjectYear>
             </Grid>
-            <Grid item xs={10} md={11}>
+            <Grid item xs={10}>
               <TextField
                 fullWidth
                 id="standard-multiline-flexible"
                 placeholder="프로젝트 이름"
+                onChange={handleChangeName}
                 InputProps={{
                   disableUnderline: true,
                 }}
                 variant="standard"
               />
               <Grid container>
-                <TechStackSeletor></TechStackSeletor>
+                <TechStackSeletor
+                  setSelectedValue={setSelectedValue}
+                ></TechStackSeletor>
               </Grid>
 
               <TextField
@@ -64,7 +97,6 @@ export default function SideProject() {
                 fullWidth
                 autoFocus
                 multiline
-                maxRows={4}
                 InputProps={{
                   disableUnderline: true,
                 }}
@@ -74,13 +106,25 @@ export default function SideProject() {
                 {context}
               </TextField>
             </Grid>
+            <Grid item xs={1} justifyContent="end" sx={{ display: 'flex' }}>
+              <IconButton
+                onClick={handleCreateSidProject}
+                sx={{ padding: '0' }}
+              >
+                <CreateIcon />
+              </IconButton>
+            </Grid>
           </Grid>
-          <IconButton
-            onClick={handleAddSidProject}
-            sx={{ position: 'absolute', right: '.5rem', top: '.5rem' }}
-          >
-            <CreateIcon />
-          </IconButton>
+          <Grid item xs={12} sx={{ display: 'flex' }} justifyContent="end">
+            <Typography
+              variant="caption"
+              color="initial"
+              justifyContent="end"
+              sx={{ display: 'flex' }}
+            >
+              {context.length} / 200
+            </Typography>
+          </Grid>
         </MoaContainer>
       </>
     );
