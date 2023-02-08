@@ -1,6 +1,10 @@
 package com.ssafy.moamoa.domain.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -17,6 +21,8 @@ public class ProfileForm {
     private String profileOnOffStatus; // 온/오프라인 유무
 
     private String img;
+
+    //  private MultipartFile file;
 
     private String context;
 

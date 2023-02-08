@@ -1,18 +1,20 @@
 package com.ssafy.moamoa.controller;
 
-import com.ssafy.moamoa.domain.dto.FileDto;
-import com.ssafy.moamoa.domain.entity.File;
-import com.ssafy.moamoa.service.FileService;
-import com.ssafy.moamoa.service.S3Service;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.List;
+import com.ssafy.moamoa.domain.dto.FileDto;
+import com.ssafy.moamoa.domain.entity.File;
+import com.ssafy.moamoa.service.FileService;
+import com.ssafy.moamoa.service.S3Service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class S3Controller {
     @PostMapping("/api/upload")
     public String uploadFile(FileDto fileDto) throws IOException {
         Long profileId = 1L;
-        String url = s3Service.uploadProfileImg(profileId, fileDto.getFile()); // profileId, MultipartFile
+        String url = s3Service.uploadProfileImg(profileId, fileDto.getFile(), ""); // profileId, MultipartFile
         log.info(url);
         fileDto.setUrl(url);
         fileService.save(fileDto);

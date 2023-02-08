@@ -1,5 +1,18 @@
 package com.ssafy.moamoa.repository.querydsl;
 
+import static com.querydsl.jpa.JPAExpressions.*;
+import static com.ssafy.moamoa.domain.entity.QProfileArea.*;
+import static com.ssafy.moamoa.domain.entity.QProfileTechStack.*;
+import static com.ssafy.moamoa.domain.entity.QProject.*;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
@@ -12,18 +25,10 @@ import com.ssafy.moamoa.domain.dto.QProfileResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.QProfile;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
-import static com.querydsl.jpa.JPAExpressions.select;
-import static com.ssafy.moamoa.domain.entity.QProfileArea.profileArea;
-import static com.ssafy.moamoa.domain.entity.QProfileTechStack.profileTechStack;
-import static com.ssafy.moamoa.domain.entity.QProject.project;
-
+@Slf4j
 public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements ProfileRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
@@ -112,14 +117,19 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
         return profile.searchState.ne(ProfileSearchStatus.NONE);
     }
 
+
     @Override
     public Profile getProfileById(Long profileId) {
 
-        return queryFactory
+        Profile returnProfile = queryFactory
                 .select(profile)
                 .from(profile)
                 .where(profile.id.eq(profileId))
                 .fetchOne();
+
+        log.info("=============== " +returnProfile.toString());
+
+    return returnProfile;
 
     }
 

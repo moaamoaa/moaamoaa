@@ -1,5 +1,11 @@
 package com.ssafy.moamoa.service;
 
+import java.io.IOException;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.ContextForm;
@@ -9,13 +15,9 @@ import com.ssafy.moamoa.domain.dto.ProfileSearchStatusForm;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Service
 @Slf4j
@@ -75,20 +77,23 @@ public class ProfileService {
         // Profile
         Profile profile = profileRepository.getProfileById(profileId);
         ProfileForm profileForm = profilePageForm.getProfileForm();
-        String output = s3Service.uploadProfileImg(profileId, file);
         Profile inputProfile = Profile.builder()
                 .id(profileId)
                 .profileOnOffStatus(ProfileOnOffStatus.valueOf(profileForm.getProfileOnOffStatus()))
+                .nickname(profilePageForm.getProfileForm().getNickname())
                 // Multipart -> String 으로 Parsing
                 // profileForm.getFile()
-                .img(output)
                 .build();
 
+        String output = s3Service.uploadProfileImg(profileId, file, profileForm.getNickname());
 
         // Profile
         profile.setProfileOnOffStatus(inputProfile.getProfileOnOffStatus());
-        profile.setNickname(inputProfile.getNickname());
-        profile.setImg(inputProfile.getImg());
+        if(inputProfile.getNickname()!=null)
+        {
+            profile.setNickname(inputProfile.getNickname());
+        }
+        profile.setImg(output);
 
 
         // TechStack
