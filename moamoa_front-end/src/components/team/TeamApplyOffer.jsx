@@ -73,11 +73,8 @@ export default function ApplyOffer() {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              {/* <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon> */}
-              {/* <ListItemText primary="Starred" /> */}
+            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+              {/* 받은 지원 컴포넌트 */}
               <ReceiveApply></ReceiveApply>
             </ListItemButton>
           </List>
@@ -93,7 +90,8 @@ export default function ApplyOffer() {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+              {/* 보낸 제안 컴포넌트 */}
               <SendOffer></SendOffer>
             </ListItemButton>
           </List>
