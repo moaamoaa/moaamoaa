@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Container, Box, styled, Button, Grid } from '@mui/material/';
+import { Container, Box, styled, Button, Grid, Chip } from '@mui/material/';
 import customAxios from 'utils/axios';
 // 검색 상단 컴포넌트
 import SearchFilterCategory from 'components/team/searchFilter/SearchFilterCategory';
@@ -72,6 +72,9 @@ export default function TeamSearchPage(props) {
   //redux
   const tech = useSelector(state => state.search.tech);
 
+  // reponse data로 넘어오는 값을 자식에게 넘겨줌
+  const [searchResult, setSearchResult] = useState([]);
+
   const search = () => {
     axiosStackId = stackId.join(',');
     console.log(axiosStackId);
@@ -80,7 +83,7 @@ export default function TeamSearchPage(props) {
         `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}`,
       )
       .then(response => {
-        console.log(response);
+        setSearchResult(response);
       })
       .catch(error => {
         console.log(error);
@@ -100,7 +103,7 @@ export default function TeamSearchPage(props) {
   }, [techstack]);
 
   return (
-    <Container fixed sx={{ py: 4 }}>
+    <Container fixed sx={{ paddingTop: '4rem' }}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
@@ -129,9 +132,11 @@ export default function TeamSearchPage(props) {
         <></>
       )}
 
-      <CommonBox direction="row">
+      <CommonBox direction="row" sx={{ paddingTop: '1rem' }}>
         {filterArray.map((techstack, idx) => (
           <Button
+            variant="outlined"
+            size="medium"
             key={techstack.id}
             direction="row"
             sx={{ display: 'inline-flex', justifyContent: 'space-between' }}
@@ -149,17 +154,15 @@ export default function TeamSearchPage(props) {
           {techNameList.length !== 0 &&
             techNameList.map(name => {
               return (
-                <Button
-                  variant="contained"
+                <Chip
+                  label={name.name}
+                  variant="outlined"
                   key={name.id}
                   value={name}
-                  onClick={() => {
+                  onDelete={() => {
                     removeTechNameList(name);
                   }}
-                >
-                  {name.name}
-                  {name.id}
-                </Button>
+                />
               );
             })}
         </SearchBox>
@@ -169,7 +172,9 @@ export default function TeamSearchPage(props) {
       </Box>
 
       <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
-        <TeamMemberSearchList></TeamMemberSearchList>
+        <TeamMemberSearchList
+          searchResult={searchResult}
+        ></TeamMemberSearchList>
       </Container>
     </Container>
   );
