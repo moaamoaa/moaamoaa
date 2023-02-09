@@ -17,10 +17,11 @@ import {
 } from '@mui/material';
 
 import ScrollableTab from 'components/common/tab/ScrollableTab';
-import { searchStatusChange } from 'redux/profile';
+import { searchStatusChange, handleEditProfile } from 'redux/profile';
 import { useNavigate } from 'react-router-dom';
+import scrollToTop from 'utils/scrollToTop';
 
-export default function Profile() {
+export default function Profile(props) {
   const [badgeInfo, setBadgeInfo] = useState({
     color: 'primary',
     context: '온라인 오프라인 팀을 구하고 있습니다.',
@@ -32,21 +33,25 @@ export default function Profile() {
   const techStacks = useSelector(state => state.profile.techStacks);
   const userProfile = useSelector(state => state.profile.userProfile[0]);
 
-  const type = 'normal';
-
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const handleOpenEditPage = () => {
     navigate('/ProfileEditPage');
+    scrollToTop();
   };
 
   const handleOpenOfferList = () => {};
 
-  const handleEditSuccess = () => {};
+  const handleEditSuccess = () => {
+    dispatch(handleEditProfile({}));
+  };
 
-  const handleCloseEditPage = () => {};
+  const handleCloseEditPage = () => {
+    navigate('/ProfilePage');
+    scrollToTop();
+  };
 
   const handleBadge = () => {
     if (userPk !== userProfile.id) return;
@@ -101,7 +106,7 @@ export default function Profile() {
     </ProfileButton>,
   ];
 
-  if (type === 'edit') {
+  if (props.type === 'edit') {
     return (
       <>
         {/* 반응형 md 이상 */}
@@ -246,7 +251,6 @@ export default function Profile() {
               </Typography>
 
               <ScrollableTab type={'tech'} cards={techStacks}></ScrollableTab>
-              {/* <Carousel type={'tech'} cards={tech}></Carousel> */}
               <hr />
               <CardList type={'link'} cards={sites}></CardList>
             </Grid>

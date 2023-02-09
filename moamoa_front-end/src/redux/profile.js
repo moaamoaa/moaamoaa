@@ -13,6 +13,14 @@ const initialStateValue = {
       profileOnOffStatus: '',
       profileSearchStatus: '',
     },
+    {
+      img: '',
+      nickname: '',
+      profileOnOffStatus: '',
+      sites: [],
+      areas: [],
+      techStacks: [],
+    },
   ],
   sideProjects: [],
   techStacks: [],
@@ -25,6 +33,25 @@ const profileSlice = createSlice({
     changeProfilePk: (state, action) => {
       console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
+    },
+    handleCreateReview: (state, action) => {
+      state.reviews.push(action.payload.review);
+    },
+    handleEditReview: (state, action) => {
+      state.reviews = state.reviews.filter(review => {
+        if (review.id !== action.payload.id) return review;
+
+        return action.payload.review;
+      });
+    },
+    handleEditProfile: (state, action) => {
+      state.userProfile[1].img = action.payload.img;
+      state.userProfile[1].nickname = action.payload.nickname;
+      state.userProfile[1].profileOnOffStatus =
+        action.payload.profileOnOffStatus;
+      state.userProfile[1].sites = action.payload.sites;
+      state.userProfile[1].areas = action.payload.areas;
+      state.userProfile[1].techStacks = action.payload.techStacks;
     },
     profileOpenSuccess: (state, action) => {
       state.areas = action.payload.profile.areas;
@@ -86,6 +113,9 @@ const profileSlice = createSlice({
 
 export const {
   changeProfilePk,
+  handleCreateReview,
+  handleEditProfile,
+  handleEditReview,
   profileOpenSuccess,
   profileCloseSuccess,
   profileEditSuccess,
