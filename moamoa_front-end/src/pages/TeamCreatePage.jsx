@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import dayjs from 'dayjs';
 import CustomAxios from 'utils/axios';
 import { useSelector } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { teamOpenSuccess } from 'redux/team';
 
@@ -24,6 +24,7 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
+import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
 
 export default function TeamCreatePage() {
   //ref
@@ -39,7 +40,7 @@ export default function TeamCreatePage() {
   // redux
   const { userPk } = useSelector(state => state.user.userPk);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   //handler
   const handleClick = e => {
     // 팀 이름 string
@@ -88,6 +89,8 @@ export default function TeamCreatePage() {
         const projectId = response.data.projectId;
         const leaderId = response.data.leaderId;
         dispatch(teamOpenSuccess({ projectId: projectId, leaderId: leaderId })); // 저장시키기
+        ScrollToTopButton(); // 등록 버튼 누르고 마우스 커서 위치가 중간에 있어서
+        navigate(`/TeamDetailPage/?projectId=${projectId}`); // 이동하고
       })
       .catch(error => {
         console.log(error);

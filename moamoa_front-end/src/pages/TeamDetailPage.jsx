@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import CustomAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
-import { handleUpdate } from 'redux/team';
+import { handleUpdate, handleCloseTeamDetail } from 'redux/team';
 import {
   Container,
   Paper,
@@ -110,6 +110,7 @@ export default function TeamDetailPage() {
                     console.log(e);
                     console.log('삭제완료!');
                     alert('게시물이 삭제되었습니다');
+                    navigate('/'); // 삭제 후 홈으로 보내기 (프론트 주소)
                   });
               }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
             >
