@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Container, Link, Box, styled, Button } from '@mui/material/';
+import { Container, Box, styled, Button, Grid } from '@mui/material/';
 import customAxios from 'utils/axios';
 // 검색 상단 컴포넌트
 import SearchFilterCategory from 'components/team/searchFilter/SearchFilterCategory';
@@ -9,8 +9,7 @@ import SearchFilterTech from 'components/team/searchFilter/SearchFilterTech';
 import MemberSearchbar from 'components/team/searchFilter/MemberSearchbar';
 import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOffline';
 
-import TeamSearchList from 'components/common/card/TeamSearchList';
-import { Stack } from '@mui/system';
+import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
 export default function TeamSearchPage(props) {
   // 기술스택 id 리스트를 스트링으로 바꾼 값을 담음
@@ -71,7 +70,6 @@ export default function TeamSearchPage(props) {
   const [filterArray, setFilterArray] = useState([]);
 
   //redux
-  const area = useSelector(state => state.search.area);
   const tech = useSelector(state => state.search.tech);
 
   const search = () => {
@@ -102,39 +100,52 @@ export default function TeamSearchPage(props) {
   }, [techstack]);
 
   return (
-    <>
-      <Container>
-        <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
-        <SearchFilterTech handleTechstack={handleTechstack}></SearchFilterTech>
-        <SearchFilterCategory
-          handleCategory={handleCategory}
-        ></SearchFilterCategory>
-        <SearchFilterStatus handleStatus={handleStatus}></SearchFilterStatus>
-        {status === 'OFFLINE' ? (
-          <SearchFilterOffline
-            handleRegion={handleRegion}
-          ></SearchFilterOffline>
-        ) : (
-          <></>
-        )}
+    <Container fixed sx={{ py: 4 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
+        </Grid>
+        <Grid container item xs={8} spacing={1}>
+          <Grid item xs={4}>
+            <SearchFilterTech
+              handleTechstack={handleTechstack}
+            ></SearchFilterTech>
+          </Grid>
+          <Grid item xs={4}>
+            <SearchFilterCategory
+              handleCategory={handleCategory}
+            ></SearchFilterCategory>
+          </Grid>
+          <Grid item xs={4}>
+            <SearchFilterStatus
+              handleStatus={handleStatus}
+            ></SearchFilterStatus>
+          </Grid>
+        </Grid>
+      </Grid>
+      {status === 'OFFLINE' ? (
+        <SearchFilterOffline handleRegion={handleRegion}></SearchFilterOffline>
+      ) : (
+        <></>
+      )}
 
-        <CommonBox direction="row">
-          {filterArray.map((techstack, idx) => (
-            <Stack
-              key={techstack.id}
-              direction="row"
-              sx={{ display: 'inline-flex', justifyContent: 'space-between' }}
-              onClick={() => {
-                handleSearchStack(techstack);
-              }}
-            >
-              <span>{techstack.logo}</span>
-              <span>{techstack.name}</span>
-            </Stack>
-          ))}
-        </CommonBox>
-
-        <CommonBox>
+      <CommonBox direction="row">
+        {filterArray.map((techstack, idx) => (
+          <Button
+            key={techstack.id}
+            direction="row"
+            sx={{ display: 'inline-flex', justifyContent: 'space-between' }}
+            onClick={() => {
+              handleSearchStack(techstack);
+            }}
+          >
+            {techstack.logo}
+            {techstack.name}
+          </Button>
+        ))}
+      </CommonBox>
+      <Box direction="row" style={{ display: 'flex' }}>
+        <SearchBox direction="row">
           {techNameList.length !== 0 &&
             techNameList.map(name => {
               return (
@@ -151,24 +162,32 @@ export default function TeamSearchPage(props) {
                 </Button>
               );
             })}
-        </CommonBox>
-      </Container>
-      <Container fixed sx={{ py: 4 }}>
+        </SearchBox>
         <Button variant="contained" onClick={search}>
-          백엔드로 보냄
+          검색
         </Button>
+      </Box>
 
-        <TeamSearchList></TeamSearchList>
+      <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
+        <TeamMemberSearchList></TeamMemberSearchList>
       </Container>
-    </>
+    </Container>
   );
 }
 
 const CommonBox = styled(Box)`
   background-color: #ffffff;
+  height: 6rem;
+  width: 100%;
+  // 이건 박스 안에 맞게 줄바꿈해주는 css
+  flex-flow: row-reverse wrap;
+`;
+
+const SearchBox = styled(CommonBox)`
+  background-color: #ffffff;
   border: 1px solid #c4c4c4;
   border-radius: 0.5rem;
-  height: 8rem;
+  height: 5rem;
   width: 100%;
   // 이건 박스 안에 맞게 줄바꿈해주는 css
   flex-flow: row-reverse wrap;

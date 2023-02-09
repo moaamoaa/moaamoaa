@@ -9,27 +9,30 @@ export default function CardList(props) {
   if (props.type === 'team') {
     return (
       <MoaGrid container spacing={10}>
-        {props.cards.map((card, idx) => (
-          <Grid item key={idx} xs={12} md={6} lg={4}>
-            <CardItem card={card} type={props.type}></CardItem>
-          </Grid>
-        ))}
+        {props.cards &&
+          props.cards.map((card, idx) => (
+            <Grid item key={idx} xs={12} md={6} lg={4}>
+              <CardItem card={card} type={props.type}></CardItem>
+            </Grid>
+          ))}
       </MoaGrid>
     );
   } else if (props.type === 'member') {
     return (
       <MoaGrid container spacing={5}>
-        {props.cards.map((card, idx) => (
-          <Grid item key={idx} xs={12} sm={6} md={4} lg={3}>
-            <CardItem card={card} type={props.type}></CardItem>
-          </Grid>
-        ))}
+        {props.cards &&
+          props.cards.map((card, idx) => (
+            <Grid item key={idx} xs={12} sm={6} md={4} lg={3}>
+              <CardItem card={card} type={props.type}></CardItem>
+            </Grid>
+          ))}
       </MoaGrid>
     );
   } else if (props.type === 'tech') {
     return (
       <Grid container>
         {props.cards ? (
+          props.cards &&
           props.cards.map((card, idx) => (
             <Grid item key={idx} xs={3}>
               <CardItem card={card} type={props.type}></CardItem>
