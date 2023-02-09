@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Container, Link, Box, styled, Button } from '@mui/material/';
+import { Container, Link, Box, styled, Button, Grid } from '@mui/material/';
 import customAxios from 'utils/axios';
 // 검색 상단 컴포넌트
 import SearchFilterCategory from 'components/team/searchFilter/SearchFilterCategory';
@@ -10,9 +10,19 @@ import TeamSearchbar from 'components/team/searchFilter/TeamSearchbar';
 import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOffline';
 
 import TeamSearchList from 'components/common/card/TeamSearchList';
-import { Stack } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 
 export default function TeamSearchPage(props) {
+  // 팀생성 링크
+  const navigate = useNavigate();
+  const goToCreate = () => {
+    if (isLogged === false) {
+      alert('로그인이 필요한 서비스입니다');
+    } else {
+      navigate('http://localhost:3000/TeamCreatePage');
+    }
+  };
+
   // 기술스택 id 리스트를 스트링으로 바꾼 값을 담음
   let axiosStackId = '';
   // usestate
@@ -71,18 +81,21 @@ export default function TeamSearchPage(props) {
   const [filterArray, setFilterArray] = useState([]);
 
   //redux
-  const area = useSelector(state => state.search.area);
   const tech = useSelector(state => state.search.tech);
+  const isLogged = useSelector(state => state.user.isLogged);
+
+  // reponse data로 넘어오는 값을 자식에게 넘겨줌
+  const [searchResult, setSearchResult] = useState([]);
 
   const search = () => {
     axiosStackId = stackId.join(',');
     console.log(axiosStackId);
     customAxios.basicAxios
       .get(
-        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}`,
+        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=date,desc&size=30`,
       )
       .then(response => {
-        console.log(response);
+        setSearchResult(response);
       })
       .catch(error => {
         console.log(error);
@@ -102,45 +115,55 @@ export default function TeamSearchPage(props) {
   }, [techstack]);
 
   return (
-    <>
-      <Container fixed sx={{ py: 4 }}>
-        <Link href="http://localhost:3000/TeamCreatePage">
-          팀을 생성하시겠습니까?
-        </Link>
-      </Container>
+    <Container fixed sx={{ paddingTop: '4rem' }}>
+      <Button onClick={goToCreate}>팀을 생성하시겠습니까?</Button>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
+        </Grid>
+        <Grid item xs={8} container spacing={1}>
+          <Grid item xs={4}>
+            <SearchFilterTech
+              handleTechstack={handleTechstack}
+            ></SearchFilterTech>
+          </Grid>
+          <Grid item xs={4}>
+            <SearchFilterCategory
+              handleCategory={handleCategory}
+            ></SearchFilterCategory>
+          </Grid>
+          <Grid item xs={4}>
+            <SearchFilterStatus
+              handleStatus={handleStatus}
+            ></SearchFilterStatus>
+          </Grid>
+        </Grid>
+      </Grid>
 
-      <Container>
-        <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
-        <SearchFilterTech handleTechstack={handleTechstack}></SearchFilterTech>
-        <SearchFilterCategory
-          handleCategory={handleCategory}
-        ></SearchFilterCategory>
-        <SearchFilterStatus handleStatus={handleStatus}></SearchFilterStatus>
-        {status === 'OFFLINE' ? (
-          <SearchFilterOffline
-            handleRegion={handleRegion}
-          ></SearchFilterOffline>
-        ) : (
-          <></>
-        )}
+      {status === 'OFFLINE' ? (
+        <SearchFilterOffline handleRegion={handleRegion}></SearchFilterOffline>
+      ) : (
+        <></>
+      )}
 
-        <CommonBox direction="row">
-          {filterArray.map((techstack, idx) => (
-            <Stack
-              key={techstack.id}
-              direction="row"
-              sx={{ display: 'inline-flex', justifyContent: 'space-between' }}
-              onClick={() => {
-                handleSearchStack(techstack);
-              }}
-            >
-              <span>{techstack.logo}</span>
-              <span>{techstack.name}</span>
-            </Stack>
-          ))}
-        </CommonBox>
+      <CommonBox direction="row">
+        {filterArray.map((techstack, idx) => (
+          <Button
+            key={techstack.id}
+            direction="row"
+            sx={{ display: 'inline-flex', justifyContent: 'space-between' }}
+            onClick={() => {
+              handleSearchStack(techstack);
+            }}
+          >
+            {techstack.logo}
+            {techstack.name}
+          </Button>
+        ))}
+      </CommonBox>
 
-        <CommonBox>
+      <Box direction="row" style={{ display: 'flex' }}>
+        <SearchBox direction="row">
           {techNameList.length !== 0 &&
             techNameList.map(name => {
               return (
@@ -157,24 +180,31 @@ export default function TeamSearchPage(props) {
                 </Button>
               );
             })}
-        </CommonBox>
-      </Container>
-      <Container fixed sx={{ py: 4 }}>
+        </SearchBox>
         <Button variant="contained" onClick={search}>
-          백엔드로 보냄
+          검색
         </Button>
-
-        <TeamSearchList></TeamSearchList>
+      </Box>
+      <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
+        <TeamSearchList searchResult={searchResult}></TeamSearchList>
       </Container>
-    </>
+    </Container>
   );
 }
 
 const CommonBox = styled(Box)`
   background-color: #ffffff;
+  height: 6rem;
+  width: 100%;
+  // 이건 박스 안에 맞게 줄바꿈해주는 css
+  flex-flow: row-reverse wrap;
+`;
+
+const SearchBox = styled(CommonBox)`
+  background-color: #ffffff;
   border: 1px solid #c4c4c4;
   border-radius: 0.5rem;
-  height: 8rem;
+  height: 5rem;
   width: 100%;
   // 이건 박스 안에 맞게 줄바꿈해주는 css
   flex-flow: row-reverse wrap;

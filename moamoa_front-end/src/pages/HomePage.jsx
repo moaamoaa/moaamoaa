@@ -46,7 +46,6 @@ export default function HomePageSample() {
           searchState({
             area: areas,
             tech: techs,
-            menu: '',
           }),
         );
       })
