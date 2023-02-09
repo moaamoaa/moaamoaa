@@ -86,7 +86,8 @@ export default function TeamCreatePage() {
         console.log(response.data);
         console.log('생성완료!');
         const projectId = response.data.projectId;
-        dispatch(teamOpenSuccess({ projectId: projectId })); // 저장시키기
+        const leaderId = response.data.leaderId;
+        dispatch(teamOpenSuccess({ projectId: projectId, leaderId: leaderId })); // 저장시키기
       })
       .catch(error => {
         console.log(error);
