@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.TeamRole;
@@ -19,7 +20,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 	@Query(value = "select team " +
 		"from Team team " +
 		"where team.user = :user and team.project = :project")
-	Optional<Team> findByUser(User user, Project project);
+	Optional<Team> findByUser(@Param("user") User user, @Param("project") Project project);
 
 	Optional<Team> findByRoleAndProject_Id(TeamRole role, Long projectId);
 

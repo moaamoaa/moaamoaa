@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.QReview;
 import com.ssafy.moamoa.domain.entity.Review;
 
@@ -51,5 +52,13 @@ public class ReviewRepositoryImpl extends QuerydslRepositorySupport implements R
 				.execute();
 
 
+	}
+
+	@Override
+	public Profile getProfileByReviewId(Long reviewId) {
+		return queryFactory.select(review.receiveProfile)
+			.from(review)
+			.where(review.id.eq(reviewId))
+			.fetchOne();
 	}
 }

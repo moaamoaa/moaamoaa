@@ -171,4 +171,23 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 
 	}
 
+	@Override
+	public void setProjectImgNull(Long projectId) {
+		queryFactory.update(project)
+			.setNull(project.img)
+			.where(project.id.eq(projectId))
+			.execute();
+	}
+
+
+	@Override
+	public void setProjectImgLink(Long projectId, String img) {
+		queryFactory.update(project)
+			.set(project.img, img)
+			.where(project.id.eq(projectId))
+			.execute();
+	}
+
+
+
 }
