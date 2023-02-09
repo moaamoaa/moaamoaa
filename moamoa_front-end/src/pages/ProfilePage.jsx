@@ -32,7 +32,7 @@ export default function ProfilePage() {
     <ProfilePageContainer fixed>
       <Grid container spacing={10}>
         <Grid item xs={12} md={6} lg={4}>
-          <Profile></Profile>
+          <Profile type="normal"></Profile>
         </Grid>
         <Grid item xs={12} md={6} lg={8}>
           <SelfIntroduction></SelfIntroduction>
