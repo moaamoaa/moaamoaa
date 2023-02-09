@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TextField, Grid } from '@mui/material/';
+import { TextField } from '@mui/material/';
 
 function TeamSearchbar(props) {
   const handleQuery = event => {
