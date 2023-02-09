@@ -98,6 +98,7 @@ export default function TeamCreatePage() {
       .then(e => {
         console.log(e);
         console.log('수정완료!');
+        navigate(`/TeamDetailPage/?projectId=${projectId}`); // 수정 완료 후 디테일 페이지로
       })
       .catch(error => {
         console.log(error);
@@ -132,7 +133,7 @@ export default function TeamCreatePage() {
               variant="contained"
               color="primary"
             >
-              등록
+              완료
             </Button>
             <Button
               onClick={goBackToDetail}
