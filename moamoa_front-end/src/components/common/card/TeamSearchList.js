@@ -9,7 +9,7 @@ export default function TeamSearchList(props) {
     console.log(props.searchResult.data);
     if (props.searchResult.data === undefined) {
       customAxios.basicAxios
-        .get('/search/project?&size=9')
+        .get('/search/project?&size=12')
         .then(response => {
           setCards(response.data);
           console.log(response.data);
