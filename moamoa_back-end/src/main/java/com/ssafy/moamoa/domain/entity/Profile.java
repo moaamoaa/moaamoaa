@@ -1,16 +1,27 @@
 package com.ssafy.moamoa.domain.entity;
 
-import com.ssafy.moamoa.domain.ProfileOnOffStatus;
-import com.ssafy.moamoa.domain.ProfileSearchStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
+import com.ssafy.moamoa.domain.ProfileSearchStatus;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Entity
 @Getter
@@ -89,5 +100,9 @@ public class Profile {
 
 	public void setImg(String img) {
 		this.img = img;
+	}
+
+	public void setHit(int hit) {
+		this.hit = hit;
 	}
 }

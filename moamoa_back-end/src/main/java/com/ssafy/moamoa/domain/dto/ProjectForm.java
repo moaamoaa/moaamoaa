@@ -1,21 +1,20 @@
 package com.ssafy.moamoa.domain.dto;
 
-import java.util.List;
-
 import javax.validation.constraints.NotNull;
 
 import com.ssafy.moamoa.domain.entity.Project;
-import com.ssafy.moamoa.domain.entity.TechStack;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProjectForm {
 	// project
 	private Long projectId;
