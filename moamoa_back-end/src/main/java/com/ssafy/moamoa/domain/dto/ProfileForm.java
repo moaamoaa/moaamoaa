@@ -20,5 +20,7 @@ public class ProfileForm {
 
     private String context;
 
+    private int hit; // 조회수
+
 
 }

@@ -2,7 +2,8 @@ package com.ssafy.moamoa.service;
 
 import java.io.IOException;
 
-import com.ssafy.moamoa.domain.entity.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,7 @@ import com.ssafy.moamoa.domain.dto.ProfileForm;
 import com.ssafy.moamoa.domain.dto.ProfilePageForm;
 import com.ssafy.moamoa.domain.dto.ProfileSearchStatusForm;
 import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
@@ -59,6 +61,7 @@ public class ProfileService {
                 .img(profile.getImg())
                 .profileOnOffStatus(profile.getProfileOnOffStatus() + "")
                 .profileSearchStatus(profile.getSearchState() + "")
+                .hit(profile.getHit())
                 .build();
 
 
@@ -138,6 +141,17 @@ public class ProfileService {
         return ProfileSearchStatusForm.builder().id(profile.getId()).status(originSearchState.toString()).build();
     }
 
+    public boolean checkDeletedUser(Long profileId)
+    {
+        User user = profileRepository.getUserByProfileId(profileId);
+        if(user.isLocked())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
 
     public ContextForm addContext(Long profileId, String context) {
         Profile profile = profileRepository.getProfileById(profileId);
@@ -159,10 +173,44 @@ public class ProfileService {
 
     }
 
-    public void deleteUser(Long profileId)
+    public void deleteUser(Long userId)
     {
-        User user = profileRepository.getUserByProfileId(profileId);
+        User user = userRepository.getUserById(userId);
         user.setLocked(true);
+
+    }
+
+    public Profile profileByUserId(Long userId)
+    {
+       return profileRepository.getProfileByUserId(userId);
+
+    }
+
+    // 프로필 조회수 증가 : 본인이거나, 로그인 하지 않은 사람이면 증가하지 않음.
+    public void addProfileHit(Long profileId, Authentication authentication)
+    {
+
+        UserDetails userDetails = null;
+
+        // 자기자신만 검증 하고 나머지는 오픈
+        Profile loggedInProfile = null;
+        if(authentication !=null)
+        {
+            userDetails = (UserDetails)authentication.getPrincipal();
+            loggedInProfile =  profileRepository.getProfileByUserId(Long.valueOf(userDetails.getUsername()));
+            if(loggedInProfile.getId() == profileId)
+            {
+                return ;
+            }
+        }
+
+
+
+        Profile profile = profileRepository.getProfileById(profileId);
+
+        profile.setHit(profile.getHit()+1);
+
+        profileRepository.save(profile);
 
     }
 

@@ -52,7 +52,7 @@ class ProjectRepositoryImplTest {
 
 		Project project = Project.builder()
 			.category(ProjectCategory.STUDY)
-			.countOffer(0)
+			.countApply(0)
 			.hit(0)
 			.onoffline(ProjectStatus.ONLINE)
 			.createDate(startDate)

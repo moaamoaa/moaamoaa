@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,7 +65,7 @@ public class ProjectController {
 
 	@ApiOperation(value = "프로젝트/스터디 등록",
 		notes = "프로젝트/스터디 등록을 한다.")
-	@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
+	@PostMapping(value = "/new",consumes = {MediaType.APPLICATION_JSON_VALUE,
 		MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> createProject(@RequestPart(value = "projectForm") ProjectForm projectForm, @RequestPart(value = "file") MultipartFile file, Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
@@ -82,6 +81,7 @@ public class ProjectController {
 	public ResponseEntity<?> updateProject(@RequestPart(value = "projectForm") ProjectForm projectForm, @RequestPart(value = "file") MultipartFile file,  Authentication authentication) throws
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		log.info("=========="+userDetails.getUsername()+" "+file.getOriginalFilename());
 		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
 		{
 			throw new Exception("팀장이 아닙니다.");

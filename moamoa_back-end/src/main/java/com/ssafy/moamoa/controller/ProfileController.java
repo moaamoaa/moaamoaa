@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,10 +84,10 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @DeleteMapping("/{profileId}")
-    public ResponseEntity<?> deleteUser(@ApiParam(value = "profileId") @PathVariable Long profileId) {
-
-        profileService.deleteUser(profileId);
+    @DeleteMapping()
+    public ResponseEntity<?> deleteUser(Authentication authentication) {
+        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+        profileService.deleteUser(Long.valueOf(userDetails.getUsername()));
         return new ResponseEntity<ProfilePageForm>(OK);
     }
     @ApiOperation(value = "사용자 페이지 접근", notes = "사용자 페이지 정보를 리턴해줍니다.", response = ProfilePageForm.class)
@@ -97,8 +98,22 @@ public class ProfileController {
     })
     @GetMapping("/{profileId}")
     public ResponseEntity<?> getProfilePage(@ApiParam(value = "profileId") @PathVariable Long profileId, Authentication authentication) {
-        ProfilePageForm profilePageForm = profileService.getProfile(profileId);
-        return new ResponseEntity<ProfilePageForm>(profilePageForm, OK);
+        boolean isValidUser = profileService.checkDeletedUser(profileId);
+        ProfilePageForm profilePageForm = null;
+            HttpStatus status = null;
+            if(!isValidUser)
+            {
+                status = HttpStatus.NOT_FOUND;
+            }
+            else
+                {
+                    profileService.addProfileHit(profileId,authentication);
+                    status = OK;
+                    profilePageForm = profileService.getProfile(profileId);
+                }
+
+        // ProfilePageForm profilePageForm = profileService.getProfile(profileId);
+        return new ResponseEntity<ProfilePageForm>(profilePageForm, status);
     }
 
     //유저 프로필 수정
@@ -109,13 +124,14 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @PostMapping(value = "/modify/{profileId}", consumes = {MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ProfilePageForm> modifyProfile(@ApiParam(value = "profileId") @PathVariable Long profileId,
-      @ApiParam(value = "profilePageForm")  @RequestPart ProfilePageForm profilePageForm , @RequestPart(value = "file") MultipartFile file)
+    public ResponseEntity<ProfilePageForm> modifyProfile(
+      @ApiParam(value = "profilePageForm")  @RequestPart ProfilePageForm profilePageForm , @RequestPart(value = "file") MultipartFile file, Authentication authentication)
             throws IOException {
+        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 
-        ProfilePageForm result = profileService.modifyProfile(profileId, profilePageForm, file);
+        ProfilePageForm result = profileService.modifyProfile(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), profilePageForm, file);
 
         return new ResponseEntity<ProfilePageForm>(result, OK);
     }
@@ -129,14 +145,14 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @Transactional
-    @PutMapping("/context/{profileId}")
-    public ResponseEntity<?> modifyContext(@ApiParam(value = "profileId") @PathVariable Long profileId,
-                                           @ApiParam(value = "\"context\": \"string\"") @RequestBody ContextForm contextForm) {
+    @PutMapping("/context")
+    public ResponseEntity<?> modifyContext(@ApiParam(value = "\"context\": \"string\"") @RequestBody ContextForm contextForm, Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         // Service
-        ContextForm contextFormReturn = profileService.addContext(profileId, contextForm.getContext());
+        ContextForm contextFormReturn = profileService.addContext(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), contextForm.getContext());
 
         status = HttpStatus.ACCEPTED;
         return new ResponseEntity<ContextForm>(contextFormReturn, status);
@@ -148,10 +164,10 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @DeleteMapping("/context/{profileId}")
-    public ResponseEntity<?> deleteContext(@ApiParam(value = "profileId") @PathVariable Long profileId) {
-
-        profileService.deleteContext(profileId);
+    @DeleteMapping("/context")
+    public ResponseEntity<?> deleteContext(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        profileService.deleteContext(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId());
 
         return new ResponseEntity<Map<String, Object>>(OK);
     }
@@ -163,11 +179,11 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @PostMapping("/sidepjt/{profileId}")
-    public ResponseEntity<?> addSideProject(@ApiParam(value = "profileId") @PathVariable Long profileId,
-                                            @ApiParam(value = "\"context\": \"string\" , \"name\": \"string\" ,\"pjt_tech_stack\": [{\"tech_stack_no\": Long }], \"year\": \"string\" ") @RequestBody SidePjtForm sidePjtForm) {
+    @PostMapping("/sidepjt")
+    public ResponseEntity<?> addSideProject(@ApiParam(value = "\"context\": \"string\" , \"name\": \"string\" ,\"pjt_tech_stack\": [{\"tech_stack_no\": Long }], \"year\": \"string\" ") @RequestBody SidePjtForm sidePjtForm, Authentication authentication) {
         HttpStatus status = null;
-        List<SidePjtForm> result = sideProjectService.addSidePjt(profileId, sidePjtForm);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        List<SidePjtForm> result = sideProjectService.addSidePjt(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), sidePjtForm);
         status = HttpStatus.ACCEPTED;
         return new ResponseEntity<List<SidePjtForm>>(result, status);
     }
@@ -178,10 +194,11 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @PutMapping("/sidepjt/{profileId}")
-    public ResponseEntity<?> modifySideProject(@ApiParam(value = "profileId") @PathVariable Long profileId, @ApiParam(value = "\"context\": \"string\" , \"name\": \"string\" ,\"pjt_tech_stack\": [{\"tech_stack_no\": Long }], \"year\": \"string\" ") @RequestBody SidePjtForm sidePjtForm) {
+    @PutMapping("/sidepjt")
+    public ResponseEntity<?> modifySideProject(@ApiParam(value = "\"context\": \"string\" , \"name\": \"string\" ,\"pjt_tech_stack\": [{\"tech_stack_no\": Long }], \"year\": \"string\" ") @RequestBody SidePjtForm sidePjtForm, Authentication authentication) {
         HttpStatus status = null;
-        List<SidePjtForm> result = sideProjectService.modifySidePjt(profileId, sidePjtForm);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        List<SidePjtForm> result = sideProjectService.modifySidePjt(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), sidePjtForm);
         status = HttpStatus.ACCEPTED;
         return new ResponseEntity<List<SidePjtForm>>(result, status);
     }
@@ -192,11 +209,14 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @DeleteMapping("/sidepjt/{profileId}")
-    public ResponseEntity<?> deleteSideProject(@ApiParam(value = "profileId") @PathVariable Long profileId, @ApiParam(value = "\"id\": \"Long\"") @RequestBody SidePjtForm sidePjtForm) {
+    @DeleteMapping("/sidepjt/{projectId}")
+    public ResponseEntity<?> deleteSideProject(@ApiParam(value = "\"id\": \"Long\"") @PathVariable Long projectId, Authentication authentication) {
+        Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
-        List<SidePjtForm> result = sideProjectService.deleteSidePjt(profileId, sidePjtForm);
-        status = HttpStatus.ACCEPTED;
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        List<SidePjtForm> result = sideProjectService.deleteSidePjt(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), projectId);
+        status = HttpStatus.OK;
         return new ResponseEntity<List<SidePjtForm>>(result, status);
     }
 
@@ -209,13 +229,14 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @GetMapping("review/{profileId}")
-    public ResponseEntity<?> getReviews(@ApiParam(value = "profileId") @PathVariable Long profileId) {
+    @GetMapping("review")
+    public ResponseEntity<?> getReviews(Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         // Service
-        List<ReviewForm> result = reviewService.getReviews(profileId);
+        List<ReviewForm> result = reviewService.getReviews(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId());
 
 
         resultMap.put("review", result);
@@ -230,14 +251,14 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @PostMapping("/review/{profileId}")
-    public ResponseEntity<?> addReview(@ApiParam(value = "profileId") @PathVariable Long profileId,
-                                       @ApiParam(value = "\"context\": \"string\", \"senderId\" (senderId: 댓글 작성자의 profileId) : Long ") @RequestBody ReviewForm reviewForm) {
+    @PostMapping("/review")
+    public ResponseEntity<?> addReview(
+        @ApiParam(value = "\"context\": \"string\", ") @RequestBody ReviewForm reviewForm, Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
-
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         // Service
-        ReviewForm result = reviewService.addReview(profileId, reviewForm);
+        ReviewForm result = reviewService.addReview(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), reviewForm);
 
 
         resultMap.put("review", result);
@@ -252,19 +273,25 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @PutMapping("/review/{profileId}")
-    public ResponseEntity<?> modifyReview(@ApiParam(value = "profileId") @PathVariable Long profileId,
-                                          @ApiParam(value = "\"context\": \"string\" , \"id\" (해당 댓글 id): Long  \"senderId\" (senderId: 댓글 작성자의 profileId) : Long ") @RequestBody ReviewForm reviewForm) {
+    @PutMapping("/review")
+    public ResponseEntity<?> modifyReview(
+                                          @ApiParam(value = "\"context\": \"string\" , \"id\" (해당 댓글 id): Long  ") @RequestBody ReviewForm reviewForm, Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
-
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         // Service
-        ReviewForm result = reviewService.modifyReview(profileId, reviewForm);
+        ReviewForm result = reviewService.modifyReview(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), reviewForm);
 
+        if(result == null)
+        {
+            status = HttpStatus.BAD_REQUEST;
+        }
+        else {
+            resultMap.put("review", result);
 
-        resultMap.put("review", result);
+            status = HttpStatus.ACCEPTED;
+        }
 
-        status = HttpStatus.ACCEPTED;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
@@ -274,19 +301,25 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @DeleteMapping("/review/{profileId}")
-    public ResponseEntity<?> deleteReview(@ApiParam(value = "profileId") @PathVariable Long profileId,
-                                          @ApiParam(value = "  \"id\" (해당 댓글 id): Long ") @RequestBody ReviewForm reviewForm) {
+    @DeleteMapping("/review/{reviewId}")
+    public ResponseEntity<?> deleteReview(@ApiParam(value = "  \"id\" (해당 댓글 id): Long ") @PathVariable Long reviewId, Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
 
+        UserDetails userDetails= (UserDetails) authentication.getPrincipal();
+
         // Service
-        List<ReviewForm> result = reviewService.deleteReview(profileId, reviewForm);
+        List<ReviewForm> result = reviewService.deleteReview(profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), reviewId);
+        if(result == null)
+        {
+            status = HttpStatus.BAD_REQUEST;
+        }
+        else {
+            resultMap.put("review", result);
 
+            status = HttpStatus.ACCEPTED;
+        }
 
-        resultMap.put("review", result);
-
-        status = HttpStatus.ACCEPTED;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
