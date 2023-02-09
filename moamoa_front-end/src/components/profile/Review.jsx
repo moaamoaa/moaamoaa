@@ -2,18 +2,18 @@ import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
 
 function Review(props) {
-  const [name, review, date] = [props.name, props.review];
+  console.log(props);
   return (
     <ReviewTextField
       fullWidth
-      label={name}
-      defaultValue={review}
+      label={props.sender}
+      defaultValue={props.context}
       InputProps={{
         readOnly: true,
       }}
       variant="standard"
       multiline
-      helperText={date}
+      helperText={props.time}
       rows={2}
     />
   );
