@@ -71,6 +71,7 @@ export default function TeamCreatePage() {
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
     // swagger body 에 맞게!
     CustomAxios.authAxios
+      // .post('/projects/new', {
       .post('/projects', {
         areaId: regionRef.current,
         category: classRef.current,

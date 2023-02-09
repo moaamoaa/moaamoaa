@@ -92,24 +92,27 @@ export default function TeamDetailPage() {
               variant="contained"
               color="primary"
               onClick={async () => {
+                console.log(projectId); // 잘 뜸
                 await CustomAxios.authAxios
                   .delete('/projects', {
-                    projectId: projectId,
-                    areaId: null,
-                    category: null,
-                    endDate: null,
-                    img: null,
-                    projectStatus: null,
-                    techStacks: [],
-                    title: null,
-                    totalPeople: null,
-                    userId: null,
+                    data: {
+                      projectId: projectId,
+                    },
+                    // areaId: null,
+                    // category: null,
+                    // endDate: null,
+                    // img: null,
+                    // projectStatus: null,
+                    // techStacks: [],
+                    // title: null,
+                    // totalPeople: null,
+                    // userId: null,
                   })
                   .then(e => {
                     // dispatch(teamCloseSuccess({ projectId: projectId }));
                     console.log(e);
                     console.log('삭제완료!');
-                    alert('게시물이 삭제되었습니다');
+                    alert('게시물이 삭제되었습니다.');
                     navigate('/'); // 삭제 후 홈으로 보내기 (프론트 주소)
                   });
               }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기

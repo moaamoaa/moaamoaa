@@ -82,6 +82,7 @@ export default function TeamCreatePage() {
 
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
     CustomAxios.authAxios
+      // .post('/projects', {
       .put('/projects', {
         areaId: regionRef.current,
         category: classRef.current,
