@@ -48,9 +48,8 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 	public List<ProfileResultDto> search(SearchCondition condition, String cursorId, Pageable pageable) {
 		List<OrderSpecifier> orders = getOrderSpecifiers(pageable);
 
-		return queryFactory.select(
-				new QProfileResultDto(profile.id, profile.nickname, profile.context, profile.profileOnOffStatus,
-					getCustomCursor(pageable)))
+		return queryFactory.select(new QProfileResultDto(profile.id, profile.nickname, profile.img, profile.context,
+				profile.profileOnOffStatus, getCustomCursor(pageable)))
 			.from(profile)
 			.where(nicknameContain(condition.getQuery()), categoryIn(condition.getCategory()),
 				onlineOrArea(condition.getStatus(), condition.getArea()), techStackIn(condition.getStack()),
