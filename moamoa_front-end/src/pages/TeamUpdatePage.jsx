@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-
+import { useNavigate } from 'react-router-dom';
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
@@ -46,6 +46,13 @@ export default function TeamCreatePage() {
   // redux
   const projectId = useSelector(state => state.team.projectId);
 
+  //navigation
+  const navigate = useNavigate();
+  const goBackToDetail = () => {
+    // 수정 취소 버튼 눌렀을 때, 이동할 프론트 주소 : 디테일 페이지
+    navigate(`/TeamDetailPage/?projectId=${projectId}`);
+  };
+
   //handler
   const handleClick = () => {
     // 팀 이름 string
@@ -75,6 +82,7 @@ export default function TeamCreatePage() {
 
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
     CustomAxios.authAxios
+      // .post('/projects', {
       .put('/projects', {
         areaId: regionRef.current,
         category: classRef.current,
@@ -91,6 +99,7 @@ export default function TeamCreatePage() {
       .then(e => {
         console.log(e);
         console.log('수정완료!');
+        navigate(`/TeamDetailPage/?projectId=${projectId}`); // 수정 완료 후 디테일 페이지로
       })
       .catch(error => {
         console.log(error);
@@ -125,13 +134,16 @@ export default function TeamCreatePage() {
               variant="contained"
               color="primary"
             >
-              등록
+              완료
             </Button>
-            <Link href="http://localhost:3000/TeamDetailPage/?projectId=1">
-              <Button size="small" variant="contained" color="primary">
-                취소
-              </Button>
-            </Link>
+            <Button
+              onClick={goBackToDetail}
+              size="small"
+              variant="contained"
+              color="primary"
+            >
+              취소
+            </Button>
           </Stack>
         </Grid>
       </Container>

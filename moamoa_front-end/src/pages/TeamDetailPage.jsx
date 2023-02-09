@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import CustomAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
-
+import { handleUpdate, handleCloseTeamDetail } from 'redux/team';
 import {
   Container,
   Paper,
@@ -27,9 +27,11 @@ import { useNavigate } from 'react-router-dom';
 export default function TeamDetailPage() {
   //navigation
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const goToUpdate = () => {
     // 팀 수정 눌렀을 때, 이동할 프론트 주소
     navigate(`/TeamUpdatePage`);
+    dispatch(handleUpdate({ projectId: projectId }));
   };
 
   // const [isLoaded, setIsLoaded] = useState(false);
@@ -37,11 +39,10 @@ export default function TeamDetailPage() {
 
   // redux
   const projectId = useSelector(state => state.team.projectId);
-  const dispatch = useDispatch();
 
   // axios
   useEffect(() => {
-    CustomAxios.authAxios
+    CustomAxios.basicAxios
       // 해당 id의 프로젝트 조회됨 axios 주소
       .get(`/projects/detail?projectId=${projectId}`)
       .then(response => {
@@ -91,24 +92,28 @@ export default function TeamDetailPage() {
               variant="contained"
               color="primary"
               onClick={async () => {
+                console.log(projectId); // 잘 뜸
                 await CustomAxios.authAxios
                   .delete('/projects', {
-                    projectId: projectId,
-                    areaId: null,
-                    category: null,
-                    endDate: null,
-                    img: null,
-                    projectStatus: null,
-                    techStacks: [],
-                    title: null,
-                    totalPeople: null,
-                    userId: null,
+                    data: {
+                      projectId: projectId,
+                    },
+                    // areaId: null,
+                    // category: null,
+                    // endDate: null,
+                    // img: null,
+                    // projectStatus: null,
+                    // techStacks: [],
+                    // title: null,
+                    // totalPeople: null,
+                    // userId: null,
                   })
                   .then(e => {
                     // dispatch(teamCloseSuccess({ projectId: projectId }));
                     console.log(e);
                     console.log('삭제완료!');
-                    alert('게시물이 삭제되었습니다');
+                    alert('게시물이 삭제되었습니다.');
+                    navigate('/'); // 삭제 후 홈으로 보내기 (프론트 주소)
                   });
               }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
             >
