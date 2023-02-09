@@ -15,19 +15,36 @@ export default function LongMenu(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleEdit = () => {
+  const handleOpenEdit = () => {
     handleClose();
-    props.handleClick[0]();
+    setTimeout(() => {
+      props.handleOpenEdit();
+    }, 500);
   };
-  const handleCancle = () => {
+  const handleCloseEdit = () => {
     handleClose();
-    props.handleClick[1]();
+    props.handleCloseEdit();
+  };
+  const handleSuccessEdit = () => {
+    handleClose();
+    props.handleSuccessEdit();
+  };
+  const handleCancelEdit = () => {
+    handleClose();
+    setTimeout(() => {
+      props.handleCancelEdit();
+    }, 500);
   };
 
-  const options = [
-    { title: '수정', handler: handleEdit },
-    { title: '취소', handler: handleCancle },
-  ];
+  const options = props.isEdit
+    ? [
+        { title: '완료', handler: handleSuccessEdit },
+        { title: '취소', handler: handleCancelEdit },
+      ]
+    : [
+        { title: '수정', handler: handleOpenEdit },
+        { title: '취소', handler: handleCloseEdit },
+      ];
 
   //  창 크기 조절 시 닫기
   useEffect(() => {
@@ -47,7 +64,7 @@ export default function LongMenu(props) {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
-        sx={{ padding: '0' }}
+        sx={{ padding: '0', display: 'flex', alignItems: 'start' }}
       >
         <MoreVertIcon />
       </IconButton>

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, logoutSuccess, loginFailure } from 'redux/User';
+import { logoutSuccess } from 'redux/user';
+import { changeProfilePk } from 'redux/profile';
 import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
@@ -17,19 +18,22 @@ import {
 } from '@mui/material/';
 
 import ChatIcon from '@mui/icons-material/Chat';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
-import SignInDialog from 'components/signIn/SignInDialog';
+import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
-import FindPasswordDialog from 'components/signIn/FindPasswordDialog';
+import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
 import scrollToTop from 'utils/scrollToTop';
 
 export default function NavbarAccount() {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [signInDialog, setSignInDialog] = useState(false);
+  const [logInDialog, setLogInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
-  // 임시 로그인 확인. 나중에 지울 것
-  const isLogIn = useSelector(state => state.User.isLogged);
+
+  const userPk = useSelector(state => state.user.userPk);
+  const isLogIn = useSelector(state => state.user.isLogged);
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -43,68 +47,89 @@ export default function NavbarAccount() {
   };
 
   const handleClickOpen = () => {
-    setSignInDialog(true);
+    setLogInDialog(true);
   };
 
-  const handleNavigate = () => {
+  const handleOpenProfile = () => {
+    dispatch(changeProfilePk({ id: userPk }));
     handleCloseUserMenu();
     navigate('/ProfilePage');
     scrollToTop();
   };
 
-  const handleUserToken = () => {
+  const handleLogOut = () => {
     handleCloseUserMenu();
     dispatch(logoutSuccess());
     Cookies.remove('access_token');
+    navigate('/');
+    scrollToTop();
   };
 
   const settings = [
     {
       text: '프로필',
       icon: 'LogoutIcon',
-      handler: handleNavigate,
+      handler: handleOpenProfile,
     },
     {
       text: '로그아웃',
       icon: 'LogoutIcon',
-      handler: handleUserToken,
+      handler: handleLogOut,
     },
   ];
 
   if (isLogIn) {
     return (
-      <Box sx={{ flexGrow: 0 }}>
-        <IconButton onClick={null} sx={{ mr: 2 }}>
-          <ChatIcon />
-        </IconButton>
+      <>
+        <Box sx={{ flexGrow: 0 }}>
+          {/* 팀관리아이콘 */}
+          <IconButton onClick={null} sx={{ mr: 2 }}>
+            <Diversity3Icon />
+          </IconButton>
+          {/* 채팅아이콘 */}
+          <IconButton onClick={null} sx={{ mr: 2 }}>
+            <ChatIcon />
+          </IconButton>
+          {/* 아바타버튼 */}
+          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
+          </IconButton>
 
-        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
-        </IconButton>
-
-        <Menu
-          sx={{ mt: '45px' }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseUserMenu}
-        >
-          {settings.map(setting => (
-            <MenuItem key={setting.text} onClick={setting.handler}>
-              <Typography textAlign="center">{setting.text}</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
-      </Box>
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {settings.map(setting => (
+              <MenuItem key={setting.text} onClick={setting.handler}>
+                <Typography textAlign="center">{setting.text}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+        <LogInDialog
+          logInDialog={logInDialog}
+          setLogInDialog={setLogInDialog}
+          setSignUpDialog={setSignUpDialog}
+          setFindPasswordDialog={setFindPasswordDialog}
+        ></LogInDialog>
+        <FindPasswordDialog
+          open={findPasswordDialog}
+          setFindPasswordDialog={setFindPasswordDialog}
+        />
+        <CheckoutDialog open={signUpDialog} setSignUpDialog={setSignUpDialog} />
+      </>
     );
   } else {
     return (
@@ -114,12 +139,12 @@ export default function NavbarAccount() {
             로그인
           </MoaButton>
         </Box>
-        <SignInDialog
-          signInDialog={signInDialog}
-          setSignInDialog={setSignInDialog}
+        <LogInDialog
+          logInDialog={logInDialog}
+          setLogInDialog={setLogInDialog}
           setSignUpDialog={setSignUpDialog}
           setFindPasswordDialog={setFindPasswordDialog}
-        ></SignInDialog>
+        ></LogInDialog>
         <FindPasswordDialog
           open={findPasswordDialog}
           setFindPasswordDialog={setFindPasswordDialog}

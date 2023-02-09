@@ -176,21 +176,14 @@ public class UserService {
 		findProfile.setNickname(nickname);
 	}
 
-/*	public void deleteUser(Long id) {
+	public void deleteUser(Long id) {
 		Optional<User> findUsers = userRepository.findById(id);
 		if (!findUsers.isPresent()) {
 			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
 		}
 		User findUser = findUsers.get();
-		// profile
-		Optional<Profile> findProfiles = profileRepository.findByUser(findUser);
-		if (!findProfiles.isPresent()) {
-			return;
-		}
-		Profile findProfile = findProfiles.get();
-		profileRepository.delete(findProfile);
-		userRepository.deleteById(id);
-	}*/
+		findUser.setLocked(true);
+	}
 
 	public void setBlackList(String token) {
 		Long expiration = jwtTokenProvider.getExpiration(token);

@@ -1,17 +1,15 @@
 import axios from 'axios';
 
-const basicAxios = axios.create({
-  baseURL: 'http://localhost:8080',
-});
+let baseURL;
 
-const authAxios = axios.create({
-  baseURL: 'http://localhost:8080',
-  headers: {
-    Authorization: `Bearer ${getCookie('access_token')}`,
-  },
-});
+if (process.env.NODE_ENV === 'development') {
+  baseURL = 'http://localhost:8080';
+} else {
+  baseURL = 'back_server:8080';
+  // baseURL = 'https://moaamoaa.com/';
+}
 
-function getCookie(cname) {
+const getCookie = cname => {
   const name = cname + '=';
   const decodedCookie = decodeURIComponent(document.cookie);
   const ca = decodedCookie.split(';');
@@ -25,8 +23,25 @@ function getCookie(cname) {
     }
   }
   return '';
-}
+};
 
-const CustomAxios = { basicAxios, authAxios };
+const basicAxios = axios.create({
+  baseURL: baseURL,
+});
 
-export default CustomAxios;
+const authAxios = axios.create({
+  baseURL: baseURL,
+  headers: {
+    Authorization: `Bearer ${getCookie('access_token')}`,
+  },
+});
+
+const imageAxios = axios.create({
+  baseURL: baseURL,
+  headers: {
+    Authorization: `Bearer ${getCookie('access_token')}`,
+  },
+});
+
+const customAxios = { basicAxios, authAxios };
+export default customAxios;

@@ -14,7 +14,7 @@ public class ProfileResultDto {
 
 	private String nickname;
 
-	// private MultipartFile img;
+	private String img;
 
 	private String context;
 
@@ -24,7 +24,19 @@ public class ProfileResultDto {
 
 	private List<TechStack> techStacks;
 
+	private String cursorId;
+
 	@QueryProjection
+	public ProfileResultDto(Long id, String nickname, String img, String context, ProfileOnOffStatus status,
+		String cursorId) {
+		this.id = id;
+		this.nickname = nickname;
+		this.img = img;
+		this.context = context;
+		this.status = status;
+		this.cursorId = cursorId;
+	}
+
 	public ProfileResultDto(Long id, String nickname, String context, ProfileOnOffStatus status) {
 		this.id = id;
 		this.nickname = nickname;

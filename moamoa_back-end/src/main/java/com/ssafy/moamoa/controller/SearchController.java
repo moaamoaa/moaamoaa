@@ -2,6 +2,7 @@ package com.ssafy.moamoa.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,21 @@ public class SearchController {
 	private final SearchService searchService;
 
 	@GetMapping("/project")
-	public ResponseEntity<?> searchProject(SearchCondition condition) {
-		List<ProjectResultDto> results = searchService.searchProject(condition);
+	public ResponseEntity<?> searchProject(SearchCondition condition, String cursorId, Pageable pageable) {
+		log.debug(condition.toString());
+		List<ProjectResultDto> results = searchService.searchProject(condition, cursorId, pageable);
+		if (results.isEmpty()) {
+			return new ResponseEntity<>(results, HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 
 	@GetMapping("/profile")
-	public ResponseEntity<?> searchProfile(SearchCondition condition) {
-		List<ProfileResultDto> results = searchService.searchProfile(condition);
+	public ResponseEntity<?> searchProfile(SearchCondition condition, String cursorId, Pageable pageable) {
+		List<ProfileResultDto> results = searchService.searchProfile(condition, cursorId, pageable);
+		if (results.isEmpty()) {
+			return new ResponseEntity<>(results, HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 

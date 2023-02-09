@@ -52,19 +52,20 @@ export default function CardItem(props) {
         )}
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            팀 이름
+            {props.card.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            팀장 이름
+            팀장 {props.card.leaderName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            1,600 views
+            {props.card.hit} views
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            0 / 6
+            {props.card.currentPeople} / {props.card.totalPeople}
           </Typography>
-          {/* <TechStackList>기술스택리스트</TechStackList> */}
+          {/* <CardList type='tech' cards={ techStacks}>기술스택리스트</CardList> */}
           <InfoTypography variant="body2" color="text.secondary">
+            {props.card.contents}
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id,
             corporis nobis ea beatae et reprehenderit dolorum iure libero atque,
             eum, aliquam sequi delectus deleniti alias quasi quis veritatis!
@@ -112,12 +113,16 @@ export default function CardItem(props) {
         )}
         <CardContent>
           <MoaTypography gutterBottom variant="h5" component="div">
-            팀원 이름
+            팀원 이름{props.card.nickname}
           </MoaTypography>
           <MoaTypography variant="body2" color="text.secondary">
             지역
+            {/* {props.card.area.map(a => {
+              return <div>{a}</div>;
+            })} */}
           </MoaTypography>
           <InfoTypography variant="body2" color="text.secondary">
+            {props.card.contents}
             Lorem, ipsum dolor sit consectetur adipisicing elit. Ducimus culpa
             debitis optio voluptates laborum accusamus ab officia facilis dicta
             quos placeat perspiciatis dolore eaque mollitia adipisci impedit,

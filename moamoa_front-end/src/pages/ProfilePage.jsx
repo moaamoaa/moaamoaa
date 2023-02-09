@@ -1,58 +1,45 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { profileOpenSuccess, profileCloseSuccess } from 'redux/profile';
 
 import styled from '@emotion/styled';
 
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
+import customAxios from 'utils/axios';
+
+import { Container, Grid } from '@mui/material/';
 
 import Profile from 'components/profile/Profile';
-import ProfileContentContainer from 'components/profile/ProfileContentContainer';
 import SelfIntroduction from 'components/profile/SelfIntroduction';
 import SideProject from 'components/profile/SideProject';
-import { useEffect } from 'react';
+import ReviewList from 'components/profile/ReviewList';
 
-export default function ProfilePage(props) {
-  useEffect(() => {}, []);
+export default function ProfilePage() {
+  const profileId = useSelector(state => state.profile.userProfile[0].id);
+  const dispatch = useDispatch();
 
-  const handleClick = () => {
-    console.log('hi');
-  };
-
-  const userProfileContents = [
-    {
-      type: 'read',
-      title: '자기 소개',
-      content: <SelfIntroduction></SelfIntroduction>,
-      handler: [handleClick, handleClick],
-    },
-    {
-      type: 'read',
-      title: '주요 프로젝트',
-      content: <SideProject></SideProject>,
-      handler: [handleClick, handleClick],
-    },
-    {
-      title: '댓글',
-      content: '댓글입니다.',
-    },
-  ];
+  useEffect(() => {
+    customAxios.basicAxios
+      .get(`/profile/${profileId}`)
+      .then(response => {
+        dispatch(profileOpenSuccess({ profile: response.data }));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [profileId]);
 
   return (
     <ProfilePageContainer fixed>
       <Grid container spacing={10}>
         <Grid item xs={12} md={6} lg={4}>
-          <Profile></Profile>
+          <Profile type="normal"></Profile>
         </Grid>
         <Grid item xs={12} md={6} lg={8}>
-          {userProfileContents.map((userProfileContent, idx) => (
-            <ProfileContentContainer
-              key={idx}
-              type={userProfileContent.type}
-              title={userProfileContent.title}
-              content={userProfileContent.content}
-              handler={userProfileContent.handler}
-            ></ProfileContentContainer>
-          ))}
+          <SelfIntroduction></SelfIntroduction>
+
+          <SideProject></SideProject>
+
+          <ReviewList></ReviewList>
         </Grid>
       </Grid>
     </ProfilePageContainer>

@@ -19,14 +19,15 @@ public class TechStackRepositoryImpl extends QuerydslRepositorySupport implement
 
 	@PersistenceContext
 	EntityManager em;
+	private final JPAQueryFactory queryFactory;
 
-	public TechStackRepositoryImpl() {
+	public TechStackRepositoryImpl(EntityManager em) {
 		super(TechStack.class);
+		this.queryFactory =new JPAQueryFactory(em);
 	}
 
 	@Override
 	public List<TechStack> searchTechStackByName(String techName) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		List<TechStack> techStackList = queryFactory
 			.select(techStack)
@@ -40,7 +41,6 @@ public class TechStackRepositoryImpl extends QuerydslRepositorySupport implement
 
 	@Override
 	public TechStack getTechStackById(Long techStackId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		TechStack getTechStack = queryFactory.select(techStack)
 			.from(techStack)
@@ -54,7 +54,6 @@ public class TechStackRepositoryImpl extends QuerydslRepositorySupport implement
 	@Override
 	public TechStack getTechStackByName(String techName) {
 
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		TechStack getTechStack = queryFactory.select(techStack)
 			.from(techStack)

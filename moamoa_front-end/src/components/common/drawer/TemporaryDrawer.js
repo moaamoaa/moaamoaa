@@ -1,6 +1,6 @@
-import { useState, Fragment } from 'react';
+import * as React from 'react';
 import Box from '@mui/material/Box';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -11,12 +11,13 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
-export default function TemporaryDrawer(props) {
-  const [state, setState] = useState({ right: false });
+export default function TeamManage() {
+  const [state, setState] = React.useState({
+    right: false, // 오른쪽에 뜨게
+  });
 
   const toggleDrawer = (anchor, open) => event => {
     if (
-      event &&
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
     ) {
@@ -28,16 +29,14 @@ export default function TemporaryDrawer(props) {
 
   const list = anchor => (
     <Box
-      sx={{
-        width: anchor === 'top' || anchor === 'bottom' ? 'auto' : `calc(200px)`,
-      }}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 500 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
-        {[props.list].map((text, index) => (
-          <ListItem key={index} disablePadding>
+      <List display="row">
+        {['프로젝트', '스터디'].map((text, index) => (
+          <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -52,20 +51,19 @@ export default function TemporaryDrawer(props) {
   );
 
   return (
-    <aside>
-      {[props.position].map(anchor => (
-        <Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <SwipeableDrawer
+    <div>
+      {['right'].map(anchor => (
+        <React.Fragment key={anchor}>
+          <Button onClick={toggleDrawer(anchor, true)}>팀관리</Button>
+          <Drawer
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
           >
             {list(anchor)}
-          </SwipeableDrawer>
-        </Fragment>
+          </Drawer>
+        </React.Fragment>
       ))}
-    </aside>
+    </div>
   );
 }

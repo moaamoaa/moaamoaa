@@ -1,22 +1,23 @@
 package com.ssafy.moamoa.service;
 
-import com.ssafy.moamoa.domain.dto.SiteForm;
-import com.ssafy.moamoa.domain.entity.Profile;
-import com.ssafy.moamoa.domain.entity.ProfileSite;
-import com.ssafy.moamoa.domain.entity.Site;
-import com.ssafy.moamoa.repository.ProfileRepository;
-import com.ssafy.moamoa.repository.ProfileSiteRepository;
-import com.ssafy.moamoa.repository.SiteRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ssafy.moamoa.domain.dto.SiteForm;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.ProfileSite;
+import com.ssafy.moamoa.repository.ProfileRepository;
+import com.ssafy.moamoa.repository.ProfileSiteRepository;
+import com.ssafy.moamoa.repository.SiteRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = false)
@@ -35,7 +36,7 @@ public class SiteService {
 
     public List<SiteForm> getProfileSites(Long profileId)
     {
-        List<ProfileSite> profileSiteList = profileSiteRepository.getProfileSitesById(profileId);
+        List<ProfileSite> profileSiteList = profileSiteRepository.getProfileSitesByIdAsc(profileId);
         List<SiteForm> siteFormList = new ArrayList<>();
         for(ProfileSite profileSite : profileSiteList)
         {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import customAxios from 'utils/axios';
 
 import {
   TextField,
@@ -10,12 +10,10 @@ import {
 } from '@mui/material/';
 
 export default function SignUpNicknameForm(props) {
-  // 기본 url
-  const baseUrl = 'http://localhost:8080';
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState(props.name);
   const [userNameError, setUserNameError] = useState(false);
-  // input 작성하는 닉네임 정보를 부모 컴포넌트
-  const changeNameHandler = e => {
+
+  const handleName = e => {
     setUserName(e.target.value);
     setUserNameError(false);
   };
@@ -24,20 +22,16 @@ export default function SignUpNicknameForm(props) {
     props.setActiveStep(1);
   };
 
-  const submitNickName = async e => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.get(
-        `${baseUrl}/users/nickname?nickname=${userName}`,
-      );
-      console.log(response.data);
-      props.setActiveStep(3);
-      props.nameHandler(userName);
-    } catch (error) {
-      console.log(error);
-      setUserNameError(true);
-    }
+  const submitNickName = () => {
+    customAxios.basicAxios
+      .get(`/users/nickname?nickname=${userName}`)
+      .then(response => {
+        props.setActiveStep(3);
+        props.handleName(userName);
+      })
+      .catch(error => {
+        setUserNameError(true);
+      });
   };
 
   return (
@@ -52,7 +46,7 @@ export default function SignUpNicknameForm(props) {
           fullWidth
           required={true}
           value={userName}
-          onChange={changeNameHandler}
+          onChange={handleName}
           helperText={userNameError ? '중복된 닉네임입니다' : ''}
         />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

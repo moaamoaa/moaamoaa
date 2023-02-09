@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import CustomAxios from 'utils/axios';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { teamOpenSuccess } from 'redux/team';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -21,11 +24,9 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
+import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
 
 export default function TeamCreatePage() {
-  // //spring boot url
-  // const baseUrl = 'http://localhost:8080';
-
   //ref
   const inputRef = useRef('');
   const classRef = useRef('');
@@ -36,8 +37,12 @@ export default function TeamCreatePage() {
   const dateRef = useRef('');
   const techRef = useRef('');
 
+  // redux
+  const { userPk } = useSelector(state => state.user.userPk);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   //handler
-  const handleClick = () => {
+  const handleClick = e => {
     // 팀 이름 string
     console.log(titleRef.current);
     console.log(typeof titleRef.current);
@@ -62,42 +67,75 @@ export default function TeamCreatePage() {
     // 팀 소개 string
     console.log(inputRef.current);
     console.log(typeof inputRef.current);
-    
+
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
+    // swagger body 에 맞게!
     CustomAxios.authAxios
+      // .post('/projects/new', {
       .post('/projects', {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
-        countOffer: 0,
-        createDate: 'string',
-        currentPeople: 0,
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
-        hit: 0,
         img: null,
-        isLeader: true,
-        locked: true,
-        projectId: 0,
+        projectId: null, // 생성 요청 시에 줄 수 있는 값은 아니니까
         projectStatus: onoffRef.current,
-        startDate: 'string',
         techStacks: techRef.current,
         title: titleRef.current,
         totalPeople: numberRef.current,
-        userid: 1,
+        userid: userPk,
       })
-      .then(e => {
-        console.log(e);
-        console.log('포스트완료!');
+      .then(response => {
+        console.log(response.data);
+        console.log('생성완료!');
+        // response data 의 형식에 맞게
+        const areaForm = response.data.areaForm; // reponse 데이터에서 가져옴
+        const category = response.data.category;
+        const contents = response.data.contents;
+        const endDate = response.data.endDate;
+        const img = response.data.img;
+        const leader = response.data.leader; // true
+        const leaderId = response.data.leaderId;
+        const leaderNickname = response.data.leaderNickname;
+        const profileResultDtoList = response.data.profileResultDtoList;
+        const projectId = response.data.projectId;
+        const projectStatus = response.data.projectStatus;
+        const totalPeople = response.data.titotalPeopletle;
+        const projectTechStacks = response.data.projectTechStacks;
+        const startDate = response.data.startDate;
+        const title = response.data.title;
+        dispatch(
+          teamOpenSuccess({
+            // 리덕스 변수명에 맞게
+            areaForm: areaForm, // 리덕스에 저장
+            category: category,
+            contents: contents,
+            endDate: endDate,
+            img: img,
+            leader: leader, // 내가 생성했으니 내가 리더 false -> true
+            leaderId: leaderId, // leader ID
+            leaderNickname: leaderNickname,
+            profileResultDtoList: profileResultDtoList,
+            projectId: projectId,
+            projectStatus: projectStatus,
+            totalPeople: totalPeople,
+            projectTechStacks: projectTechStacks,
+            startDate: startDate,
+            title: title,
+          }),
+        ); // 저장시키기
+        ScrollToTopButton(); // 등록 버튼 누르고 마우스 커서 위치가 중간에 있어서
+        navigate(`/TeamDetailPage/?projectId=${projectId}`); // 이동하고
       })
       .catch(error => {
         console.log(error);
       });
   };
-
+  // banner
   const teamBannerEdit = {
     title: <SingleTextField ref={titleRef}></SingleTextField>, // project_title POST
-    leader: '팀장 이름', // GET
-    image: '',
+    leader: '',
+    image: '', // string
   };
 
   return (

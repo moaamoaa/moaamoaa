@@ -1,27 +1,16 @@
 package com.ssafy.moamoa.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
+import com.ssafy.moamoa.domain.ProfileSearchStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.ssafy.moamoa.domain.ProfileOnOffStatus;
-import com.ssafy.moamoa.domain.ProfileSearchStatus;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -66,6 +55,13 @@ public class Profile {
 	//
 	// @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
 	// private List<ProfileArea> profileAreas = new ArrayList<>();
+	@Column(name="profile_cnt_offer")
+	@ColumnDefault("0")
+	private int countOffer;
+
+	@Column(name="profile_hit")
+	@ColumnDefault("0")
+	private int hit;
 
 	public Profile() {
 	}
@@ -86,4 +82,14 @@ public class Profile {
 	public void setContext(String context) {
 		this.context = context;
 	}
+
+	public void setProfileOnOffStatus(ProfileOnOffStatus profileOnOffStatus) {
+		this.profileOnOffStatus = profileOnOffStatus;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public void setCountOffer(int countOffer){this.countOffer = countOffer;}
 }

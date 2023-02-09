@@ -1,6 +1,7 @@
 package com.ssafy.moamoa.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.moamoa.domain.entity.TechStack;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,13 +15,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class TechStackForm {
-	@JsonProperty("tech_stack_no")
+	@JsonProperty("id")
 	private Long id;
 
-	@JsonProperty("techName")
+	@JsonProperty("name")
 	private String name;
 
-	@JsonProperty("img")
-	private String img;
+	@JsonProperty("logo")
+	private String logo;
 
+	public static TechStackForm toEntity(TechStack techStack){
+		return TechStackForm.builder()
+			.id(techStack.getId())
+			.name(techStack.getName())
+			.logo(techStack.getLogo())
+			.build();
+	}
 }

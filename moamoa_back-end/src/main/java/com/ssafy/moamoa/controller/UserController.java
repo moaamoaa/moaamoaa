@@ -122,7 +122,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-/*	@ApiOperation(value = "회원 삭제",
+	@ApiOperation(value = "회원 삭제",
 		notes = "email에 맞는 회원을 삭제한다.")
 	// 회원 삭제
 	@DeleteMapping
@@ -131,7 +131,7 @@ public class UserController {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		userService.deleteUser(Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);
-	}*/
+	}
 
 	@ApiOperation(value = "로그인",
 		notes = "email, password 정보로 로그인을 한다.")

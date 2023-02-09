@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import CustomAxios from 'utils/axios';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
+// import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -10,7 +12,8 @@ import Calendar from 'components/team/Calendar';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
-
+import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
@@ -21,11 +24,9 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
+// import { teamOpenSuccess } from 'redux/team';
 
 export default function TeamCreatePage() {
-  // //spring boot url
-  // const baseUrl = 'http://localhost:8080';
-
   //ref
   const inputRef = useRef('');
   const classRef = useRef('');
@@ -35,6 +36,22 @@ export default function TeamCreatePage() {
   const titleRef = useRef('');
   const dateRef = useRef('');
   const techRef = useRef('');
+
+  // redux
+  const { userPk } = useSelector(state => state.user.userPk);
+  // const teamInfo = useSelector(state => state.team.teamInfo);
+  // const techStacks = useSelector(state => state.team.techStacks);
+  // const dispatch = useDispatch();
+
+  // redux
+  const projectId = useSelector(state => state.team.projectId);
+
+  //navigation
+  const navigate = useNavigate();
+  const goBackToDetail = () => {
+    // 수정 취소 버튼 눌렀을 때, 이동할 프론트 주소 : 디테일 페이지
+    navigate(`/TeamDetailPage/?projectId=${projectId}`);
+  };
 
   //handler
   const handleClick = () => {
@@ -65,29 +82,24 @@ export default function TeamCreatePage() {
 
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
     CustomAxios.authAxios
+      // .post('/projects', {
       .put('/projects', {
         areaId: regionRef.current,
         category: classRef.current,
         contents: inputRef.current,
-        countOffer: 0,
-        createDate: 'string',
-        currentPeople: 0,
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
-        hit: 0,
         img: null,
-        isLeader: true,
-        locked: true,
-        projectId: 0,
+        projectId: projectId,
         projectStatus: onoffRef.current,
-        startDate: 'string',
         techStacks: techRef.current,
         title: titleRef.current,
         totalPeople: numberRef.current,
-        userid: 1,
+        userid: userPk,
       })
       .then(e => {
         console.log(e);
-        console.log('포스트완료!');
+        console.log('수정완료!');
+        navigate(`/TeamDetailPage/?projectId=${projectId}`); // 수정 완료 후 디테일 페이지로
       })
       .catch(error => {
         console.log(error);
@@ -96,7 +108,7 @@ export default function TeamCreatePage() {
 
   const teamBannerEdit = {
     title: <SingleTextField ref={titleRef}></SingleTextField>, // project_title POST
-    leader: '팀장 이름', // GET
+    leader: '', // GET
     image: '',
   };
 
@@ -122,9 +134,14 @@ export default function TeamCreatePage() {
               variant="contained"
               color="primary"
             >
-              등록
+              완료
             </Button>
-            <Button size="small" variant="contained" color="primary">
+            <Button
+              onClick={goBackToDetail}
+              size="small"
+              variant="contained"
+              color="primary"
+            >
               취소
             </Button>
           </Stack>

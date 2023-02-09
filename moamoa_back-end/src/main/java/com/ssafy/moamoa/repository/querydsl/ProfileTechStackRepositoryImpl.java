@@ -16,18 +16,23 @@ import com.ssafy.moamoa.domain.entity.QProfileTechStack;
 public class ProfileTechStackRepositoryImpl extends QuerydslRepositorySupport implements
 	ProfileTechStackRepositoryCustom {
 
-	public ProfileTechStackRepositoryImpl() {
-		super(ProfileTechStack.class);
-	}
-
 	@PersistenceContext
 	EntityManager em;
+
+	private final JPAQueryFactory queryFactory;
+
+	public ProfileTechStackRepositoryImpl(EntityManager em) {
+		super(ProfileTechStack.class);
+		this.queryFactory = new JPAQueryFactory(em);
+	}
+
+
 
 	QProfileTechStack qProfileTechStack = profileTechStack;
 
 	@Override
 	public List<ProfileTechStack> getProfileTechStacks(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
 
 		return queryFactory.select(profileTechStack)
 			.from(profileTechStack)
@@ -38,7 +43,7 @@ public class ProfileTechStackRepositoryImpl extends QuerydslRepositorySupport im
 
 	@Override
 	public List<ProfileTechStack> getProfileTechStacksByOrderAsc(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
 
 		return queryFactory.select(profileTechStack)
 			.from(profileTechStack)
@@ -49,7 +54,7 @@ public class ProfileTechStackRepositoryImpl extends QuerydslRepositorySupport im
 
 	@Override
 	public Long deleteProfileTechStackByOrder(int order) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
 		Long count = queryFactory.delete(profileTechStack)
 			.where(profileTechStack.order.eq(order))
 			.execute();
@@ -58,7 +63,7 @@ public class ProfileTechStackRepositoryImpl extends QuerydslRepositorySupport im
 
 	@Override
 	public ProfileTechStack getProfileTechStack(Long profileId, Long techStackId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
 		return queryFactory.select(profileTechStack)
 			.from(profileTechStack)
 			.where(profileTechStack.techStack.id.eq(techStackId).and(profileTechStack.profile.id.eq(profileId)))
@@ -67,7 +72,6 @@ public class ProfileTechStackRepositoryImpl extends QuerydslRepositorySupport im
 
 	@Override
 	public Long deleteAllProfileTechStacksById(Long profileId) {
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 		return queryFactory.delete(profileTechStack)
 				.where(profileTechStack.profile.id.eq(profileId))

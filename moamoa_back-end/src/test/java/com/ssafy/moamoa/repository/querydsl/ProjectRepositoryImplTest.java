@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.ssafy.moamoa.InitTestService;
 import com.ssafy.moamoa.domain.ProjectCategory;
@@ -26,6 +28,8 @@ import com.ssafy.moamoa.service.UserService;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProjectRepositoryImplTest {
+	private static Pageable pageable = PageRequest.of(0, 10);
+	private static String cursorId = "1";
 
 	@Autowired
 	ProjectRepository projectRepository;
@@ -48,7 +52,7 @@ class ProjectRepositoryImplTest {
 
 		Project project = Project.builder()
 			.category(ProjectCategory.STUDY)
-			.countOffer(0)
+			.countApply(0)
 			.hit(0)
 			.onoffline(ProjectStatus.ONLINE)
 			.createDate(startDate)
@@ -70,7 +74,7 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().query("시간지남").build();
 
 		//when
-		List<ProjectResultDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition, cursorId, pageable);
 
 		//then
 		Assertions.assertThat(result).isEmpty();
@@ -86,7 +90,7 @@ class ProjectRepositoryImplTest {
 			stack);
 
 		//when
-		List<ProjectResultDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition, cursorId, pageable);
 
 		//then
 		System.out.println("++++++++++++++++++++");
@@ -102,7 +106,7 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().query("hello").build();
 
 		//when
-		List<ProjectResultDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition, cursorId, pageable);
 
 		//then
 		System.out.println("++++++++++++++++++++");
@@ -118,7 +122,7 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().status(ProjectStatus.ONLINE).build();
 
 		//when
-		List<ProjectResultDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition, cursorId, pageable);
 
 		//then
 		System.out.println("++++++++++++++++++++");
@@ -134,7 +138,7 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().category(ProjectCategory.STUDY).build();
 
 		//when
-		List<ProjectResultDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition, cursorId, pageable);
 
 		//then
 		System.out.println("++++++++++++++++++++");
@@ -151,7 +155,7 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().stack(stack).build();
 
 		//when
-		List<ProjectResultDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition, cursorId, pageable);
 
 		//then
 		System.out.println("++++++++++++++++++++");
@@ -169,7 +173,7 @@ class ProjectRepositoryImplTest {
 		SearchCondition condition = SearchCondition.builder().area(area).build();
 
 		//when
-		List<ProjectResultDto> result = projectRepository.search(condition);
+		List<ProjectResultDto> result = projectRepository.search(condition, cursorId, pageable);
 
 		//then
 		System.out.println("++++++++++++++++++++");

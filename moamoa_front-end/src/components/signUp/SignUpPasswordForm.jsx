@@ -8,15 +8,29 @@ import {
 } from '@mui/material/';
 
 export default function SignUpPasswordForm(props) {
-  //비밀번호 상태
   const [password, setPassword] = useState('');
   const [checkPassword, setcheckPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [passwordError, setPasswordError] = useState(true);
+  const [passwordValidation, setPasswordValidation] = useState(
+    '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요',
+  );
 
-  //비밀번호 상태 바꾸는 함수
-  const changePasswordHandler = e => {
-    setPassword(e.target.value);
+  const regExp =
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,20}$/;
+
+  const handlePassword = event => {
+    setPassword(event.target.value);
+    if (!regExp.test(event.target.value)) {
+      setPasswordValidation(
+        '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요',
+      );
+    } else {
+      setPasswordValidation(false);
+    }
   };
-  const changeCheckPasswordHandler = e => {
+
+  const handleCheckPassword = e => {
     setcheckPassword(e.target.value);
   };
 
@@ -27,10 +41,12 @@ export default function SignUpPasswordForm(props) {
   //비밀번호 일치 확인 함수
   useEffect(() => {
     if (password !== '' && password !== checkPassword) {
-      console.log('비밀번호가 일치하지 않습니다');
+      setPasswordError(true);
+      setMessage('비밀번호가 일치하지 않습니다');
     } else if (password !== '' && password === checkPassword) {
-      console.log('부모님께 드립니다');
-      props.passwordHandler(password);
+      setPasswordError(false);
+      setMessage('비밀번호가 일치합니다.');
+      props.handlePassword(password);
     }
   }, [checkPassword]);
 
@@ -49,31 +65,59 @@ export default function SignUpPasswordForm(props) {
           variant="outlined"
           required={true}
           value={password}
-          onChange={changePasswordHandler}
+          onChange={handlePassword}
+          helperText={passwordValidation}
         />
         <Box sx={{ mt: 1 }} />
-        <TextField
-          type="password"
-          id="outlined-basic2"
-          label="비밀번호 확인 "
-          fullWidth
-          variant="outlined"
-          required={true}
-          value={checkPassword}
-          onChange={changeCheckPasswordHandler}
-        />
+        {passwordValidation ? (
+          <TextField
+            type="password"
+            id="outlined-basic2"
+            label="비밀번호 확인 "
+            fullWidth
+            variant="outlined"
+            required={true}
+            value={checkPassword}
+            onChange={handleCheckPassword}
+            helperText={message}
+            disabled
+          />
+        ) : (
+          <TextField
+            type="password"
+            id="outlined-basic2"
+            label="비밀번호 확인 "
+            fullWidth
+            variant="outlined"
+            required={true}
+            value={checkPassword}
+            onChange={handleCheckPassword}
+            helperText={message}
+          />
+        )}
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button onClick={handleBackStep} sx={{ mt: 3, ml: 1 }}>
             이전
           </Button>
-          <Button
-            variant="contained"
-            onClick={props.userSignUp}
-            sx={{ mt: 3, ml: 1 }}
-          >
-            회원가입
-          </Button>
+          {passwordError ? (
+            <Button
+              variant="contained"
+              onClick={props.userSignUp}
+              sx={{ mt: 3, ml: 1 }}
+              disabled
+            >
+              회원가입
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={props.userSignUp}
+              sx={{ mt: 3, ml: 1 }}
+            >
+              회원가입
+            </Button>
+          )}
         </Box>
       </DialogContent>
     </div>
