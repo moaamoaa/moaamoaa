@@ -78,7 +78,7 @@ public class TechStackService {
 			TechStackForm techStackForm = TechStackForm.builder()
 				.id(profileTechStack.getTechStack().getId())
 				.name(profileTechStack.getTechStack().getName())
-				.img(profileTechStack.getTechStack().getLogo())
+				.logo(profileTechStack.getTechStack().getLogo())
 				.build();
 
 			techStackFormList.add(techStackForm);
@@ -98,7 +98,7 @@ public class TechStackService {
 			TechStackForm techStackForm = TechStackForm.builder()
 				.id(sidePjtTechStack.getTechStack().getId())
 				.name(sidePjtTechStack.getTechStack().getName())
-				.img(sidePjtTechStack.getTechStack().getLogo())
+				.logo(sidePjtTechStack.getTechStack().getLogo())
 				.build();
 
 			techStackFormList.add(techStackForm);
@@ -164,7 +164,7 @@ public class TechStackService {
 		TechStackForm techStackForm = TechStackForm.builder()
 				.id(profileTechStack.getTechStack().getId())
 				.name(profileTechStack.getTechStack().getName())
-				.img(profileTechStack.getTechStack().getLogo()).build();
+				.logo(profileTechStack.getTechStack().getLogo()).build();
 		log.info(profileTechStack.getTechStack().getName() +" "+profileTechStack.getTechStack().getLogo());
 			returnList.add(techStackForm);
 		}

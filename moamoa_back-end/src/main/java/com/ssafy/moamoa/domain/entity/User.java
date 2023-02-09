@@ -60,9 +60,6 @@ public class User {
 		profile.setUser(this);
 	}
 
-	public void setLocked(boolean locked) {
-		isLocked = locked;
-	}
 
 	public void setPassword(String password) {
 		this.password = password;

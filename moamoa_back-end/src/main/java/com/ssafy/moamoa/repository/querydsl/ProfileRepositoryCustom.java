@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface ProfileRepositoryCustom {
 
-    List<ProfileResultDto> search(SearchCondition condition, Long cursorId, Pageable pageable);
+    List<ProfileResultDto> search(SearchCondition condition, String cursorId, Pageable pageable);
 
     Profile getProfileById(Long profileId);
 
@@ -23,7 +23,7 @@ public interface ProfileRepositoryCustom {
     String setProfileOnOffStatus(Long profileId, ProfileOnOffStatus status);
 
 
-    //void setProfile(Profile profile);
+    void setProfile(Profile profile);
 
     void setProfileImgLink(Long profileId, String img);
 

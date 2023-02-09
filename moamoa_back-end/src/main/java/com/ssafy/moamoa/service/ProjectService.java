@@ -61,7 +61,6 @@ public class ProjectService {
 	private final TeamRepository teamRepository;
 	private final ProfileRepository profileRepository;
 
-	private final UserService userService;
 	private final S3Service s3Service;
 	private final ImageService imageService;
 	private final ProjectAreaRepository projectAreaRepository;
@@ -115,7 +114,7 @@ public class ProjectService {
 	}
 
 	// 프로젝트/스터디 등록
-	public void creatProject(ProjectForm projectForm, MultipartFile file) throws Exception {
+	public ProjectDetail creatProject(ProjectForm projectForm, MultipartFile file) throws Exception {
 	boolean isImgNull= false;
 
 	if(file==null){
@@ -200,7 +199,7 @@ public class ProjectService {
 
 	// 프로젝트/스터디 수정
 	// 유저 id, projectForm, file
-	public void updateProject(Long id, ProjectForm projectForm, MultipartFile file) throws Exception {
+	public ProjectDetail updateProject(ProjectForm projectForm, MultipartFile file) throws Exception {
 		// locked check
 		isProjectLocked(projectForm.getProjectId());
 
@@ -334,7 +333,7 @@ public class ProjectService {
 		}
 
 		// area
-		projectDetail.setAreaForm(AreaForm.toEntity(projectAreaRepository.findByProject_Id(projectId).get().getArea()));
+		projectDetail.setAreaForm(AreaForm.toEntity(projectAreaRepository.getProjectAreaById(projectId).getArea()));
 
 		return projectDetail;
 	}

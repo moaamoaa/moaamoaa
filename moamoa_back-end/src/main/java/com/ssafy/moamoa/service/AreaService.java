@@ -34,9 +34,7 @@ public class AreaService {
 
 	// 매칭되는 지역 찾기 -> list 형식으로 return
 	public ProjectArea findProjectAreaList(Project project) {
-		Optional<ProjectArea> findProjectArea = projectAreaRepository.findByProject_Id(project.getId());
-		ProjectArea projectArea = findProjectArea.get();
-		return projectArea;
+		return projectAreaRepository.getProjectAreaById(project.getId());
 	}
 
 	public List<ProfileArea> findUserAreaList(User user) {

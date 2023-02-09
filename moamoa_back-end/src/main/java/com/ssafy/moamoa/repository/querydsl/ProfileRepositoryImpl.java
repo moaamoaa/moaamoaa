@@ -213,6 +213,16 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 	}
 
 	@Override
+	public void setProfileImgLink(Long profileId, String img) {
+
+	}
+
+	@Override
+	public void setProfileImgNull(Long profileId) {
+
+	}
+
+	@Override
 	public Profile getProfileByUserId(Long userId) {
 		return queryFactory.select(profile).from(profile).where(profile.user.id.eq(userId)).fetchOne();
 	}
