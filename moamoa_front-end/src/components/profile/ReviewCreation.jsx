@@ -1,13 +1,16 @@
 import { TextField, Button, Container, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleCreateReview } from 'redux/profile';
 import customAxios from 'utils/axios';
 
 function ReviewCreation() {
   const [context, setContext] = useState('');
   const userPk = useSelector(state => state.user.userPk);
   const profile = useSelector(state => state.profile.userProfile[0]);
+
+  const dispatch = useDispatch();
 
   const handleChangeContext = event => {
     if (context.length <= 100) {
@@ -25,6 +28,7 @@ function ReviewCreation() {
       })
       .then(response => {
         console.log(response);
+        dispatch(handleCreateReview({ review: response.data.review }));
       })
       .catch(error => {
         console.log(error);
