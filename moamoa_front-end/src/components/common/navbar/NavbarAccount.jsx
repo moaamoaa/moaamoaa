@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutSuccess } from 'redux/user';
@@ -26,6 +26,8 @@ import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
 import scrollToTop from 'utils/scrollToTop';
 
 export default function NavbarAccount() {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [logInDialog, setLogInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
@@ -78,10 +80,18 @@ export default function NavbarAccount() {
     },
   ];
 
+  useEffect(() => {
+    const handleWindowResize = () => setWindowWidth(window.innerWidth);
+    setIsMobile(windowWidth < 500);
+
+    window.addEventListener('resize', handleWindowResize);
+    return () => window.removeEventListener('resize', handleWindowResize);
+  }, [windowWidth]);
+
   if (isLogIn) {
     return (
       <>
-        <Box sx={{ flexGrow: 0 }}>
+        <Box sx={{ display: 'flex', scale: isMobile ? '0.5' : '1' }}>
           {/* 팀관리아이콘 */}
           <IconButton onClick={null} sx={{ mr: 2 }}>
             <Diversity3Icon />

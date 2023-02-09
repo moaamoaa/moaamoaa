@@ -10,37 +10,39 @@ import {
 import LongMenu from 'components/profile/LongMenu';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
 import { handleEditReview } from 'redux/profile';
 import customAxios from 'utils/axios';
 
 function Review(props) {
   const [isEdit, setIsEdit] = useState(false);
   const userProfile = useSelector(state => state.profile.userProfile[0]);
-  const [context, setContext] = useState(props.context ? props.context : '');
+  const [context, setContext] = useState(
+    props.review.context ? props.review.context : '',
+  );
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleOpenEdit = () => {
     setIsEdit(true);
   };
 
-  const handleCloseEdit = () => {};
+  const handleSuccessDelete = () => {};
 
   const handleSuccessEdit = () => {
     customAxios.authAxios
       .put(`/profile/review/${userProfile.id}`, {
+        id: props.review.id,
+        senderId: props.review.senderId,
         context: context,
       })
       .then(response => {
         console.log(response);
         dispatch(
           handleEditReview({
-            id: props.review.id,
-            context: response.data.context,
+            review: response.data.review,
           }),
         );
+
         setIsEdit(false);
       })
       .catch(error => {
@@ -76,7 +78,6 @@ function Review(props) {
             <TextField
               fullWidth
               multiline
-              defaultValue={props.review.context}
               helperText={`${context.length}/${limit}`}
               onChange={handleChangeContext}
               value={context}
@@ -101,7 +102,7 @@ function Review(props) {
           </Grid>
         </>
       ) : (
-        <Container sx={{ padding: '0' }}>
+        <Container sx={{ padding: '0 !important' }}>
           <Grid
             item
             xs={12}
@@ -120,7 +121,7 @@ function Review(props) {
             <LongMenu
               isEdit={isEdit}
               handleOpenEdit={handleOpenEdit}
-              handleCloseEdit={handleCloseEdit}
+              handleCloseEdit={handleSuccessDelete}
             ></LongMenu>
           </Grid>
           <Grid item xs={12}>
