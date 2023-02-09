@@ -29,6 +29,7 @@ function ReviewCreation() {
       .then(response => {
         console.log(response);
         dispatch(handleCreateReview({ review: response.data.review }));
+        setContext('');
       })
       .catch(error => {
         console.log(error);
@@ -47,6 +48,7 @@ function ReviewCreation() {
               placeholder="댓글을 남겨 보세요."
               rows={3}
               onChange={handleChangeContext}
+              value={context}
             ></TextField>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>
