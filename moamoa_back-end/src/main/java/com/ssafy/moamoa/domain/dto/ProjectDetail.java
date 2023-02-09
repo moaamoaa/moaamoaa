@@ -1,21 +1,16 @@
 package com.ssafy.moamoa.domain.dto;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Project;
-import com.ssafy.moamoa.domain.entity.Team;
 import com.ssafy.moamoa.domain.entity.TechStack;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 @Builder
@@ -33,17 +28,16 @@ public class ProjectDetail {
 	private String endDate;
 
 	// team
-	private Long userId;
 	private String leaderNickname;
 	private Long leaderId;
 	private boolean isLeader;
 	private List<ProfileResultDto> profileResultDtoList;
 
 	// project techStack
-	private List<TechStack> techStacks;
+	private List<TechStackForm> projectTechStacks;
 
 	// project area
-	private Long areaId;
+	private AreaForm areaForm;
 
 	public static ProjectDetail toEntity(Project project){
 		return ProjectDetail.builder()
@@ -62,4 +56,5 @@ public class ProjectDetail {
 	public void setProfileResultDtoList(List<ProfileResultDto> profileResultDtos) {
 		this.profileResultDtoList = profileResultDtos;
 	}
+
 }

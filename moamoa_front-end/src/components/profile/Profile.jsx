@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import CardList from 'components/common/card/CardList';
@@ -10,37 +11,79 @@ import {
   Box,
   Grid,
   TextField,
+  Badge,
+  Tooltip,
+  Fade,
 } from '@mui/material';
 
 import ScrollableTab from 'components/common/tab/ScrollableTab';
-import Carousel from 'components/common/carousel/Carousel';
+import { searchStatusChange, handleEditProfile } from 'redux/profile';
+import { useNavigate } from 'react-router-dom';
+import scrollToTop from 'utils/scrollToTop';
 
 export default function Profile(props) {
-  const user = {
-    id: 0,
-    name: '김싸피',
-    tech: [
-      ['front-end_icons', 'javascript'],
-      ['front-end_icons', 'typescript'],
-      ['front-end_icons', 'javascript'],
-      ['front-end_icons', 'typescript'],
-      ['front-end_icons', 'javascript'],
-      ['front-end_icons', 'typescript'],
-      ['front-end_icons', 'javascript'],
-      ['front-end_icons', 'typescript'],
-    ],
-    link: {
-      github: 'https://github.com/LimSB-dev',
-      tistory: '',
-      velog: '',
-    },
+  const [badgeInfo, setBadgeInfo] = useState({
+    color: 'primary',
+    context: '온라인 오프라인 팀을 구하고 있습니다.',
+  });
+
+  const userPk = useSelector(state => state.user.userPk);
+
+  const sites = useSelector(state => state.profile.sites);
+  const techStacks = useSelector(state => state.profile.techStacks);
+  const userProfile = useSelector(state => state.profile.userProfile[0]);
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const handleOpenEditPage = () => {
+    navigate('/ProfileEditPage');
+    scrollToTop();
+  };
+
+  const handleOpenOfferList = () => {};
+
+  const handleEditSuccess = () => {
+    dispatch(handleEditProfile({}));
+  };
+
+  const handleCloseEditPage = () => {
+    navigate('/ProfilePage');
+    scrollToTop();
+  };
+
+  const handleBadge = () => {
+    if (userPk !== userProfile.id) return;
+
+    if (badgeInfo.color === 'primary') {
+      setBadgeInfo({
+        color: 'secondary',
+        context: '온라인 팀을 구하고 있습니다.',
+      });
+    } else if (badgeInfo.color === 'secondary') {
+      setBadgeInfo({
+        color: 'success',
+        context: '오프라인 팀을 구하고 있습니다.',
+      });
+    } else if (badgeInfo.color === 'success') {
+      setBadgeInfo({
+        color: 'primary',
+        context: '온라인 오프라인 팀을 구하고 있습니다.',
+      });
+    }
+    dispatch(
+      searchStatusChange({
+        profileSearchStatus: userProfile.profileSearchStatus,
+      }),
+    );
   };
 
   const userButtons = [
-    <ProfileButton key="offer" href="/ProfileEditPage" variant="outlined">
+    <ProfileButton key="offer" onClick={handleOpenEditPage} variant="outlined">
       수정
     </ProfileButton>,
-    <ProfileButton key="chat" variant="outlined">
+    <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
       신청 목록
     </ProfileButton>,
   ];
@@ -55,10 +98,10 @@ export default function Profile(props) {
   ];
 
   const editButtons = [
-    <ProfileButton key="offer" variant="outlined">
+    <ProfileButton key="offer" onClick={handleEditSuccess} variant="outlined">
       수정 완료
     </ProfileButton>,
-    <ProfileButton key="chat" variant="outlined">
+    <ProfileButton key="chat" onClick={handleCloseEditPage} variant="outlined">
       수정 취소
     </ProfileButton>,
   ];
@@ -81,7 +124,11 @@ export default function Profile(props) {
             sx={{ width: '320px', height: '320px' }}
           />
 
-          <TextField fullWidth placeholder={user.name} onChange={null} />
+          <TextField
+            fullWidth
+            placeholder={userProfile.nickname}
+            onChange={null}
+          />
 
           <ProfileButtonContainer>{editButtons}</ProfileButtonContainer>
         </MoaProfile>
@@ -99,7 +146,11 @@ export default function Profile(props) {
               />
             </Grid>
             <Grid item xs={8}>
-              <TextField fullWidth placeholder={user.name} onChange={null} />
+              <TextField
+                fullWidth
+                placeholder={userProfile?.nickname}
+                onChange={null}
+              />
             </Grid>
           </Grid>
 
@@ -120,49 +171,93 @@ export default function Profile(props) {
             padding: '0 !important',
           }}
         >
-          <MoaSkeleton
-            variant="circular"
-            sx={{ width: '320px', height: '320px' }}
-          />
+          <Tooltip
+            title={badgeInfo.context}
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 600 }}
+            placement="top-end"
+            followCursor
+            onClick={handleBadge}
+          >
+            <Badge
+              badgeContent=" "
+              color={badgeInfo.color}
+              overlap="circular"
+              sx={{
+                '& .MuiBadge-badge': {
+                  fontSize: 9,
+                  height: 50,
+                  minWidth: 50,
+                  borderRadius: 50,
+                },
+              }}
+            >
+              <MoaSkeleton
+                variant="circular"
+                sx={{ width: '320px', height: '320px' }}
+              />
+            </Badge>
+          </Tooltip>
           <Typography variant="h4" color="initial" fontWeight={900}>
-            {user.name}
+            {userProfile.nickname}
           </Typography>
 
-          <CardList type={'tech'} cards={user.tech}></CardList>
+          <CardList type={'tech'} cards={techStacks}></CardList>
           <hr />
-          <CardList type={'link'} cards={user.link}></CardList>
+          <CardList type={'link'} cards={sites}></CardList>
 
           <ProfileButtonContainer>
-            {user.id ? otherButtons : userButtons}
+            {userProfile.id === userPk ? userButtons : otherButtons}
           </ProfileButtonContainer>
         </MoaProfile>
 
         {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
-          sx={{ display: { xs: 'block', md: 'none' }, padding: '0 !important' }}
+          sx={{ display: { xs: 'block', md: 'none' } }}
         >
           <Grid container spacing={10}>
-            <Grid item xs={4}>
-              <MoaSkeleton
-                variant="circular"
-                sx={{ width: '10rem', height: '10rem' }}
-              />
+            <Grid item xs={4} sx={{ display: 'flex' }}>
+              <Tooltip
+                title={badgeInfo.context}
+                TransitionComponent={Fade}
+                TransitionProps={{ timeout: 600 }}
+                onClick={handleBadge}
+                followCursor
+              >
+                <Badge
+                  badgeContent=" "
+                  color={badgeInfo.color}
+                  overlap="circular"
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      fontSize: 9,
+                      height: 30,
+                      minWidth: 30,
+                      borderRadius: 5,
+                    },
+                  }}
+                >
+                  <MoaSkeleton
+                    variant="circular"
+                    sx={{ minWidth: '10rem', minHeight: '10rem' }}
+                  />
+                </Badge>
+              </Tooltip>
             </Grid>
             <Grid item xs={8}>
               <Typography variant="h5" color="initial" fontWeight={600}>
-                {user.name}
+                {userProfile.nickname}
               </Typography>
 
-              <ScrollableTab type={'tech'} cards={user.tech}></ScrollableTab>
-              {/* <Carousel type={'tech'} cards={user.tech}></Carousel> */}
+              <ScrollableTab type={'tech'} cards={techStacks}></ScrollableTab>
               <hr />
-              <CardList type={'link'} cards={user.link}></CardList>
+              <CardList type={'link'} cards={sites}></CardList>
             </Grid>
           </Grid>
 
           <ProfileButtonContainer>
-            {user.id ? otherButtons : userButtons}
+            {userPk === userProfile.id ? userButtons : otherButtons}
           </ProfileButtonContainer>
         </MoaProfile>
       </>
@@ -171,7 +266,7 @@ export default function Profile(props) {
 }
 
 const MoaProfile = styled(Container)`
-  padding: 0;
+  padding: 0 !important;
 `;
 
 const MoaSkeleton = styled(Skeleton)`

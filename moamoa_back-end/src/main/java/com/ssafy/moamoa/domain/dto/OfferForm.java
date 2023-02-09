@@ -21,6 +21,13 @@ public class OfferForm {
 	private Long userId;
 	private LocalDateTime time;
 
+	private String title;
+	private String projectContents;
+
+	private String nickname;
+	private String profileContext;
+
+
 	public static OfferForm toEntity(Offer offer) {
 		return OfferForm.builder()
 			.offerId(offer.getId())

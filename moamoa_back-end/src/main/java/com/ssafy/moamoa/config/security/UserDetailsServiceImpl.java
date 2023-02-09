@@ -1,5 +1,6 @@
 package com.ssafy.moamoa.config.security;
 
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +24,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		//user를 가져옴
 		User user = userRepository.findByEmail(email)
 			.orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다: " + email));
+
+		if (user.isLocked()) {
+			throw new LockedException("User account is locked");
+		}
+
 		Profile profile = profileRepository.findByUser_Id(user.getId()).get();
 		return new UserDetailsImpl(user.getId(), user.getEmail(), user.getPassword(), profile.getNickname());
 	}

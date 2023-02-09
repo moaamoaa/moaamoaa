@@ -8,21 +8,20 @@ import {
 } from '@mui/material/';
 
 export default function SignUpPasswordForm(props) {
-  //비밀번호 상태
   const [password, setPassword] = useState('');
   const [checkPassword, setcheckPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
+  const [passwordError, setPasswordError] = useState(true);
   const [passwordValidation, setPasswordValidation] = useState(
     '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요',
   );
 
-  const regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
+  const regExp =
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,20}$/;
 
-  //비밀번호 상태 바꾸는 함수
-  const handlePassword = e => {
-    setPassword(e.target.value);
-    if (!regPass.test(password)) {
+  const handlePassword = event => {
+    setPassword(event.target.value);
+    if (!regExp.test(event.target.value)) {
       setPasswordValidation(
         '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요',
       );
@@ -30,6 +29,7 @@ export default function SignUpPasswordForm(props) {
       setPasswordValidation(false);
     }
   };
+
   const handleCheckPassword = e => {
     setcheckPassword(e.target.value);
   };

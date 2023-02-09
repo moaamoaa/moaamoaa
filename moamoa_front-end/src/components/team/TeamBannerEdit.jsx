@@ -21,7 +21,7 @@ export default function TeamBannerEdit(props) {
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundImage: `url(${post.image})`,
-        height: 'calc(200px + 40vw)', // 반응형 웹 calc
+        height: 'calc(400px + 10vw)', // 반응형 웹 calc
         maxHeight: 'calc(100vh - 56px)',
       }}
     >

@@ -231,10 +231,7 @@ public class TechStackService {
 		List<TechStackForm> returnList = new ArrayList<>();
 		for(ProjectTechStack projectTechStack : resultList)
 		{
-			TechStackForm techStackForm = TechStackForm.builder()
-					.id(projectTechStack.getTechStack().getId())
-					.name(projectTechStack.getTechStack().getName())
-					.img(projectTechStack.getTechStack().getLogo()).build();
+			TechStackForm techStackForm = TechStackForm.toEntity(projectTechStack.getTechStack());
 
 			returnList.add(techStackForm);
 		}
@@ -292,10 +289,7 @@ public class TechStackService {
 		List<TechStackForm> returnList = new ArrayList<>();
 		for(SidePjtTechStack sidePjtTechStack : resultList)
 		{
-			TechStackForm techStackForm = TechStackForm.builder()
-					.id(sidePjtTechStack.getTechStack().getId())
-					.name(sidePjtTechStack.getTechStack().getName())
-					.img(sidePjtTechStack.getTechStack().getLogo()).build();
+			TechStackForm techStackForm = TechStackForm.toEntity(sidePjtTechStack.getTechStack());
 
 			returnList.add(techStackForm);
 		}

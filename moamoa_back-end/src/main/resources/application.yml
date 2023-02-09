@@ -38,10 +38,6 @@ spring:
 
 logging:
   level:
-    com:
-      amazonaws:
-        util:
-          EC2MetadataUtils: ERROR
     org:
       hibernate:
         SQL: DEBUG

@@ -68,6 +68,8 @@ public class User {
 		this.password = password;
 	}
 
+	public void setLocked(boolean isLocked){this.isLocked = isLocked;}
+
 	public void deleteRefreshToken() {
 		this.refreshToken = null;
 	}

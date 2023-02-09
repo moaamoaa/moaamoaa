@@ -19,7 +19,7 @@ public interface ProjectTechStackRepository extends JpaRepository<ProjectTechSta
 		"where projectTechStack.project = :project")
 	List<ProjectTechStack> findByProject(@Param("project") Project project);
 
-	List<TechStackOnly> findTechstackByProject_Id(Long id);
+	List<TechStackOnly> findByProject_Id(Long id);
 
 	List<TechStackOnly> findTop4ByProject_IdOrderByOrderAsc(Long id);
 

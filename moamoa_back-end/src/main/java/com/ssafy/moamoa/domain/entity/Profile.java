@@ -102,7 +102,11 @@ public class Profile {
 		this.img = img;
 	}
 
+
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
+	
+	public void setCountOffer(int countOffer){this.countOffer = countOffer;}
+
 }

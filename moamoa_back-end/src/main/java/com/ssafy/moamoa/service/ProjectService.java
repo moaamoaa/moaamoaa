@@ -17,9 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.ProjectStatus;
 import com.ssafy.moamoa.domain.TeamRole;
+import com.ssafy.moamoa.domain.dto.AreaForm;
 import com.ssafy.moamoa.domain.dto.ProfileResultDto;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
+
+import com.ssafy.moamoa.domain.dto.SearchCondition;
+import com.ssafy.moamoa.domain.dto.TechStackForm;
+
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.ProjectArea;
@@ -30,6 +35,7 @@ import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.exception.BadRequestException;
 import com.ssafy.moamoa.exception.NotFoundUserException;
 import com.ssafy.moamoa.repository.ProfileRepository;
+import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TeamRepository;
@@ -44,8 +50,10 @@ import lombok.RequiredArgsConstructor;
 @Slf4j
 public class ProjectService {
 
+	private final UserService userService;
 	private final AreaService areaService;
 	private final TeamService teamService;
+	private final TechStackService techStackService;
 	private final ProjectRepository projectRepository;
 	private final TechStackRepository techstackRepository;
 	private final ProjectTechStackRepository projectTechStackRepository;
@@ -56,10 +64,19 @@ public class ProjectService {
 	private final UserService userService;
 	private final S3Service s3Service;
 	private final ImageService imageService;
+	private final ProjectAreaRepository projectAreaRepository;
 
-	public Boolean isLocked(Long id){
-		Project project = projectRepository.findById(id).get();
-		return project.isLocked();
+
+	public void isProjectLocked(Long id) throws Exception {
+		if(projectRepository.findById(id).get().isLocked())
+		{
+			if(projectRepository.findById(id).get().getCategory()==ProjectCategory.PROJECT)
+			{
+				throw new Exception("해당 프로젝트는 존재하지 않습니다.");
+			} else if (projectRepository.findById(id).get().getCategory()==ProjectCategory.STUDY) {
+				throw new Exception("해당 스터디는 존재하지 않습니다.");
+			}
+		}
 	}
 	public Project findProjectById(Long id) {
 		Optional<Project> findProject = projectRepository.findById(id);
@@ -112,7 +129,7 @@ public class ProjectService {
 		int cntPeople = projectForm.getTotalPeople();
 		checkCntPeople(cntPeople, 1);
 
-		// 팀원 정보 확인
+		// 유저 정보 확인
 		Optional<User> findUsers = userRepository.findById(projectForm.getUserId());
 		if (!findUsers.isPresent()) {
 			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
@@ -143,6 +160,7 @@ public class ProjectService {
 			.category(projectCategory)
 			.countApply(0)
 			.hit(0)
+			.img(projectForm.getImg())
 			.onoffline(projectStatus)
 			.createDate(LocalDate.now())
 			.startDate(LocalDate.now())
@@ -171,28 +189,22 @@ public class ProjectService {
 		teamRepository.save(team);
 
 		// project techstack
-		Long[] teckstacks = projectForm.getTechStacks();
-		for (int i = 0; i < teckstacks.length; i++) {
-			Optional<TechStack> findtechStack = techstackRepository.findById(teckstacks[i]);
-			TechStack techStack = findtechStack.get();
-
-			ProjectTechStack projectTechStack = ProjectTechStack.builder()
-				.project(project)
-				.techStack(techStack)
-				.build();
-			projectTechStackRepository.save(projectTechStack);
-		}
+		techStackService.modifyProjectTechStack(project.getId(), projectForm.getTechStacks());
 
 		// project area
 		areaService.addProjectAreaList(project, projectForm.getAreaId());
+
+		ProjectDetail projectDetail = accessProject(project.getId(), 0);
+		return projectDetail;
 	}
 
 	// 프로젝트/스터디 수정
 	// 유저 id, projectForm, file
 	public void updateProject(Long id, ProjectForm projectForm, MultipartFile file) throws Exception {
+		// locked check
+		isProjectLocked(projectForm.getProjectId());
 
-		Optional<Project> findProject = projectRepository.findById(projectForm.getProjectId());
-		Project project = findProject.get();
+		Project project = projectRepository.findById(projectForm.getProjectId()).get();
 		LocalDate endDate = LocalDate.parse(projectForm.getEndDate(), DateTimeFormatter.ISO_DATE);
 		int cntPeople = projectForm.getTotalPeople();
 
@@ -228,71 +240,53 @@ public class ProjectService {
 		project.setEndDate(endDate);
 		project.setTitle(projectForm.getTitle());
 		project.setTotalPeople(cntPeople);
+		project.setImg(projectForm.getImg());
 		project.setContents(projectForm.getContents());
 
 
 
 		// project techstack
-		List<ProjectTechStack> projectTechStacks = projectTechStackRepository.findByProject(project);
-		for (ProjectTechStack ts : projectTechStacks) {
-			projectTechStackRepository.delete(ts);
-		}
-
-		Long[] teckstacks = projectForm.getTechStacks();
-		for (int i = 0; i < teckstacks.length; i++) {
-			Optional<TechStack> findTechStack = techstackRepository.findById(teckstacks[i]);
-			TechStack techStack = findTechStack.get();
-
-			ProjectTechStack projectTechStack = ProjectTechStack.builder()
-				.project(project)
-				.techStack(techStack)
-				.build();
-			projectTechStackRepository.save(projectTechStack);
-		}
+		techStackService.modifyProjectTechStack(project.getId(), projectForm.getTechStacks());
 
 		// project area
 		Long areaId = projectForm.getAreaId();
 		ProjectArea projectArea = areaService.findProjectAreaList(project);
 		areaService.deleteProjectAreaList(projectArea);
 		areaService.addProjectAreaList(project, areaId);
+
+		ProjectDetail projectDetail = accessProject(project.getId(), 0);
+		return projectDetail;
 	}
 
 	// 프로젝트/스터디 삭제
-	public void deleteProject(Long id) {
+	public void deleteProject(ProjectForm projectForm) throws Exception {
+		// locked check
+		isProjectLocked(projectForm.getProjectId());
 
-		Optional<Project> findProject = projectRepository.findById(id);
-		Project project = findProject.get();
-
-		// team
-		List<Team> findTeam = teamRepository.findByProject_Id(project.getId());
-		for (Team t : findTeam) {
-			teamRepository.delete(t);
-		}
-
-		// project techstack
-		List<ProjectTechStack> projectTechStacks = projectTechStackRepository.findByProject(project);
-		for (ProjectTechStack ts : projectTechStacks) {
-			projectTechStackRepository.delete(ts);
-		}
-
-		// project area
-		ProjectArea projectArea = areaService.findProjectAreaList(project);
-		areaService.deleteProjectAreaList(projectArea);
-
-		// project
-		projectRepository.delete(project);
-	}
-
-	// 프로젝트/스터디 삭제
-	public void deleteMember(ProjectForm projectForm) {
 		Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
 		findProject.setLocked(true);
 	}
 
-	public List<ProjectForm> findByUser(Long id) {
-		List<Team> teams = teamRepository.findByUser_Id(id);
+	// 팀원 삭제
+	public void deleteMember(ProjectForm projectForm) throws Exception {
+		// locked check
+		isProjectLocked(projectForm.getProjectId());
+
+		if(!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
+		|| userRepository.findById(projectForm.getUserId()).get().isLocked())
+		{
+			throw new Exception("존재하지 않는 팀원입니다.");
+		}
+		Team fineTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).get();
+		teamRepository.delete(fineTeam);
+	}
+
+	// 자신이 속한 프로젝트/스터디 반환
+	public List<ProjectForm> findByUser(Long id, ProjectCategory projectCategory) {
+		List<Team> teams = teamRepository.findByUser_IdAndProjectCategory(id, projectCategory);
 		List<ProjectForm> projectForms = new ArrayList<>();
 		for (Team t: teams) {
+			if(t.getProject().isLocked()) continue;
 			ProjectForm projectForm = ProjectForm.toEntity(t.getProject());
 			projectForms.add(projectForm);
 		}
@@ -300,16 +294,19 @@ public class ProjectService {
 	}
 
 	// 팀 페이지 return
-	public ProjectDetail accessProject(Long projectId)
-	{
+	public ProjectDetail accessProject(Long projectId, int hit) throws Exception {
+		// locked check
+		isProjectLocked(projectId);
+
 		Project project = projectRepository.findById(projectId).get();
-		project.setHit(project.getHit()+1);
+		project.setHit(project.getHit()+hit);
 		ProjectDetail projectDetail = ProjectDetail.toEntity(project);
 
 		// Team
 		List<Team> teams = teamRepository.findByProject_Id(project.getId());
 		List<ProfileResultDto> profileResultDtoList = new ArrayList<>();
 		for (Team t:teams) {
+			if(t.getUser().isLocked()) continue;
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
 			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(),profile.getNickname(),profile.getContext(),profile.getProfileOnOffStatus());
 			profileResultDtoList.add(profileResultDto);
@@ -323,14 +320,21 @@ public class ProjectService {
 		projectDetail.setProfileResultDtoList(profileResultDtoList);
 
 		// TechStack
-		List<TechStack> techStacks = projectTechStackRepository.findTechstackByProject_Id(projectId)
+		List<TechStackForm> techStackForms = new ArrayList<>();
+		List<TechStack> techStacks = projectTechStackRepository.findByProject_Id(projectId)
 			.stream()
 			.map(t -> t.getTechStack())
 			.collect(Collectors.toList());
 		if (!techStacks.isEmpty()) {
-			projectDetail.setTechStacks(techStacks);
+			for (TechStack t: techStacks) {
+				TechStackForm techStackForm = TechStackForm.toEntity(t);
+				techStackForms.add(techStackForm);
+			}
+			projectDetail.setProjectTechStacks(techStackForms);
 		}
 
+		// area
+		projectDetail.setAreaForm(AreaForm.toEntity(projectAreaRepository.findByProject_Id(projectId).get().getArea()));
 
 		return projectDetail;
 	}

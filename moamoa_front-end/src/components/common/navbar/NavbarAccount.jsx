@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess, logoutSuccess, loginFailure } from 'redux/user';
+import { logoutSuccess } from 'redux/user';
+import { changeProfilePk } from 'redux/profile';
 import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
@@ -17,6 +18,7 @@ import {
 } from '@mui/material/';
 
 import ChatIcon from '@mui/icons-material/Chat';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
@@ -28,7 +30,8 @@ export default function NavbarAccount() {
   const [logInDialog, setLogInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
-  // 임시 로그인 확인. 나중에 지울 것
+
+  const userPk = useSelector(state => state.user.userPk);
   const isLogIn = useSelector(state => state.user.isLogged);
 
   const dispatch = useDispatch();
@@ -47,28 +50,31 @@ export default function NavbarAccount() {
     setLogInDialog(true);
   };
 
-  const handleNavigate = () => {
+  const handleOpenProfile = () => {
+    dispatch(changeProfilePk({ id: userPk }));
     handleCloseUserMenu();
     navigate('/ProfilePage');
     scrollToTop();
   };
 
-  const handleUserToken = () => {
+  const handleLogOut = () => {
     handleCloseUserMenu();
     dispatch(logoutSuccess());
     Cookies.remove('access_token');
+    navigate('/');
+    scrollToTop();
   };
 
   const settings = [
     {
       text: '프로필',
       icon: 'LogoutIcon',
-      handler: handleNavigate,
+      handler: handleOpenProfile,
     },
     {
       text: '로그아웃',
       icon: 'LogoutIcon',
-      handler: handleUserToken,
+      handler: handleLogOut,
     },
   ];
 
@@ -76,10 +82,15 @@ export default function NavbarAccount() {
     return (
       <>
         <Box sx={{ flexGrow: 0 }}>
+          {/* 팀관리아이콘 */}
+          <IconButton onClick={null} sx={{ mr: 2 }}>
+            <Diversity3Icon />
+          </IconButton>
+          {/* 채팅아이콘 */}
           <IconButton onClick={null} sx={{ mr: 2 }}>
             <ChatIcon />
           </IconButton>
-
+          {/* 아바타버튼 */}
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
           </IconButton>

@@ -20,6 +20,12 @@ public class ApplyForm {
 	private Long userId;
 	private LocalDateTime time;
 
+	private String title;
+	private String projectContents;
+
+	private String nickname;
+	private String profileContext;
+
 	public static ApplyForm toEntity(Apply apply) {
 		return ApplyForm.builder()
 			.applyId(apply.getId())
