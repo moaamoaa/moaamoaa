@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 // import axios from 'axios';
 import CustomAxios from 'utils/axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
 
 import {
   Container,
@@ -18,30 +20,40 @@ import TeamBanner from 'components/team/TeamBanner';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 // axios 입력값을 불러와서 띄우기
 
 export default function TeamDetailPage() {
-  //READ
-  const [isLoaded, setIsLoaded] = useState(false);
+  //navigation
+  const navigate = useNavigate();
+  const goToUpdate = () => {
+    // 팀 수정 눌렀을 때, 이동할 프론트 주소
+    navigate(`/TeamDetailPage/?projectId=${projectId}`);
+  };
+
+  // const [isLoaded, setIsLoaded] = useState(false);
   const [detail, setDetail] = useState([]);
+
+  // redux
+  const projectId = useSelector(state => state.team.projectId);
+  const dispatch = useDispatch();
 
   // axios
   useEffect(() => {
     CustomAxios.authAxios
-      // 해당 id의 프로젝트 조회됨
-      // .get(`/projects/detail?projectId=${projectId}`) // 팀페이지 open ${projectId}를 받아오거나 1 입력하면 조회됨
-      .get(`/projects/detail?projectId=1`) //하드코딩
+      // 해당 id의 프로젝트 조회됨 axios 주소
+      .get(`/projects/detail?projectId=${projectId}`)
       .then(response => {
         setDetail(response.data);
         console.log(response);
-        console.log('조회완료!');
+        console.log('조회성공!');
       })
       .catch(error => {
         console.log(error);
       });
-    setIsLoaded(true);
-  }, [isLoaded]);
+    // setIsLoaded(true);
+  }, [projectId]);
 
   // 배너
   const teamBanner = {
@@ -66,25 +78,37 @@ export default function TeamDetailPage() {
             <Button size="small" variant="contained" color="primary">
               지원 보내기 / 제안 및 지원 확인
             </Button>
-            <Link href="http://localhost:3000/TeamUpdatePage">
-              <Button size="small" variant="contained" color="primary">
-                팀 수정
-              </Button>
-            </Link>
+            <Button
+              onClick={goToUpdate}
+              size="small"
+              variant="contained"
+              color="primary"
+            >
+              팀 수정
+            </Button>
             <Button
               size="small"
               variant="contained"
               color="primary"
               onClick={async () => {
-                console.log(`프로젝트아이디는 ${detail.projectId}`);
-                console.log(detail.projectId);
                 await CustomAxios.authAxios
-                  .delete('/project', {
-                    projectId: detail.projectId, // 팀관리에서 선택
+                  .delete('/projects', {
+                    projectId: projectId,
+                    areaId: null,
+                    category: null,
+                    endDate: null,
+                    img: null,
+                    projectStatus: null,
+                    techStacks: [],
+                    title: null,
+                    totalPeople: null,
+                    userId: null,
                   })
                   .then(e => {
+                    // dispatch(teamCloseSuccess({ projectId: projectId }));
                     console.log(e);
                     console.log('삭제완료!');
+                    alert('게시물이 삭제되었습니다');
                   });
               }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
             >

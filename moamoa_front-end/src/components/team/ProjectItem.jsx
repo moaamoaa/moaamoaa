@@ -8,10 +8,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { handleOpenTeamDetail } from 'redux/team';
 
 export default function ProjectItem(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const goToDetail = () => {
+    dispatch(handleOpenTeamDetail({ projectId: props.project.projectId })); // 오픈 했을 때, 값을 바꿔주고 그걸 디테일로 보내
     // 이동할 프론트 주소
     navigate(`/TeamDetailPage/?projectId=${props.project.projectId}`);
   };
