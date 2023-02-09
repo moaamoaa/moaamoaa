@@ -93,10 +93,9 @@ public class OfferService {
 		// 수락할 project id를 받고 -> team에 등록
 		// offer id받고 user id, project id 검증
 		Project project = projectRepository.findById(matchingForm.getProjectId()).get();
-		// 잠김 확인
-		if(!project.isLocked()) {
+		int change = project.getCurrentPeople() + 1;
+		if(project.getTotalPeople() >= change) {
 			// 지원자를 팀에 등록
-			int change = project.getCurrentPeople() + 1;
 			project.setCurrentPeople(change);
 
 			User user = userRepository.findById(userId).get();
@@ -109,7 +108,7 @@ public class OfferService {
 
 			deleteReceiveOffer(matchingForm);
 		}
-		else throw new Exception();
+		else throw new Exception("인원 모집이 끝났습니다.");
 	}
 
 	public void deleteReceiveOffer(MatchingForm matchingForm) {
