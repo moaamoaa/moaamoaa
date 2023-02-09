@@ -42,7 +42,7 @@ export default function TeamDetailPage() {
 
   // axios
   useEffect(() => {
-    CustomAxios.authAxios
+    CustomAxios.basicAxios
       // 해당 id의 프로젝트 조회됨 axios 주소
       .get(`/projects/detail?projectId=${projectId}`)
       .then(response => {
