@@ -1,21 +1,144 @@
 import styled from '@emotion/styled';
-import { TextField } from '@mui/material';
+import {
+  Button,
+  Grid,
+  InputAdornment,
+  TextField,
+  Container,
+  Typography,
+} from '@mui/material';
+import LongMenu from 'components/profile/LongMenu';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { handleEditReview } from 'redux/profile';
+import customAxios from 'utils/axios';
 
 function Review(props) {
-  console.log(props);
+  const [isEdit, setIsEdit] = useState(false);
+  const userProfile = useSelector(state => state.profile.userProfile[0]);
+  const [context, setContext] = useState(props.context ? props.context : '');
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleOpenEdit = () => {
+    setIsEdit(true);
+  };
+
+  const handleCloseEdit = () => {};
+
+  const handleSuccessEdit = () => {
+    customAxios.authAxios
+      .put(`/profile/review/${userProfile.id}`, {
+        context: context,
+      })
+      .then(response => {
+        console.log(response);
+        dispatch(
+          handleEditReview({
+            id: props.review.id,
+            context: response.data.context,
+          }),
+        );
+        setIsEdit(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const handleCancelEdit = () => {
+    setIsEdit(false);
+    setContext(props.context);
+  };
+
+  const limit = 200;
+
+  const handleChangeContext = event => {
+    if (event.target.value.length <= limit) {
+      setContext(event.target.value);
+    } else {
+      setContext(context.slice(0, limit - 1));
+    }
+  };
+
+  const handleOpenUserProfile = (event, value) => {
+    console.log(event);
+    // navigate(`ProfilePage/?profileId${}`)
+  };
+
   return (
-    <ReviewTextField
-      fullWidth
-      label={props.sender}
-      defaultValue={props.context}
-      InputProps={{
-        readOnly: true,
-      }}
-      variant="standard"
-      multiline
-      helperText={props.time}
-      rows={2}
-    />
+    <Grid container sx={{ paddingBottom: '.5rem' }}>
+      {isEdit ? (
+        <>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              multiline
+              defaultValue={props.review.context}
+              helperText={`${context.length}/${limit}`}
+              onChange={handleChangeContext}
+              value={context}
+              sx={{ minHeight: '4rem' }}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              marginTop: '-1.5rem',
+            }}
+          >
+            <Button onClick={handleSuccessEdit} variant="text" color="primary">
+              수정
+            </Button>
+            <Button onClick={handleCancelEdit} variant="text" color="primary">
+              취소
+            </Button>
+          </Grid>
+        </>
+      ) : (
+        <Container sx={{ padding: '0' }}>
+          <Grid
+            item
+            xs={12}
+            justifyContent="space-between"
+            alignItems="start"
+            sx={{ display: 'flex' }}
+          >
+            <Typography
+              variant="body1"
+              color="initial"
+              sx={{ fontWeight: '600' }}
+              onClick={handleOpenUserProfile}
+            >
+              {props.review.sender}
+            </Typography>
+            <LongMenu
+              isEdit={isEdit}
+              handleOpenEdit={handleOpenEdit}
+              handleCloseEdit={handleCloseEdit}
+            ></LongMenu>
+          </Grid>
+          <Grid item xs={12}>
+            <ReviewTextField
+              fullWidth
+              defaultValue={props.review.context}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="standard"
+              multiline
+              helperText={props.review.time}
+              rows={2}
+            />
+          </Grid>
+        </Container>
+      )}
+    </Grid>
   );
 }
 

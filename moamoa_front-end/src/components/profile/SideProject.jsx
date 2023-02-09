@@ -58,11 +58,14 @@ export default function SideProject() {
       });
   };
 
+  const limit = 100;
+
   const handleChangeContext = event => {
-    if (context.length <= 10) {
+    console.log(context, context.length);
+    if (context.length <= limit) {
       setContext(event.target.value);
     } else {
-      setContext(context.slice(0, 10));
+      setContext(context.slice(0, limit));
     }
   };
 
@@ -81,10 +84,12 @@ export default function SideProject() {
                 id="standard-multiline-flexible"
                 placeholder="프로젝트 이름"
                 onChange={handleChangeName}
+                minRows={3}
                 InputProps={{
                   disableUnderline: true,
                 }}
                 variant="standard"
+                value={name}
               />
               <Grid container>
                 <TechStackSeletor
@@ -102,9 +107,8 @@ export default function SideProject() {
                 }}
                 onChange={handleChangeContext}
                 placeholder="프로젝트에 대한 자세한 설명을 작성해 주세요."
-              >
-                {context}
-              </TextField>
+                value={context}
+              />
             </Grid>
             <Grid item xs={1} justifyContent="end" sx={{ display: 'flex' }}>
               <IconButton
@@ -122,7 +126,7 @@ export default function SideProject() {
               justifyContent="end"
               sx={{ display: 'flex' }}
             >
-              {context.length} / 200
+              {context.length} / {limit}
             </Typography>
           </Grid>
         </MoaContainer>
