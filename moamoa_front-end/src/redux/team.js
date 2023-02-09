@@ -29,6 +29,9 @@ const teamSlice = createSlice({
     handleOpenTeamUpdate: (state, action) => {
       state.projectId = action.payload.projectId;
     },
+    handleUpdate: (state, action) => {
+      state.projectId = action.payload.projectId;
+    },
     teamOpenSuccess: (state, action) => {
       console.log(action);
       state.areaForm = action.payload.areaForm;
@@ -72,6 +75,7 @@ const teamSlice = createSlice({
 export const {
   handleOpenTeamDetail,
   handleOpenTeamUpdate,
+  handleUpdate,
   teamOpenSuccess,
   teamCloseSuccess,
 } = teamSlice.actions;

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import CustomAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
-
+import { handleUpdate } from 'redux/team';
 import {
   Container,
   Paper,
@@ -27,9 +27,11 @@ import { useNavigate } from 'react-router-dom';
 export default function TeamDetailPage() {
   //navigation
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const goToUpdate = () => {
     // 팀 수정 눌렀을 때, 이동할 프론트 주소
     navigate(`/TeamUpdatePage`);
+    dispatch(handleUpdate({ projectId: projectId }));
   };
 
   // const [isLoaded, setIsLoaded] = useState(false);
@@ -37,7 +39,6 @@ export default function TeamDetailPage() {
 
   // redux
   const projectId = useSelector(state => state.team.projectId);
-  const dispatch = useDispatch();
 
   // axios
   useEffect(() => {

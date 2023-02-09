@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-
+import { useNavigate } from 'react-router-dom';
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
@@ -45,6 +45,13 @@ export default function TeamCreatePage() {
 
   // redux
   const projectId = useSelector(state => state.team.projectId);
+
+  //navigation
+  const navigate = useNavigate();
+  const goBackToDetail = () => {
+    // 수정 취소 버튼 눌렀을 때, 이동할 프론트 주소 : 디테일 페이지
+    navigate(`/TeamDetailPage/?projectId=${projectId}`);
+  };
 
   //handler
   const handleClick = () => {
@@ -127,11 +134,14 @@ export default function TeamCreatePage() {
             >
               등록
             </Button>
-            <Link href="http://localhost:3000/TeamDetailPage/?projectId=1">
-              <Button size="small" variant="contained" color="primary">
-                취소
-              </Button>
-            </Link>
+            <Button
+              onClick={goBackToDetail}
+              size="small"
+              variant="contained"
+              color="primary"
+            >
+              취소
+            </Button>
           </Stack>
         </Grid>
       </Container>
