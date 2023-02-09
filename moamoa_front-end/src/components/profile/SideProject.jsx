@@ -1,14 +1,18 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
-
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Typography,
   Grid,
   Container,
   IconButton,
   TextField,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 
 import LongMenu from './LongMenu';
@@ -16,41 +20,50 @@ import AddIcon from '@mui/icons-material/Add';
 import CreateIcon from '@mui/icons-material/Create';
 import TechStackSeletor from 'components/profile/TechStackSeletor';
 import customAxios from 'utils/axios';
+import { handleSuccessSidProject } from 'redux/profile';
 
 export default function SideProject() {
   const [isAdd, setIsAdd] = useState(false);
 
-  const profileId = useSelector(state => state.user.userPk);
+  const userPk = useSelector(state => state.user.userPk);
+  const profile = useSelector(state => state.profile.userProfile);
 
-  const SideProjects = useSelector(state => state.profile.SideProjects);
+  const sideProjects = useSelector(state => state.profile.sideProjects);
   const techStacks = useSelector(state => state.profile.techStacks);
 
-  const [year, setYear] = useState(String(new Date().getFullYear()));
+  const curYear = new Date().getFullYear();
+  const [year, setYear] = useState(curYear);
   const [name, setName] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
-  const [context, setContext] = useState(
-    SideProjects ? SideProjects[0].context : '',
-  );
-
-  const handleChangeName = event => {
-    setName(event.target.value);
+  const [context, setContext] = useState('');
+  const handleChangeYear = event => {
+    setYear(event.target.value);
   };
-
-  const handleAddSidProject = () => {
+  const handleAddSideProject = () => {
     setIsAdd(true);
   };
+
+  const handleCloseAddSideProject = () => {
+    setYear(curYear);
+    setName('');
+    setSelectedValue(null);
+    setContext('');
+    setIsAdd(false);
+  };
+  const dispatch = useDispatch();
 
   const handleCreateSidProject = () => {
     console.log(year, name, selectedValue, context);
     customAxios.authAxios
-      .post(`profile/sidepjt/${profileId}`, {
-        year: year,
+      .post(`profile/sidepjt/${userPk}`, {
+        year: String(year),
         name: name,
         pjt_tech_stack: selectedValue,
         context: context,
       })
       .then(response => {
         console.log(response);
+        dispatch(handleSuccessSidProject({ sideProjects: response.data }));
         setIsAdd(false);
       })
       .catch(error => {
@@ -58,10 +71,16 @@ export default function SideProject() {
       });
   };
 
+  const handleChangeName = event => {
+    if (name.length <= 16) {
+      setName(event.target.value);
+    } else {
+      setName(name.slice(0, 16));
+    }
+  };
   const limit = 100;
 
   const handleChangeContext = event => {
-    console.log(context, context.length);
     if (context.length <= limit) {
       setContext(event.target.value);
     } else {
@@ -69,33 +88,53 @@ export default function SideProject() {
     }
   };
 
+  console.log(sideProjects);
+
   if (isAdd) {
     return (
       <>
         <ContentTitle color="initial">주요 프로젝트</ContentTitle>
         <MoaContainer container>
           <Grid item container xs={12} alignItems="start">
-            <Grid item xs={1}>
-              <SideProjectYear></SideProjectYear>
+            <Grid item xs={3} md={2}>
+              <FormControl size="small">
+                <InputLabel id="demo-select-small">Year</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={year}
+                  label="Year"
+                  onChange={handleChangeYear}
+                >
+                  <MenuItem value={curYear}>
+                    <em>{curYear}</em>
+                  </MenuItem>
+                  <MenuItem value={curYear - 1}>{curYear - 1}</MenuItem>
+                  <MenuItem value={curYear - 2}>{curYear - 2}</MenuItem>
+                  <MenuItem value={curYear - 3}>{curYear - 3}</MenuItem>
+                  <MenuItem value={curYear - 4}>{curYear - 4}</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={8} md={9}>
               <TextField
                 fullWidth
                 id="standard-multiline-flexible"
                 placeholder="프로젝트 이름"
                 onChange={handleChangeName}
-                minRows={3}
                 InputProps={{
                   disableUnderline: true,
                 }}
                 variant="standard"
                 value={name}
+                sx={{
+                  paddingBottom: '1rem',
+                }}
               />
-              <Grid container>
-                <TechStackSeletor
-                  setSelectedValue={setSelectedValue}
-                ></TechStackSeletor>
-              </Grid>
+
+              <TechStackSeletor
+                setSelectedValue={setSelectedValue}
+              ></TechStackSeletor>
 
               <TextField
                 variant="standard"
@@ -108,6 +147,9 @@ export default function SideProject() {
                 onChange={handleChangeContext}
                 placeholder="프로젝트에 대한 자세한 설명을 작성해 주세요."
                 value={context}
+                sx={{
+                  paddingTop: '1rem',
+                }}
               />
             </Grid>
             <Grid item xs={1} justifyContent="end" sx={{ display: 'flex' }}>
@@ -129,6 +171,12 @@ export default function SideProject() {
               {context.length} / {limit}
             </Typography>
           </Grid>
+          <IconButton
+            onClick={handleCloseAddSideProject}
+            sx={{ position: 'absolute', right: '.5rem', top: '-3rem' }}
+          >
+            <CloseIcon />
+          </IconButton>
         </MoaContainer>
       </>
     );
@@ -136,58 +184,69 @@ export default function SideProject() {
     return (
       <>
         <ContentTitle color="initial">주요 프로젝트</ContentTitle>
-        <MoaContainer container>
-          {SideProjects ? (
-            SideProjects.map((SideProject, idx) => {
-              <Grid key={idx} item container alignItems="start">
-                <Grid item xs={1} md={1}>
-                  <SideProjectYear>{SideProject.year}</SideProjectYear>
-                </Grid>
-                <Grid item xs={10} md={11}>
-                  <SideProjectTitle variant="body1" color="initial">
-                    {SideProject.title}
-                  </SideProjectTitle>
-                  <Grid container>
-                    {techStacks ? (
-                      techStacks.map((techStack, idx) => (
-                        <TechStackGrid key={idx}>{techStack}</TechStackGrid>
-                      ))
-                    ) : (
-                      <>
-                        <TechStackGrid>HTML</TechStackGrid>
-                        <TechStackGrid>CSS</TechStackGrid>
-                        <TechStackGrid>JavaScript</TechStackGrid>
-                      </>
-                    )}
+        <MoaContainer container sx={{ padding: '0 !important' }}>
+          <Container sx={{ padding: '0 !important' }}>
+            {sideProjects.length !== 0 ? (
+              sideProjects.map((sideProject, idx) => (
+                <Grid
+                  key={idx}
+                  item
+                  container
+                  alignItems="start"
+                  paddingX={2}
+                  paddingTop={1}
+                  sx={{ backgroundColor: idx % 2 ? '#88888820' : '#none' }}
+                >
+                  <Grid item xs={1}>
+                    <SideProjectYear>{sideProject.year}</SideProjectYear>
                   </Grid>
-                  <SideProjectContext>프로젝트 소개</SideProjectContext>
+                  <Grid item xs={10}>
+                    <SideProjectTitle variant="body1" color="initial">
+                      {sideProject.name}
+                    </SideProjectTitle>
+                    <Grid container>
+                      {sideProject.pjt_tech_stack.map((techStack, idx) => (
+                        <TechStackGrid key={idx}>
+                          {techStack.name}
+                        </TechStackGrid>
+                      ))}
+                    </Grid>
+                    <SideProjectContext>
+                      {sideProject.context}
+                    </SideProjectContext>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={1}
+                    justifyContent="end"
+                    sx={{ display: 'flex' }}
+                  >
+                    <ProfileLongMenu></ProfileLongMenu>
+                  </Grid>
                 </Grid>
-                <Grid item xs={1} justifyContent="end" sx={{ display: 'flex' }}>
-                  <ProfileLongMenu></ProfileLongMenu>
-                </Grid>
-              </Grid>;
-            })
-          ) : (
-            <Typography
-              variant="h6"
-              sx={{
-                width: '100%',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                fontWeight: '600',
-                opacity: '0.5',
-              }}
-              textAlign="center"
-              gutterBottom
-            >
-              프로젝트를 추가해 보세요.
-            </Typography>
-          )}
+              ))
+            ) : (
+              <Typography
+                variant="h6"
+                sx={{
+                  width: '100%',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  fontWeight: '600',
+                  opacity: '0.5',
+                }}
+                textAlign="center"
+                gutterBottom
+              >
+                프로젝트를 추가해 보세요.
+              </Typography>
+            )}
+          </Container>
           <IconButton
-            onClick={handleAddSidProject}
-            sx={{ position: 'absolute', right: '.5rem', bottom: '.5rem' }}
+            onClick={handleAddSideProject}
+            sx={{ position: 'absolute', right: '.5rem', top: '-3rem' }}
           >
             <AddIcon />
           </IconButton>
@@ -222,8 +281,9 @@ const MoaContainer = styled(Grid)`
 
 const SideProjectYear = styled(Typography)`
   font-weight: bolder;
-  font-size: 1.2rem;
+  font-size: calc(0.8rem + 0.2vw);
 
+  margin-top: calc(0.2rem + 0.2vw);
   color: gray;
 `;
 
@@ -237,13 +297,13 @@ const SideProjectTitle = styled(Typography)`
 const TechStackGrid = styled(Grid)`
   position: relative;
   font-weight: 400;
-  font-size: 0.8em;
+  font-size: calc(0.1em + 0.5vw);
 
-  background-color: #888;
+  background-color: #888888;
   color: #ffffff;
 
-  padding: 0.5rem;
-  margin-right: 0.5rem;
+  padding: 0.4rem;
+  margin-right: 0.4rem;
 
   border-radius: 0.5rem;
 `;

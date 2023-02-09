@@ -21,9 +21,9 @@ export default function LongMenu(props) {
       props.handleOpenEdit();
     }, 500);
   };
-  const handleCloseEdit = () => {
+  const handleDelete = () => {
     handleClose();
-    props.handleCloseEdit();
+    props.handleDelete();
   };
   const handleSuccessEdit = () => {
     handleClose();
@@ -43,10 +43,9 @@ export default function LongMenu(props) {
       ]
     : [
         { title: '수정', handler: handleOpenEdit },
-        { title: '취소', handler: handleCloseEdit },
+        { title: '삭제', handler: handleDelete },
       ];
 
-  //  창 크기 조절 시 닫기
   useEffect(() => {
     const handleWindowResize = () => setWindowWidth(window.innerWidth);
     handleClose();
@@ -96,11 +95,11 @@ export default function LongMenu(props) {
         {options.map(option => (
           <MenuItem
             key={option.title}
-            selected={option.title === '수정'}
             onClick={option.handler}
             sx={{
               width: '6rem',
             }}
+            color={option.title === '삭제' ? 'warning' : ''}
           >
             {option.title}
           </MenuItem>

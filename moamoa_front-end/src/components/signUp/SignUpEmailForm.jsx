@@ -7,12 +7,14 @@ import {
   Typography,
   Button,
   Box,
+  Backdrop,
+  CircularProgress,
 } from '@mui/material/';
 
 export default function SignUpEmailForm(props) {
   const [userEmail, setUserEmail] = useState(props.email);
   const [emailMessage, setEmailMessage] = useState('');
-  const [resStatus, setResStatus] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleEmail = e => {
     setUserEmail(e.target.value);
@@ -20,12 +22,15 @@ export default function SignUpEmailForm(props) {
 
   const getCode = () => {
     // 로딩창 보여주기
-    setResStatus(true);
+
+    setOpen(true);
+
     customAxios.basicAxios
       .get(`/users/email?email=${userEmail}`)
       .then(response => {
         setResStatus(false);
         props.setActiveStep(1);
+        setOpen(false);
 
         props.handleEmail(userEmail);
         props.handleCode(response.data);
@@ -44,6 +49,13 @@ export default function SignUpEmailForm(props) {
   if (props.type === 'signUpEmail') {
     return (
       <DialogContent dividers>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+          open={open}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+
         <Typography gutterBottom>모아모아에 오신 것을 환영합니다.</Typography>
         <Typography gutterBottom>이메일을 알려주세요!</Typography>
         <TextField
