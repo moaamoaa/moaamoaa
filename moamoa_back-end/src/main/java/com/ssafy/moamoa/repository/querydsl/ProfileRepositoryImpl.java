@@ -3,7 +3,6 @@ package com.ssafy.moamoa.repository.querydsl;
 import static com.querydsl.jpa.JPAExpressions.*;
 import static com.ssafy.moamoa.domain.entity.QProfileArea.*;
 import static com.ssafy.moamoa.domain.entity.QProfileTechStack.*;
-import static com.ssafy.moamoa.domain.entity.QProject.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +129,7 @@ public class ProfileRepositoryImpl extends QuerydslRepositorySupport implements 
 
 	//해당 기술스택을 포함한 프로젝트
 	private BooleanExpression techStackIn(List<Long> stackCond) {
-		return stackCond != null ? project.id.in(select(profileTechStack.profile.id).distinct()
+		return stackCond != null ? profile.id.in(select(profileTechStack.profile.id).distinct()
 			.from(profileTechStack)
 			.where(profileTechStack.techStack.id.in(stackCond))) : null;
 	}
