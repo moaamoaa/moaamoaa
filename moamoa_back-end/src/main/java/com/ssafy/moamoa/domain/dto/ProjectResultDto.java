@@ -34,11 +34,13 @@ public class ProjectResultDto {
 	private String cursorId;
 
 	@QueryProjection
-	public ProjectResultDto(Long id, String title, String contents, int hit, int totalPeople, int currentPeople,
+	public ProjectResultDto(Long id, String title, String contents, String img, int hit, int totalPeople,
+		int currentPeople,
 		String cursorId) {
 		this.id = id;
 		this.title = title;
 		this.contents = contents;
+		this.img = img;
 		this.hit = hit;
 		this.totalPeople = totalPeople;
 		this.currentPeople = currentPeople;

@@ -27,9 +27,11 @@ public class ProfileResultDto {
 	private String cursorId;
 
 	@QueryProjection
-	public ProfileResultDto(Long id, String nickname, String context, ProfileOnOffStatus status, String cursorId) {
+	public ProfileResultDto(Long id, String nickname, String img, String context, ProfileOnOffStatus status,
+		String cursorId) {
 		this.id = id;
 		this.nickname = nickname;
+		this.img = img;
 		this.context = context;
 		this.status = status;
 		this.cursorId = cursorId;

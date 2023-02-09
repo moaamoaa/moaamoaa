@@ -48,8 +48,8 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
 		List<OrderSpecifier> orders = getOrderSpecifiers(pageable);
 
 		return queryFactory.select(
-				new QProjectResultDto(project.id, project.title, project.contents, project.hit, project.totalPeople,
-					project.currentPeople, getCustomCursor(pageable)))
+				new QProjectResultDto(project.id, project.title, project.contents, project.img, project.hit,
+					project.totalPeople, project.currentPeople, getCustomCursor(pageable)))
 			.from(project)
 			.where(titleContain(condition.getQuery()), statusEq(condition.getStatus()),
 				categoryEq(condition.getCategory()), areaIn(condition.getArea()), techStackIn(condition.getStack()),
