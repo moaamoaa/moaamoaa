@@ -4,39 +4,34 @@ import styled from '@emotion/styled';
 import { Grid, Typography } from '@mui/material';
 
 import Review from 'components/profile/Review';
-import ReviewCreation from './ReviewCreation';
+import ReviewCreation from 'components/profile/ReviewCreation';
 
 function ReviewList() {
   const reviews = useSelector(state => state.profile.reviews);
-  console.log(reviews);
+  console.log(reviews.length !== 0);
+  reviews.map(review => {
+    console.log(review);
+  });
   return (
     <>
       <ContentTitle color="initial">댓글</ContentTitle>
       <MoaContainer container>
         {reviews.length !== 0 ? (
-          reviews.map((review, idx) => {
+          reviews.map(review => {
             <Grid item xs={12}>
-              <Review key={idx} review={review}></Review>
+              <Review
+                key={review.id}
+                sender={review.sender}
+                context={review.context}
+                time={review.time}
+              />
             </Grid>;
           })
         ) : (
-          <>
-            <Grid item xs={12}>
-              <Review name="임싸피" review="안녕" date="2023-02-08" />
-            </Grid>
-            <Grid item xs={12}>
-              <Review name="장싸피" review="반가워" date="2023-02-08" />
-            </Grid>
-            <Grid item xs={12}>
-              <Review name="황싸피" review="또 보자" date="2023-02-08" />
-            </Grid>
-            <Grid item xs={12}>
-              <Review name="유싸피" review="잘가" date="2023-02-08" />
-            </Grid>
-          </>
+          <></>
         )}
         <Grid item xs={12}>
-          <ReviewCreation></ReviewCreation>
+          <ReviewCreation />
         </Grid>
       </MoaContainer>
     </>

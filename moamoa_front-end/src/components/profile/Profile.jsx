@@ -49,6 +49,8 @@ export default function Profile() {
   const handleCloseEditPage = () => {};
 
   const handleBadge = () => {
+    if (userPk !== userProfile.id) return;
+
     if (badgeInfo.color === 'primary') {
       setBadgeInfo({
         color: 'secondary',
