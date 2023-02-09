@@ -7,6 +7,7 @@ import {
   Typography,
   ListItem,
   Grid,
+  Divider,
 } from '@mui/material/';
 
 import NavbarLogo from 'components/common/navbar/NavbarLogo';
@@ -44,7 +45,7 @@ export default function ResponsiveAppBar() {
               <Grid item xs={4}>
                 <NavbarLogo></NavbarLogo>
               </Grid>
-              <Grid item xs={4} sx={{ display: 'flex' }} justifyContent="end">
+              <Grid item xs={4}>
                 <NavbarAccount></NavbarAccount>
               </Grid>
             </Grid>
@@ -67,16 +68,18 @@ export default function ResponsiveAppBar() {
               </Grid>
             </Grid>
           </Toolbar>
+
           <AccordionDetails sx={{ padding: '0' }}>
-            <Grid>
-              {pages.map((page, idx) => (
-                <ListItem key={idx} sx={{ padding: '0', py: '1rem' }}>
+            {pages.map((page, idx) => (
+              <Grid key={idx}>
+                <Divider />
+                <ListItem sx={{ padding: '0', py: '1rem' }}>
                   <Typography textAlign="center">
                     <MoaLink to={page.link}>{page.text}</MoaLink>
                   </Typography>
                 </ListItem>
-              ))}
-            </Grid>
+              </Grid>
+            ))}
           </AccordionDetails>
         </MoaAccordion>
       </Container>
