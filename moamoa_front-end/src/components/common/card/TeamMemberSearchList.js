@@ -25,5 +25,5 @@ export default function TeamMemberSearchList() {
     }
   }, [isLoaded]);
 
-  return <CardList cards={cards} type={'member'}></CardList>;
+  return <CardList cards={cards} type="member"></CardList>;
 }
