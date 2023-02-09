@@ -62,6 +62,7 @@ export default function NavbarAccount() {
     dispatch(logoutSuccess());
     Cookies.remove('access_token');
     navigate('/');
+    scrollToTop();
   };
 
   const settings = [
