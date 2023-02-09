@@ -1,45 +1,21 @@
-import { useState, useEffect } from 'react';
-
-import Container from '@mui/material/Container';
-
-import axios from 'axios';
-
+import React, { useState, useEffect } from 'react';
+import customAxios from 'utils/axios';
 import CardList from 'components/common/card/CardList';
 
-export default function TeamSearchList() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [cards, setCards] = useState([]);
-
+export default function TeamSearchList(props) {
   // axios api 3가지 방법
-  useEffect(() => {
-    axios
-      .get('https://jsonplaceholder.typicode.com/photos')
-      .then(response => {
-        setCards(response.data.slice(0, 10));
-        console.log(response.data.slice(0, 10));
-      })
-      .catch(error => {
-        console.log(error.data);
-      });
-    setIsLoaded(true);
-  }, [isLoaded]);
-
   // useEffect(() => {
-  //   axios({
-  //     method: 'GET',
-  //     url: 'https://jsonplaceholder.typicode.com/photos',
-  //   }).then(response => setCards(response.data));
-  // });
+  //   axios
+  //     .get('https://jsonplaceholder.typicode.com/photos')
+  //     .then(response => {
+  //       setCards(response.data.slice(0, 10));
+  //       console.log(response.data.slice(0, 10));
+  //     })
+  //     .catch(error => {
+  //       console.log(error.data);
+  //     });
+  //   setIsLoaded(true);
+  // }, [isLoaded]);
 
-  // useEffect(async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       'https://jsonplaceholder.typicode.com/photos',
-  //     );
-  //     setCards(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // });
-  return <CardList cards={cards} type={'team'}></CardList>;
+  return <CardList cards={props.searchResult.data} type="team"></CardList>;
 }

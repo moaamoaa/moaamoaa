@@ -1,5 +1,11 @@
 package com.ssafy.moamoa.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ssafy.moamoa.domain.dto.SidePjtForm;
 import com.ssafy.moamoa.domain.dto.TechStackForm;
 import com.ssafy.moamoa.domain.entity.SidePjt;
@@ -7,13 +13,9 @@ import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.SideProjectRepository;
 import com.ssafy.moamoa.repository.SideProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TechStackRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -56,24 +58,7 @@ public class SideProjectService {
 		return sidePjtFormList;
 	}
 
-//	public List<TechStackForm> getSideProjectTechStackList(Long projectId)
-//	{
-//		List<SidePjtTechStack> sidePjtTechStackList = sideProjectTechStackRepository.getSideProjectTechStacks(projectId);
-//		List<TechStackForm> techStackFormList = new ArrayList<>();
-//		for(SidePjtTechStack sidePjtTechStack :  sidePjtTechStackList)
-//		{
-//			TechStackForm techStackForm = TechStackForm.builder()
-//					.id(sidePjtTechStack.getTechStack().getId())
-//					.name(sidePjtTechStack.getTechStack().getName())
-//					.img(sidePjtTechStack.getTechStack().getLogo()).build();
-//
-//			techStackFormList.add(techStackForm);
-//		}
-//
-//		return techStackFormList;
-//
-//	}
-
+	//  profileId 가 아닌 sidePjtForm 의 ID가 들어가야한다.
 	public List<SidePjtForm> addSidePjt(Long profileId, SidePjtForm sidePjtForm) {
 
 		SidePjt sidePjt = SidePjt.builder()
@@ -84,17 +69,13 @@ public class SideProjectService {
 
 			.build();
 
-		sideProjectRepository.save(sidePjt);
-		// sidePjt = SideProjectRepository
-
-		// Get SidePjt Id
-		SidePjt tempsidePjt = sideProjectRepository.getSideProjectByAll(profileId,sidePjt);
+		SidePjt tempSidePjt  = sideProjectRepository.save(sidePjt);
 
 
 		// Parsing SideProjectTechStack
 		List<TechStackForm> techStackFormList = sidePjtForm.getTechStackFormList();
 
-		techStackService.modifySideProjectTechStack(tempsidePjt.getId(),techStackFormList);
+		techStackService.modifySideProjectTechStack(tempSidePjt.getId(),techStackFormList);
 
 		// Return
 
@@ -149,15 +130,15 @@ public class SideProjectService {
 		return returnList;
 	}
 
-	public List<SidePjtForm> deleteSidePjt(Long profileId, SidePjtForm sidePjtForm) {
+	public List<SidePjtForm> deleteSidePjt(Long profileId, Long projectId) {
 
 		// 외래키 Side Project TechStack 삭제
 
-		sideProjectTechStackRepository.deleteAllSideProjectTechStack(sidePjtForm.getId());
+		sideProjectTechStackRepository.deleteAllSideProjectTechStack(projectId);
 
 
 		// SideProject 삭제
-		Long deleteCount = sideProjectRepository.deleteSideProjectById(sidePjtForm.getId());
+		Long deleteCount = sideProjectRepository.deleteSideProjectById(projectId);
 
 		// Return
 

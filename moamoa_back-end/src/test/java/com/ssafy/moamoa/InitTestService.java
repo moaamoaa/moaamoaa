@@ -91,10 +91,10 @@ public class InitTestService {
 			.build();
 
 		for (int i = 0; i < 20; i++) {
-			projectService.creatProject(studyOffForm);
-			projectService.creatProject(projectOffForm);
-			projectService.creatProject(studyOnForm);
-			projectService.creatProject(projectOnForm);
+			projectService.creatProject(studyOffForm,null);
+			projectService.creatProject(projectOffForm,null);
+			projectService.creatProject(studyOnForm,null);
+			projectService.creatProject(projectOnForm,null);
 
 		}
 

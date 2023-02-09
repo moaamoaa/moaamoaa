@@ -13,4 +13,9 @@ public interface ProjectRepositoryCustom {
 
 	Project getProjectById(Long projectId);
 
-}
+	void setProjectImgNull(Long projectId);
+
+	void setProjectImgLink(Long projectId, String img);
+
+
+	}

@@ -55,8 +55,13 @@ public class User {
 	}
 
 	//==비즈니스 로직==//
+
 	public void setProfile(Profile profile) {
 		profile.setUser(this);
+	}
+
+	public void setLocked(boolean locked) {
+		isLocked = locked;
 	}
 
 	public void setPassword(String password) {
@@ -71,5 +76,9 @@ public class User {
 
 	public void saveRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
+	}
+
+	public boolean isLocked() {
+		return isLocked;
 	}
 }

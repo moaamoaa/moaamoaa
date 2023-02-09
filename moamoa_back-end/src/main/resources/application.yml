@@ -55,4 +55,23 @@ security:
     refresh-token-expire: 1209600000
 
 
+cloud:
+  aws:
+    s3:
+      bucket: ssafy.moamoa.image.bucket
+      dir: /images
+    credentials:
+      access-key: AKIAVYLW4VT3B4HD4ENH
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
+  # multipartFile 용량 늘려주는 설정
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
