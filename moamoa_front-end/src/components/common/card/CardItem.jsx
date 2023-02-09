@@ -113,12 +113,16 @@ export default function CardItem(props) {
         )}
         <CardContent>
           <MoaTypography gutterBottom variant="h5" component="div">
-            팀원 이름
+            팀원 이름{props.card.nickname}
           </MoaTypography>
           <MoaTypography variant="body2" color="text.secondary">
             지역
+            {/* {props.card.area.map(a => {
+              return <div>{a}</div>;
+            })} */}
           </MoaTypography>
           <InfoTypography variant="body2" color="text.secondary">
+            {props.card.contents}
             Lorem, ipsum dolor sit consectetur adipisicing elit. Ducimus culpa
             debitis optio voluptates laborum accusamus ab officia facilis dicta
             quos placeat perspiciatis dolore eaque mollitia adipisci impedit,
