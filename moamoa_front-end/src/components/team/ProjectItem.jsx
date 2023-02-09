@@ -16,7 +16,7 @@ export default function ProjectItem(props) {
   const dispatch = useDispatch();
   const goToDetail = () => {
     dispatch(handleOpenTeamDetail({ projectId: props.project.projectId })); // 오픈 했을 때, 값을 바꿔주고 그걸 디테일로 보내
-    // 이동할 프론트 주소
+    // 팀 관리에서 팀을 눌렀을 때 이동할 프론트 디테일 페이지 주소
     navigate(`/TeamDetailPage/?projectId=${props.project.projectId}`);
   };
 
