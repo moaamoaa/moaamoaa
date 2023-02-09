@@ -1,26 +1,22 @@
 package com.ssafy.moamoa.service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.ssafy.moamoa.domain.dto.SidePjtForm;
-import com.ssafy.moamoa.domain.entity.SidePjt;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.dto.ReviewForm;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Review;
-import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.ReviewRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = false)
@@ -64,15 +60,15 @@ public class ReviewService {
 		return reviewFormList;
 	}
 
- 	// ReviewForm 에는 String 저장, DB에는 LDT 로 저장  -> DB에서 읽어올 때 parse 후 보내자.
+ 	// 작성자 : profileId , 받는 사람 : reviewForm.getProfileId();
 	public ReviewForm addReview(Long profileId, ReviewForm reviewForm) {
 		LocalDateTime curTime =ts.getCurrentTime();
 		String parsedTime = ts.parseCurrentTime(curTime);
 
 
-		Profile receiver = profileRepository.getProfileById(profileId);
+		Profile receiver = profileRepository.getProfileById(reviewForm.getProfileId());
 
-		Profile sender = profileRepository.getProfileById(reviewForm.getSenderId());
+		Profile sender = profileRepository.getProfileById(profileId);
 
 
 
@@ -89,7 +85,7 @@ public class ReviewService {
 		ReviewForm result = ReviewForm.builder(
 
 			).id(reviewId)
-				.profileId(profileId)
+				.profileId(reviewForm.getProfileId())
 			.senderId(reviewForm.getSenderId())
 			.name(sender.getNickname())
 			.img(review.getSendUser().getImg())
@@ -99,15 +95,22 @@ public class ReviewService {
 		return result;
 
 	}
+	// 작성자 : profileId , 받는 사람 : reviewForm.getProfileId();
 
 	public ReviewForm modifyReview(Long profileId, ReviewForm reviewForm) {
 
 
-		Profile receiver = profileRepository.getProfileById(profileId);
-
-		Profile sender = profileRepository.getProfileById(reviewForm.getSenderId());
-
 		Review review = reviewRepository.getReviewById(reviewForm.getId());
+
+		if(review.getSendUser().getId() != profileId)
+		{
+			return null;
+		}
+
+		Profile receiver = profileRepository.getProfileById(reviewForm.getProfileId());
+
+		Profile sender = profileRepository.getProfileById(profileId);
+
 
 		review.setContext(reviewForm.getContext());
 
@@ -129,24 +132,42 @@ public class ReviewService {
 
 	}
 
-	public List<ReviewForm> deleteReview(Long profileId, ReviewForm reviewForm)
+	public List<ReviewForm> deleteReview(Long userId, Long reviewId)
 	{
-		Long deleteCount = reviewRepository.deleteReviewById(reviewForm.getId());
+		// 전송한 사람과 작성한 사람 비교 작업 진행.
+
+
+		Profile senderProfile = profileRepository.getProfileByUserId(userId);
+
+		Profile profile = reviewRepository.getProfileByReviewId(reviewId);
+
+		Review review = reviewRepository.getReviewById(reviewId);
+
+		log.info("Review SendUser : "+review.getSendUser().getNickname() +"     UserId Profile : " + senderProfile.getNickname());
+
+		if(review.getSendUser().getId() != senderProfile.getId())
+		{
+		return null;
+		}
+		//
+		Long deleteCount = reviewRepository.deleteReviewById(reviewId);
+
+
 
 		// Return
 
-		List<Review> reviewList = reviewRepository.getReviewsByOrderAsc(profileId);
+		List<Review> reviewList = reviewRepository.getReviewsByOrderAsc(profile.getId());
 		List<ReviewForm> returnList = new ArrayList<>();
-		for(Review review : reviewList)
+		for(Review returnReview : reviewList)
 		{
 			ReviewForm tempReviewForm = ReviewForm.builder()
-					.id(review.getId())
-					.profileId(review.getReceiveProfile().getId())
-					.senderId(review.getSendUser().getId())
-					.name(review.getSendUser().getNickname())
-					.time(ts.parseCurrentTime(review.getTime()))
-					.img(review.getSendUser().getImg())
-					.context(review.getContext())
+					.id(returnReview.getId())
+					.profileId(returnReview.getReceiveProfile().getId())
+					.senderId(returnReview.getSendUser().getId())
+					.name(returnReview.getSendUser().getNickname())
+					.time(ts.parseCurrentTime(returnReview.getTime()))
+					.img(returnReview.getSendUser().getImg())
+					.context(returnReview.getContext())
 					.build();
 
 			returnList.add(tempReviewForm);

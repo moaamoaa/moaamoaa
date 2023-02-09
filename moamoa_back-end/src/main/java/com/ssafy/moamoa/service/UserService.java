@@ -43,6 +43,8 @@ public class UserService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 
+	private final ImageService imageService;
+
 	// 회원 한명 조회
 	public User findUser(Long userId) {
 		return userRepository.findById(userId).get();
@@ -82,6 +84,7 @@ public class UserService {
 			.nickname(nickname)
 			.searchState(ProfileSearchStatus.ALL)
 			.profileOnOffStatus(ProfileOnOffStatus.ONLINE)
+			.img(imageService.getRandomDefaultProfileImage())
 			.build();
 
 		user.setProfile(profile);
