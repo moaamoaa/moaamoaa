@@ -29,7 +29,7 @@ export default function TeamDetailPage() {
   const navigate = useNavigate();
   const goToUpdate = () => {
     // 팀 수정 눌렀을 때, 이동할 프론트 주소
-    navigate(`/TeamDetailPage/?projectId=${projectId}`);
+    navigate(`/TeamUpdatePage`);
   };
 
   // const [isLoaded, setIsLoaded] = useState(false);
