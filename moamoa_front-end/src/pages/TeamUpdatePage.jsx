@@ -43,6 +43,9 @@ export default function TeamCreatePage() {
   // const techStacks = useSelector(state => state.team.techStacks);
   // const dispatch = useDispatch();
 
+  // redux
+  const projectId = useSelector(state => state.team.projectId);
+
   //handler
   const handleClick = () => {
     // 팀 이름 string
@@ -78,7 +81,7 @@ export default function TeamCreatePage() {
         contents: inputRef.current,
         endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
         img: null,
-        projectId: 1, // 받아와야함 (해당 id의 프로젝트 수정됨)
+        projectId: projectId,
         projectStatus: onoffRef.current,
         techStacks: techRef.current,
         title: titleRef.current,
