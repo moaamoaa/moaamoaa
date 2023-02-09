@@ -30,6 +30,9 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState: initialStateValue,
   reducers: {
+    handleSuccessSidProject: (state, action) => {
+      state.sideProjects = action.payload.sideProjects;
+    },
     changeProfilePk: (state, action) => {
       console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
@@ -38,11 +41,13 @@ const profileSlice = createSlice({
       state.reviews.push(action.payload.review);
     },
     handleEditReview: (state, action) => {
-      state.reviews = state.reviews.filter(review => {
-        if (review.id !== action.payload.id) return review;
+      state.reviews = state.reviews.map(review => {
+        console.log(review.id, action.payload.review.id);
+        if (review.id !== action.payload.review.id) return review;
 
         return action.payload.review;
       });
+      console.log(state.reviews);
     },
     handleEditProfile: (state, action) => {
       state.userProfile[1].img = action.payload.img;
@@ -112,6 +117,7 @@ const profileSlice = createSlice({
 });
 
 export const {
+  handleSuccessSidProject,
   changeProfilePk,
   handleCreateReview,
   handleEditProfile,
