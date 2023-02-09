@@ -86,13 +86,27 @@ export default function TeamSearchPage(props) {
 
   // reponse data로 넘어오는 값을 자식에게 넘겨줌
   const [searchResult, setSearchResult] = useState([]);
+  const [check, setCheck] = useState(false);
+
+  useEffect(() => {
+    customAxios.basicAxios
+      .get('/search/project?&size=12')
+      .then(response => {
+        setSearchResult(response);
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.data);
+      });
+    setCheck(true);
+  }, [check]);
 
   const search = () => {
     axiosStackId = stackId.join(',');
     console.log(axiosStackId);
     customAxios.basicAxios
       .get(
-        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=date,desc&size=30`,
+        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}`,
       )
       .then(response => {
         setSearchResult(response);

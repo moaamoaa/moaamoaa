@@ -74,6 +74,20 @@ export default function TeamSearchPage(props) {
 
   // reponse data로 넘어오는 값을 자식에게 넘겨줌
   const [searchResult, setSearchResult] = useState([]);
+  const [check, setCheck] = useState(false);
+
+  useEffect(() => {
+    customAxios.basicAxios
+      .get('/search/profile?&size=12')
+      .then(response => {
+        setSearchResult(response);
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.data);
+      });
+    setCheck(true);
+  }, [check]);
 
   const search = () => {
     axiosStackId = stackId.join(',');
