@@ -69,6 +69,7 @@ export default function TeamCreatePage() {
     console.log(typeof inputRef.current);
 
     // 배열에 정보를 담아서 POST... image, content, techstack : null ok
+    // swagger body 에 맞게!
     CustomAxios.authAxios
       .post('/projects', {
         areaId: regionRef.current,
@@ -86,9 +87,42 @@ export default function TeamCreatePage() {
       .then(response => {
         console.log(response.data);
         console.log('생성완료!');
-        const projectId = response.data.projectId;
+        // response data 의 형식에 맞게
+        const areaForm = response.data.areaForm; // reponse 데이터에서 가져옴
+        const category = response.data.category;
+        const contents = response.data.contents;
+        const endDate = response.data.endDate;
+        const img = response.data.img;
+        const leader = response.data.leader; // true
         const leaderId = response.data.leaderId;
-        dispatch(teamOpenSuccess({ projectId: projectId, leaderId: leaderId })); // 저장시키기
+        const leaderNickname = response.data.leaderNickname;
+        const profileResultDtoList = response.data.profileResultDtoList;
+        const projectId = response.data.projectId;
+        const projectStatus = response.data.projectStatus;
+        const totalPeople = response.data.titotalPeopletle;
+        const projectTechStacks = response.data.projectTechStacks;
+        const startDate = response.data.startDate;
+        const title = response.data.title;
+        dispatch(
+          teamOpenSuccess({
+            // 리덕스 변수명에 맞게
+            areaForm: areaForm, // 리덕스에 저장
+            category: category,
+            contents: contents,
+            endDate: endDate,
+            img: img,
+            leader: leader, // 내가 생성했으니 내가 리더 false -> true
+            leaderId: leaderId, // leader ID
+            leaderNickname: leaderNickname,
+            profileResultDtoList: profileResultDtoList,
+            projectId: projectId,
+            projectStatus: projectStatus,
+            totalPeople: totalPeople,
+            projectTechStacks: projectTechStacks,
+            startDate: startDate,
+            title: title,
+          }),
+        ); // 저장시키기
         ScrollToTopButton(); // 등록 버튼 누르고 마우스 커서 위치가 중간에 있어서
         navigate(`/TeamDetailPage/?projectId=${projectId}`); // 이동하고
       })
