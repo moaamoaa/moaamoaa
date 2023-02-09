@@ -298,8 +298,7 @@ public class ProfileController {
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제합니다.", response = ReviewForm.class, responseContainer = "List")
     @ApiResponses({
             @ApiResponse(code = 200, message = "삭제된 후 댓글들의 목록을 리턴해줍니다."),
-            @ApiResponse(code = 404, message = "User not found"),
-            @ApiResponse(code = 500, message = "Internal server error")
+            @ApiResponse(code = 400, message = "Bad Request")
     })
     @DeleteMapping("/review/{reviewId}")
     public ResponseEntity<?> deleteReview(@ApiParam(value = "  \"id\" (해당 댓글 id): Long ") @PathVariable Long reviewId, Authentication authentication) {

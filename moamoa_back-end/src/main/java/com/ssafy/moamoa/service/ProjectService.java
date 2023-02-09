@@ -5,9 +5,11 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ProjectService {
 
 	private final AreaService areaService;
@@ -49,8 +52,10 @@ public class ProjectService {
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
 	private final ProfileRepository profileRepository;
+
 	private final UserService userService;
 	private final S3Service s3Service;
+	private final ImageService imageService;
 
 	public Boolean isLocked(Long id){
 		Project project = projectRepository.findById(id).get();
@@ -95,6 +100,7 @@ public class ProjectService {
 	// 프로젝트/스터디 등록
 	public void creatProject(ProjectForm projectForm, MultipartFile file) throws Exception {
 	boolean isImgNull= false;
+
 	if(file==null){
 		isImgNull = true;
 	}
@@ -141,7 +147,7 @@ public class ProjectService {
 			.createDate(LocalDate.now())
 			.startDate(LocalDate.now())
 			.endDate(endDate)
-
+			.img(imageService.getRandomDefaultProjectImage())
 			.title(projectForm.getTitle())
 			.contents(projectForm.getContents())
 			.totalPeople(cntPeople)
