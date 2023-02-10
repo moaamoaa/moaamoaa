@@ -15,7 +15,6 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
-import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
 import SingleTextField from 'components/team/SingleTextField';
 import MultipleSelect from 'components/team/MultipleSelect';
