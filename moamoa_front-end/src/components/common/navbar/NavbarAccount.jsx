@@ -18,7 +18,6 @@ import {
 } from '@mui/material/';
 
 import ChatIcon from '@mui/icons-material/Chat';
-import Diversity3Icon from '@mui/icons-material/Diversity3';
 import ProjectStudy from 'components/team/ProjectStudy';
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';

@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import styled from 'styled-components';
-// import ImageUploader from 'components/common/carousel/ImageUploader';
 
 export default function TeamBanner(props) {
   const { post } = props;

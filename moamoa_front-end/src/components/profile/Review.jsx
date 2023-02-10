@@ -1,12 +1,5 @@
 import styled from '@emotion/styled';
-import {
-  Button,
-  Grid,
-  InputAdornment,
-  TextField,
-  Container,
-  Typography,
-} from '@mui/material';
+import { Button, Grid, TextField, Container, Typography } from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

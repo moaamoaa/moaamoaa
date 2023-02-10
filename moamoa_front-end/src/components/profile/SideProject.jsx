@@ -1,11 +1,9 @@
-import React from 'react';
-import Grid from '@mui/material/Grid';
 import { useState } from 'react';
-import customAxios from 'utils/axios';
 import { useDispatch } from 'react-redux';
+import customAxios from 'utils/axios';
 import { handleSuccessEditSidProject } from 'redux/profile';
 import styled from '@emotion/styled';
-import { Typography } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
 
 import SideProjectEditor from 'components/profile/SideProjectEditor';

@@ -8,16 +8,6 @@ function ResponsiveAppBar() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
   const navigate = useNavigate();
-  const pages = [
-    {
-      text: '팀 구하기',
-      link: 'TeamSearchPage',
-    },
-    {
-      text: '팀원 구하기',
-      link: 'TeamMemberSearchPage',
-    },
-  ];
 
   const handleOpenHome = () => {
     navigate('/');

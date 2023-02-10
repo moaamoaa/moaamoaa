@@ -17,7 +17,7 @@ import { Link } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const user = {
   id: 0,
