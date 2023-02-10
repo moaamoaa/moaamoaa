@@ -15,6 +15,10 @@ import Avatar from '@mui/material/Avatar';
 import CardList from 'components/common/card/CardList';
 import { Link } from '@mui/material';
 
+import { useNavigate } from 'react-router-dom';
+import { handleOpenTeamDetail } from 'redux/team';
+import { useDispatch } from 'react-redux';
+
 const user = {
   id: 0,
   name: '김싸피',
@@ -30,13 +34,20 @@ const user = {
 };
 
 export default function CardItem(props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const goToDetail = () => {
+    dispatch(handleOpenTeamDetail({ projectId: props.card.id }));
+    navigate(`/TeamDetailPage/?projectId=${props.card.id}`);
+  };
+
   if (props.type === 'team') {
     return (
-      <MoaCard>
+      <MoaCard onClick={goToDetail}>
         {props.card.thumbnailUrl ? (
           <CardMedia
             component="img"
-            src={props.card.thumbnailUrl}
+            src={props.card.img}
             alt="random"
             sx={{
               position: 'relative',
