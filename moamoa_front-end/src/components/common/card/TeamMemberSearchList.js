@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import customAxios from 'utils/axios';
+// import customAxios from 'utils/axios';
 import CardList from 'components/common/card/CardList';
 
 export default function TeamMemberSearchList(props) {
