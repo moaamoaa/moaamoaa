@@ -40,8 +40,9 @@ const imageAxios = axios.create({
   baseURL: baseURL,
   headers: {
     Authorization: `Bearer ${getCookie('access_token')}`,
+    'Content-Type': 'multipart/form-data',
   },
 });
 
-const customAxios = { basicAxios, authAxios };
+const customAxios = { basicAxios, authAxios, imageAxios };
 export default customAxios;
