@@ -19,7 +19,7 @@ export default function TeamSearchPage(props) {
     if (isLogged === false) {
       alert('로그인이 필요한 서비스입니다');
     } else {
-      navigate('http://localhost:3000/TeamCreatePage');
+      navigate('/TeamCreatePage');
     }
   };
 
@@ -92,7 +92,7 @@ export default function TeamSearchPage(props) {
     customAxios.basicAxios
       .get('/search/project?&size=12')
       .then(response => {
-        setSearchResult(response);
+        setSearchResult(response.data);
         console.log(response);
       })
       .catch(error => {
@@ -172,7 +172,9 @@ export default function TeamSearchPage(props) {
               handleSearchStack(techstack);
             }}
           >
-            {techstack.logo}
+            <img src={techstack.logo} alt="techstack.logo" />
+            {/* {techstack.logo} */}
+            {techstack.name}
             {techstack.name}
           </Button>
         ))}
@@ -200,7 +202,7 @@ export default function TeamSearchPage(props) {
         </Button>
       </Box>
       <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
-        <TeamSearchList searchResult={searchResult}></TeamSearchList>
+        <TeamSearchList cards={searchResult}></TeamSearchList>
       </Container>
     </Container>
   );
