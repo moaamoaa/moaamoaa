@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.dto.MailForm;
 import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.exception.NotFoundUserException;
+import com.ssafy.moamoa.exception.customException.NotFoundUserException;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
