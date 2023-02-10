@@ -81,6 +81,7 @@ public class ProjectController {
 
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
+		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 
 		ProjectDetail projectDetail = projectService.creatProject(projectForm, file);
 		projectDetail.setLeader(true);
@@ -94,7 +95,6 @@ public class ProjectController {
 		@RequestPart(value = "file", required = false) MultipartFile file, Authentication authentication) throws
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		log.info("==========" + userDetails.getUsername() + " " + file.getOriginalFilename());
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId())) {
 			throw new Exception("팀장이 아닙니다.");
 		}
