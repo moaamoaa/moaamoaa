@@ -49,6 +49,10 @@ public class ApplyService {
 		{
 			throw new Exception("존재하지 않는 프로젝트입니다.");
 		}
+		if(applyRepository.findByUser_IdAndProject_Id(userId, projectId).isPresent())
+		{
+			throw new Exception("이미 지원을 보냈습니다.");
+		}
 		else
 		{
 			Apply apply = Apply.builder()
