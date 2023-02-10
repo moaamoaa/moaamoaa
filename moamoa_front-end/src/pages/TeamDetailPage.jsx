@@ -167,7 +167,8 @@ export default function TeamDetailPage() {
                 >
                   <span>{tech.name}</span>
                   <MoaImg
-                    src={`${process.env.PUBLIC_URL}/images/whole_icons/${tech.logo}@4x.png`} // 다른 폴더에 있는 건 어쩌지?
+                    // src={`${process.env.PUBLIC_URL}/images/whole_icons/${tech.logo}@4x.png`} // 다른 폴더에 있는 건 어쩌지?
+                    src={tech.logo}
                   />
                 </Stack>
               ))}
@@ -193,6 +194,7 @@ export default function TeamDetailPage() {
         <h2>팀원 소개</h2>
         <TeamMemberSearchList></TeamMemberSearchList>
       </Container>
+      <hr></hr>
     </>
   );
 }
