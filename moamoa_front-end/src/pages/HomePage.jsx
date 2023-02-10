@@ -1,4 +1,4 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { Container, Grid, Typography } from '@mui/material';
@@ -8,6 +8,7 @@ import MainBanner from 'components/common/carousel/MainBanner';
 import CustomAxios from 'utils/axios';
 import { searchState } from 'redux/search';
 import { useDispatch } from 'react-redux';
+import customAxios from 'utils/axios';
 
 const mainBanner = {
   title: '모아모아 홈 화면 배너 이미지입니다!',
@@ -54,6 +55,54 @@ export default function HomePageSample() {
       });
   });
 
+  // reponse data로 넘어오는 값을 자식에게 넘겨줌
+  const [recoProject, setRecoProject] = useState([]);
+  const [recoStudy, setRecoStudy] = useState([]);
+  const [recoMember, setRecoMember] = useState([]);
+  const [check, setCheck] = useState(false);
+
+  // 금주의 프로젝트 추천
+  useEffect(() => {
+    customAxios.basicAxios
+      .get('/search/project?&size=3&sort=date,desc&category=PROJECT')
+      .then(response => {
+        setRecoProject(response.data);
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.data);
+      });
+    setCheck(true);
+  }, [check]);
+
+  // 금주의 스터디 추천
+  useEffect(() => {
+    customAxios.basicAxios
+      .get('/search/project?&size=3&sort=date,desc&category=STUDY')
+      .then(response => {
+        setRecoStudy(response.data);
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.data);
+      });
+    setCheck(true);
+  }, [check]);
+
+  // 금주의 팀원 추천
+  useEffect(() => {
+    customAxios.basicAxios
+      .get('/search/profile?&size=4&sort=date,desc&category=STUDY')
+      .then(response => {
+        setRecoMember(response.data);
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.data);
+      });
+    setCheck(true);
+  }, [check]);
+
   return (
     <>
       <MainBanner post={mainBanner} />
@@ -61,15 +110,15 @@ export default function HomePageSample() {
         <Grid container>
           <MoaGrid item xs={12}>
             <MoaTypography>금주의 추천 프로젝트 섹션</MoaTypography>
-            <CardList cards={cards.slice(0, 3)} type={'team'}></CardList>
+            <CardList cards={recoProject} type={'team'}></CardList>
           </MoaGrid>
           <MoaGrid item xs={12}>
             <MoaTypography>금주의 추천 스터디 섹션</MoaTypography>
-            <CardList cards={cards.slice(0, 3)} type={'team'}></CardList>
+            <CardList cards={recoStudy} type={'team'}></CardList>
           </MoaGrid>
           <MoaGrid item xs={12}>
             <MoaTypography>금주의 추천 팀원 섹션</MoaTypography>
-            <CardList cards={cards.slice(0, 4)} type={'member'}></CardList>
+            <CardList cards={recoMember} type={'member'}></CardList>
           </MoaGrid>
         </Grid>
       </Container>
