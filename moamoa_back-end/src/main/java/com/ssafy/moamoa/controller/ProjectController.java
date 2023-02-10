@@ -1,7 +1,6 @@
 package com.ssafy.moamoa.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -23,10 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
-
-import com.ssafy.moamoa.domain.entity.Project;
-import com.ssafy.moamoa.domain.entity.TechStack;
-
 import com.ssafy.moamoa.service.ProjectService;
 import com.ssafy.moamoa.service.TeamService;
 
@@ -43,8 +38,7 @@ public class ProjectController {
 	private final ProjectService projectService;
 	private final TeamService teamService;
 
-	@ApiOperation(value = "자기가 속한 프로젝트 조회",
-		notes = "자기가 속한 프로젝트를 조회한다.")
+	@ApiOperation(value = "자기가 속한 프로젝트 조회", notes = "자기가 속한 프로젝트를 조회한다.")
 	@GetMapping("/project")
 	public ResponseEntity<?> showProjects(Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
@@ -53,74 +47,71 @@ public class ProjectController {
 		return new ResponseEntity<List<ProjectForm>>(projectForms, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "자기가 속한 스터디 조회",
-		notes = "자기가 속한 스터디를 조회한다.")
+	@ApiOperation(value = "자기가 속한 스터디 조회", notes = "자기가 속한 스터디를 조회한다.")
 	@GetMapping("/study")
 	public ResponseEntity<?> showStudies(Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		List<ProjectForm> projectForms = projectService.findByUser(Long.valueOf(userDetails.getUsername()), ProjectCategory.STUDY);
+		List<ProjectForm> projectForms = projectService.findByUser(Long.valueOf(userDetails.getUsername()),
+			ProjectCategory.STUDY);
 		return new ResponseEntity<List<ProjectForm>>(projectForms, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "팀 페이지 open",
-		notes = "팀 페이지 open")
+	@ApiOperation(value = "팀 페이지 open", notes = "팀 페이지 open")
 	@GetMapping("/detail")
-	public ResponseEntity<?> accessProject(@RequestParam("projectId") Long projectId, Authentication authentication) throws Exception {
+	public ResponseEntity<?> accessProject(@RequestParam("projectId") Long projectId,
+		Authentication authentication) throws Exception {
 		ProjectDetail projectDetail = projectService.accessProject(projectId, 1);
 
 		// 로그인 한 상태
-		if(authentication != null)
-		{
+		if (authentication != null) {
 			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-			boolean isLeader = projectService.setIsLeader(Long.valueOf(userDetails.getUsername()), projectDetail.getProjectId());
+			boolean isLeader = projectService.setIsLeader(Long.valueOf(userDetails.getUsername()),
+				projectDetail.getProjectId());
 			projectDetail.setLeader(isLeader);
 		}
 
 		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "프로젝트/스터디 등록",
-		notes = "프로젝트/스터디 등록을 한다.")
-	@PostMapping(value = "/new",consumes = {MediaType.APPLICATION_JSON_VALUE,
-		MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> createProject(@RequestPart(value = "projectForm") ProjectForm projectForm, @RequestPart(value = "file") MultipartFile file, Authentication authentication) throws Exception {
+	@ApiOperation(value = "프로젝트/스터디 등록", notes = "프로젝트/스터디 등록을 한다.")
+	@PostMapping(value = "/new", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> createProject(@RequestPart(value = "projectForm") ProjectForm projectForm,
+		@RequestPart(value = "file", required = false) MultipartFile file, Authentication authentication) throws
+		Exception {
+
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 
-		ProjectDetail projectDetail = projectService.creatProject(projectForm,file);
+		ProjectDetail projectDetail = projectService.creatProject(projectForm, file);
 		projectDetail.setLeader(true);
 		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
 
 	}
 
-	@ApiOperation(value = "프로젝트/스터디 수정",
-		notes = "프로젝트/스터디 수정을 한다.")
-	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
-		MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> updateProject(@RequestPart(value = "projectForm") ProjectForm projectForm, @RequestPart(value = "file") MultipartFile file,  Authentication authentication) throws
+	@ApiOperation(value = "프로젝트/스터디 수정", notes = "프로젝트/스터디 수정을 한다.")
+	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> updateProject(@RequestPart(value = "projectForm") ProjectForm projectForm,
+		@RequestPart(value = "file", required = false) MultipartFile file, Authentication authentication) throws
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		log.info("=========="+userDetails.getUsername()+" "+file.getOriginalFilename());
-		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
-		{
+		log.info("==========" + userDetails.getUsername() + " " + file.getOriginalFilename());
+		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId())) {
 			throw new Exception("팀장이 아닙니다.");
 		}
 
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
-		ProjectDetail projectDetail = projectService.updateProject(projectForm,file);
+		ProjectDetail projectDetail = projectService.updateProject(projectForm, file);
 		projectDetail.setLeader(true);
 		return new ResponseEntity<ProjectDetail>(projectDetail, HttpStatus.OK);
 
 	}
 
-	@ApiOperation(value = "프로젝트/스터디 삭제",
-		notes = "프로젝트/스터디 삭제를 한다.")
+	@ApiOperation(value = "프로젝트/스터디 삭제", notes = "프로젝트/스터디 삭제를 한다.")
 	@DeleteMapping
 	public ResponseEntity<?> deleteProject(@RequestBody ProjectForm projectForm, Authentication authentication) throws
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
-		{
+		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId())) {
 			throw new Exception("팀장이 아닙니다.");
 		}
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
@@ -128,18 +119,15 @@ public class ProjectController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "팀원 강퇴",
-		notes = "팀장이 팀원을 강퇴한다.")
+	@ApiOperation(value = "팀원 강퇴", notes = "팀장이 팀원을 강퇴한다.")
 	@DeleteMapping("/member")
 	public ResponseEntity<?> deleteMember(@RequestBody ProjectForm projectForm, Authentication authentication) throws
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		if(!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId()))
-		{
+		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId())) {
 			throw new Exception("팀장이 아닙니다.");
 		}
-		if(Long.valueOf(userDetails.getUsername()).equals(projectForm.getUserId()))
-		{
+		if (Long.valueOf(userDetails.getUsername()).equals(projectForm.getUserId())) {
 			throw new Exception("팀장은 강퇴할 수 없습니다.");
 		}
 		projectService.deleteMember(projectForm);
