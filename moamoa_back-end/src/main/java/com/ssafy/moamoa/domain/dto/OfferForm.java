@@ -23,9 +23,11 @@ public class OfferForm {
 
 	private String title;
 	private String projectContents;
+	private String projectImg;
 
 	private String nickname;
 	private String profileContext;
+	private String profileImg;
 
 
 	public static OfferForm toEntity(Offer offer) {
