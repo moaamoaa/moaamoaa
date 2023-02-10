@@ -30,6 +30,7 @@ export default function TeamDetailPage() {
   };
 
   // const [isLoaded, setIsLoaded] = useState(false);
+  const [lead, setLead] = useState(false);
   const [detail, setDetail] = useState([]);
   const [cards, setCards] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -47,6 +48,8 @@ export default function TeamDetailPage() {
         console.log('조회성공!');
         setCards(response.data.profileResultDtoList);
         console.log(setCards(response.data.profileResultDtoList));
+        setLead(response.data.leader);
+        console.log(response.data.leader);
       })
       .catch(error => {
         console.log(error.data);
@@ -74,44 +77,58 @@ export default function TeamDetailPage() {
             // justifyContent="flex-end"
             sx={{ pt: 4 }}
           >
-            {/* response.data가 detail에 저장되어있음 -> leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
-            <Button size="small" variant="contained" color="primary">
-              지원 보내기 / 제안 및 지원 확인
-            </Button>
+            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
+            {lead ? (
+              <Button size="small" variant="contained" color="primary">
+                제안 및 지원 확인
+              </Button>
+            ) : (
+              <Button size="small" variant="contained" color="primary">
+                지원 보내기
+              </Button>
+            )}
 
             {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}
-            <Button
-              onClick={goToUpdate}
-              size="small"
-              variant="contained"
-              color="primary"
-            >
-              팀 수정
-            </Button>
+            {lead ? (
+              <Button
+                onClick={goToUpdate}
+                size="small"
+                variant="contained"
+                color="primary"
+              >
+                팀 수정
+              </Button>
+            ) : (
+              ''
+            )}
 
             {/* leader 값이 true이면 팀 삭제 보이고, false이면 안 보임 */}
-            <Button
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={async () => {
-                console.log(projectId); // 잘 뜸
-                await CustomAxios.authAxios
-                  .delete('/projects', {
-                    data: {
-                      projectId: projectId,
-                    },
-                  })
-                  .then(e => {
-                    console.log(e);
-                    console.log('삭제완료!');
-                    alert('게시물이 삭제되었습니다.');
-                    navigate('/'); // 삭제 후 홈으로 보내기 (프론트 주소)
-                  });
-              }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
-            >
-              팀 삭제
-            </Button>
+            {lead ? (
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                onClick={async () => {
+                  console.log(projectId); // 잘 뜸
+                  await CustomAxios.authAxios
+                    .delete('/projects', {
+                      data: {
+                        projectId: projectId,
+                      },
+                    })
+                    .then(e => {
+                      console.log(e);
+                      console.log('삭제완료!');
+                      alert('게시물이 삭제되었습니다.');
+                      navigate('/'); // 삭제 후 홈으로 보내기 (프론트 주소)
+                    });
+                }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
+              >
+                팀 삭제
+              </Button>
+            ) : (
+              ''
+            )}
           </Stack>
         </Grid>
       </Container>
