@@ -21,11 +21,8 @@ import DraftsIcon from '@mui/icons-material/Drafts';
 import StarBorder from '@mui/icons-material/StarBorder';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import ReceiveApply from 'components/team/ReceiveApply';
-import SendOffer from 'components/team/SendOffer';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ProjectList from 'components/team/ProjectList';
-import StudyList from 'components/team/ProjectItem';
 
 export default function ApplyOffer() {
   const [isLoaded, setIsLoaded] = useState(false);
