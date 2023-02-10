@@ -12,10 +12,8 @@ import Calendar from 'components/team/Calendar';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import { useNavigate } from 'react-router-dom';
 import TeamBannerEdit from 'components/team/TeamBannerEdit';
-import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 
 import SingleTextField from 'components/team/SingleTextField';
 import MultipleSelect from 'components/team/MultipleSelect';
