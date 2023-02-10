@@ -69,7 +69,8 @@ public class CardService {
 
 	public ProfileResultDto setArea(ProfileResultDto result) {
 		if (isPreferOnline(result.getStatus())) {
-			return null;
+			result.setArea(List.of("온라인"));
+			return result;
 		}
 
 		List<String> areas = userAreaRepository.findByProfile_Id(result.getId())
