@@ -26,5 +26,5 @@ export default function TeamMemberSearchList(props) {
   //   }
   // }, [props]);
 
-  return <CardList cards={props.searchResult.data} type="member"></CardList>;
+  return <CardList cards={props.cards} type="member"></CardList>;
 }
