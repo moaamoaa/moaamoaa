@@ -22,9 +22,11 @@ public class ApplyForm {
 
 	private String title;
 	private String projectContents;
+	private String projectImg;
 
 	private String nickname;
 	private String profileContext;
+	private String profileImg;
 
 	public static ApplyForm toEntity(Apply apply) {
 		return ApplyForm.builder()
