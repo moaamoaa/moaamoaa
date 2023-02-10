@@ -21,10 +21,10 @@ import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.TokenDto;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
-import com.ssafy.moamoa.exception.DuplicateUserEmailException;
-import com.ssafy.moamoa.exception.NotFoundUserException;
-import com.ssafy.moamoa.exception.UnAuthorizedException;
+import com.ssafy.moamoa.exception.customException.DuplicateProfileNicknameException;
+import com.ssafy.moamoa.exception.customException.DuplicateUserEmailException;
+import com.ssafy.moamoa.exception.customException.NotFoundUserException;
+import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 

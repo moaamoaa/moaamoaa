@@ -5,11 +5,9 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,19 +19,14 @@ import com.ssafy.moamoa.domain.dto.AreaForm;
 import com.ssafy.moamoa.domain.dto.ProfileResultDto;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
-
-import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.dto.TechStackForm;
-
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.ProjectArea;
-import com.ssafy.moamoa.domain.entity.ProjectTechStack;
 import com.ssafy.moamoa.domain.entity.Team;
 import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.exception.BadRequestException;
-import com.ssafy.moamoa.exception.NotFoundUserException;
+import com.ssafy.moamoa.exception.customException.NotFoundUserException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
@@ -43,6 +36,7 @@ import com.ssafy.moamoa.repository.TechStackRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = true)
@@ -65,41 +59,39 @@ public class ProjectService {
 	private final ImageService imageService;
 	private final ProjectAreaRepository projectAreaRepository;
 
-
 	public void isProjectLocked(Long id) throws Exception {
-		if(projectRepository.findById(id).get().isLocked())
-		{
-			if(projectRepository.findById(id).get().getCategory()==ProjectCategory.PROJECT)
-			{
+		if (projectRepository.findById(id).get().isLocked()) {
+			if (projectRepository.findById(id).get().getCategory() == ProjectCategory.PROJECT) {
 				throw new Exception("해당 프로젝트는 존재하지 않습니다.");
-			} else if (projectRepository.findById(id).get().getCategory()==ProjectCategory.STUDY) {
+			} else if (projectRepository.findById(id).get().getCategory() == ProjectCategory.STUDY) {
 				throw new Exception("해당 스터디는 존재하지 않습니다.");
 			}
 		}
 	}
+
 	public Project findProjectById(Long id) {
 		Optional<Project> findProject = projectRepository.findById(id);
 		Project project = findProject.get();
 		return project;
 	}
 
-	public void checkPeriod(LocalDate endDate) throws BadRequestException {
+	public void checkPeriod(LocalDate endDate) {
 
 		LocalDate startDate = LocalDate.now();
 		Period diff = Period.between(startDate, endDate);
 		if (diff.getDays() > 28) {
-			throw new BadRequestException("잘못된 기간 설정");
+			throw new IllegalArgumentException("잘못된 기간 설정");
 		}
 	}
 
-	public void checkCntPeople(int cntPeople, int minCnt) throws BadRequestException {
+	public void checkCntPeople(int cntPeople, int minCnt) {
 
 		if (cntPeople > 10) {
-			throw new BadRequestException("잘못된 인원수 설정");
+			throw new IllegalArgumentException("잘못된 인원수 설정");
 		}
 
 		if (cntPeople < minCnt) {
-			throw new BadRequestException("잘못된 인원수 설정");
+			throw new IllegalArgumentException("잘못된 인원수 설정");
 		}
 	}
 
@@ -115,11 +107,11 @@ public class ProjectService {
 
 	// 프로젝트/스터디 등록
 	public ProjectDetail creatProject(ProjectForm projectForm, MultipartFile file) throws Exception {
-	boolean isImgNull= false;
+		boolean isImgNull = false;
 
-	if(file==null){
-		isImgNull = true;
-	}
+		if (file == null) {
+			isImgNull = true;
+		}
 		// 기간 4주이내인지 확인
 		LocalDate endDate = LocalDate.parse(projectForm.getEndDate(), DateTimeFormatter.ISO_DATE);
 		checkPeriod(endDate);
@@ -174,17 +166,13 @@ public class ProjectService {
 		Project projectSaved = projectRepository.save(project);
 
 		// Setting img to our Project
-		if(!isImgNull) {
+		if (!isImgNull) {
 			projectSaved.setImg(s3Service.uploadProjectImg(projectSaved.getId(), file, projectSaved.getTitle()));
 		}
 		// team
 		Optional<User> findUser = userRepository.findById(projectForm.getUserId());
 		User user = findUser.get();
-		Team team = Team.builder()
-			.role(TeamRole.LEADER)
-			.project(project)
-			.user(user)
-			.build();
+		Team team = Team.builder().role(TeamRole.LEADER).project(project).user(user).build();
 		teamRepository.save(team);
 
 		// project techstack
@@ -242,8 +230,6 @@ public class ProjectService {
 		project.setImg(projectForm.getImg());
 		project.setContents(projectForm.getContents());
 
-
-
 		// project techstack
 		techStackService.modifyProjectTechStack(project.getId(), projectForm.getTechStacks());
 
@@ -271,12 +257,12 @@ public class ProjectService {
 		// locked check
 		isProjectLocked(projectForm.getProjectId());
 
-		if(!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
-		|| userRepository.findById(projectForm.getUserId()).get().isLocked())
-		{
+		if (!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
+			|| userRepository.findById(projectForm.getUserId()).get().isLocked()) {
 			throw new Exception("존재하지 않는 팀원입니다.");
 		}
-		Team fineTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).get();
+		Team fineTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId())
+			.get();
 		teamRepository.delete(fineTeam);
 	}
 
@@ -284,8 +270,9 @@ public class ProjectService {
 	public List<ProjectForm> findByUser(Long id, ProjectCategory projectCategory) {
 		List<Team> teams = teamRepository.findByUser_IdAndProjectCategory(id, projectCategory);
 		List<ProjectForm> projectForms = new ArrayList<>();
-		for (Team t: teams) {
-			if(t.getProject().isLocked()) continue;
+		for (Team t : teams) {
+			if (t.getProject().isLocked())
+				continue;
 			ProjectForm projectForm = ProjectForm.toEntity(t.getProject());
 			projectForms.add(projectForm);
 		}
@@ -298,19 +285,20 @@ public class ProjectService {
 		isProjectLocked(projectId);
 
 		Project project = projectRepository.findById(projectId).get();
-		project.setHit(project.getHit()+hit);
+		project.setHit(project.getHit() + hit);
 		ProjectDetail projectDetail = ProjectDetail.toEntity(project);
 
 		// Team
 		List<Team> teams = teamRepository.findByProject_Id(project.getId());
 		List<ProfileResultDto> profileResultDtoList = new ArrayList<>();
-		for (Team t:teams) {
-			if(t.getUser().isLocked()) continue;
+		for (Team t : teams) {
+			if (t.getUser().isLocked())
+				continue;
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
-			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(),profile.getNickname(),profile.getContext(),profile.getProfileOnOffStatus());
+			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(), profile.getNickname(),
+				profile.getContext(), profile.getProfileOnOffStatus());
 			profileResultDtoList.add(profileResultDto);
-			if(t.getRole()==TeamRole.LEADER)
-			{
+			if (t.getRole() == TeamRole.LEADER) {
 				projectDetail.setLeaderId(t.getUser().getId());
 				projectDetail.setLeaderNickname(profile.getNickname());
 
@@ -325,7 +313,7 @@ public class ProjectService {
 			.map(t -> t.getTechStack())
 			.collect(Collectors.toList());
 		if (!techStacks.isEmpty()) {
-			for (TechStack t: techStacks) {
+			for (TechStack t : techStacks) {
 				TechStackForm techStackForm = TechStackForm.toEntity(t);
 				techStackForms.add(techStackForm);
 			}
@@ -338,8 +326,7 @@ public class ProjectService {
 		return projectDetail;
 	}
 
-	public boolean setIsLeader(Long userId, Long projectId)
-	{
+	public boolean setIsLeader(Long userId, Long projectId) {
 		boolean isLeader = teamService.checkLeader(userId, projectId);
 		return isLeader;
 	}
