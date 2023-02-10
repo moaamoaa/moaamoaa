@@ -62,8 +62,8 @@ export default function NavbarAccount() {
   const handleLogOut = () => {
     handleCloseUserMenu();
     dispatch(logoutSuccess());
-    Cookies.remove('access_token');
     navigate('/');
+    Cookies.remove('access_token');
     scrollToTop();
   };
 

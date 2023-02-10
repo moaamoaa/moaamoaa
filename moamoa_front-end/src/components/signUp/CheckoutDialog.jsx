@@ -109,7 +109,12 @@ export default function CheckoutDialog(props) {
         );
       case 1:
         return (
-          <SignUpCertificationForm setActiveStep={setActiveStep} code={code} />
+          <SignUpCertificationForm
+            setActiveStep={setActiveStep}
+            handleCode={handleCode}
+            code={code}
+            email={email}
+          />
         );
       case 2:
         return (
