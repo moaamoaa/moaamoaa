@@ -34,8 +34,11 @@ const profileSlice = createSlice({
       console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
     },
-    contextEditSuccess: (state, action) => {
+    handleSuccessContext: (state, action) => {
       state.userProfile[0].context = action.payload.context;
+    },
+    handleSuccessSidProject: (state, action) => {
+      state.sideProjects = action.payload.sideProjects;
     },
     handleCreateReview: (state, action) => {
       state.reviews.push(action.payload.review);
@@ -47,11 +50,8 @@ const profileSlice = createSlice({
         return action.payload.review;
       });
     },
-    handleSuccessSidProject: (state, action) => {
-      state.sideProjects = action.payload.sideProjects;
-    },
-    handleSuccessEditSidProject: (state, action) => {
-      state.sideProjects = action.payload.sideProjects;
+    handleSuccessReview: (state, action) => {
+      state.reviews = action.payload.reviews;
     },
     handleEditProfile: (state, action) => {
       state.userProfile[1].img = action.payload.img;
@@ -104,15 +104,15 @@ const profileSlice = createSlice({
 
 export const {
   handleSuccessSidProject,
-  handleSuccessEditSidProject,
+  handleSuccessContext,
   changeProfilePk,
+  handleSuccessReview,
   handleCreateReview,
   handleEditProfile,
   handleEditReview,
   profileOpenSuccess,
   profileCloseSuccess,
   profileEditSuccess,
-  contextEditSuccess,
   searchStatusChange,
 } = profileSlice.actions;
 
