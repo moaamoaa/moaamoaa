@@ -30,24 +30,28 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState: initialStateValue,
   reducers: {
-    handleSuccessSidProject: (state, action) => {
-      state.sideProjects = action.payload.sideProjects;
-    },
     changeProfilePk: (state, action) => {
       console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
+    },
+    contextEditSuccess: (state, action) => {
+      state.userProfile[0].context = action.payload.context;
     },
     handleCreateReview: (state, action) => {
       state.reviews.push(action.payload.review);
     },
     handleEditReview: (state, action) => {
       state.reviews = state.reviews.map(review => {
-        console.log(review.id, action.payload.review.id);
         if (review.id !== action.payload.review.id) return review;
 
         return action.payload.review;
       });
-      console.log(state.reviews);
+    },
+    handleSuccessSidProject: (state, action) => {
+      state.sideProjects = action.payload.sideProjects;
+    },
+    handleSuccessEditSidProject: (state, action) => {
+      state.sideProjects = action.payload.sideProjects;
     },
     handleEditProfile: (state, action) => {
       state.userProfile[1].img = action.payload.img;
@@ -75,21 +79,6 @@ const profileSlice = createSlice({
       state.sideProjects = action.payload.profile.sideprojects;
       state.techStacks = action.payload.profile.techStacks;
     },
-    profileCloseSuccess: state => {
-      state.areas = null;
-      state.reviews = null;
-      state.sites = null;
-
-      state.userProfile[0].context = null;
-      state.userProfile[0].id = null;
-      state.userProfile[0].img = null;
-      state.userProfile[0].nickname = null;
-      state.userProfile[0].profileOnOffStatus = null;
-      state.userProfile[0].profileSearchStatus = null;
-
-      state.sideProjects = null;
-      state.techStacks = null;
-    },
     profileEditSuccess: (state, action) => {
       state.areas = action.payload.areas;
       state.sites = action.payload.sites;
@@ -100,9 +89,6 @@ const profileSlice = createSlice({
         action.payload.userProfile.profileOnOffStatus;
 
       state.sideProjects = action.payload.userProfile;
-    },
-    contextEditSuccess: (state, action) => {
-      state.userProfile[0].context = action.payload.context;
     },
     searchStatusChange: (state, action) => {
       if (action.payload.profileSearchStatus === 'ALL') {
@@ -118,6 +104,7 @@ const profileSlice = createSlice({
 
 export const {
   handleSuccessSidProject,
+  handleSuccessEditSidProject,
   changeProfilePk,
   handleCreateReview,
   handleEditProfile,

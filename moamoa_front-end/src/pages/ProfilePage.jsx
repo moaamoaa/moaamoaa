@@ -10,7 +10,7 @@ import { Container, Grid } from '@mui/material/';
 
 import Profile from 'components/profile/Profile';
 import SelfIntroduction from 'components/profile/SelfIntroduction';
-import SideProject from 'components/profile/SideProject';
+import SideProjectContainer from 'components/profile/SideProjectContainer';
 import ReviewList from 'components/profile/ReviewList';
 
 export default function ProfilePage() {
@@ -37,7 +37,7 @@ export default function ProfilePage() {
         <Grid item xs={12} md={6} lg={8}>
           <SelfIntroduction></SelfIntroduction>
 
-          <SideProject></SideProject>
+          <SideProjectContainer></SideProjectContainer>
 
           <ReviewList></ReviewList>
         </Grid>
