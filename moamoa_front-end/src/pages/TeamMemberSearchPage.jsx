@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Container, Box, styled, Button, Grid, Chip } from '@mui/material/';
+import {
+  Container,
+  Box,
+  styled,
+  Button,
+  Grid,
+  Chip,
+  Avatar,
+} from '@mui/material/';
 import customAxios from 'utils/axios';
 // 검색 상단 컴포넌트
 import SearchFilterCategory from 'components/team/searchFilter/SearchFilterCategory';
@@ -97,7 +105,7 @@ export default function TeamSearchPage(props) {
         `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}`,
       )
       .then(response => {
-        setSearchResult(response);
+        setSearchResult(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -120,7 +128,9 @@ export default function TeamSearchPage(props) {
     <Container fixed sx={{ paddingTop: '4rem' }}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
+          <div onKeyPress={search}>
+            <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
+          </div>
         </Grid>
         <Grid container item xs={8} spacing={1}>
           <Grid item xs={4}>
@@ -148,22 +158,24 @@ export default function TeamSearchPage(props) {
 
       <CommonBox direction="row" sx={{ paddingTop: '1rem' }}>
         {filterArray.map((techstack, idx) => (
-          <Button
+          <Chip
             variant="outlined"
-            size="medium"
+            label={techstack.name}
+            avatar={<Avatar alt="logo" src={techstack.logo} />}
             key={techstack.id}
             direction="row"
-            sx={{ display: 'inline-flex', justifyContent: 'space-between' }}
+            sx={{
+              display: 'inline-flex',
+              justifyContent: 'space-between',
+              margin: 1,
+            }}
             onClick={() => {
               handleSearchStack(techstack);
             }}
-          >
-            {techstack.logo}
-            {techstack.name}
-          </Button>
+          />
         ))}
       </CommonBox>
-      <Box direction="row" style={{ display: 'flex' }}>
+      <Box direction="row" style={{ display: 'flex', paddingTop: '1rem' }}>
         <SearchBox direction="row">
           {techNameList.length !== 0 &&
             techNameList.map(name => {
@@ -173,6 +185,7 @@ export default function TeamSearchPage(props) {
                   variant="outlined"
                   key={name.id}
                   value={name}
+                  sx={{ margin: 1 }}
                   onDelete={() => {
                     removeTechNameList(name);
                   }}
@@ -180,7 +193,11 @@ export default function TeamSearchPage(props) {
               );
             })}
         </SearchBox>
-        <Button variant="contained" onClick={search}>
+        <Button
+          variant="contained"
+          onClick={search}
+          sx={{ borderRadius: '0 .5rem .5rem 0' }}
+        >
           검색
         </Button>
       </Box>
@@ -194,7 +211,7 @@ export default function TeamSearchPage(props) {
 
 const CommonBox = styled(Box)`
   background-color: #ffffff;
-  height: 6rem;
+  height: 100%;
   width: 100%;
   // 이건 박스 안에 맞게 줄바꿈해주는 css
   flex-flow: row-reverse wrap;
@@ -203,8 +220,9 @@ const CommonBox = styled(Box)`
 const SearchBox = styled(CommonBox)`
   background-color: #ffffff;
   border: 1px solid #c4c4c4;
-  border-radius: 0.5rem;
-  height: 5rem;
+  border-radius: 0.5rem 0 0 0.5rem;
+  height: 100%;
+  min-height: 3rem;
   width: 100%;
   // 이건 박스 안에 맞게 줄바꿈해주는 css
   flex-flow: row-reverse wrap;
