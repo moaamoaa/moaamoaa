@@ -90,7 +90,10 @@ export default function NavbarAccount() {
   if (isLogIn) {
     return (
       <>
-        <Box sx={{ display: 'flex', scale: isMobile ? '0.5' : '1' }}>
+        <Box
+          sx={{ display: 'flex', scale: isMobile ? '0.5' : '1' }}
+          justifyContent="end"
+        >
           {/* 팀관리아이콘 */}
           <ProjectStudy></ProjectStudy>
           {/* 채팅아이콘 */}
@@ -141,7 +144,7 @@ export default function NavbarAccount() {
   } else {
     return (
       <>
-        <Box sx={{ flexGrow: 0 }}>
+        <Box sx={{ display: 'flex' }} justifyContent="end">
           <MoaButton variant="text" onClick={handleClickOpen}>
             로그인
           </MoaButton>

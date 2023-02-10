@@ -6,11 +6,12 @@ import userReducer from 'redux/user';
 import searchReducer from 'redux/search';
 import profileReducer from 'redux/profile';
 import teamReducer from 'redux/team';
+import snackReducer from 'redux/snack';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user', 'search', 'profile', 'team'],
+  whitelist: ['user', 'search', 'profile', 'team', 'snack'],
 };
 
 const reducers = combineReducers({
@@ -18,6 +19,7 @@ const reducers = combineReducers({
   search: searchReducer,
   profile: profileReducer,
   team: teamReducer,
+  snack: snackReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

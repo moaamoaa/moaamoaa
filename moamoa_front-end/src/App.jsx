@@ -14,6 +14,7 @@ import ErrorPage from 'pages/ErrorPage';
 
 import Navbar from 'components/common/navbar/Navbar';
 import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
+import Snackbar from 'components/common/snackbar/Snackbar';
 
 export default function App() {
   // window.onbeforeunload = removeData;
@@ -21,6 +22,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <Snackbar></Snackbar>
       <Navbar></Navbar>
       <Moa>
         <Routes>

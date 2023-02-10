@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { Grid, TextField, Typography } from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
 import customAxios from 'utils/axios';
-import { contextEditSuccess } from 'redux/profile';
+import { handleSuccessContext } from 'redux/profile';
 
 export default function SelfIntroduction() {
   const userProfile = useSelector(state => state.profile.userProfile[0]);
@@ -26,19 +26,31 @@ export default function SelfIntroduction() {
   };
   const handleOpenEdit = () => {
     setIsEdit(true);
+    setContext('');
   };
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    customAxios.authAxios
+      .delete('/profile/context')
+      .then(response => {
+        dispatch(handleSuccessContext({ context: response.data }));
+        setIsEdit(false);
+        setContext('');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const handleSuccessEdit = () => {
     customAxios.authAxios
-      .put(`/profile/context/`, {
+      .put('/profile/context', {
         context: context,
         profileId: userProfile.id,
       })
       .then(response => {
-        console.log(response);
-        dispatch(contextEditSuccess({ context: response.data.context }));
+        dispatch(handleSuccessContext({ context: response.data.context }));
         setIsEdit(false);
+        setContext('');
       })
       .catch(error => {
         console.log(error);
