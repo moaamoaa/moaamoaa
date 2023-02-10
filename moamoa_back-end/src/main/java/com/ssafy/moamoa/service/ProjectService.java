@@ -32,7 +32,6 @@ import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.ProjectTechStackRepository;
 import com.ssafy.moamoa.repository.TeamRepository;
-import com.ssafy.moamoa.repository.TechStackRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -44,12 +43,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProjectService {
 
-	private final UserService userService;
 	private final AreaService areaService;
 	private final TeamService teamService;
 	private final TechStackService techStackService;
 	private final ProjectRepository projectRepository;
-	private final TechStackRepository techstackRepository;
 	private final ProjectTechStackRepository projectTechStackRepository;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
@@ -71,15 +68,14 @@ public class ProjectService {
 
 	public Project findProjectById(Long id) {
 		Optional<Project> findProject = projectRepository.findById(id);
-		Project project = findProject.get();
-		return project;
+		return findProject.get();
 	}
 
 	public void checkPeriod(LocalDate endDate) {
 
 		LocalDate startDate = LocalDate.now();
 		Period diff = Period.between(startDate, endDate);
-		if (diff.getDays() > 28) {
+		if (diff.getYears() != 0 || diff.getMonths() != 0 || diff.getDays() > 28) {
 			throw new IllegalArgumentException("잘못된 기간 설정");
 		}
 	}
