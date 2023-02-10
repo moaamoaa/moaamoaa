@@ -80,7 +80,7 @@ export default function TeamSearchPage(props) {
     customAxios.basicAxios
       .get('/search/profile?&size=12')
       .then(response => {
-        setSearchResult(response);
+        setSearchResult(response.data);
         console.log(response);
       })
       .catch(error => {
@@ -186,9 +186,7 @@ export default function TeamSearchPage(props) {
       </Box>
 
       <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
-        <TeamMemberSearchList
-          searchResult={searchResult}
-        ></TeamMemberSearchList>
+        <TeamMemberSearchList cards={searchResult}></TeamMemberSearchList>
       </Container>
     </Container>
   );
