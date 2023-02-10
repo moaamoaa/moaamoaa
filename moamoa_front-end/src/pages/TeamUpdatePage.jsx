@@ -171,10 +171,6 @@ export default function TeamCreatePage() {
           ref={inputRef}
         ></MultilineText>
       </Container>
-      {/* <Container fixed>
-        <h2>팀원 소개</h2>
-        <TeamMemberSearchList></TeamMemberSearchList>
-      </Container> */}
       <hr></hr>
     </>
   );
