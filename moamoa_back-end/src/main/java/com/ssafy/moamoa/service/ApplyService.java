@@ -51,13 +51,13 @@ public class ApplyService {
 		}
 		else
 		{
-			project.setCountApply(project.getCountApply() + 1);
 			Apply apply = Apply.builder()
 				.user(user)
 				.project(project)
 				.time(LocalDateTime.now())
 				.build();
 			applyRepository.save(apply);
+			project.setCountApply(project.getCountApply() + 1);
 		}
 	}
 

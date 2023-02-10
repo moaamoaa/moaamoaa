@@ -139,7 +139,7 @@ public class Project {
 		this.endDate = endDate;
 	}
 
-	public void setCountApply(int countOffer) {
+	public void setCountApply(int countApply) {
 		this.countApply = countApply;
 	}
 
