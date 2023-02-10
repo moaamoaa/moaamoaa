@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from '@emotion/styled';
 
-import removeData from 'utils/removeData';
-
 import HomePage from 'pages/HomePage';
 import TeamSearchPage from 'pages/TeamSearchPage';
 import TeamMemberSearchPage from 'pages/TeamMemberSearchPage';
