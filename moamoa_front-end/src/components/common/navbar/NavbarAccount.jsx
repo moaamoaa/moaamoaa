@@ -19,7 +19,7 @@ import {
 
 import ChatIcon from '@mui/icons-material/Chat';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-
+import ProjectStudy from 'components/team/ProjectStudy';
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
@@ -93,9 +93,7 @@ export default function NavbarAccount() {
       <>
         <Box sx={{ display: 'flex', scale: isMobile ? '0.5' : '1' }}>
           {/* 팀관리아이콘 */}
-          <IconButton onClick={null} sx={{ mr: 2 }}>
-            <Diversity3Icon />
-          </IconButton>
+          <ProjectStudy></ProjectStudy>
           {/* 채팅아이콘 */}
           <IconButton onClick={null} sx={{ mr: 2 }}>
             <ChatIcon />
