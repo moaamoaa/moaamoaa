@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import customAxios from 'utils/axios';
-import { handleSuccessEditSidProject } from 'redux/profile';
+import { handleSuccessSidProject } from 'redux/profile';
 import styled from '@emotion/styled';
 import { Typography, Grid } from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
@@ -10,6 +10,7 @@ import SideProjectEditor from 'components/profile/SideProjectEditor';
 
 function SideProject(props) {
   const sideProject = props.sideProject;
+  const profileId = useSelector(state => state.profile.userProfile[0].id);
   const [isEdit, setIsEdit] = useState(false);
 
   const dispatch = useDispatch();
@@ -17,30 +18,18 @@ function SideProject(props) {
   const handleOpenEdit = () => {
     setIsEdit(true);
   };
-  const handleDelete = () => {};
-
-  const handleSuccessEdit = () => {
+  const handleDelete = () => {
     customAxios.authAxios
-      .put(`/profile/sidepjt`, {
-        context: sideProject.context,
-        name: sideProject.name,
-        year: sideProject.year,
-        pjt_tech_stack: sideProject.selectedValue,
-        profileId: sideProject.userProfile.id,
-      })
+      .delete(`profile/sidepjt/${sideProject.id}`)
       .then(response => {
         console.log(response);
-        dispatch(handleSuccessEditSidProject({ sideProject: response.data }));
-        setIsEdit(false);
+        dispatch(handleSuccessSidProject({ sideProjects: response.data }));
       })
       .catch(error => {
         console.log(error);
       });
   };
 
-  const handleCancelEdit = () => {
-    setIsEdit(false);
-  };
   return (
     <Grid
       item
@@ -79,8 +68,6 @@ function SideProject(props) {
               isEdit={isEdit}
               handleOpenEdit={handleOpenEdit}
               handleDelete={handleDelete}
-              handleSuccessEdit={handleSuccessEdit}
-              handleCancelEdit={handleCancelEdit}
             ></ProfileLongMenu>
           </Grid>
         </>

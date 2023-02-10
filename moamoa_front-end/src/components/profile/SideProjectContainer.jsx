@@ -19,7 +19,6 @@ export default function SideProjectContainer() {
   };
 
   console.log(sideProjects);
-
   if (isAdd) {
     return (
       <>
@@ -35,7 +34,7 @@ export default function SideProjectContainer() {
         <ContentTitle color="initial">주요 프로젝트</ContentTitle>
         <MoaContainer container sx={{ padding: '0 !important' }}>
           <Container sx={{ padding: '0 !important' }}>
-            {sideProjects ? (
+            {sideProjects.length !== 0 ? (
               sideProjects.map((sideProject, idx) => (
                 <SideProject
                   key={idx}

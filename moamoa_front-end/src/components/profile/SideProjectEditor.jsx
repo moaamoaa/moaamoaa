@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  handleSuccessEditSidProject,
-  handleSuccessSidProject,
-} from 'redux/profile';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleSuccessSidProject } from 'redux/profile';
 import customAxios from 'utils/axios';
 
 import {
@@ -20,6 +17,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import CreateIcon from '@mui/icons-material/Create';
 import TechStackSeletor from 'components/profile/TechStackSeletor';
+import { handleSuccessState } from 'redux/snack';
 
 function SideProjectEditor(props) {
   const sideProject = props?.sideProject;
@@ -32,6 +30,8 @@ function SideProjectEditor(props) {
   const [context, setContext] = useState(
     sideProject ? sideProject.context : '',
   );
+
+  const profileId = useSelector(state => state.profile.userProfile[0].id);
 
   const handleCloseAddSideProject = () => {
     setYear(curYear);
@@ -49,41 +49,88 @@ function SideProjectEditor(props) {
   };
 
   const handleEditSideProject = () => {
-    customAxios.authAxios
-      .put('/profile/sidepjt', {
-        year: String(year),
-        name: name,
-        pjt_tech_stack: selectedValue,
-        context: context,
-        id: sideProject.id,
-      })
-      .then(response => {
-        dispatch(handleSuccessEditSidProject({ sideProjects: response.data }));
-        props.setIsEdit(false);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (!name.trim()) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '프로젝트 이름을 작성해 주세요.',
+        }),
+      );
+    } else if (!context.trim()) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '기술 스택을 선택해 주세요.',
+        }),
+      );
+    } else if (!context.trim()) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '프로젝트 소개를 작성해 주세요.',
+        }),
+      );
+    } else {
+      customAxios.authAxios
+        .put('/profile/sidepjt', {
+          year: String(year),
+          name: name,
+          pjt_tech_stack: selectedValue,
+          context: context,
+          id: sideProject.id,
+        })
+        .then(response => {
+          dispatch(handleSuccessSidProject({ sideProjects: response.data }));
+          props.setIsEdit(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   const handleCreateSidProject = () => {
     console.log(String(year), name, selectedValue, context);
-    customAxios.authAxios
-      .post(`/profile/sidepjt`, {
-        year: String(year),
-        name: name,
-        pjt_tech_stack: selectedValue,
-        context: context,
-      })
-      .then(response => {
-        props.setIsAdd(false);
-        dispatch(
-          handleSuccessSidProject({ sideProjects: response.data.sideProjects }),
-        );
-      })
-      .catch(error => {
-        console.log(error);
-      });
+
+    if (!name.trim()) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '프로젝트 이름을 작성해 주세요.',
+        }),
+      );
+    } else if (!context.trim()) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '기술 스택을 선택해 주세요.',
+        }),
+      );
+    } else if (!context.trim()) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '프로젝트 소개를 작성해 주세요.',
+        }),
+      );
+    } else {
+      customAxios.authAxios
+        .post(`/profile/sidepjt/`, {
+          year: String(year),
+          name: name,
+          pjt_tech_stack: selectedValue,
+          context: context,
+          profileId: profileId,
+        })
+        .then(response => {
+          console.log(response.data);
+          dispatch(handleSuccessSidProject({ sideProjects: response.data }));
+          props.setIsAdd(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   const handleChangeName = event => {

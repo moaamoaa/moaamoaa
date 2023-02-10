@@ -3,7 +3,7 @@ import { Button, Grid, TextField, Container, Typography } from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleEditReview } from 'redux/profile';
+import { handleEditReview, handleSuccessReview } from 'redux/profile';
 import customAxios from 'utils/axios';
 
 function Review(props) {
@@ -19,7 +19,25 @@ function Review(props) {
     setIsEdit(true);
   };
 
-  const handleSuccessDelete = () => {};
+  console.log(props);
+
+  const handleSuccessDelete = () => {
+    customAxios.authAxios
+      .delete(`/profile/review/${props.review.id}`)
+      .then(response => {
+        console.log(response.data);
+        // dispatch(
+        //   handleSuccessReview({
+        //     reviews: response.data,
+        //   }),
+        // );
+
+        setIsEdit(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const handleSuccessEdit = () => {
     customAxios.authAxios
@@ -45,7 +63,7 @@ function Review(props) {
 
   const handleCancelEdit = () => {
     setIsEdit(false);
-    setContext(props.context);
+    setContext(props.review.context);
   };
 
   const limit = 200;
@@ -114,7 +132,7 @@ function Review(props) {
             <LongMenu
               isEdit={isEdit}
               handleOpenEdit={handleOpenEdit}
-              handleCloseEdit={handleSuccessDelete}
+              handleDelete={handleSuccessDelete}
             ></LongMenu>
           </Grid>
           <Grid item xs={12}>
