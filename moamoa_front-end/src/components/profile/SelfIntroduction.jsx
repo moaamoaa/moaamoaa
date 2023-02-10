@@ -16,9 +16,6 @@ export default function SelfIntroduction() {
   );
 
   const dispatch = useDispatch();
-  const handleOpenEdit = () => {
-    setIsEdit(true);
-  };
 
   const handleChangeContext = event => {
     if (context.length <= 100) {
@@ -27,13 +24,16 @@ export default function SelfIntroduction() {
       setContext(context.slice(0, 100));
     }
   };
-
-  const handleCloseEdit = () => {};
+  const handleOpenEdit = () => {
+    setIsEdit(true);
+  };
+  const handleDelete = () => {};
 
   const handleSuccessEdit = () => {
     customAxios.authAxios
-      .put(`/profile/context/${userProfile.id}`, {
+      .put(`/profile/context/`, {
         context: context,
+        profileId: userProfile.id,
       })
       .then(response => {
         console.log(response);
@@ -80,7 +80,7 @@ export default function SelfIntroduction() {
             <LongMenu
               isEdit={isEdit}
               handleOpenEdit={handleOpenEdit}
-              handleCloseEdit={handleCloseEdit}
+              handleDelete={handleDelete}
               handleSuccessEdit={handleSuccessEdit}
               handleCancelEdit={handleCancelEdit}
             ></LongMenu>

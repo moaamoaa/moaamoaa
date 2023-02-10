@@ -30,9 +30,9 @@ function Review(props) {
 
   const handleSuccessEdit = () => {
     customAxios.authAxios
-      .put(`/profile/review/${userProfile.id}`, {
+      .put(`/profile/review/`, {
         id: props.review.id,
-        senderId: props.review.senderId,
+        profileId: userProfile.id,
         context: context,
       })
       .then(response => {
