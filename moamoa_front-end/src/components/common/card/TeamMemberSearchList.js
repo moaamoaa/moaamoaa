@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-// import customAxios from 'utils/axios';
+import React from 'react';
 import CardList from 'components/common/card/CardList';
 
 export default function TeamMemberSearchList(props) {
