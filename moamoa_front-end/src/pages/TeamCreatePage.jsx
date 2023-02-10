@@ -193,10 +193,6 @@ export default function TeamCreatePage() {
         ></MultilineText>
       </Container>
       <hr></hr>
-      {/* <Container fixed>
-        <h2>팀원 소개</h2>
-        <TeamMemberSearchList></TeamMemberSearchList>
-      </Container> */}
     </>
   );
 }
