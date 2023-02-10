@@ -22,9 +22,9 @@ function ReviewCreation() {
 
   const handleClickButton = () => {
     customAxios.authAxios
-      .post(`/profile/review/${profile.id}`, {
+      .post(`/profile/review/`, {
         context: context,
-        senderId: profile.id,
+        profileId: profile.id,
       })
       .then(response => {
         console.log(response);
