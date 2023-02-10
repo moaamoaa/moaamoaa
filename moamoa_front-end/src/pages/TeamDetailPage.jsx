@@ -1,24 +1,19 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-// import axios from 'axios';
 import CustomAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { teamOpenSuccess, teamCloseSuccess } from 'redux/team';
-import { handleUpdate, handleCloseTeamDetail } from 'redux/team';
+import { handleUpdate } from 'redux/team';
 import {
   Container,
   Paper,
   Button,
   Stack,
   Grid,
-  Link,
   styled,
   Avatar,
 } from '@mui/material/';
-
+import CardList from 'components/common/card/CardList';
 import TeamBanner from 'components/team/TeamBanner';
-import TeamMemberList from 'components/common/card/TeamMemberList';
-
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +31,8 @@ export default function TeamDetailPage() {
 
   // const [isLoaded, setIsLoaded] = useState(false);
   const [detail, setDetail] = useState([]);
-
+  const [cards, setCards] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   // redux
   const projectId = useSelector(state => state.team.projectId);
 
@@ -47,14 +43,16 @@ export default function TeamDetailPage() {
       .get(`/projects/detail?projectId=${projectId}`)
       .then(response => {
         setDetail(response.data);
-        console.log(response);
+        console.log(response.data);
         console.log('조회성공!');
+        setCards(response.data.profileResultDtoList);
+        console.log(setCards(response.data.profileResultDtoList));
       })
       .catch(error => {
-        console.log(error);
+        console.log(error.data);
       });
-    // setIsLoaded(true);
-  }, [projectId]);
+    setIsLoaded(true);
+  }, [projectId, isLoaded]);
 
   // 배너
   const teamBanner = {
@@ -98,18 +96,8 @@ export default function TeamDetailPage() {
                     data: {
                       projectId: projectId,
                     },
-                    // areaId: null,
-                    // category: null,
-                    // endDate: null,
-                    // img: null,
-                    // projectStatus: null,
-                    // techStacks: [],
-                    // title: null,
-                    // totalPeople: null,
-                    // userId: null,
                   })
                   .then(e => {
-                    // dispatch(teamCloseSuccess({ projectId: projectId }));
                     console.log(e);
                     console.log('삭제완료!');
                     alert('게시물이 삭제되었습니다.');
@@ -129,7 +117,6 @@ export default function TeamDetailPage() {
           elevation={0}
           style={{
             padding: 20,
-            // border: '1px solid black',
           }}
         >
           <h4>모집 구분</h4>
@@ -151,7 +138,6 @@ export default function TeamDetailPage() {
           <h4>지역</h4>
           <Typography variant="body1" color="initial">
             {detail.areaId}
-            {/* 매칭해줘야하나 */}
           </Typography>
           <h4>기술 스택</h4>
           <Typography component="div" variant="body1" color="initial">
@@ -166,10 +152,7 @@ export default function TeamDetailPage() {
                   }}
                 >
                   <span>{tech.name}</span>
-                  <MoaImg
-                    // src={`${process.env.PUBLIC_URL}/images/whole_icons/${tech.logo}@4x.png`} // 다른 폴더에 있는 건 어쩌지?
-                    src={tech.logo}
-                  />
+                  <MoaImg src={tech.logo} />
                 </Stack>
               ))}
           </Typography>
@@ -182,7 +165,6 @@ export default function TeamDetailPage() {
           elevation={0}
           style={{
             padding: 20,
-            // border: '1px solid black',
           }}
         >
           <Typography variant="body1" color="initial">
@@ -192,7 +174,7 @@ export default function TeamDetailPage() {
       </Container>
       <Container fixed>
         <h2>팀원 소개</h2>
-        <TeamMemberList></TeamMemberList>
+        <CardList cards={cards} type="member"></CardList>
       </Container>
       <hr></hr>
     </>
