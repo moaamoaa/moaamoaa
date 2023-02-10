@@ -76,6 +76,7 @@ public class ApplyService {
 			applyForm.setProfileContext(profileRepository.findByUser(a.getUser()).get().getContext());
 			applyForm.setTitle(a.getProject().getTitle());
 			applyForm.setProjectContents(a.getProject().getContents());
+			applyForm.setProjectImg(a.getProject().getImg());
 			applyForms.add(applyForm);
 		}
 		return applyForms;
@@ -92,6 +93,7 @@ public class ApplyService {
 			applyForm.setProfileContext(profileRepository.findByUser(a.getUser()).get().getContext());
 			applyForm.setTitle(a.getProject().getTitle());
 			applyForm.setProjectContents(a.getProject().getContents());
+			applyForm.setProfileImg(profileRepository.findByUser(a.getUser()).get().getImg());
 			applyForms.add(applyForm);
 		}
 		return applyForms;

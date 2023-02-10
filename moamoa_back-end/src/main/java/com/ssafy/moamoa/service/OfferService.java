@@ -79,6 +79,7 @@ public class OfferService {
 			offerForm.setProfileContext(profileRepository.findByUser(o.getUser()).get().getContext());
 			offerForm.setTitle(o.getProject().getTitle());
 			offerForm.setProjectContents(o.getProject().getContents());
+			offerForm.setProjectImg(o.getProject().getImg());
 			offerForms.add(offerForm);
 		}
 		return offerForms;
@@ -95,6 +96,7 @@ public class OfferService {
 			offerForm.setProfileContext(profileRepository.findByUser(o.getUser()).get().getContext());
 			offerForm.setTitle(o.getProject().getTitle());
 			offerForm.setProjectContents(o.getProject().getContents());
+			offerForm.setProfileImg(profileRepository.findByUser(o.getUser()).get().getImg());
 			offerForms.add(offerForm);
 		}
 		return offerForms;
@@ -123,11 +125,11 @@ public class OfferService {
 	}
 
 	public void deleteReceiveOffer(MatchingForm matchingForm) {
-		// 철회할 apply id를 받고 -> apply에서 삭제
+		// 철회할 offer id를 받고 -> offer에서 삭제
 		offerRepository.deleteById(matchingForm.getOfferId());
 	}
 	public void deleteSendOffer(MatchingForm matchingForm) {
-		// 철회할 apply id를 받고 -> apply에서 삭제
+		// 철회할 offer id를 받고 -> offer에서 삭제
 		// profile countOffer--
 		Profile profile = profileRepository.findByUser_Id(matchingForm.getUserId()).get();
 		profile.setCountOffer(profile.getCountOffer()-1);
