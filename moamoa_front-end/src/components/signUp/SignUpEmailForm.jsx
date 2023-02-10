@@ -28,9 +28,8 @@ export default function SignUpEmailForm(props) {
     customAxios.basicAxios
       .get(`/users/email?email=${userEmail}`)
       .then(response => {
-        props.setActiveStep(1);
         setOpen(false);
-
+        props.setActiveStep(1);
         props.handleEmail(userEmail);
         props.handleCode(response.data);
         console.log(response.data);
@@ -69,6 +68,7 @@ export default function SignUpEmailForm(props) {
           value={userEmail}
           onChange={handleEmail}
           helperText={emailMessage}
+          sx={{ mt: '2rem' }}
         />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button variant="contained" sx={{ mt: 3, ml: 1 }} onClick={getCode}>
