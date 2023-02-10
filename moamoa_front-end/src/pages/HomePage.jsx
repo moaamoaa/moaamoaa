@@ -64,7 +64,7 @@ export default function HomePageSample() {
   // 금주의 프로젝트 추천
   useEffect(() => {
     customAxios.basicAxios
-      .get('/search/project?&size=3&sort=date,desc&category=PROJECT')
+      .get('/search/project?&size=3&sort=hit,desc&category=PROJECT')
       .then(response => {
         setRecoProject(response.data);
         console.log(response);
@@ -78,7 +78,7 @@ export default function HomePageSample() {
   // 금주의 스터디 추천
   useEffect(() => {
     customAxios.basicAxios
-      .get('/search/project?&size=3&sort=date,desc&category=STUDY')
+      .get('/search/project?&size=3&sort=hit,desc&category=STUDY')
       .then(response => {
         setRecoStudy(response.data);
         console.log(response);
@@ -92,7 +92,7 @@ export default function HomePageSample() {
   // 금주의 팀원 추천
   useEffect(() => {
     customAxios.basicAxios
-      .get('/search/profile?&size=4&sort=date,desc&category=STUDY')
+      .get('/search/profile?&size=4&sort=hit,desc&category=STUDY')
       .then(response => {
         setRecoMember(response.data);
         console.log(response);
