@@ -21,13 +21,6 @@ function TechStackSeletor(props) {
   }, []);
 
   const handleSelectedTech = (event, value) => {
-    // const selectValue = value.map(sideProject => {
-    //   return {
-    //     tech_stack_no: sideProject.id,
-    //     logo: sideProject.logo,
-    //     name: sideProject.name,
-    //   };
-    // });
     props.setSelectedValue(value);
   };
 
