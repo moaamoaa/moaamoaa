@@ -17,7 +17,7 @@ import { Link } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const user = {
   id: 0,
@@ -40,7 +40,6 @@ export default function CardItem(props) {
     dispatch(handleOpenTeamDetail({ projectId: props.card.id }));
     navigate(`/TeamDetailPage/?projectId=${props.card.id}`);
   };
-
   if (props.type === 'team') {
     return (
       <MoaCard onClick={goToDetail}>
@@ -124,13 +123,13 @@ export default function CardItem(props) {
         )}
         <CardContent>
           <MoaTypography gutterBottom variant="h5" component="div">
-            팀원 이름{props.card.nickname}
+            {props.card.nickname}
           </MoaTypography>
           <MoaTypography variant="body2" color="text.secondary">
-            지역
             {/* {props.card.area.map(a => {
               return <div>{a}</div>;
             })} */}
+            {props.card ? props.card.area : ''}
           </MoaTypography>
           <InfoTypography variant="body2" color="text.secondary">
             {props.card.contents}
