@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +30,7 @@ import com.ssafy.moamoa.domain.dto.SignForm;
 import com.ssafy.moamoa.domain.dto.TokenDto;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.User;
+import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
 import com.ssafy.moamoa.service.MailService;
 import com.ssafy.moamoa.service.UserService;
 
@@ -49,16 +49,14 @@ public class UserController {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final CookieUtil cookieUtil;
 
-	@ApiOperation(value = "전체 사용자 정보 조회",
-		notes = "전체 사용자의 정보를 조회한다.")
+	@ApiOperation(value = "전체 사용자 정보 조회", notes = "전체 사용자의 정보를 조회한다.")
 	@GetMapping
 	public ResponseEntity<?> showList() throws Exception {
 		List<User> users = userService.findUsers();
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "회원 가입",
-		notes = "email, password, nickname 정보로 회원 가입을 한다.")
+	@ApiOperation(value = "회원 가입", notes = "email, password, nickname 정보로 회원 가입을 한다.")
 	// 회원 가입
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody @Valid SignForm signForm) throws JsonProcessingException {
@@ -72,34 +70,27 @@ public class UserController {
 		return new ResponseEntity<String>(userNickname, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "회원 가입 시 메일 유효성 확인",
-		notes = "email의 중복 검사와 유효성 검사를 한다.")
+	@ApiOperation(value = "회원 가입 시 메일 유효성 확인", notes = "email의 중복 검사와 유효성 검사를 한다.")
 	// 회원 가입 시 메일 유효성 확인
 	@GetMapping("/email")
 	public ResponseEntity<?> checkEmail(@RequestParam("email") String email) throws MessagingException {
-		User user = User.builder()
-			.email(email)
-			.build();
+		User user = User.builder().email(email).build();
 		userService.validateDuplicateUserEmail(user);
 		String code = mailService.joinEmail(email);
 
 		return new ResponseEntity<String>(code, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "회원 가입 시 닉네임 중복 확인",
-		notes = "nickname의 중복 검사를 한다.")
+	@ApiOperation(value = "회원 가입 시 닉네임 중복 확인", notes = "nickname의 중복 검사를 한다.")
 	// 닉네임 중복 확인
 	@GetMapping("/nickname")
 	public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) throws JsonProcessingException {
-		Profile profile = Profile.builder()
-			.nickname(nickname)
-			.build();
+		Profile profile = Profile.builder().nickname(nickname).build();
 		userService.validateDuplicateProfileNickname(profile);
 		return new ResponseEntity<String>("닉네임 중복 검증 성공", HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "비밀번호 변경",
-		notes = "id에 맞는 회원의 password를 수정한다.")
+	@ApiOperation(value = "비밀번호 변경", notes = "id에 맞는 회원의 password를 수정한다.")
 	// 비밀번호 변경
 	@PostMapping("/password")
 	public ResponseEntity<?> updatePassword(@Valid @RequestBody SignForm signForm, Authentication authentication) {
@@ -109,8 +100,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "임시 비밀번호 발급",
-		notes = "email에 맞는 회원의 비밀번호를 임시 비밀번호로 수정하고 메일을 전송한다.")
+	@ApiOperation(value = "임시 비밀번호 발급", notes = "email에 맞는 회원의 비밀번호를 임시 비밀번호로 수정하고 메일을 전송한다.")
 	// 임시 비밀번호 발급
 	@PutMapping("/email")
 	public ResponseEntity<?> lostPassword(@RequestBody SignForm signForm) throws MessagingException {
@@ -122,8 +112,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "회원 삭제",
-		notes = "email에 맞는 회원을 삭제한다.")
+	@ApiOperation(value = "회원 삭제", notes = "email에 맞는 회원을 삭제한다.")
 	// 회원 삭제
 	@DeleteMapping
 	public ResponseEntity<?> deleteUser(Authentication authentication) {
@@ -133,8 +122,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "로그인",
-		notes = "email, password 정보로 로그인을 한다.")
+	@ApiOperation(value = "로그인", notes = "email, password 정보로 로그인을 한다.")
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletResponse response) {
 		TokenDto tokenDto = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
@@ -155,8 +143,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "access token 재발급",
-		notes = "access token, refresh token 정보로 access token 재발급한다.")
+	@ApiOperation(value = "access token 재발급", notes = "access token, refresh token 정보로 access token 재발급한다.")
 	@PostMapping("/reissue")
 	public ResponseEntity<?> reissue(HttpServletRequest request) {
 		String accessToken = jwtTokenProvider.resolveToken(request);
@@ -164,7 +151,7 @@ public class UserController {
 		TokenDto reissueToken = userService.reissueAccessToken(accessToken, refreshToken);
 
 		if (reissueToken == null) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			throw new UnAuthorizedException("토큰 정보를 인증할 수 없습니다.");
 		}
 
 		return new ResponseEntity<>(reissueToken, HttpStatus.CREATED);

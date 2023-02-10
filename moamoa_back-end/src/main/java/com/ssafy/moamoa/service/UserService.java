@@ -21,10 +21,9 @@ import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.TokenDto;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.exception.DuplicateProfileNicknameException;
-import com.ssafy.moamoa.exception.DuplicateUserEmailException;
-import com.ssafy.moamoa.exception.NotFoundUserException;
-import com.ssafy.moamoa.exception.UnAuthorizedException;
+import com.ssafy.moamoa.exception.customException.DuplicateUserException;
+import com.ssafy.moamoa.exception.customException.NotFoundUserException;
+import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
@@ -59,7 +58,7 @@ public class UserService {
 	public void validateDuplicateUserEmail(User user) {
 		Optional<User> findUser = userRepository.findByEmail(user.getEmail());
 		if (!findUser.isEmpty()) {
-			throw new DuplicateUserEmailException("이미 존재하는 회원입니다.");
+			throw new DuplicateUserException("이미 존재하는 회원입니다.");
 		}
 	}
 
@@ -67,7 +66,7 @@ public class UserService {
 	public void validateDuplicateProfileNickname(Profile profile) {
 		Optional<Profile> findProfiles = profileRepository.findByNickname(profile.getNickname());
 		if (!findProfiles.isEmpty()) {
-			throw new DuplicateProfileNicknameException("이미 존재하는 닉네임입니다.");
+			throw new DuplicateUserException("이미 존재하는 닉네임입니다.");
 		}
 	}
 
@@ -120,11 +119,9 @@ public class UserService {
 		} catch (AuthenticationException e) {
 			//검증 실패
 			//AuthenticationEntryPoint 실행
-			// e.printStackTrace();
-			throw new UnAuthorizedException("로그인 실패");
+			throw new UnAuthorizedException("로그인에 실패하였습니다.");
 		} catch (AccessDeniedException e) {
 			//AccessDeniedHandler
-			// e.printStackTrace();
 			return null;
 		}
 	}
@@ -155,7 +152,7 @@ public class UserService {
 			return;
 		}
 		User findUser = findUsers.get();
-		findUser.setPassword(password);
+		findUser.setPassword(getEncodedPassword(password));
 	}
 
 	public void updateNickname(String nickname, Long userId) {
