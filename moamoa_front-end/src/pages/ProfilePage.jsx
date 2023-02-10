@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { profileOpenSuccess, profileCloseSuccess } from 'redux/profile';
+import { profileOpenSuccess } from 'redux/profile';
 
 import styled from '@emotion/styled';
 
