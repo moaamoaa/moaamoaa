@@ -74,9 +74,12 @@ export default function TeamDetailPage() {
             // justifyContent="flex-end"
             sx={{ pt: 4 }}
           >
+            {/* response.data가 detail에 저장되어있음 -> leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
             <Button size="small" variant="contained" color="primary">
               지원 보내기 / 제안 및 지원 확인
             </Button>
+
+            {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}
             <Button
               onClick={goToUpdate}
               size="small"
@@ -85,6 +88,8 @@ export default function TeamDetailPage() {
             >
               팀 수정
             </Button>
+
+            {/* leader 값이 true이면 팀 삭제 보이고, false이면 안 보임 */}
             <Button
               size="small"
               variant="contained"
