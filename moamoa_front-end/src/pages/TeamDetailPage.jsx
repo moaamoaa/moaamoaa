@@ -17,7 +17,7 @@ import {
 } from '@mui/material/';
 
 import TeamBanner from 'components/team/TeamBanner';
-import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
+import TeamMemberList from 'components/common/card/TeamMemberList';
 
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
@@ -192,7 +192,7 @@ export default function TeamDetailPage() {
       </Container>
       <Container fixed>
         <h2>팀원 소개</h2>
-        <TeamMemberSearchList></TeamMemberSearchList>
+        <TeamMemberList></TeamMemberList>
       </Container>
       <hr></hr>
     </>
