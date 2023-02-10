@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styled from '@emotion/styled';
 
-import { Container, Grid, TextField, Typography } from '@mui/material';
+import { Grid, TextField, Typography } from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
 import customAxios from 'utils/axios';
 import { contextEditSuccess } from 'redux/profile';

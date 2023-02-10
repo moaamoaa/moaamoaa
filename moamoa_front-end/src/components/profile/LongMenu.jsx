@@ -12,29 +12,17 @@ export default function LongMenu(props) {
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleOpenEdit = () => {
+  const handleClose = () => setAnchorEl(null);
+
+  const handleOptionClick = handler => {
     handleClose();
-    setTimeout(() => {
-      props.handleOpenEdit();
-    }, 500);
+    setTimeout(handler, 500);
   };
-  const handleDelete = () => {
-    handleClose();
-    props.handleDelete();
-  };
-  const handleSuccessEdit = () => {
-    handleClose();
-    props.handleSuccessEdit();
-  };
-  const handleCancelEdit = () => {
-    handleClose();
-    setTimeout(() => {
-      props.handleCancelEdit();
-    }, 500);
-  };
+
+  const handleOpenEdit = () => handleOptionClick(props.handleOpenEdit);
+  const handleDelete = () => handleOptionClick(props.handleDelete);
+  const handleSuccessEdit = () => handleOptionClick(props.handleSuccessEdit);
+  const handleCancelEdit = () => handleOptionClick(props.handleCancelEdit);
 
   const options = props.isEdit
     ? [
@@ -53,7 +41,6 @@ export default function LongMenu(props) {
     window.addEventListener('resize', handleWindowResize);
     return () => window.removeEventListener('resize', handleWindowResize);
   }, [windowWidth]);
-
   return (
     <>
       <IconButton

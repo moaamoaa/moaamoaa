@@ -1,17 +1,18 @@
-import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
+import React from 'react';
+import {
+  List,
+  Divider,
+  ListItemText,
+  ListItemAvatar,
+  ListItemButton,
+  Avatar,
+  Typography,
+} from '@mui/material';
 
-export default function ChattingList() {
+const ChattingList = () => {
   return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {/* 1번째 */}
+    <List style={{ width: '100%', maxWidth: 360, backgroundColor: '#fafafa' }}>
+      {/* 1st */}
       <ListItemButton alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -19,22 +20,22 @@ export default function ChattingList() {
         <ListItemText
           primary="안녕하세요!"
           secondary={
-            <React.Fragment>
+            <>
               <Typography
-                sx={{ display: 'inline' }}
+                style={{ display: 'inline' }}
                 component="span"
                 variant="body2"
-                color="text.primary"
+                color="primary"
               >
                 장유하
               </Typography>
               {'프로필이동'}
-            </React.Fragment>
+            </>
           }
         />
       </ListItemButton>
       <Divider variant="inset" component="li" />
-      {/* 2번째 */}
+      {/* 2nd */}
       <ListItemButton alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
@@ -42,22 +43,22 @@ export default function ChattingList() {
         <ListItemText
           primary="팀구하셨나요?"
           secondary={
-            <React.Fragment>
+            <>
               <Typography
-                sx={{ display: 'inline' }}
+                style={{ display: 'inline' }}
                 component="span"
                 variant="body2"
-                color="text.primary"
+                color="primary"
               >
                 임성빈
               </Typography>
               {'프로필이동'}
-            </React.Fragment>
+            </>
           }
         />
       </ListItemButton>
       <Divider variant="inset" component="li" />
-      {/* 3번째 */}
+      {/* 3rd */}
       <ListItemButton alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
@@ -65,20 +66,22 @@ export default function ChattingList() {
         <ListItemText
           primary="팀원구해요~"
           secondary={
-            <React.Fragment>
+            <>
               <Typography
-                sx={{ display: 'inline' }}
+                style={{ display: 'inline' }}
                 component="span"
                 variant="body2"
-                color="text.primary"
+                color="primary"
               >
                 황다솔
               </Typography>
               {'프로필이동'}
-            </React.Fragment>
+            </>
           }
         />
       </ListItemButton>
     </List>
   );
-}
+};
+
+export default ChattingList;

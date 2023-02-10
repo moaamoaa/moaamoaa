@@ -2,9 +2,7 @@ import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-// import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-// import Stack from '@mui/material/Stack';
 import styled from 'styled-components';
 import ImageUploader from 'components/team/ImageUploader';
 
