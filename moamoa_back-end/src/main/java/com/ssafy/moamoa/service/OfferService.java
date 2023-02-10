@@ -44,7 +44,18 @@ public class OfferService {
 		User user = userService.findUser(userId);
 		Project project = projectService.findProjectById(projectId);
 
-		if(teamRepository.findByUser(user, project).isPresent() || project.isLocked()){throw new Exception();}
+		if(user.isLocked() || !(userRepository.findById(userId).isPresent()))
+		{
+			throw new Exception("존재하지 않는 회원입니다.");
+		}
+		if(teamRepository.findByUser_IdAndProject_Id(userId, projectId).isPresent())
+		{
+			throw new Exception("이미 참여하는 팀원입니다.");
+		}
+		if(offerRepository.findByUser_IdAndProject_Id(userId, projectId).isPresent())
+		{
+			throw new Exception("이미 해당 회원에게 제안을 보냈습니다.");
+		}
 		else {
 			Offer offer = Offer.builder()
 				.user(user)

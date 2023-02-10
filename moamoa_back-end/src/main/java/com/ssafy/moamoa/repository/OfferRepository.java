@@ -1,6 +1,7 @@
 package com.ssafy.moamoa.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,6 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
 		+ "from Offer offer "
 		+ "where offer.project = :project")
 	List<Offer> findByProject(Project project);
+
+	Optional<Offer> findByUser_IdAndProject_Id(Long userId, Long projectId);
 }
