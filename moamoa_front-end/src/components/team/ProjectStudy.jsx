@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import CustomAxios from 'utils/axios';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -23,6 +24,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 // import Typography from '@mui/material/Typography';
 // import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ProjectList from 'components/team/ProjectList';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 export default function ApplyOffer() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -143,9 +145,9 @@ export default function ApplyOffer() {
     <div>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>
-            팀관리아이콘을 네브로 빼버려?
-          </Button>
+          <IconButton onClick={toggleDrawer(anchor, true)} sx={{ mr: 2 }}>
+            <Diversity3Icon />
+          </IconButton>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
