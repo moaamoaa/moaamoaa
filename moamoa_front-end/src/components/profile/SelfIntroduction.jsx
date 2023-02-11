@@ -9,9 +9,11 @@ import customAxios from 'utils/axios';
 import { handleSuccessContext } from 'redux/profile';
 
 export default function SelfIntroduction() {
+  const userPk = useSelector(state => state.user.userPk);
   const userProfile = useSelector(state => state.profile.userProfile[0]);
   const [isEdit, setIsEdit] = useState(false);
   const [context, setContext] = useState('');
+  const [flag, setFlag] = useState(userPk === userProfile.id);
 
   const dispatch = useDispatch();
 
@@ -90,13 +92,17 @@ export default function SelfIntroduction() {
             )}
           </Grid>
           <Grid item xs={1} justifyContent="end" sx={{ display: 'flex' }}>
-            <LongMenu
-              isEdit={isEdit}
-              handleOpenEdit={handleOpenEdit}
-              handleDelete={handleDelete}
-              handleSuccessEdit={handleSuccessEdit}
-              handleCancelEdit={handleCancelEdit}
-            ></LongMenu>
+            {flag ? (
+              <LongMenu
+                isEdit={isEdit}
+                handleOpenEdit={handleOpenEdit}
+                handleDelete={handleDelete}
+                handleSuccessEdit={handleSuccessEdit}
+                handleCancelEdit={handleCancelEdit}
+              ></LongMenu>
+            ) : (
+              <></>
+            )}
           </Grid>
         </Grid>
         {isEdit ? (
