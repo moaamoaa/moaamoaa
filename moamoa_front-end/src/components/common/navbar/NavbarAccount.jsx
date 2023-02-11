@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutSuccess } from 'redux/user';
-import { changeProfilePk } from 'redux/profile';
+import { handleProfilePk } from 'redux/profile';
 import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
@@ -52,7 +52,7 @@ export default function NavbarAccount() {
   };
 
   const handleOpenProfile = () => {
-    dispatch(changeProfilePk({ id: userPk }));
+    dispatch(handleProfilePk({ id: userPk }));
     handleCloseUserMenu();
     navigate('/ProfilePage');
     scrollToTop();
