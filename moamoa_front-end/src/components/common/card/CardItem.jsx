@@ -18,6 +18,8 @@ import { Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
 import { useDispatch } from 'react-redux';
+import { handleProfilePk } from 'redux/profile';
+import scrollToTop from 'utils/scrollToTop';
 
 const user = {
   id: 0,
@@ -37,8 +39,15 @@ export default function CardItem(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const goToDetail = () => {
-    dispatch(handleOpenTeamDetail({ projectId: props.card.id }));
-    navigate(`/TeamDetailPage/?projectId=${props.card.id}`);
+    if (props.type === 'team') {
+      dispatch(handleOpenTeamDetail({ projectId: props.card.id }));
+      navigate(`/TeamDetailPage/?projectId=${props.card.id}`);
+      scrollToTop();
+    } else if (props.type === 'member') {
+      dispatch(handleProfilePk({ id: props.card.id }));
+      navigate('/ProfilePage');
+      scrollToTop();
+    }
   };
   if (props.type === 'team') {
     return (
@@ -86,7 +95,7 @@ export default function CardItem(props) {
     );
   } else if (props.type === 'member') {
     return (
-      <MoaCard>
+      <MoaCard onClick={goToDetail}>
         <CardActions>
           <Grid container>
             <Grid item xs>
@@ -111,10 +120,10 @@ export default function CardItem(props) {
             </Grid>
           </Grid>
         </CardActions>
-        {props.card.thumbnailUrl ? (
+        {props.card.img ? (
           <CardMedia
             component="img"
-            src={props.card.thumbnailUrl}
+            src={props.card.img}
             alt="random"
             sx={{ borderRadius: '50%', width: '100px', margin: '0 auto' }}
           />
@@ -132,30 +141,22 @@ export default function CardItem(props) {
             {props.card ? props.card.area : ''}
           </MoaTypography>
           <InfoTypography variant="body2" color="text.secondary">
-            {props.card.contents}
-            Lorem, ipsum dolor sit consectetur adipisicing elit. Ducimus culpa
-            debitis optio voluptates laborum accusamus ab officia facilis dicta
-            quos placeat perspiciatis dolore eaque mollitia adipisci impedit,
-            quam laboriosam alias.
+            {props.card.contents
+              ? props.card.contents
+              : `안녕하세요. ${props.card.nickname}입니다.`}
           </InfoTypography>
-          <CardList type={'tech'} cards={user.tech}></CardList>
-          {/* <TechStackList>기술스택리스트</TechStackList> */}
+
+          <CardList type={'tech'} cards={props.card.techStacks}></CardList>
         </CardContent>
       </MoaCard>
     );
   } else if (props.type === 'tech') {
-    return (
-      <MoaImg
-        src={`${process.env.PUBLIC_URL}/images/tech-stack_icons/${props.card[0]}/${props.card[1]}@4x.png`}
-      />
-    );
+    return <MoaImg src={props.card.img} />;
   } else if (props.type === 'link') {
     if (props.card[1] !== '') {
       return (
         <Link href={props.card[1]} target="_blank">
-          <MoaImg
-            src={`${process.env.PUBLIC_URL}/images/blog_icons/${props.card[0]}@4x.png`}
-          />
+          <MoaImg src={props.card.site} />
         </Link>
       );
     } else {
@@ -172,6 +173,7 @@ const MoaCard = styled(Card)`
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
     transition: 0.4s;
   }
+  cursor: pointer;
 `;
 
 const MoaSkeleton = styled(Skeleton)`
