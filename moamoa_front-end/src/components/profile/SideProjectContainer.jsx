@@ -10,9 +10,11 @@ import SideProject from 'components/profile/SideProject';
 import SideProjectEditor from 'components/profile/SideProjectEditor';
 
 export default function SideProjectContainer() {
-  const [isAdd, setIsAdd] = useState(false);
-
+  const userPk = useSelector(state => state.user.userPk);
+  const profileId = useSelector(state => state.profile.userProfile[0].id);
   const sideProjects = useSelector(state => state.profile.sideProjects);
+  const [isAdd, setIsAdd] = useState(false);
+  const [flag, setFlag] = useState(userPk === profileId);
 
   const handleAddSideProject = () => {
     setIsAdd(true);
@@ -57,16 +59,22 @@ export default function SideProjectContainer() {
                 textAlign="center"
                 gutterBottom
               >
-                프로젝트를 추가해 보세요.
+                {flag
+                  ? '프로젝트를 추가해 보세요.'
+                  : '프로젝트가 아직 등록되지 않았습니다.'}
               </Typography>
             )}
           </Container>
-          <IconButton
-            onClick={handleAddSideProject}
-            sx={{ position: 'absolute', right: '.5rem', top: '-3rem' }}
-          >
-            <AddIcon />
-          </IconButton>
+          {flag ? (
+            <IconButton
+              onClick={handleAddSideProject}
+              sx={{ position: 'absolute', right: '.5rem', top: '-3rem' }}
+            >
+              <AddIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )}
         </MoaContainer>
       </>
     );

@@ -26,7 +26,7 @@ function ReviewCreation() {
         handleSuccessState({
           open: true,
           message: '내용을 입력해 주세요.',
-          severity: 'warning',
+          severity: 'error',
         }),
       );
     } else {
@@ -36,7 +36,6 @@ function ReviewCreation() {
           profileId: profile.id,
         })
         .then(response => {
-          console.log(response);
           dispatch(handleCreateReview({ review: response.data.review }));
           setContext('');
         })
@@ -62,7 +61,15 @@ function ReviewCreation() {
               value={context}
             ></TextField>
           </Grid>
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              marginTop: '-1.5rem',
+            }}
+          >
             <Button onClick={handleClickButton} variant="text" color="primary">
               등록
             </Button>

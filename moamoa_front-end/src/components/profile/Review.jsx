@@ -11,15 +11,22 @@ import LongMenu from 'components/profile/LongMenu';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { handleEditReview, handleSuccessReview } from 'redux/profile';
+import {
+  handleEditReview,
+  handleProfilePk,
+  handleSuccessReview,
+} from 'redux/profile';
+import { handleSuccessState } from 'redux/snack';
 import customAxios from 'utils/axios';
 import scrollToTop from 'utils/scrollToTop';
 
 function Review(props) {
+  const userPk = useSelector(state => state.user.userPk);
   const [isEdit, setIsEdit] = useState(false);
   const [context, setContext] = useState(
     props.review.context ? props.review.context : '',
   );
+  const [flag, setFlag] = useState(userPk === props.review.senderId);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,12 +36,19 @@ function Review(props) {
   };
 
   const handleSuccessDelete = () => {
+    dispatch(
+      handleSuccessState({
+        open: true,
+        message: '댓글이 삭제 되었습니다.',
+        severity: 'success',
+      }),
+    );
     customAxios.authAxios
       .delete(`/profile/review/${props.review.id}`)
       .then(response => {
         dispatch(
           handleSuccessReview({
-            reviews: response.data,
+            reviews: response.data.review,
           }),
         );
 
@@ -46,25 +60,35 @@ function Review(props) {
   };
 
   const handleSuccessEdit = () => {
-    console.log(props.review.id, context);
-    customAxios.authAxios
-      .put(`/profile/review`, {
-        id: props.review.id,
-        context: context,
-      })
-      .then(response => {
-        console.log(response);
-        dispatch(
-          handleEditReview({
-            review: response.data.review,
-          }),
-        );
+    if (!context.trim()) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '내용을 입력해 주세요.',
+          severity: 'error',
+        }),
+      );
+    } else {
+      customAxios.authAxios
+        .put('/profile/review', {
+          id: props.review.id,
+          context: context,
+          profileId: userPk,
+        })
+        .then(response => {
+          console.log(response);
+          dispatch(
+            handleEditReview({
+              review: response.data.review,
+            }),
+          );
 
-        setIsEdit(false);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+          setIsEdit(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   const handleCancelEdit = () => {
@@ -83,7 +107,8 @@ function Review(props) {
   };
 
   const handleOpenUserProfile = () => {
-    navigate(`/ProfilePage/?profileId=${props.review.id}`);
+    dispatch(handleProfilePk({ id: props.review.senderId }));
+    navigate('/ProfilePage');
     scrollToTop();
   };
 
@@ -137,11 +162,15 @@ function Review(props) {
                 {props.review.sender}
               </Typography>
             </Tooltip>
-            <LongMenu
-              isEdit={isEdit}
-              handleOpenEdit={handleOpenEdit}
-              handleDelete={handleSuccessDelete}
-            ></LongMenu>
+            {flag ? (
+              <LongMenu
+                isEdit={isEdit}
+                handleOpenEdit={handleOpenEdit}
+                handleDelete={handleSuccessDelete}
+              ></LongMenu>
+            ) : (
+              <></>
+            )}
           </Grid>
           <Grid item xs={12}>
             <ReviewTextField
