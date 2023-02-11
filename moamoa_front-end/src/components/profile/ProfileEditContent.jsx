@@ -11,7 +11,7 @@ import {
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleEditProfile } from 'redux/profile';
-import TechStackSelector from './TechStackSelector';
+import TechStackSelector from 'components/profile/TechStackSelector';
 
 function ProfileEditContent() {
   const profile = useSelector(state => state.profile);
