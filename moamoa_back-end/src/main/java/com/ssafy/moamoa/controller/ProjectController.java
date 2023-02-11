@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -96,7 +97,7 @@ public class ProjectController {
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
@@ -112,7 +113,7 @@ public class ProjectController {
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 		projectService.deleteProject(projectForm);
@@ -125,10 +126,10 @@ public class ProjectController {
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		if (Long.valueOf(userDetails.getUsername()).equals(projectForm.getUserId())) {
-			throw new Exception("팀장은 강퇴할 수 없습니다.");
+			throw new AccessDeniedException("팀장은 강퇴할 수 없습니다.");
 		}
 		projectService.deleteMember(projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);

@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -62,7 +63,7 @@ public class MatchingController {
 		Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		List<ApplyForm> applyForms = applyService.showReceiveApply(matchingForm.getProjectId());
 		return new ResponseEntity<List<ApplyForm>>(applyForms, HttpStatus.OK);
@@ -75,7 +76,7 @@ public class MatchingController {
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		applyService.acceptApply(matchingForm);
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -96,7 +97,7 @@ public class MatchingController {
 		Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		applyService.deleteReceiveApply(matchingForm.getApplyId());
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -109,7 +110,7 @@ public class MatchingController {
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		offerService.sendOffer(matchingForm.getUserId(), matchingForm.getProjectId());
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -131,7 +132,7 @@ public class MatchingController {
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		List<OfferForm> offerForms = offerService.showSendOffer(matchingForm.getProjectId());
 		return new ResponseEntity<List<OfferForm>>(offerForms, HttpStatus.OK);
@@ -162,7 +163,7 @@ public class MatchingController {
 		Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId())) {
-			throw new Exception("팀장이 아닙니다.");
+			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		offerService.deleteSendOffer(matchingForm);
 		return new ResponseEntity<>(HttpStatus.OK);

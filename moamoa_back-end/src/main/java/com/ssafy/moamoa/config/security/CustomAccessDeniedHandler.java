@@ -28,7 +28,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 		response.setCharacterEncoding("utf-8");
 		log.warn("CustomAccessDeniedHandler : 권한이 없는 사용자의 접근");
 
-		ErrorResult errorResult = new ErrorResult("403", "허용하지 않는 권한에 접근하였습니다");
+		String msg = accessDeniedException.getMessage().isEmpty() ? "허용하지 않는 권한에 접근하였습니다" : accessDeniedException.getMessage();
+		ErrorResult errorResult = new ErrorResult("403", msg);
 
 		response.setCharacterEncoding("utf-8");
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
