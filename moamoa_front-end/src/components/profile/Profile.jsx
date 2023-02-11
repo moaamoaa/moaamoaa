@@ -20,6 +20,7 @@ import ScrollableTab from 'components/common/tab/ScrollableTab';
 import { searchStatusChange, handleEditProfile } from 'redux/profile';
 import { useNavigate } from 'react-router-dom';
 import scrollToTop from 'utils/scrollToTop';
+import customAxios from 'utils/axios';
 
 export default function Profile(props) {
   const [badgeInfo, setBadgeInfo] = useState({
@@ -45,6 +46,7 @@ export default function Profile(props) {
   const handleOpenOfferList = () => {};
 
   const handleEditSuccess = () => {
+    customAxios.authAxios.post('/profile', {});
     dispatch(handleEditProfile({}));
   };
 
@@ -67,6 +69,11 @@ export default function Profile(props) {
         context: '오프라인 팀을 구하고 있습니다.',
       });
     } else if (badgeInfo.color === 'success') {
+      setBadgeInfo({
+        color: 'warning',
+        context: '팀을 구하고 있지 않습니다.',
+      });
+    } else if (badgeInfo.color === 'warning') {
       setBadgeInfo({
         color: 'primary',
         context: '온라인 오프라인 팀을 구하고 있습니다.',
@@ -198,7 +205,8 @@ export default function Profile(props) {
               />
             </Badge>
           </Tooltip>
-          <Typography variant="h4" color="initial" fontWeight={900}>
+
+          <Typography variant="h4" color="initial" fontWeight={900} margin={2}>
             {userProfile.nickname}
           </Typography>
 

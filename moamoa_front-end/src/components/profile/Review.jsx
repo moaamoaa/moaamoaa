@@ -1,36 +1,42 @@
 import styled from '@emotion/styled';
-import { Button, Grid, TextField, Container, Typography } from '@mui/material';
+import {
+  Button,
+  Grid,
+  TextField,
+  Container,
+  Typography,
+  Tooltip,
+} from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { handleEditReview, handleSuccessReview } from 'redux/profile';
 import customAxios from 'utils/axios';
+import scrollToTop from 'utils/scrollToTop';
 
 function Review(props) {
   const [isEdit, setIsEdit] = useState(false);
-  const userProfile = useSelector(state => state.profile.userProfile[0]);
   const [context, setContext] = useState(
     props.review.context ? props.review.context : '',
   );
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleOpenEdit = () => {
     setIsEdit(true);
   };
 
-  console.log(props);
-
   const handleSuccessDelete = () => {
     customAxios.authAxios
       .delete(`/profile/review/${props.review.id}`)
       .then(response => {
-        console.log(response.data);
-        // dispatch(
-        //   handleSuccessReview({
-        //     reviews: response.data,
-        //   }),
-        // );
+        dispatch(
+          handleSuccessReview({
+            reviews: response.data,
+          }),
+        );
 
         setIsEdit(false);
       })
@@ -40,10 +46,10 @@ function Review(props) {
   };
 
   const handleSuccessEdit = () => {
+    console.log(props.review.id, context);
     customAxios.authAxios
-      .put(`/profile/review/`, {
+      .put(`/profile/review`, {
         id: props.review.id,
-        profileId: userProfile.id,
         context: context,
       })
       .then(response => {
@@ -66,7 +72,7 @@ function Review(props) {
     setContext(props.review.context);
   };
 
-  const limit = 200;
+  const limit = 100;
 
   const handleChangeContext = event => {
     if (event.target.value.length <= limit) {
@@ -76,9 +82,9 @@ function Review(props) {
     }
   };
 
-  const handleOpenUserProfile = (event, value) => {
-    console.log(event);
-    // navigate(`ProfilePage/?profileId${}`)
+  const handleOpenUserProfile = () => {
+    navigate(`/ProfilePage/?profileId=${props.review.id}`);
+    scrollToTop();
   };
 
   return (
@@ -121,14 +127,16 @@ function Review(props) {
             alignItems="start"
             sx={{ display: 'flex' }}
           >
-            <Typography
-              variant="body1"
-              color="initial"
-              sx={{ fontWeight: '600' }}
-              onClick={handleOpenUserProfile}
-            >
-              {props.review.sender}
-            </Typography>
+            <Tooltip title="프로필로 이동">
+              <Typography
+                variant="body1"
+                color="initial"
+                sx={{ fontWeight: '600', cursor: 'pointer' }}
+                onClick={handleOpenUserProfile}
+              >
+                {props.review.sender}
+              </Typography>
+            </Tooltip>
             <LongMenu
               isEdit={isEdit}
               handleOpenEdit={handleOpenEdit}

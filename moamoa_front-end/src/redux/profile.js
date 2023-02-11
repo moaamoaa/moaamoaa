@@ -30,7 +30,7 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState: initialStateValue,
   reducers: {
-    changeProfilePk: (state, action) => {
+    handleProfilePk: (state, action) => {
       console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
     },
@@ -53,11 +53,13 @@ const profileSlice = createSlice({
     handleSuccessReview: (state, action) => {
       state.reviews = action.payload.reviews;
     },
-    handleEditProfile: (state, action) => {
+    handleChangeState: (state, action) => {
       state.userProfile[1].img = action.payload.img;
       state.userProfile[1].nickname = action.payload.nickname;
       state.userProfile[1].profileOnOffStatus =
         action.payload.profileOnOffStatus;
+    },
+    handleEditProfile: (state, action) => {
       state.userProfile[1].sites = action.payload.sites;
       state.userProfile[1].areas = action.payload.areas;
       state.userProfile[1].techStacks = action.payload.techStacks;
@@ -96,6 +98,8 @@ const profileSlice = createSlice({
       } else if (action.payload.profileSearchStatus === 'ONLINE') {
         state.userProfile[0].profileSearchStatus = 'OFFLINE';
       } else if (action.payload.profileSearchStatus === 'OFFLINE') {
+        state.userProfile[0].profileSearchStatus = 'NONE';
+      } else if (action.payload.profileSearchStatus === 'NONE') {
         state.userProfile[0].profileSearchStatus = 'ALL';
       }
     },
@@ -105,12 +109,13 @@ const profileSlice = createSlice({
 export const {
   handleSuccessSidProject,
   handleSuccessContext,
-  changeProfilePk,
+  handleProfilePk,
   handleSuccessReview,
   handleCreateReview,
   handleEditProfile,
   handleEditReview,
   profileOpenSuccess,
+  handleChangeState,
   profileCloseSuccess,
   profileEditSuccess,
   searchStatusChange,

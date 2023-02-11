@@ -69,7 +69,9 @@ export default function ResponsiveAppBar() {
             </Grid>
           </Toolbar>
 
-          <AccordionDetails sx={{ padding: '0' }}>
+          <AccordionDetails
+            sx={{ padding: '0', display: { xs: '', md: 'none' } }}
+          >
             {pages.map((page, idx) => (
               <Grid key={idx}>
                 <Divider />

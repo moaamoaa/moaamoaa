@@ -13,9 +13,11 @@ const snackSlice = createSlice({
   name: 'snack',
   initialState: initialStateValue,
   reducers: {
+    /** open, message */
     handleSuccessState: (state, action) => {
       state.open = action.payload.open;
       state.message = action.payload.message;
+      state.severity = action.payload.severity;
     },
   },
 });
