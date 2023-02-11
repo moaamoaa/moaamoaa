@@ -11,9 +11,7 @@ import { handleSuccessContext } from 'redux/profile';
 export default function SelfIntroduction() {
   const userProfile = useSelector(state => state.profile.userProfile[0]);
   const [isEdit, setIsEdit] = useState(false);
-  const [context, setContext] = useState(
-    userProfile.context ? userProfile.context : '',
-  );
+  const [context, setContext] = useState('');
 
   const dispatch = useDispatch();
 
@@ -24,10 +22,12 @@ export default function SelfIntroduction() {
       setContext(context.slice(0, 100));
     }
   };
+
   const handleOpenEdit = () => {
     setIsEdit(true);
-    setContext('');
+    setContext(userProfile.context ? userProfile.context : '');
   };
+
   const handleDelete = () => {
     customAxios.authAxios
       .delete('/profile/context')
@@ -48,9 +48,9 @@ export default function SelfIntroduction() {
         profileId: userProfile.id,
       })
       .then(response => {
+        console.log(response.data);
         dispatch(handleSuccessContext({ context: response.data.context }));
         setIsEdit(false);
-        setContext('');
       })
       .catch(error => {
         console.log(error);
@@ -59,6 +59,7 @@ export default function SelfIntroduction() {
 
   const handleCancelEdit = () => {
     setIsEdit(false);
+    setContext('');
   };
 
   return (
