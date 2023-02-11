@@ -7,6 +7,7 @@ import { Typography, Grid } from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
 
 import SideProjectEditor from 'components/profile/SideProjectEditor';
+import { handleSuccessState } from 'redux/snack';
 
 function SideProject(props) {
   const sideProject = props.sideProject;
@@ -19,6 +20,13 @@ function SideProject(props) {
     setIsEdit(true);
   };
   const handleDelete = () => {
+    dispatch(
+      handleSuccessState({
+        open: true,
+        message: '프로젝트가 삭제 되었습니다.',
+        severity: 'success',
+      }),
+    );
     customAxios.authAxios
       .delete(`profile/sidepjt/${sideProject.id}`)
       .then(response => {
