@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +28,6 @@ import com.ssafy.moamoa.domain.entity.ProjectArea;
 import com.ssafy.moamoa.domain.entity.Team;
 import com.ssafy.moamoa.domain.entity.TechStack;
 import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.exception.customException.NotFoundUserException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.ProjectAreaRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
@@ -57,17 +58,21 @@ public class ProjectService {
 	private final ProjectAreaRepository projectAreaRepository;
 
 	public void isProjectLocked(Long id) throws Exception {
-		if (projectRepository.findById(id).get().isLocked()) {
-			if (projectRepository.findById(id).get().getCategory() == ProjectCategory.PROJECT) {
-				throw new Exception("해당 프로젝트는 존재하지 않습니다.");
-			} else if (projectRepository.findById(id).get().getCategory() == ProjectCategory.STUDY) {
-				throw new Exception("해당 스터디는 존재하지 않습니다.");
+		Project project = findProjectById(id);
+		if (project.isLocked()) {
+			if (project.getCategory() == ProjectCategory.PROJECT) {
+				throw new EntityNotFoundException("해당 프로젝트는 존재하지 않습니다.");
+			} else if (project.getCategory() == ProjectCategory.STUDY) {
+				throw new EntityNotFoundException("해당 스터디는 존재하지 않습니다.");
 			}
 		}
 	}
 
 	public Project findProjectById(Long id) {
 		Optional<Project> findProject = projectRepository.findById(id);
+		if (!findProject.isPresent()) {
+			throw new EntityNotFoundException("해당 id " + id + "의 프로젝트가 없습니다.");
+		}
 		return findProject.get();
 	}
 
@@ -119,7 +124,7 @@ public class ProjectService {
 		// 유저 정보 확인
 		Optional<User> findUsers = userRepository.findById(projectForm.getUserId());
 		if (!findUsers.isPresent()) {
-			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
+			throw new EntityNotFoundException("해당 id " + projectForm.getUserId() + "의 유저가 없습니다.");
 		}
 
 		// project
@@ -187,7 +192,7 @@ public class ProjectService {
 		// locked check
 		isProjectLocked(projectForm.getProjectId());
 
-		Project project = projectRepository.findById(projectForm.getProjectId()).get();
+		Project project = findProjectById(projectForm.getProjectId());
 		LocalDate endDate = LocalDate.parse(projectForm.getEndDate(), DateTimeFormatter.ISO_DATE);
 		int cntPeople = projectForm.getTotalPeople();
 
@@ -255,7 +260,7 @@ public class ProjectService {
 
 		if (!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
 			|| userRepository.findById(projectForm.getUserId()).get().isLocked()) {
-			throw new Exception("존재하지 않는 팀원입니다.");
+			throw new EntityNotFoundException("존재하지 않는 팀원입니다.");
 		}
 		Team fineTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId())
 			.get();
@@ -280,7 +285,7 @@ public class ProjectService {
 		// locked check
 		isProjectLocked(projectId);
 
-		Project project = projectRepository.findById(projectId).get();
+		Project project = findProjectById(projectId);
 		project.setHit(project.getHit() + hit);
 		ProjectDetail projectDetail = ProjectDetail.toEntity(project);
 
@@ -323,8 +328,7 @@ public class ProjectService {
 	}
 
 	public boolean setIsLeader(Long userId, Long projectId) {
-		boolean isLeader = teamService.checkLeader(userId, projectId);
-		return isLeader;
+		return teamService.checkLeader(userId, projectId);
 	}
 
 }

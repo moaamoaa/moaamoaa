@@ -3,7 +3,8 @@ package com.ssafy.moamoa.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,8 @@ import com.ssafy.moamoa.domain.entity.Apply;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.Team;
 import com.ssafy.moamoa.domain.entity.User;
+import com.ssafy.moamoa.exception.customException.DuplicateOfferApplyException;
+import com.ssafy.moamoa.exception.customException.DuplicateUserException;
 import com.ssafy.moamoa.repository.ApplyRepository;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
@@ -41,20 +44,15 @@ public class ApplyService {
 		User user = userService.findUser(userId);
 		Project project = projectService.findProjectById(projectId);
 
-		if(teamRepository.findByUser(user, project).isPresent())
-		{
-			throw new Exception("이미 참여하고 있습니다.");
+		if (teamRepository.findByUser(user, project).isPresent()) {
+			throw new DuplicateUserException("이미 참여하고 있습니다.");
 		}
-		if(project.isLocked() || !(projectRepository.findById(projectId).isPresent()))
-		{
-			throw new Exception("존재하지 않는 프로젝트입니다.");
+		if (project.isLocked() || !(projectRepository.findById(projectId).isPresent())) {
+			throw new EntityNotFoundException("존재하지 않는 프로젝트입니다.");
 		}
-		if(applyRepository.findByUser_IdAndProject_Id(userId, projectId).isPresent())
-		{
-			throw new Exception("이미 지원을 보냈습니다.");
-		}
-		else
-		{
+		if (applyRepository.findByUser_IdAndProject_Id(userId, projectId).isPresent()) {
+			throw new DuplicateOfferApplyException("이미 지원을 보냈습니다.");
+		} else {
 			Apply apply = Apply.builder()
 				.user(user)
 				.project(project)
@@ -70,7 +68,8 @@ public class ApplyService {
 		List<Apply> applies = applyRepository.findByUser(user);
 		List<ApplyForm> applyForms = new ArrayList<>();
 		for (Apply a : applies) {
-			if(a.getProject().isLocked()) continue;
+			if (a.getProject().isLocked())
+				continue;
 			ApplyForm applyForm = ApplyForm.toEntity(a);
 			applyForm.setNickname(profileRepository.findByUser(a.getUser()).get().getNickname());
 			applyForm.setProfileContext(profileRepository.findByUser(a.getUser()).get().getContext());
@@ -87,7 +86,8 @@ public class ApplyService {
 		List<Apply> applies = applyRepository.findByProject(project);
 		List<ApplyForm> applyForms = new ArrayList<>();
 		for (Apply a : applies) {
-			if(a.getUser().isLocked()) continue;
+			if (a.getUser().isLocked())
+				continue;
 			ApplyForm applyForm = ApplyForm.toEntity(a);
 			applyForm.setNickname(profileRepository.findByUser(a.getUser()).get().getNickname());
 			applyForm.setProfileContext(profileRepository.findByUser(a.getUser()).get().getContext());
@@ -104,7 +104,7 @@ public class ApplyService {
 		// 수락할 user id를 받고 -> team에 등록
 		Project project = projectRepository.findById(matchingForm.getProjectId()).get();
 		int change = project.getCurrentPeople() + 1;
-		if(project.getTotalPeople() >= change) {
+		if (project.getTotalPeople() >= change) {
 			// 지원자를 팀에 등록
 			project.setCurrentPeople(change);
 
@@ -117,8 +117,8 @@ public class ApplyService {
 			teamRepository.save(team);
 
 			deleteReceiveApply(matchingForm.getApplyId());
-		}
-		else throw new Exception("인원 모집이 끝났습니다.");
+		} else
+			throw new IllegalStateException("인원 모집이 끝났습니다.");
 	}
 
 	public void deleteSendApply(MatchingForm matchingForm) {
