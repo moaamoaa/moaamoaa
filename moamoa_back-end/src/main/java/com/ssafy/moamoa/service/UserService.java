@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +24,6 @@ import com.ssafy.moamoa.domain.dto.TokenDto;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.exception.customException.DuplicateUserException;
-import com.ssafy.moamoa.exception.customException.NotFoundUserException;
 import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
@@ -140,7 +141,7 @@ public class UserService {
 	public void updatePassword(String password, Long id) {
 		Optional<User> findUsers = userRepository.findById(id);
 		if (!findUsers.isPresent()) {
-			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
+			throw new EntityNotFoundException("해당 id의 유저가 없습니다.");
 		}
 		User findUser = findUsers.get();
 		findUser.setPassword(getEncodedPassword(password));
@@ -179,7 +180,7 @@ public class UserService {
 	public void deleteUser(Long id) {
 		Optional<User> findUsers = userRepository.findById(id);
 		if (!findUsers.isPresent()) {
-			throw new NotFoundUserException("해당 id의 유저가 없습니다.");
+			throw new EntityNotFoundException("해당 id의 유저가 없습니다.");
 		}
 		User findUser = findUsers.get();
 		findUser.setLocked(true);

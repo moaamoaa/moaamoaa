@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.moamoa.domain.dto.MailForm;
 import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.exception.customException.NotFoundUserException;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -103,7 +103,7 @@ public class MailService {
 		// 존재하는 메일인지 확인
 		Optional<User> findUsers = userRepository.findByEmail(email);
 		if (!findUsers.isPresent()) {
-			throw new NotFoundUserException("가입된 이메일이 아닙니다.");
+			throw new EntityNotFoundException("가입된 이메일이 아닙니다.");
 		}
 		String tempPassword = makeRandomPassword();
 		MailForm mailForm = new MailForm();
