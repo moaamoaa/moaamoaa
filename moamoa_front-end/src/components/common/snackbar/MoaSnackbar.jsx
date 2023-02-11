@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleSuccessState } from 'redux/snack';
 import { Snackbar, Alert, Slide } from '@mui/material';
@@ -7,7 +6,7 @@ function SlideTransition(props) {
   return <Slide {...props} direction="left" />;
 }
 
-export default function TimeoutSnackbar() {
+export default function MoaSnackbar() {
   const vertical = useSelector(state => state.snack.vertical);
   const horizontal = useSelector(state => state.snack.horizontal);
   const open = useSelector(state => state.snack.open);
