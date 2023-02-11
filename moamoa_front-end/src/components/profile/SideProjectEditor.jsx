@@ -11,12 +11,11 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel,
 } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 import CreateIcon from '@mui/icons-material/Create';
-import TechStackSeletor from 'components/profile/TechStackSeletor';
+import TechStackSelector from 'components/profile/TechStackSelector';
 import { handleSuccessState } from 'redux/snack';
 
 function SideProjectEditor(props) {
@@ -25,7 +24,7 @@ function SideProjectEditor(props) {
   const [year, setYear] = useState(sideProject ? sideProject.year : curYear);
   const [name, setName] = useState(sideProject ? sideProject.name : '');
   const [selectedValue, setSelectedValue] = useState(
-    sideProject ? sideProject.pjt_tech_stack : null,
+    sideProject ? sideProject.pjt_tech_stack : [],
   );
   const [context, setContext] = useState(
     sideProject ? sideProject.context : '',
@@ -97,13 +96,15 @@ function SideProjectEditor(props) {
         handleSuccessState({
           open: true,
           message: '프로젝트 이름을 작성해 주세요.',
+          severity: 'warning',
         }),
       );
-    } else if (!context.trim()) {
+    } else if (selectedValue.length === 0) {
       dispatch(
         handleSuccessState({
           open: true,
           message: '기술 스택을 선택해 주세요.',
+          severity: 'warning',
         }),
       );
     } else if (!context.trim()) {
@@ -111,6 +112,7 @@ function SideProjectEditor(props) {
         handleSuccessState({
           open: true,
           message: '프로젝트 소개를 작성해 주세요.',
+          severity: 'warning',
         }),
       );
     } else {
@@ -152,14 +154,14 @@ function SideProjectEditor(props) {
   return (
     <>
       <Grid item container xs={12} alignItems="start">
+        {/* Year */}
         <Grid item xs={3} md={2}>
           <FormControl size="small">
-            <InputLabel id="demo-select-small">년도</InputLabel>
             <Select
               labelId="demo-select-small"
               id="demo-select-small"
+              variant="outlined"
               value={year}
-              label="Year"
               onChange={handleChangeYear}
             >
               <MenuItem value={curYear}>{curYear}</MenuItem>
@@ -170,7 +172,9 @@ function SideProjectEditor(props) {
             </Select>
           </FormControl>
         </Grid>
+        {/* Main */}
         <Grid item xs={8} md={9}>
+          {/* Name */}
           <TextField
             fullWidth
             id="standard-multiline-flexible"
@@ -185,12 +189,12 @@ function SideProjectEditor(props) {
               paddingBottom: '1rem',
             }}
           />
-
-          <TechStackSeletor
+          {/* Tech */}
+          <TechStackSelector
             setSelectedValue={setSelectedValue}
             techs={selectedValue}
-          ></TechStackSeletor>
-
+          ></TechStackSelector>
+          {/* Context */}
           <TextField
             variant="standard"
             fullWidth
@@ -207,6 +211,7 @@ function SideProjectEditor(props) {
             }}
           />
         </Grid>
+        {/* Button */}
         <Grid
           item
           xs={1}

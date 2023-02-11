@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-function TechStackSeletor(props) {
+function TechStackSelector(props) {
   let techs = [];
   const tech = useSelector(state => state.search.tech);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -33,25 +33,28 @@ function TechStackSeletor(props) {
   }, [windowWidth]);
 
   return (
-    <Autocomplete
-      fullWidth
-      multiple={true}
-      id="tags-standard"
-      options={deduplicatedTechs}
-      getOptionLabel={option => option.name}
-      onChange={handleSelectedTech}
-      renderInput={params => (
-        <TextField
-          {...params}
-          fullWidth
-          variant="standard"
-          placeholder={
-            isMobile ? '기술스택' : '검색을 통해 기술스택 선택하세요.'
-          }
-        />
-      )}
-    />
+    <>
+      <Autocomplete
+        fullWidth
+        multiple={true}
+        id="tags-standard"
+        options={deduplicatedTechs}
+        getOptionLabel={option => option.name}
+        onChange={handleSelectedTech}
+        renderInput={params => (
+          <TextField
+            {...params}
+            fullWidth
+            color="primary"
+            variant="standard"
+            placeholder={
+              isMobile ? '기술스택' : '검색을 통해 기술스택 선택하세요.'
+            }
+          />
+        )}
+      />
+    </>
   );
 }
 
-export default TechStackSeletor;
+export default TechStackSelector;

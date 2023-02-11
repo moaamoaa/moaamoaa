@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutSuccess } from 'redux/user';
-import { changeProfilePk } from 'redux/profile';
+import { handleUserProfile, logoutSuccess } from 'redux/user';
+import { handleProfilePk } from 'redux/profile';
 import Cookies from 'js-cookie';
 
 import styled from '@emotion/styled';
@@ -23,6 +23,7 @@ import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
 import scrollToTop from 'utils/scrollToTop';
+import customAxios from 'utils/axios';
 
 export default function NavbarAccount() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -34,6 +35,7 @@ export default function NavbarAccount() {
 
   const userPk = useSelector(state => state.user.userPk);
   const isLogIn = useSelector(state => state.user.isLogged);
+  const userImg = useSelector(state => state.user.userImg);
 
   const dispatch = useDispatch();
 
@@ -52,7 +54,7 @@ export default function NavbarAccount() {
   };
 
   const handleOpenProfile = () => {
-    dispatch(changeProfilePk({ id: userPk }));
+    dispatch(handleProfilePk({ id: userPk }));
     handleCloseUserMenu();
     navigate('/ProfilePage');
     scrollToTop();
@@ -87,6 +89,23 @@ export default function NavbarAccount() {
     return () => window.removeEventListener('resize', handleWindowResize);
   }, [windowWidth]);
 
+  useEffect(() => {
+    customAxios.authAxios
+      .get(`/profile/${userPk}`)
+      .then(response => {
+        console.log(response);
+        dispatch(
+          handleUserProfile({
+            userImg: response.data.profile.img,
+            userNickname: response.data.profile.nickname,
+          }),
+        );
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [userPk]);
+
   if (isLogIn) {
     return (
       <>
@@ -102,7 +121,11 @@ export default function NavbarAccount() {
           </IconButton>
           {/* 아바타버튼 */}
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
+            <Avatar
+              alt="User Profile"
+              src={userImg}
+              style={{ objectFit: 'cover' }}
+            />
           </IconButton>
 
           <Menu

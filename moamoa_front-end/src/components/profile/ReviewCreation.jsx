@@ -1,8 +1,8 @@
 import { TextField, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleCreateReview } from 'redux/profile';
+import { handleSuccessState } from 'redux/snack';
 import customAxios from 'utils/axios';
 
 function ReviewCreation() {
@@ -21,19 +21,29 @@ function ReviewCreation() {
   };
 
   const handleClickButton = () => {
-    customAxios.authAxios
-      .post(`/profile/review/`, {
-        context: context,
-        profileId: profile.id,
-      })
-      .then(response => {
-        console.log(response);
-        dispatch(handleCreateReview({ review: response.data.review }));
-        setContext('');
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (!context.trim()) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '내용을 입력해 주세요.',
+          severity: 'warning',
+        }),
+      );
+    } else {
+      customAxios.authAxios
+        .post(`/profile/review`, {
+          context: context,
+          profileId: profile.id,
+        })
+        .then(response => {
+          console.log(response);
+          dispatch(handleCreateReview({ review: response.data.review }));
+          setContext('');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   const handleOpenLogin = () => {};
@@ -48,6 +58,7 @@ function ReviewCreation() {
               placeholder="댓글을 남겨 보세요."
               rows={3}
               onChange={handleChangeContext}
+              helperText={`${context.length}/100`}
               value={context}
             ></TextField>
           </Grid>
