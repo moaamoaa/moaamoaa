@@ -4,6 +4,8 @@ const initialStateValue = {
   userPk: null,
   isLogged: false,
   error: null,
+  userImg: null,
+  userNickname: '',
 };
 
 const userSlice = createSlice({
@@ -18,9 +20,14 @@ const userSlice = createSlice({
       state.userPk = null;
       state.isLogged = false;
     },
+    handleUserProfile: (state, action) => {
+      state.userImg = action.payload.userImg;
+      state.userNickname = action.payload.userNickname;
+    },
   },
 });
 
-export const { loginSuccess, logoutSuccess } = userSlice.actions;
+export const { loginSuccess, logoutSuccess, handleUserProfile } =
+  userSlice.actions;
 
 export default userSlice.reducer;
