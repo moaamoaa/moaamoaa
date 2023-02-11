@@ -53,6 +53,7 @@ function SideProjectEditor(props) {
         handleSuccessState({
           open: true,
           message: '프로젝트 이름을 작성해 주세요.',
+          severity: 'error',
         }),
       );
     } else if (!context.trim()) {
@@ -60,6 +61,7 @@ function SideProjectEditor(props) {
         handleSuccessState({
           open: true,
           message: '기술 스택을 선택해 주세요.',
+          severity: 'error',
         }),
       );
     } else if (!context.trim()) {
@@ -67,6 +69,7 @@ function SideProjectEditor(props) {
         handleSuccessState({
           open: true,
           message: '프로젝트 소개를 작성해 주세요.',
+          severity: 'error',
         }),
       );
     } else {
@@ -96,7 +99,7 @@ function SideProjectEditor(props) {
         handleSuccessState({
           open: true,
           message: '프로젝트 이름을 작성해 주세요.',
-          severity: 'warning',
+          severity: 'error',
         }),
       );
     } else if (selectedValue.length === 0) {
@@ -104,7 +107,7 @@ function SideProjectEditor(props) {
         handleSuccessState({
           open: true,
           message: '기술 스택을 선택해 주세요.',
-          severity: 'warning',
+          severity: 'error',
         }),
       );
     } else if (!context.trim()) {
@@ -112,7 +115,7 @@ function SideProjectEditor(props) {
         handleSuccessState({
           open: true,
           message: '프로젝트 소개를 작성해 주세요.',
-          severity: 'warning',
+          severity: 'error',
         }),
       );
     } else {
