@@ -55,15 +55,17 @@ export default function ResponsiveAppBar() {
               alignItems="center"
               sx={{ display: { xs: 'none', md: 'flex' } }}
             >
-              <Grid item container xs={4} alignItems="center">
-                <Grid item xs={5}>
-                  <NavbarLogo></NavbarLogo>
-                </Grid>
-                <Grid item xs={7}>
-                  <NavbarMenu></NavbarMenu>
-                </Grid>
+              <Grid
+                item
+                container
+                xs={6}
+                alignItems="center"
+                sx={{ display: 'flex' }}
+              >
+                <NavbarLogo></NavbarLogo>
+                <NavbarMenu></NavbarMenu>
               </Grid>
-              <Grid item xs={8} sx={{ display: 'flex' }} justifyContent="end">
+              <Grid item xs={6} sx={{ display: 'flex' }} justifyContent="end">
                 <NavbarAccount></NavbarAccount>
               </Grid>
             </Grid>

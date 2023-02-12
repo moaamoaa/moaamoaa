@@ -30,30 +30,57 @@ export default function CardList(props) {
     );
   } else if (props.type === 'tech') {
     return (
-      <Grid container>
+      <Grid
+        container
+        overflow="scroll"
+        sx={{ height: '50px', alignItems: 'center' }}
+      >
         {props.cards ? (
           props.cards &&
           props.cards.map((card, idx) => (
-            <Grid item key={idx} xs={3}>
+            <Grid item key={idx} mr={2}>
               <CardItem card={card} type={props.type}></CardItem>
             </Grid>
           ))
         ) : (
-          <></>
+          <>
+            {[0, 1, 2, 3].map(idx => (
+              <Grid
+                key={idx}
+                item
+                xs={3}
+                sx={{ display: 'flex', justifyContent: 'center' }}
+              >
+                <CardItem card={{ logo: null }} type={props.type}></CardItem>
+              </Grid>
+            ))}
+          </>
         )}
       </Grid>
     );
   } else if (props.type === 'link') {
     return (
-      <Grid container>
+      <Grid container sx={{ height: '50px', alignItems: 'center' }}>
         {props.cards ? (
+          props.cards &&
           Object.entries(props.cards).map((card, idx) => (
             <Grid item key={idx} xs={3}>
               <CardItem card={card} type={props.type}></CardItem>
             </Grid>
           ))
         ) : (
-          <></>
+          <Grid container sx={{ height: '50px', alignItems: 'center' }}>
+            {[0, 1, 2, 3].map(idx => (
+              <Grid
+                key={idx}
+                item
+                xs={3}
+                sx={{ display: 'flex', justifyContent: 'center' }}
+              >
+                <CardItem card={{ site: null }} type={props.type}></CardItem>
+              </Grid>
+            ))}
+          </Grid>
         )}
       </Grid>
     );
