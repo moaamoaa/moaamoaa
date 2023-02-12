@@ -35,6 +35,8 @@ spring:
           auth: true
           starttls:
             enable: true
+  thymeleaf:
+    prefix: classpath:mail-templates/
 
 logging:
   level:
