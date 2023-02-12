@@ -13,7 +13,7 @@ export default function SelfIntroduction() {
   const userProfile = useSelector(state => state.profile.userProfile[0]);
   const [isEdit, setIsEdit] = useState(false);
   const [context, setContext] = useState('');
-  const [flag, setFlag] = useState(userPk === userProfile.id);
+  const flag = userPk === userProfile.id;
 
   const dispatch = useDispatch();
 

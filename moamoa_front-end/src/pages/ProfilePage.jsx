@@ -31,10 +31,10 @@ export default function ProfilePage() {
   return (
     <ProfilePageContainer fixed>
       <Grid container spacing={10}>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={5} lg={4}>
           <Profile type="normal"></Profile>
         </Grid>
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={7} lg={8}>
           <SelfIntroduction></SelfIntroduction>
 
           <SideProjectContainer></SideProjectContainer>
