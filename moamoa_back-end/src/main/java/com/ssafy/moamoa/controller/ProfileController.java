@@ -233,7 +233,7 @@ public class ProfileController {
 		HttpStatus status = null;
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		// Service
-		ReviewForm result = reviewService.addReview(
+		List<ReviewForm> result = reviewService.addReview(
 			profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), reviewForm);
 
 		resultMap.put("review", result);
@@ -254,7 +254,7 @@ public class ProfileController {
 		HttpStatus status = null;
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		// Service
-		ReviewForm result = reviewService.modifyReview(
+		List<ReviewForm> result = reviewService.modifyReview(
 			profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), reviewForm);
 
 		if (result == null) {
