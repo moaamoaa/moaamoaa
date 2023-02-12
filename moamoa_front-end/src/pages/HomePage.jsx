@@ -67,7 +67,6 @@ export default function HomePageSample() {
       .get('/search/project?&size=3&sort=hit,desc&category=PROJECT')
       .then(response => {
         setRecoProject(response.data);
-        console.log(response);
       })
       .catch(error => {
         console.log(error.data);
@@ -81,7 +80,6 @@ export default function HomePageSample() {
       .get('/search/project?&size=3&sort=hit,desc&category=STUDY')
       .then(response => {
         setRecoStudy(response.data);
-        console.log(response);
       })
       .catch(error => {
         console.log(error.data);
@@ -95,7 +93,6 @@ export default function HomePageSample() {
       .get('/search/profile?&size=4&sort=hit,desc&category=STUDY')
       .then(response => {
         setRecoMember(response.data);
-        console.log(response);
       })
       .catch(error => {
         console.log(error.data);
