@@ -41,12 +41,11 @@ function TechStackSelector(props) {
         options={deduplicatedTechs}
         getOptionLabel={option => option.name}
         onChange={handleSelectedTech}
+        sx={{ display: 'flex', alignItems: 'end' }}
         renderInput={params => (
           <TextField
             {...params}
             fullWidth
-            color="primary"
-            variant="standard"
             placeholder={
               isMobile ? '기술스택' : '검색을 통해 기술스택 선택하세요.'
             }

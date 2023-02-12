@@ -17,7 +17,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import ProjectList from 'components/team/ProjectList';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 
-export default function ApplyOffer() {
+export default function ApplyOffer(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
   const [studies, setStudies] = useState([]);
@@ -136,7 +136,13 @@ export default function ApplyOffer() {
     <div>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(anchor, true)} sx={{ mr: 2 }}>
+          <IconButton
+            onClick={toggleDrawer(anchor, true)}
+            sx={{
+              mr: props.isMobile ? 0 : 2,
+              scale: props.isMobile ? '.8' : '1',
+            }}
+          >
             <Diversity3Icon />
           </IconButton>
           <Drawer
