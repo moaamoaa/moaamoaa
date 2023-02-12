@@ -17,7 +17,12 @@ const initialStateValue = {
       img: '',
       nickname: '',
       profileOnOffStatus: '',
-      sites: [],
+      sites: [
+        { link: '', name: 'github' },
+        { link: '', name: 'tistory' },
+        { link: '', name: 'velog' },
+        { link: '', name: 'project' },
+      ],
       areas: [],
       techStacks: [],
     },
@@ -60,8 +65,9 @@ const profileSlice = createSlice({
         action.payload.profileOnOffStatus;
     },
     handleEditProfile: (state, action) => {
-      state.userProfile[1].sites = action.payload.sites;
+      console.log(action.payload);
       state.userProfile[1].areas = action.payload.areas;
+      state.userProfile[1].sites = action.payload.sites;
       state.userProfile[1].techStacks = action.payload.techStacks;
     },
     profileOpenSuccess: (state, action) => {
