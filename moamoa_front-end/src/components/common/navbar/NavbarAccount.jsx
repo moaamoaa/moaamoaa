@@ -24,10 +24,10 @@ import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
+import useMobile from 'hooks/useMobile';
 
 export default function NavbarAccount() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
+  const isMobile = useMobile();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [logInDialog, setLogInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
@@ -82,18 +82,10 @@ export default function NavbarAccount() {
   ];
 
   useEffect(() => {
-    const handleWindowResize = () => setWindowWidth(window.innerWidth);
-    setIsMobile(windowWidth < 500);
-
-    window.addEventListener('resize', handleWindowResize);
-    return () => window.removeEventListener('resize', handleWindowResize);
-  }, [windowWidth]);
-
-  useEffect(() => {
     customAxios.authAxios
       .get(`/profile/${userPk}`)
       .then(response => {
-        console.log(response);
+        // console.log(response.data);
         dispatch(
           handleUserProfile({
             userImg: response.data.profile.img,
