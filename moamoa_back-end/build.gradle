@@ -37,6 +37,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     implementation 'com.h2database:h2:1.4.200'
     implementation 'org.jetbrains:annotations:23.0.0'
@@ -45,7 +46,7 @@ dependencies {
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
     implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
-    
+
 
     testImplementation 'org.projectlombok:lombok:1.18.22'
     compileOnly 'org.projectlombok:lombok'
