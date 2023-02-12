@@ -1,21 +1,26 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import CustomAxios from 'utils/axios';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import Collapse from '@mui/material/Collapse';
+
+import {
+  Box,
+  Drawer,
+  IconButton,
+  List,
+  Divider,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  Collapse,
+} from '@mui/material/';
+
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import ProjectList from 'components/team/ProjectList';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+
+import ProjectList from 'components/team/ProjectList';
 
 export default function ApplyOffer() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -61,14 +66,18 @@ export default function ApplyOffer() {
     right: false,
   });
 
-  // 리스트가 열리는
-  const [open, setOpen] = React.useState(true);
-  // 리스트가 열리는
-  const handleClick = () => {
-    setOpen(!open);
+  // 리스트가 열리는 (Projects)
+  const [openProjects, setOpenProjects] = useState(false);
+  const handleProjectsClick = () => {
+    setOpenProjects(!openProjects);
   };
 
-  // 오른쪽에 사이드바 열리는
+  // 리스트가 열리는 (Studies)
+  const [openStudies, setOpenStudies] = useState(false);
+  const handleStudiesClick = () => {
+    setOpenStudies(!openStudies);
+  };
+
   const toggleDrawer = (anchor, open) => event => {
     if (
       event.type === 'keydown' &&
@@ -76,6 +85,8 @@ export default function ApplyOffer() {
     ) {
       return;
     }
+    // ListItemIcon 버튼을 눌렀을 때, 드로우어를 닫지 않도록 함
+    if (event.target.tagName === 'svg') return;
     setState({ ...state, [anchor]: open });
   };
 
@@ -96,14 +107,14 @@ export default function ApplyOffer() {
           </ListSubheader>
         }
       >
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={handleProjectsClick}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary="프로젝트" />
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {openProjects ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={openProjects} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
@@ -112,14 +123,14 @@ export default function ApplyOffer() {
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={handleStudiesClick}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary="스터디" />
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {openStudies ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={openStudies} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
@@ -143,6 +154,7 @@ export default function ApplyOffer() {
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
+            onClick={toggleDrawer(anchor, !state[anchor])}
           >
             {list(anchor)}
           </Drawer>
