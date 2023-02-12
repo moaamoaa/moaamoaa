@@ -16,13 +16,14 @@ import {
   Fade,
 } from '@mui/material';
 
-import ScrollableTab from 'components/common/tab/ScrollableTab';
 import { searchStatusChange, handleEditProfile } from 'redux/profile';
 import { useNavigate } from 'react-router-dom';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
+import useMobile from 'hooks/useMobile';
 
 export default function Profile(props) {
+  const isMobile = useMobile();
   const [badgeInfo, setBadgeInfo] = useState({
     color: 'primary',
     context: '온라인 오프라인 팀을 구하고 있습니다.',
@@ -122,13 +123,16 @@ export default function Profile(props) {
           sx={{
             display: { xs: 'none', md: 'block' },
             position: 'fixed',
-            width: '320px',
+            width: { md: '280px', xl: '320px' },
             padding: '0 !important',
           }}
         >
           <MoaSkeleton
             variant="circular"
-            sx={{ width: '320px', height: '320px' }}
+            sx={{
+              width: { md: '280px', xl: '320px' },
+              height: { md: '280px', xl: '320px' },
+            }}
           />
 
           <TextField
@@ -174,7 +178,7 @@ export default function Profile(props) {
           sx={{
             display: { xs: 'none', md: 'block' },
             position: 'fixed',
-            width: '320px',
+            width: { md: '280px', xl: '320px' },
             padding: '0 !important',
           }}
         >
@@ -201,7 +205,10 @@ export default function Profile(props) {
             >
               <MoaSkeleton
                 variant="circular"
-                sx={{ width: '320px', height: '320px' }}
+                sx={{
+                  width: { md: '280px', xl: '320px' },
+                  height: { md: '280px', xl: '320px' },
+                }}
               />
             </Badge>
           </Tooltip>
@@ -225,7 +232,7 @@ export default function Profile(props) {
           sx={{ display: { xs: 'block', md: 'none' } }}
         >
           <Grid container>
-            <Grid item xs={4} direction={'row'}>
+            <Grid item xs={4}>
               <Tooltip
                 title={badgeInfo.context}
                 TransitionComponent={Fade}
@@ -240,19 +247,26 @@ export default function Profile(props) {
                   sx={{
                     '& .MuiBadge-badge': {
                       fontSize: 9,
-                      height: 30,
-                      minWidth: 30,
+                      height: '30px',
+                      minWidth: '30px',
                       borderRadius: 5,
                     },
                   }}
                 >
                   <MoaSkeleton
                     variant="circular"
-                    sx={{ width: 100, height: 100 }}
+                    sx={{
+                      width: isMobile ? '100px' : '160px',
+                      height: isMobile ? '100px' : '160px',
+                    }}
                   />
                 </Badge>
               </Tooltip>
-              <Typography variant="h6" color="initial" fontWeight={600}>
+              <Typography
+                variant={isMobile ? 'body1' : 'h6'}
+                color="initial"
+                fontWeight={600}
+              >
                 {userProfile.nickname}
               </Typography>
             </Grid>

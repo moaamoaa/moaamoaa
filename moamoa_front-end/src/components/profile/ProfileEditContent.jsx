@@ -283,30 +283,24 @@ function ProfileEditContent() {
               <ToggleButton value="ONLINE">온라인</ToggleButton>
               <ToggleButton value="OFFLINE">오프라인</ToggleButton>
             </ToggleButtonGroup>
-            {selectedArea.length < 3 ? (
-              <Autocomplete
-                sx={{ display: `${progress === 'ONLINE' ? 'none' : 'flex'}` }}
-                fullWidth
-                multiple={true}
-                id="tags-standard"
-                options={areas}
-                getOptionLabel={option => option.name}
-                freeSolo={options => (options.length > 3 ? false : true)}
-                getOptionDisabled={options =>
-                  options.length > 3 ? true : false
-                }
-                onChange={handleSelectedArea}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    placeholder={'최대 3개의 지역을 선택 가능합니다.'}
-                  />
-                )}
-              />
-            ) : (
-              <></>
-            )}
+
+            <Autocomplete
+              sx={{ display: `${progress === 'ONLINE' ? 'none' : 'flex'}` }}
+              fullWidth
+              multiple={true}
+              id="tags-standard"
+              options={areas}
+              getOptionLabel={option => option.name}
+              getOptionDisabled={options => (options.length > 3 ? true : false)}
+              onChange={handleSelectedArea}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  placeholder={'최대 3개의 지역을 선택 가능합니다.'}
+                />
+              )}
+            />
           </Grid>
         </Grid>
       </MoaContainer>
