@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { Container, Grid, Typography } from '@mui/material';
@@ -9,28 +9,7 @@ import CustomAxios from 'utils/axios';
 import { searchState } from 'redux/search';
 import { useDispatch } from 'react-redux';
 import customAxios from 'utils/axios';
-
-const mainBanner = {
-  title: '모아모아 홈 화면 배너 이미지입니다!',
-  description: '이미지가 정해지면 넣을거예요!',
-  image: 'https://source.unsplash.com/random',
-  imageText: 'main image description',
-  linkText: '깃랩으로',
-};
-
-const cards = [
-  { id: 0 },
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-  { id: 7 },
-  { id: 8 },
-  { id: 9 },
-  { id: 10 },
-];
+import Footer from 'components/common/footer/Footer';
 
 export default function HomePageSample() {
   // redux
@@ -103,10 +82,83 @@ export default function HomePageSample() {
     setCheck(true);
   }, [check]);
 
+  const [windowHeight, setWindowHeight] = useState(window.pageYOffset);
+  const heightRef = useRef(window.pageYOffset);
+
+  // 현재 scroll height
+  useEffect(() => {
+    const handleWindowScroll = () => {
+      heightRef.current = window.pageYOffset;
+      requestAnimationFrame(() => {
+        setWindowHeight(heightRef.current);
+      });
+    };
+
+    window.addEventListener('scroll', handleWindowScroll);
+    return () => window.removeEventListener('scroll', handleWindowScroll);
+  }, []);
+
   return (
     <>
-      <MainBanner post={mainBanner} />
-      <Container fixed sx={{ paddingTop: '56px' }}>
+      <MainBanner />
+      {/* 반응형 md 이상 */}
+      <Container
+        fixed
+        sx={{ paddingTop: '56px', display: { xs: 'none', lg: 'flex' } }}
+      >
+        <Grid container>
+          <MoaGrid
+            item
+            xs={12}
+            sx={{
+              position: 'relative',
+              willChange: 'left',
+              left:
+                windowHeight < 800
+                  ? `calc(1600px - ${windowHeight * 2}px)`
+                  : '0',
+            }}
+          >
+            <MoaTypography>금주의 추천 프로젝트 섹션</MoaTypography>
+            <CardList cards={recoProject} type={'team'}></CardList>
+          </MoaGrid>
+          <MoaGrid
+            item
+            xs={12}
+            sx={{
+              position: 'relative',
+              willChange: 'left',
+              left:
+                windowHeight < 1300
+                  ? `calc(2600px - ${windowHeight * 2}px)`
+                  : '0',
+            }}
+          >
+            <MoaTypography>금주의 추천 스터디 섹션</MoaTypography>
+            <CardList cards={recoStudy} type={'team'}></CardList>
+          </MoaGrid>
+          <MoaGrid
+            item
+            xs={12}
+            sx={{
+              position: 'relative',
+              willChange: 'left',
+              left:
+                windowHeight < 1800
+                  ? `calc(3600px - ${windowHeight * 2}px)`
+                  : '0',
+            }}
+          >
+            <MoaTypography>금주의 추천 팀원 섹션</MoaTypography>
+            <CardList cards={recoMember} type={'member'}></CardList>
+          </MoaGrid>
+        </Grid>
+      </Container>
+      {/* 반응형 md 이하 */}
+      <Container
+        fixed
+        sx={{ paddingTop: '56px', display: { xs: 'flex', lg: 'none' } }}
+      >
         <Grid container>
           <MoaGrid item xs={12}>
             <MoaTypography>금주의 추천 프로젝트 섹션</MoaTypography>
@@ -122,6 +174,7 @@ export default function HomePageSample() {
           </MoaGrid>
         </Grid>
       </Container>
+      <Footer></Footer>
     </>
   );
 }
