@@ -40,31 +40,56 @@ export default function TeamCreatePage() {
   const { userPk } = useSelector(state => state.user.userPk);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  //파일 업로더
   const [fileImage, setFileImage] = useState('');
-  const handleChange = event => {
-    const files = event.target.files;
-    setFileImage(URL.createObjectURL(event.target.files[0]));
-    console.log(files[0]);
-    console.log(setFileImage);
-  };
+  const formData = new FormData();
 
-  //handler 등록 버튼 클릭
-  const handleClick = e => {
+  // handler : 이미지 파일 선택
+  const handleChange = event => {
+    //FormData 객체선언
+    const files = event.target.files;
+    // 추가
+    setFileImage(URL.createObjectURL(files[0]));
+    console.log(files[0]);
+    formData.append(
+      'file',
+      new Blob([JSON.stringify(files[0])], {
+        type: 'application/json',
+      }),
+    );
+  };
+  //handler : 팀 등록 버튼 클릭
+  const handleClick = event => {
+    // formData.append('aredId', regionRef.current);
+    // formData.append('category', classRef.current);
+    // formData.append('contents', inputRef.current);
+    // formData.append(
+    //   'endDate',
+    //   dayjs(dateRef.current).format('YYYY-MM-DD').current,
+    // );
+    // formData.append('img', null);
+    // formData.append('projectId', null);
+    // formData.append('projectStatus', onoffRef.current);
+    // formData.append('techStacks', techRef.current);
+    // formData.append('title', titleRef.current);
+    // formData.append('totalPeople', numberRef.current);
+    // formData.append('userid', userPk);
+
     CustomAxios.imageAxios
       .post('/projects/new', {
-        areaId: regionRef.current,
-        category: classRef.current,
-        contents: inputRef.current,
-        endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
-        img: fileImage,
-        projectId: null, // 생성 요청 시에 줄 수 있는 값은 아니니까
-        projectStatus: onoffRef.current,
-        techStacks: techRef.current,
-        title: titleRef.current,
-        totalPeople: numberRef.current,
-        userid: userPk,
+        projectForm: {
+          areaId: regionRef.current,
+          category: classRef.current,
+          contents: inputRef.current,
+          endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
+          img: null,
+          projectId: null, // 생성 요청 시에 줄 수 있는 값은 아니니까
+          projectStatus: onoffRef.current,
+          techStacks: techRef.current,
+          title: titleRef.current,
+          totalPeople: numberRef.current,
+          userid: userPk,
+        },
+        file: fileImage,
       })
       .then(response => {
         console.log(response.data);
@@ -116,6 +141,7 @@ export default function TeamCreatePage() {
   return (
     <>
       <Container fixed>
+        {/* 팀 이미지 */}
         <Paper
           sx={{
             position: 'relative',
