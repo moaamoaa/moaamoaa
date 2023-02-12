@@ -109,18 +109,21 @@ export default function NavbarAccount() {
   if (isLogIn) {
     return (
       <>
-        <Box
-          sx={{ display: 'flex', scale: isMobile ? '0.5' : '1' }}
-          justifyContent="end"
-        >
+        <Box sx={{ display: 'flex' }} justifyContent="end">
           {/* 팀관리아이콘 */}
-          <ProjectStudy></ProjectStudy>
+          <ProjectStudy isMobile={isMobile}></ProjectStudy>
           {/* 채팅아이콘 */}
-          <IconButton onClick={null} sx={{ mr: 2 }}>
+          <IconButton
+            onClick={null}
+            sx={{ mr: isMobile ? 0 : 2, scale: isMobile ? '.8' : '1' }}
+          >
             <ChatIcon />
           </IconButton>
           {/* 아바타버튼 */}
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          <IconButton
+            onClick={handleOpenUserMenu}
+            sx={{ p: 0, scale: isMobile ? '.5' : '1' }}
+          >
             <Avatar
               alt="User Profile"
               src={userImg}
