@@ -14,13 +14,12 @@ export default function SideProjectContainer() {
   const profileId = useSelector(state => state.profile.userProfile[0].id);
   const sideProjects = useSelector(state => state.profile.sideProjects);
   const [isAdd, setIsAdd] = useState(false);
-  const [flag, setFlag] = useState(userPk === profileId);
+  const flag = userPk === profileId;
 
   const handleAddSideProject = () => {
     setIsAdd(true);
   };
 
-  console.log(sideProjects);
   if (isAdd) {
     return (
       <>

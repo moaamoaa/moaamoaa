@@ -15,7 +15,6 @@ function Footer() {
 
   useEffect(() => {
     const handleWindowScroll = () => {
-      console.log(isAtBottom);
       if (
         window.innerHeight + window.pageYOffset >=
         document.body.offsetHeight

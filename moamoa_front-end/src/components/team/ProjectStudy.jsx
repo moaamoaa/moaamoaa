@@ -19,24 +19,25 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+import useMobile from 'hooks/useMobile';
 import ProjectList from 'components/team/ProjectList';
 
-export default function ApplyOffer(props) {
+export default function ApplyOffer() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
   const [studies, setStudies] = useState([]);
-
+  const isMobile = useMobile();
   useEffect(() => {
     if (isLoaded) {
       CustomAxios.authAxios
         .get('/projects/project')
         .then(response => {
           setProjects(response.data);
-          console.log(response.data);
-          console.log('프로젝트조회완료!');
+          // console.log(response.data);
+          // console.log('프로젝트조회완료!');
         })
         .catch(error => {
-          console.log(error.data);
+          console.log(error.message);
         });
     } else {
       setIsLoaded(true);
@@ -49,11 +50,11 @@ export default function ApplyOffer(props) {
         .get('/projects/study')
         .then(response => {
           setStudies(response.data);
-          console.log(response.data);
-          console.log('스터디조회완료!');
+          // console.log(response.data);
+          // console.log('스터디조회완료!');
         })
         .catch(error => {
-          console.log(error.data);
+          console.log(error.message);
         });
     } else {
       setIsLoaded(true);
@@ -149,8 +150,8 @@ export default function ApplyOffer(props) {
           <IconButton
             onClick={toggleDrawer(anchor, true)}
             sx={{
-              mr: props.isMobile ? 0 : 2,
-              scale: props.isMobile ? '.8' : '1',
+              mr: isMobile ? 0 : 2,
+              scale: isMobile ? '.8' : '1',
             }}
           >
             <Diversity3Icon />
