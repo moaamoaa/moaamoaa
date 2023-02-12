@@ -224,8 +224,8 @@ export default function Profile(props) {
           component="article"
           sx={{ display: { xs: 'block', md: 'none' } }}
         >
-          <Grid container spacing={10}>
-            <Grid item xs={4} sx={{ display: 'flex' }}>
+          <Grid container>
+            <Grid item xs={4} direction={'row'}>
               <Tooltip
                 title={badgeInfo.context}
                 TransitionComponent={Fade}
@@ -248,17 +248,16 @@ export default function Profile(props) {
                 >
                   <MoaSkeleton
                     variant="circular"
-                    sx={{ minWidth: '10rem', minHeight: '10rem' }}
+                    sx={{ width: 100, height: 100 }}
                   />
                 </Badge>
               </Tooltip>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="h5" color="initial" fontWeight={600}>
+              <Typography variant="h6" color="initial" fontWeight={600}>
                 {userProfile.nickname}
               </Typography>
-
-              <ScrollableTab type={'tech'} cards={techStacks}></ScrollableTab>
+            </Grid>
+            <Grid item xs={8}>
+              <CardList type={'tech'} cards={techStacks}></CardList>
               <hr />
               <CardList type={'link'} cards={sites}></CardList>
             </Grid>

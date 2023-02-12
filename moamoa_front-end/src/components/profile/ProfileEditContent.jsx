@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleEditProfile } from 'redux/profile';
+
 import styled from '@emotion/styled';
+
 import {
   Grid,
   Typography,
@@ -8,9 +13,7 @@ import {
   Autocomplete,
   Avatar,
 } from '@mui/material';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { handleEditProfile } from 'redux/profile';
+
 import TechStackSelector from 'components/profile/TechStackSelector';
 
 function ProfileEditContent() {
@@ -29,23 +32,96 @@ function ProfileEditContent() {
 
   const dispatch = useDispatch();
 
-  const handleChange = setter => event => {
-    setter(event.target.value);
-
-    if (progress === 'ONLINE') setSelectedArea([]);
+  const handleGithubLink = event => {
+    setGithubLink(event.target.value);
 
     dispatch(
       handleEditProfile({
         sites: [
-          { link: githubLink, nmae: 'github' },
-          { link: tistoryLink, nmae: 'tistory' },
-          { link: velogLink, nmae: 'velog' },
-          { link: projectLink, nmae: 'project' },
+          { link: event.target.value, name: 'github' },
+          { link: tistoryLink, name: 'tistory' },
+          { link: velogLink, name: 'velog' },
+          { link: projectLink, name: 'project' },
         ],
         areas: selectedArea,
         techStacks: selectedValue,
       }),
     );
+  };
+  const handleTistoryLink = event => {
+    setTistoryLink(event.target.value);
+
+    dispatch(
+      handleEditProfile({
+        sites: [
+          { link: githubLink, name: 'github' },
+          { link: event.target.value, name: 'tistory' },
+          { link: velogLink, name: 'velog' },
+          { link: projectLink, name: 'project' },
+        ],
+        areas: selectedArea,
+        techStacks: selectedValue,
+      }),
+    );
+  };
+  const handleVelogLink = event => {
+    setVelogLink(event.target.value);
+
+    dispatch(
+      handleEditProfile({
+        sites: [
+          { link: githubLink, name: 'github' },
+          { link: tistoryLink, name: 'tistory' },
+          { link: event.target.value, name: 'velog' },
+          { link: projectLink, name: 'project' },
+        ],
+        areas: selectedArea,
+        techStacks: selectedValue,
+      }),
+    );
+  };
+  const handleProjectLink = event => {
+    setProjectLink(event.target.value);
+
+    dispatch(
+      handleEditProfile({
+        sites: [
+          { link: githubLink, name: 'github' },
+          { link: tistoryLink, name: 'tistory' },
+          { link: velogLink, name: 'velog' },
+          { link: event.target.value, name: 'project' },
+        ],
+        areas: selectedArea,
+        techStacks: selectedValue,
+      }),
+    );
+  };
+
+  const handleProgress = event => {
+    console.log(event.target.value);
+
+    setProgress(event.target.value);
+
+    if (event.target.value === 'ONLINE') setSelectedArea([]);
+
+    dispatch(
+      handleEditProfile({
+        sites: [
+          { link: githubLink, name: 'github' },
+          { link: tistoryLink, name: 'tistory' },
+          { link: velogLink, name: 'velog' },
+          { link: projectLink, name: 'project' },
+        ],
+        areas: selectedArea,
+        techStacks: selectedValue,
+      }),
+    );
+  };
+
+  const handleSelectedArea = (event, value) => {
+    if (value.length > 3) return;
+    console.log('hi');
+    setSelectedArea(value);
   };
 
   return (
@@ -107,7 +183,7 @@ function ProfileEditContent() {
                 fullWidth
                 InputProps={{ disableUnderline: true }}
                 placeholder="URL"
-                onChange={handleChange(setGithubLink)}
+                onChange={handleGithubLink}
                 value={githubLink}
                 type="url"
               />
@@ -130,7 +206,7 @@ function ProfileEditContent() {
                 fullWidth
                 InputProps={{ disableUnderline: true }}
                 placeholder="URL"
-                onChange={handleChange(setTistoryLink)}
+                onChange={handleTistoryLink}
                 value={tistoryLink}
               />
             </Grid>
@@ -152,7 +228,7 @@ function ProfileEditContent() {
                 fullWidth
                 InputProps={{ disableUnderline: true }}
                 placeholder="URL"
-                onChange={handleChange(setVelogLink)}
+                onChange={handleVelogLink}
                 value={velogLink}
               />
             </Grid>
@@ -173,7 +249,7 @@ function ProfileEditContent() {
                 fullWidth
                 InputProps={{ disableUnderline: true }}
                 placeholder="URL"
-                onChange={handleChange(setProjectLink)}
+                onChange={handleProjectLink}
                 value={projectLink}
               />
             </Grid>
@@ -199,7 +275,7 @@ function ProfileEditContent() {
               value={progress}
               size="small"
               exclusive
-              onChange={handleChange(setProgress)}
+              onChange={handleProgress}
               aria-label="Platform"
               sx={{ marginBottom: '1rem' }}
             >
@@ -207,23 +283,30 @@ function ProfileEditContent() {
               <ToggleButton value="ONLINE">온라인</ToggleButton>
               <ToggleButton value="OFFLINE">오프라인</ToggleButton>
             </ToggleButtonGroup>
-            <Autocomplete
-              sx={{ display: `${progress === 'ONLINE' ? 'none' : 'flex'}` }}
-              fullWidth
-              multiple={true}
-              id="tags-standard"
-              options={areas}
-              getOptionLabel={option => option.name}
-              onChange={handleChange(setSelectedArea)}
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  fullWidth
-                  variant="standard"
-                  placeholder={'최대 3개의 지역을 선택 가능합니다.'}
-                />
-              )}
-            />
+            {selectedArea.length < 3 ? (
+              <Autocomplete
+                sx={{ display: `${progress === 'ONLINE' ? 'none' : 'flex'}` }}
+                fullWidth
+                multiple={true}
+                id="tags-standard"
+                options={areas}
+                getOptionLabel={option => option.name}
+                freeSolo={options => (options.length > 3 ? false : true)}
+                getOptionDisabled={options =>
+                  options.length > 3 ? true : false
+                }
+                onChange={handleSelectedArea}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    placeholder={'최대 3개의 지역을 선택 가능합니다.'}
+                  />
+                )}
+              />
+            ) : (
+              <></>
+            )}
           </Grid>
         </Grid>
       </MoaContainer>

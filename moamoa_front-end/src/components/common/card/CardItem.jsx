@@ -1,39 +1,29 @@
-import * as React from 'react';
-
-import styled from 'styled-components';
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Skeleton from '@mui/material/Skeleton';
-import Avatar from '@mui/material/Avatar';
-
-import CardList from 'components/common/card/CardList';
-import { Link } from '@mui/material';
-
 import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
 import { useDispatch } from 'react-redux';
 import { handleProfilePk } from 'redux/profile';
+
+import styled from 'styled-components';
+
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  CardActions,
+  Button,
+  Grid,
+  Skeleton,
+  Avatar,
+} from '@mui/material';
+
+import CardList from 'components/common/card/CardList';
+import { Link } from '@mui/material';
+
 import scrollToTop from 'utils/scrollToTop';
 
-const user = {
-  id: 0,
-  name: '김싸피',
-  tech: [
-    ['front-end_icons', 'javascript'],
-    ['front-end_icons', 'typescript'],
-  ],
-  link: {
-    github: 'https://github.com/LimSB-dev',
-    tistory: '',
-    velog: '',
-  },
-};
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 
 export default function CardItem(props) {
   const dispatch = useDispatch();
@@ -52,7 +42,7 @@ export default function CardItem(props) {
   if (props.type === 'team') {
     return (
       <MoaCard onClick={goToDetail}>
-        {props.card.thumbnailUrl ? (
+        {props.card.img ? (
           <CardMedia
             component="img"
             src={props.card.img}
@@ -73,22 +63,36 @@ export default function CardItem(props) {
           <Typography gutterBottom variant="h5" component="div">
             {props.card.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            팀장 {props.card.leaderName}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {props.card.hit} views
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {props.card.currentPeople} / {props.card.totalPeople}
-          </Typography>
-          {/* <CardList type='tech' cards={ techStacks}>기술스택리스트</CardList> */}
-          <InfoTypography variant="body2" color="text.secondary">
-            {props.card.contents}
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id,
-            corporis nobis ea beatae et reprehenderit dolorum iure libero atque,
-            eum, aliquam sequi delectus deleniti alias quasi quis veritatis!
-            Quis, quidem.
+          <Grid container paddingY={1}>
+            <Grid item xs={4} display={'flex'} alignItems="center">
+              <Typography variant="body2" color="#888">
+                팀장 {props.card.leaderName}
+              </Typography>
+            </Grid>
+            <Grid item xs={2} display={'flex'} alignItems="center">
+              <VisibilityOutlinedIcon
+                fontSize="small"
+                sx={{ color: '#888' }}
+              ></VisibilityOutlinedIcon>
+              <Typography variant="body2" color="#888">
+                {props.card.hit}
+              </Typography>
+            </Grid>
+            <Grid item xs={6} display={'flex'} alignItems="center">
+              <GroupsOutlinedIcon
+                fontSize="small"
+                sx={{ color: '#888' }}
+              ></GroupsOutlinedIcon>
+              <Typography variant="body2" color="#888">
+                {props.card.currentPeople} / {props.card.totalPeople}
+              </Typography>
+            </Grid>
+          </Grid>
+          <CardList type="tech" cards={props.card.techStacks}></CardList>
+          <InfoTypography paddingTop={1} variant="body2" color="#000">
+            {props.card.contents
+              ? props.card.contents
+              : `${props.card.title}팀 입니다.`}
           </InfoTypography>
         </CardContent>
       </MoaCard>
@@ -125,7 +129,13 @@ export default function CardItem(props) {
             component="img"
             src={props.card.img}
             alt="random"
-            sx={{ borderRadius: '50%', width: '100px', margin: '0 auto' }}
+            sx={{
+              borderRadius: '50%',
+              width: '100px',
+              height: '100px',
+              margin: '0 auto',
+              boxShadow: 5,
+            }}
           />
         ) : (
           <MoaSkeleton variant="circular" width={100} height={100} />
@@ -135,10 +145,7 @@ export default function CardItem(props) {
             {props.card.nickname}
           </MoaTypography>
           <MoaTypography variant="body2" color="text.secondary">
-            {/* {props.card.area.map(a => {
-              return <div>{a}</div>;
-            })} */}
-            {props.card ? props.card.area : ''}
+            {props.card.area ? props.card.area : '온라인 / 전 지역'}
           </MoaTypography>
           <InfoTypography variant="body2" color="text.secondary">
             {props.card.contents
@@ -151,17 +158,13 @@ export default function CardItem(props) {
       </MoaCard>
     );
   } else if (props.type === 'tech') {
-    return <MoaImg src={props.card.img} />;
+    return <MoaImg src={props.card.logo} />;
   } else if (props.type === 'link') {
-    if (props.card[1] !== '') {
-      return (
-        <Link href={props.card[1]} target="_blank">
-          <MoaImg src={props.card.site} />
-        </Link>
-      );
-    } else {
-      return <></>;
-    }
+    return (
+      <Link href={props.card.site} target="_blank">
+        <MoaImg src={props.card.site} />
+      </Link>
+    );
   }
 }
 

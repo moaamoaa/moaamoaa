@@ -215,23 +215,29 @@ function SideProjectEditor(props) {
           />
         </Grid>
         {/* Button */}
+        <Grid item xs={1} sx={{ display: 'flex' }} justifyContent="end">
+          <IconButton onClick={handleCloseAddSideProject} sx={{ padding: '0' }}>
+            <CloseIcon />
+          </IconButton>
+        </Grid>
         <Grid
           item
-          xs={1}
           container
-          rowGap={9}
-          justifyContent="end"
+          xs={12}
           sx={{ display: 'flex' }}
+          justifyContent="end"
         >
-          <Grid item xs={12} justifyContent="end" sx={{ display: 'flex' }}>
-            <IconButton
-              onClick={handleCloseAddSideProject}
-              sx={{ padding: '0' }}
+          <Grid item xs={11}>
+            <Typography
+              variant="caption"
+              color="initial"
+              justifyContent="end"
+              sx={{ display: 'flex' }}
             >
-              <CloseIcon />
-            </IconButton>
+              {context.length} / {limit}
+            </Typography>
           </Grid>
-          <Grid item xs={12} justifyContent="end" sx={{ display: 'flex' }}>
+          <Grid item xs={1} sx={{ display: 'flex' }} justifyContent="end">
             <IconButton
               onClick={
                 props?.isEdit ? handleEditSideProject : handleCreateSidProject
@@ -241,16 +247,6 @@ function SideProjectEditor(props) {
               <CreateIcon />
             </IconButton>
           </Grid>
-        </Grid>
-        <Grid item xs={12} sx={{ display: 'flex' }} justifyContent="end">
-          <Typography
-            variant="caption"
-            color="initial"
-            justifyContent="end"
-            sx={{ display: 'flex' }}
-          >
-            {context.length} / {limit}
-          </Typography>
         </Grid>
       </Grid>
     </>

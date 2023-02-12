@@ -25,21 +25,21 @@ function ResponsiveAppBar() {
   return (
     <>
       <Typography
-        variant={isMobile ? 'body1' : 'h5'}
+        variant={isMobile ? 'body1' : 'h6'}
         noWrap
         onClick={handleOpenHome}
         sx={{
-          flexGrow: 1,
           fontFamily: 'monospace',
-          fontWeight: 700,
-          letterSpacing: '.3rem',
+          fontWeight: 600,
+          letterSpacing: '.2rem',
           color: 'inherit',
           textDecoration: 'none',
           cursor: 'pointer',
-          textAlign: 'center',
+          textAlign: isMobile ? 'center' : 'start',
+          mr: isMobile ? 0 : 2,
         }}
       >
-        MOAMOA
+        MOAAMOAA
       </Typography>
     </>
   );
