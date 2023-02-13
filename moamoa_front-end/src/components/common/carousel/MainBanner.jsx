@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 
 import styled from 'styled-components';
 import Container from '@mui/material/Container';
+import ScrollIndicator from '../button/ScrollIndicator';
 
 export default function MainBanner() {
   const post = {
@@ -32,6 +33,7 @@ export default function MainBanner() {
         borderRadius: 0,
       }}
     >
+      <ScrollIndicator></ScrollIndicator>
       <Dim />
       <Container fixed>
         <Grid container>

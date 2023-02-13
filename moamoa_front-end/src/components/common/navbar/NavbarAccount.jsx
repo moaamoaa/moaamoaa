@@ -25,6 +25,7 @@ import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
 import useMobile from 'hooks/useMobile';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function NavbarAccount() {
   const isMobile = useMobile();
@@ -35,6 +36,7 @@ export default function NavbarAccount() {
   const userPk = useSelector(state => state.user.userPk);
   const isLogIn = useSelector(state => state.user.isLogged);
   const userImg = useSelector(state => state.user.userImg);
+  const userNickname = useSelector(state => state.user.userNickname);
 
   const dispatch = useDispatch();
 
@@ -102,20 +104,22 @@ export default function NavbarAccount() {
       <>
         <Box sx={{ display: 'flex' }} justifyContent="end">
           {/* 팀관리아이콘 */}
-          <ProjectStudy isMobile={isMobile}></ProjectStudy>
+          <ProjectStudy></ProjectStudy>
           {/* 채팅아이콘 */}
           <ChattingDrawer isMobile={isMobile}></ChattingDrawer>
           {/* 아바타버튼 */}
-          <IconButton
-            onClick={handleOpenUserMenu}
-            sx={{ p: 0, scale: isMobile ? '.5' : '1' }}
-          >
-            <Avatar
-              alt="User Profile"
-              src={userImg}
-              style={{ objectFit: 'cover' }}
-            />
-          </IconButton>
+          <Tooltip title={userNickname}>
+            <IconButton
+              onClick={handleOpenUserMenu}
+              sx={{ p: 0, scale: isMobile ? '.5' : '1' }}
+            >
+              <Avatar
+                alt="User Profile"
+                src={userImg}
+                style={{ objectFit: 'cover' }}
+              />
+            </IconButton>
+          </Tooltip>
 
           <Menu
             sx={{ mt: '45px' }}

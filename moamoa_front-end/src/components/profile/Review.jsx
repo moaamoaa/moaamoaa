@@ -120,7 +120,7 @@ function Review(props) {
   };
 
   return (
-    <Grid container sx={{ paddingBottom: '.5rem' }}>
+    <Grid container sx={{ paddingTop: '.5rem' }}>
       {isEdit ? (
         <>
           <Grid item xs={12}>
