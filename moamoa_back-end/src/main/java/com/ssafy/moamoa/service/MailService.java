@@ -101,7 +101,7 @@ public class MailService {
 	public String joinEmail(String email) throws MessagingException {
 		int checkNum = makeRandomNum();
 		MailForm mailForm = new MailForm();
-		String setFrom = "moamoaofficial0@gmail.com";
+		String setFrom = "moaamoaaofficial@gmail.com";
 		String subject = "[MoaMoa] 회원 가입 인증 이메일 입니다.";
 
 		Context context = new Context();
@@ -125,7 +125,7 @@ public class MailService {
 		}
 		String tempPassword = makeRandomPassword();
 		MailForm mailForm = new MailForm();
-		String setFrom = "moamoaofficial0@gmail.com";
+		String setFrom = "moaamoaaofficial@gmail.com";
 		String subject = "[MoaMoa] 임시 비밀번호 발송 이메일 입니다.";
 
 		Context context = new Context();
