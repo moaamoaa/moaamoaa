@@ -30,7 +30,7 @@ export default function ProfilePage() {
 
   return (
     <ProfilePageContainer fixed>
-      <Grid container spacing={10}>
+      <Grid container sx={{ paddingY: '0px !important' }}>
         <Grid item xs={12} md={5} lg={4}>
           <Profile type="normal"></Profile>
         </Grid>

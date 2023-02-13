@@ -12,10 +12,22 @@ export default function ProfilePage() {
   return (
     <ProfilePageContainer fixed>
       <Grid container spacing={10}>
-        <Grid item xs={12} md={5} lg={4}>
+        <Grid
+          item
+          xs={12}
+          md={5}
+          lg={4}
+          sx={{ marginTop: { xs: '-2rem', md: '0' } }}
+        >
           <Profile type="edit"></Profile>
         </Grid>
-        <Grid item xs={12} md={7} lg={8}>
+        <Grid
+          item
+          xs={12}
+          md={7}
+          lg={8}
+          sx={{ marginTop: { xs: '-5rem', md: '0' } }}
+        >
           <ProfileEditContent></ProfileEditContent>
         </Grid>
       </Grid>

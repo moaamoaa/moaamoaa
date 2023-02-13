@@ -36,6 +36,8 @@ export default function Profile(props) {
   const sites = useSelector(state => state.profile.sites);
   const techStacks = useSelector(state => state.profile.techStacks);
   const userProfile = useSelector(state => state.profile.userProfile[0]);
+  const updateProfile = useSelector(state => state.profile.userProfile[1]);
+  const [image, setImage] = useState(userProfile.img);
 
   const navigate = useNavigate();
 
@@ -49,8 +51,32 @@ export default function Profile(props) {
   const handleOpenOfferList = () => {};
 
   const handleEditSuccess = () => {
-    customAxios.authAxios.post('/profile', {});
-    dispatch(handleEditProfile({}));
+    const formData = new FormData();
+
+    formData.append('file', image);
+
+    console.log(updateProfile);
+    const value = {
+      areas: updateProfile.areas,
+      nickname: updateProfile.nickname,
+      sites: updateProfile.sites,
+      techstacks: updateProfile.techStacks,
+    };
+    const blob = new Blob([JSON.stringify(value)], {
+      type: 'application/json',
+    });
+    formData.append('projectForm', blob);
+
+    customAxios.imageAxios
+      .post('/profile', {
+        data: formData,
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const handleCloseEditPage = () => {
@@ -87,6 +113,22 @@ export default function Profile(props) {
         profileSearchStatus: userProfile.profileSearchStatus,
       }),
     );
+  };
+
+  const handleDrop = event => {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    console.log(files);
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = event => {
+          setImage(event.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   };
 
   const userButtons = [
@@ -129,16 +171,66 @@ export default function Profile(props) {
             padding: '0 !important',
           }}
         >
-          <Avatar
-            src={userProfile.img}
-            variant="circular"
-            sx={{
-              width: { md: '280px', xl: '320px' },
-              height: { md: '280px', xl: '320px' },
-              boxShadow:
-                '0px 0px 10px 0px #88888888, 0px 2px 10px 0px rgba(100,0,0,0.5), 0px -2px 5px 0px rgba(0,100,0,0.5)',
-            }}
-          />
+          <Grid container display={'flex'}>
+            <Grid item>
+              <Avatar
+                onDrop={handleDrop}
+                onDragOver={event => event.preventDefault()}
+                src={image}
+                variant="circular"
+                sx={{
+                  width: { md: '280px', xl: '320px' },
+                  height: { md: '280px', xl: '320px' },
+                  boxShadow: '0px 0px 10px 4px #888888',
+                  opacity: 0.5,
+                  backgroundColor: 'rgba(0, 0, 0, 1)',
+                }}
+              />
+            </Grid>
+            <Grid
+              item
+              container
+              sx={{
+                position: 'absolute',
+                display: 'flex',
+                fontWeight: '600',
+                top: { md: '33%', xl: '35%' },
+                left: '50%',
+                transform: 'translate(-50%,-50%)',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textShadow: '0 0 3px #fff',
+              }}
+            >
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography variant="h6" color="initial">
+                  드래그 드랍으로
+                </Typography>
+              </Grid>
+
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography variant="h6" color="initial">
+                  이미지를 수정해 보세요.
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
 
           <TextField
             fullWidth
@@ -157,13 +249,14 @@ export default function Profile(props) {
           <Grid container spacing={10} sx={{ alignItems: 'center' }}>
             <Grid item xs={4}>
               <Avatar
-                src={userProfile.img}
+                src={image}
                 variant="circular"
                 sx={{
                   width: isMobile ? '100px' : '160px',
                   height: isMobile ? '100px' : '160px',
-                  boxShadow:
-                    '0px 0px 10px 0px #88888888, 0px 2px 10px 0px rgba(100,0,0,0.5), 0px -2px 5px 0px rgba(0,100,0,0.5)',
+                  boxShadow: '0px 0px 10px 0px #888888',
+                  opacity: 0.5,
+                  backgroundColor: 'rgba(0, 0, 0, 1)',
                 }}
               />
             </Grid>
@@ -273,9 +366,9 @@ export default function Profile(props) {
                     sx={{
                       '& .MuiBadge-badge': {
                         fontSize: 9,
-                        height: '30px',
-                        minWidth: '30px',
-                        borderRadius: 5,
+                        width: isMobile ? '1rem' : '2rem',
+                        minHeight: isMobile ? '1rem' : '2rem',
+                        borderRadius: '50%',
                       },
                     }}
                   >
@@ -283,8 +376,8 @@ export default function Profile(props) {
                       src={userProfile.img}
                       variant="circular"
                       sx={{
-                        width: isMobile ? '100px' : '160px',
-                        height: isMobile ? '100px' : '160px',
+                        width: isMobile ? '5rem' : '8rem',
+                        height: isMobile ? '5rem' : '8rem',
                         boxShadow:
                           '0px 0px 10px 0px #88888888, 0px 2px 10px 0px rgba(100,0,0,0.5), 0px -2px 5px 0px rgba(0,100,0,0.5)',
                       }}
@@ -315,14 +408,9 @@ const MoaProfile = styled(Container)`
   padding: 0 !important;
 `;
 
-const MoaSkeleton = styled(Skeleton)`
-  margin: 0 auto;
-  max-width: 320px;
-  max-height: 320px;
-`;
-
 const ProfileButtonContainer = styled(Box)`
   width: 100%;
+  margin-bottom: 3rem;
 `;
 
 const ProfileButton = styled(Button)`

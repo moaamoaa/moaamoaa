@@ -21,7 +21,7 @@ function ProfileEditContent() {
   const areas = useSelector(state => state.search.area);
 
   const [selectedValue, setSelectedValue] = useState(profile.techStacks);
-  const [selectedArea, setSelectedArea] = useState(areas);
+  const [selectedArea, setSelectedArea] = useState(profile.areas);
 
   const [githubLink, setGithubLink] = useState('');
   const [tistoryLink, setTistoryLink] = useState('');
@@ -102,20 +102,33 @@ function ProfileEditContent() {
 
     setProgress(event.target.value);
 
-    if (event.target.value === 'ONLINE') setSelectedArea([]);
-
-    dispatch(
-      handleEditProfile({
-        sites: [
-          { link: githubLink, name: 'github' },
-          { link: tistoryLink, name: 'tistory' },
-          { link: velogLink, name: 'velog' },
-          { link: projectLink, name: 'project' },
-        ],
-        areas: selectedArea,
-        techStacks: selectedValue,
-      }),
-    );
+    if (event.target.value === 'ONLINE') {
+      dispatch(
+        handleEditProfile({
+          sites: [
+            { link: githubLink, name: 'github' },
+            { link: tistoryLink, name: 'tistory' },
+            { link: velogLink, name: 'velog' },
+            { link: projectLink, name: 'project' },
+          ],
+          areas: [],
+          techStacks: selectedValue,
+        }),
+      );
+    } else {
+      dispatch(
+        handleEditProfile({
+          sites: [
+            { link: githubLink, name: 'github' },
+            { link: tistoryLink, name: 'tistory' },
+            { link: velogLink, name: 'velog' },
+            { link: projectLink, name: 'project' },
+          ],
+          areas: selectedArea,
+          techStacks: selectedValue,
+        }),
+      );
+    }
   };
 
   const handleSelectedArea = (event, value) => {

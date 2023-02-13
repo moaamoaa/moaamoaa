@@ -14,7 +14,6 @@ const initialStateValue = {
       profileSearchStatus: '',
     },
     {
-      img: '',
       nickname: '',
       profileOnOffStatus: '',
       sites: [
