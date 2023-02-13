@@ -38,6 +38,12 @@ const profileSlice = createSlice({
     handleProfilePk: (state, action) => {
       console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
+      state.areas = [];
+      state.reviews = [];
+      state.sites = [];
+
+      state.sideProjects = [];
+      state.techStacks = [];
     },
     handleSuccessContext: (state, action) => {
       state.userProfile[0].context = action.payload.context;
@@ -45,17 +51,8 @@ const profileSlice = createSlice({
     handleSuccessSidProject: (state, action) => {
       state.sideProjects = action.payload.sideProjects;
     },
-    handleCreateReview: (state, action) => {
-      state.reviews.push(action.payload.review);
-    },
-    handleEditReview: (state, action) => {
-      state.reviews = state.reviews.map(review => {
-        if (review.id !== action.payload.review.id) return review;
-
-        return action.payload.review;
-      });
-    },
     handleSuccessReview: (state, action) => {
+      console.log(action.payload.reviews);
       state.reviews = action.payload.reviews;
     },
     handleChangeState: (state, action) => {
@@ -117,7 +114,6 @@ export const {
   handleSuccessContext,
   handleProfilePk,
   handleSuccessReview,
-  handleCreateReview,
   handleEditProfile,
   handleEditReview,
   profileOpenSuccess,
