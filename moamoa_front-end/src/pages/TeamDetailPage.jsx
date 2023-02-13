@@ -30,7 +30,7 @@ export default function TeamDetailPage() {
   };
 
   // const [isLoaded, setIsLoaded] = useState(false);
-  const [lead, setLead] = useState(false);
+  const [lead, setLead] = useState('');
   const [detail, setDetail] = useState([]);
   const [cards, setCards] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -39,7 +39,7 @@ export default function TeamDetailPage() {
 
   // axios
   useEffect(() => {
-    CustomAxios.basicAxios
+    CustomAxios.authAxios
       // 해당 id의 프로젝트 조회됨 axios 주소
       .get(`/projects/detail?projectId=${projectId}`)
       .then(response => {
