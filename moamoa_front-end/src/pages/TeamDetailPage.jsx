@@ -51,7 +51,7 @@ export default function TeamDetailPage() {
         console.log(response.data);
         console.log('조회성공!');
         setCards(response.data.profileResultDtoList);
-        console.log(setCards(response.data.profileResultDtoList));
+        console.log(response.data.profileResultDtoList);
         setLead(response.data.leader);
         console.log(response.data.leader);
       })
