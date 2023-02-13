@@ -61,16 +61,20 @@ export default function TeamDetailPage() {
     setIsLoaded(true);
   }, [projectId, isLoaded]);
 
-  // 배너
-  // const teamBanner = {
-  //   title: <p>{detail.title}</p>,
-  //   leader: <span>{detail.leaderNickname}</span>,
-  //   image: (
-  //     <span>
-  //       <img src="{detail.img}" alt=""></img>,
-  //     </span>
-  //   ),
-  // };
+  const handleApply = () => {
+    CustomAxios.authAxios({
+      method: 'POST',
+      url: '/apply',
+      data: { projectId: projectId },
+    })
+      .then(response => {
+        console.log(response.data);
+        console.log('지원완료!');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -129,11 +133,15 @@ export default function TeamDetailPage() {
             {lead ? (
               <Button size="small" variant="contained" color="primary">
                 {/* 지원 및 제안 확인 */}
-                {/* 팀관리아이콘 */}
                 <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
               </Button>
             ) : (
-              <Button size="small" variant="contained" color="primary">
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                onClick={handleApply}
+              >
                 지원 보내기
               </Button>
             )}
