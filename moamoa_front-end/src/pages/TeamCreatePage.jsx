@@ -64,7 +64,7 @@ export default function TeamCreatePage() {
       category: classRef.current,
       contents: inputRef.current,
       endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
-      img: 'd',
+      img: '',
       projectId: null, // 생성 요청 시에 줄 수 있는 값은 아니니까
       projectStatus: onoffRef.current,
       techStacks: techRef.current,
