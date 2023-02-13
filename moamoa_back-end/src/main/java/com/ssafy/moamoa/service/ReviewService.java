@@ -61,7 +61,7 @@ public class ReviewService {
 	}
 
  	// 작성자 : profileId , 받는 사람 : reviewForm.getProfileId();
-	public ReviewForm addReview(Long profileId, ReviewForm reviewForm) {
+	public List<ReviewForm> addReview(Long profileId, ReviewForm reviewForm) {
 		LocalDateTime curTime =ts.getCurrentTime();
 		String parsedTime = ts.parseCurrentTime(curTime);
 
@@ -80,24 +80,31 @@ public class ReviewService {
 
 		Long reviewId = reviewRepository.save(review).getId();
 
-		// Return
+		// Return List
+		List<Review> reviews = reviewRepository.getReviewsByOrderAsc(reviewForm.getProfileId());
+		ArrayList<ReviewForm> returnList = new ArrayList<>();
+		for(Review r: reviews)
+		{
+			ReviewForm result = ReviewForm.builder(
 
-		ReviewForm result = ReviewForm.builder(
+					).id(r.getId())
+					.profileId(receiver.getId())
+					.senderId(sender.getId())
+					.name(sender.getNickname())
+					.img(sender.getImg())
+					.time(ts.parseCurrentTime(r.getTime()))
+					.context(r.getContext()).build();
 
-			).id(reviewId)
-				.profileId(reviewForm.getProfileId())
-			.senderId(reviewForm.getSenderId())
-			.name(sender.getNickname())
-			.img(review.getSendUser().getImg())
-			.time(parsedTime)
-			.context(reviewForm.getContext()).build();
+			returnList.add(result);
+		}
 
-		return result;
+
+		return returnList;
 
 	}
 	// 작성자 : profileId , 받는 사람 : reviewForm.getProfileId();
 
-	public ReviewForm modifyReview(Long profileId, ReviewForm reviewForm) {
+	public List<ReviewForm> modifyReview(Long profileId, ReviewForm reviewForm) {
 
 
 		Review review = reviewRepository.getReviewById(reviewForm.getId());
@@ -114,21 +121,30 @@ public class ReviewService {
 
 		review.setContext(reviewForm.getContext());
 
-		Review resultReview = reviewRepository.save(review);
+		reviewRepository.save(review);
 
 		// Return
 
-		ReviewForm result = ReviewForm.builder(
+		List<Review> reviews = reviewRepository.getReviewsByOrderAsc(reviewForm.getProfileId());
+		ArrayList<ReviewForm> returnList = new ArrayList<>();
 
-				).id(resultReview.getId())
-				.profileId(resultReview.getReceiveProfile().getId())
-				.senderId(sender.getId())
-				.name(sender.getNickname())
-				.img(sender.getImg())
-				.time(ts.parseCurrentTime(resultReview.getTime()))
-				.context(resultReview.getContext()).build();
+		for(Review r: reviews)
+		{
+			ReviewForm result = ReviewForm.builder(
 
-		return result;
+					).id(r.getId())
+					.profileId(receiver.getId())
+					.senderId(sender.getId())
+					.name(sender.getNickname())
+					.img(sender.getImg())
+					.time(ts.parseCurrentTime(r.getTime()))
+					.context(r.getContext()).build();
+
+			returnList.add(result);
+		}
+
+
+		return returnList;
 
 	}
 
@@ -152,8 +168,6 @@ public class ReviewService {
 		//
 		Long deleteCount = reviewRepository.deleteReviewById(reviewId);
 
-
-
 		// Return
 
 		List<Review> reviewList = reviewRepository.getReviewsByOrderAsc(profile.getId());
@@ -174,12 +188,6 @@ public class ReviewService {
 		}
 
 		return returnList;
-	}
-
-	public String getUserImg(Long senderId) {
-		Optional<Profile> profile = profileRepository.findById(senderId);
-
-		return profile.get().getImg();
 	}
 
 }

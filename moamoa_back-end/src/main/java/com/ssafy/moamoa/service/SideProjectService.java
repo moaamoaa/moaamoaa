@@ -58,7 +58,7 @@ public class SideProjectService {
 		return sidePjtFormList;
 	}
 
-	//  profileId 가 아닌 sidePjtForm 의 ID가 들어가야한다.
+	//  profileId : 로그인 한 유저 아이디가 되어버리므로 sidePjtForm에서 받아서 사용
 	public List<SidePjtForm> addSidePjt(Long profileId, SidePjtForm sidePjtForm) {
 
 		SidePjt sidePjt = SidePjt.builder()
@@ -66,7 +66,6 @@ public class SideProjectService {
 			.name(sidePjtForm.getName())
 			.year(sidePjtForm.getYear())
 			.context(sidePjtForm.getContext())
-
 			.build();
 
 		SidePjt tempSidePjt  = sideProjectRepository.save(sidePjt);
