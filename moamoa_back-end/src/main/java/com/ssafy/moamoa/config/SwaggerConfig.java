@@ -22,7 +22,8 @@ public class SwaggerConfig extends ResponseEntityExceptionHandler implements Web
 		return new Docket(DocumentationType.SWAGGER_2) // 문서 형식 지정
 			.apiInfo(this.apiInfo()) // API 정보 설정(title, description 등)
 			.select()
-			.apis(RequestHandlerSelectors.any()) // Swagger를 적용 할 package를 설정한다. 여기서는 모든 RequstMapping을 설정
+			.apis(RequestHandlerSelectors.basePackage(
+				"com.ssafy.moamoa")) // Swagger를 적용 할 package를 설정
 			.paths(PathSelectors.any()) // 위의 API 중 특정 path에 대하여 설정한다. 여기서는 모든 path로 설정
 			.build();
 
