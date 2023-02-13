@@ -35,7 +35,6 @@ public class TeamService {
 		// 팀장인지 확인
 		Project project = projectRepository.findById(projectId).get();
 		User user = userRepository.findById(userId).get();
-		//List<Team> teams = teamRepository.findByProject(project);
 
 		TeamRole teamRole = TeamRole.LEADER;
 		if(teamRepository.findByUser(user, project).isPresent()) {
