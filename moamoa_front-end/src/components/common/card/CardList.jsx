@@ -58,7 +58,7 @@ export default function CardList(props) {
             }}
             textAlign="center"
           >
-            기술스택이 아직 등록되지 않았습니다.
+            기술스택이 등록되지 않았습니다.
           </Typography>
         )}
       </Grid>
@@ -83,7 +83,7 @@ export default function CardList(props) {
             }}
             textAlign="center"
           >
-            사이트가 아직 등록되지 않았습니다.
+            사이트가 등록되지 않았습니다.
           </Typography>
         )}
       </Grid>
