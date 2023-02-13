@@ -239,17 +239,19 @@ public class ProjectService {
 	public void deleteProject(ProjectForm projectForm) throws Exception {
 		// locked check
 		isProjectLocked(projectForm.getProjectId());
+		Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
+
 		// 멤버수 체크
 		List<Team> findMembers = teamRepository.findByProject_Id(projectForm.getProjectId());
 		for (Team t: findMembers) {
 			if(t.getUser().getId() != projectForm.getUserId())
 			{
-				projectForm.setUserId(t.getUser().getId());
-				changeLeader(projectForm.getUserId(), projectForm);
+				changeLeader(t.getUser().getId(), projectForm);
+				teamRepository.delete(teamRepository.findByUser_Id(projectForm.getUserId()).get());
+				findProject.setCurrentPeople(findProject.getCurrentPeople()-1);
 			}
 		}
 		if(findMembers.size()==1) {
-			Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
 			findProject.setLocked(true);
 		}
 	}
@@ -258,6 +260,7 @@ public class ProjectService {
 	public void deleteMember(ProjectForm projectForm) throws Exception {
 		// locked check
 		isProjectLocked(projectForm.getProjectId());
+		Project project = projectRepository.findById(projectForm.getProjectId()).get();
 
 		if (!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
 				|| userRepository.findById(projectForm.getUserId()).get().isLocked()) {
@@ -266,6 +269,7 @@ public class ProjectService {
 		Team fineTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId())
 				.get();
 		teamRepository.delete(fineTeam);
+		project.setCurrentPeople(project.getCurrentPeople()-1);
 	}
 
 	// 권한 위임
