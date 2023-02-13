@@ -40,32 +40,56 @@ export default function TeamCreatePage() {
   const { userPk } = useSelector(state => state.user.userPk);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  //파일 업로더
+  const [fileImageURL, setFileImageURL] = useState('');
   const [fileImage, setFileImage] = useState('');
+
+  // handler : 이미지 파일 업로드
   const handleChange = event => {
     const files = event.target.files;
-    setFileImage(URL.createObjectURL(event.target.files[0]));
-    console.log(files[0]);
-    console.log(setFileImage);
+    // 미리보기용
+    setFileImageURL(URL.createObjectURL(files[0]));
+    // axios용
+    setFileImage(files[0]);
   };
 
-  //handler 등록 버튼 클릭
-  const handleClick = e => {
-    CustomAxios.imageAxios
-      .post('/projects/new', {
-        areaId: regionRef.current,
-        category: classRef.current,
-        contents: inputRef.current,
-        endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
-        img: fileImage,
-        projectId: null, // 생성 요청 시에 줄 수 있는 값은 아니니까
-        projectStatus: onoffRef.current,
-        techStacks: techRef.current,
-        title: titleRef.current,
-        totalPeople: numberRef.current,
-        userid: userPk,
-      })
+  // handler : 팀 등록 버튼 클릭
+  const handleClick = async event => {
+    // FormData 객체 생성
+    const formData = new FormData();
+    // file이라는 key값에 value로 이미지 파일 담기
+    formData.append('file', fileImage); // fileImage는 files[0]를 담은 useState값
+    // projectForm이라는 key값에 value로 담기
+    const value = {
+      areaId: regionRef.current,
+      category: classRef.current,
+      contents: inputRef.current,
+      endDate: dayjs(dateRef.current).format('YYYY-MM-DD'),
+      img: 'd',
+      projectId: null, // 생성 요청 시에 줄 수 있는 값은 아니니까
+      projectStatus: onoffRef.current,
+      techStacks: techRef.current,
+      title: titleRef.current,
+      totalPeople: numberRef.current,
+      userid: userPk,
+    };
+    const blob = new Blob([JSON.stringify(value)], {
+      type: 'application/json',
+    });
+    formData.append('projectForm', blob);
+    // OR 백엔드 요청 방식에 따라
+    // formData.append('projectForm', JSON.stringify(value));
+    // 찍어보기
+    console.log(formData.get('projectForm'), '프로젝트폼');
+    console.log(formData.get('file'), '파일');
+
+    //Axios
+    await CustomAxios.imageAxios({
+      method: 'POST',
+      url: '/projects/new',
+      mode: 'cors',
+      data: formData, // 요거 하나만 보내기!
+      // header: { 'Content-Type': 'multipart/form-data' },
+    })
       .then(response => {
         console.log(response.data);
         console.log('생성완료!');
@@ -116,6 +140,7 @@ export default function TeamCreatePage() {
   return (
     <>
       <Container fixed>
+        {/* 팀 이미지 */}
         <Paper
           sx={{
             position: 'relative',
@@ -124,7 +149,7 @@ export default function TeamCreatePage() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
-            backgroundImage: `url(${fileImage})`,
+            backgroundImage: `url(${fileImageURL})`,
             height: 'calc(400px + 10vw)', // 반응형 웹 calc
             maxHeight: 'calc(100vh - 56px)',
           }}
