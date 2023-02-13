@@ -15,6 +15,7 @@ import com.ssafy.moamoa.domain.dto.ProjectResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.service.SearchService;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +27,7 @@ public class SearchController {
 
 	private final SearchService searchService;
 
+	@ApiOperation(value = "프로젝트 조회", notes = "프로젝트 목록을 조건에 맞게 검색합니다.", response = ProjectResultDto.class, responseContainer = "List")
 	@GetMapping("/project")
 	public ResponseEntity<?> searchProject(SearchCondition condition, String cursorId, Pageable pageable) {
 		log.debug(condition.toString());
@@ -36,6 +38,7 @@ public class SearchController {
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "프로필 조회", notes = "프로필 목록을 조건에 맞게 검색합니다.", response = ProfileResultDto.class, responseContainer = "List")
 	@GetMapping("/profile")
 	public ResponseEntity<?> searchProfile(SearchCondition condition, String cursorId, Pageable pageable) {
 		List<ProfileResultDto> results = searchService.searchProfile(condition, cursorId, pageable);
@@ -45,6 +48,7 @@ public class SearchController {
 		return new ResponseEntity<>(results, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "검색 필터 조회", notes = "검색에 필요한 필터 데이터를 리턴", response = FilterDto.class)
 	@GetMapping()
 	public ResponseEntity<?> getSearchFilter() {
 		FilterDto searchFilter = searchService.getSearchFilter();
