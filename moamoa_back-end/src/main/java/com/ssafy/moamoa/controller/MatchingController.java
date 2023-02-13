@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ssafy.moamoa.domain.dto.ApplyForm;
 import com.ssafy.moamoa.domain.dto.MatchingForm;
@@ -59,13 +60,13 @@ public class MatchingController {
 	// 팀 지원 확인
 	@ApiOperation(value = "팀 지원 확인", notes = "팀장이 개인에게 받은 지원을 확인한다.")
 	@GetMapping("/apply/project")
-	public ResponseEntity<?> showReceiveApply(@RequestBody MatchingForm matchingForm,
+	public ResponseEntity<?> showReceiveApply(@RequestParam("projectId") Long projectId,
 		Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId())) {
+		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectId)) {
 			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
-		List<ApplyForm> applyForms = applyService.showReceiveApply(matchingForm.getProjectId());
+		List<ApplyForm> applyForms = applyService.showReceiveApply(projectId);
 		return new ResponseEntity<List<ApplyForm>>(applyForms, HttpStatus.OK);
 	}
 
@@ -128,13 +129,13 @@ public class MatchingController {
 	// 팀 제안 확인
 	@ApiOperation(value = "팀 제안 확인", notes = "팀장이 개인에게 보낸 지원을 확인한다.")
 	@GetMapping("/offer/project")
-	public ResponseEntity<?> showSendOffer(@RequestBody MatchingForm matchingForm, Authentication authentication) throws
+	public ResponseEntity<?> showSendOffer(@RequestParam("projectId") Long projectId, Authentication authentication) throws
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), matchingForm.getProjectId())) {
+		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectId)) {
 			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
-		List<OfferForm> offerForms = offerService.showSendOffer(matchingForm.getProjectId());
+		List<OfferForm> offerForms = offerService.showSendOffer(projectId);
 		return new ResponseEntity<List<OfferForm>>(offerForms, HttpStatus.OK);
 	}
 
