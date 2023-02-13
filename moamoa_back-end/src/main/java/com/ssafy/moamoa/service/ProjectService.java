@@ -1,5 +1,18 @@
 package com.ssafy.moamoa.service;
 
+import com.ssafy.moamoa.domain.ProjectCategory;
+import com.ssafy.moamoa.domain.ProjectStatus;
+import com.ssafy.moamoa.domain.TeamRole;
+import com.ssafy.moamoa.domain.dto.*;
+import com.ssafy.moamoa.domain.entity.*;
+import com.ssafy.moamoa.repository.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -7,36 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.persistence.EntityNotFoundException;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.ssafy.moamoa.domain.ProjectCategory;
-import com.ssafy.moamoa.domain.ProjectStatus;
-import com.ssafy.moamoa.domain.TeamRole;
-import com.ssafy.moamoa.domain.dto.AreaForm;
-import com.ssafy.moamoa.domain.dto.ProfileResultDto;
-import com.ssafy.moamoa.domain.dto.ProjectDetail;
-import com.ssafy.moamoa.domain.dto.ProjectForm;
-import com.ssafy.moamoa.domain.dto.TechStackForm;
-import com.ssafy.moamoa.domain.entity.Profile;
-import com.ssafy.moamoa.domain.entity.Project;
-import com.ssafy.moamoa.domain.entity.ProjectArea;
-import com.ssafy.moamoa.domain.entity.Team;
-import com.ssafy.moamoa.domain.entity.TechStack;
-import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.repository.ProfileRepository;
-import com.ssafy.moamoa.repository.ProjectAreaRepository;
-import com.ssafy.moamoa.repository.ProjectRepository;
-import com.ssafy.moamoa.repository.ProjectTechStackRepository;
-import com.ssafy.moamoa.repository.TeamRepository;
-import com.ssafy.moamoa.repository.UserRepository;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = true)
@@ -149,21 +132,21 @@ public class ProjectService {
 				break;
 		}
 		Project project = Project.builder()
-			.category(projectCategory)
-			.countApply(0)
-			.hit(0)
-			.img(projectForm.getImg())
-			.onoffline(projectStatus)
-			.createDate(LocalDate.now())
-			.startDate(LocalDate.now())
-			.endDate(endDate)
-			.img(imageService.getRandomDefaultProjectImage())
-			.title(projectForm.getTitle())
-			.contents(projectForm.getContents())
-			.totalPeople(cntPeople)
-			.currentPeople(1)
-			.isLocked(false)
-			.build();
+				.category(projectCategory)
+				.countApply(0)
+				.hit(0)
+				.img(projectForm.getImg())
+				.onoffline(projectStatus)
+				.createDate(LocalDate.now())
+				.startDate(LocalDate.now())
+				.endDate(endDate)
+				.img(imageService.getRandomDefaultProjectImage())
+				.title(projectForm.getTitle())
+				.contents(projectForm.getContents())
+				.totalPeople(cntPeople)
+				.currentPeople(1)
+				.isLocked(false)
+				.build();
 		Project projectSaved = projectRepository.save(project);
 
 		// Setting img to our Project
@@ -189,6 +172,11 @@ public class ProjectService {
 	// 프로젝트/스터디 수정
 	// 유저 id, projectForm, file
 	public ProjectDetail updateProject(ProjectForm projectForm, MultipartFile file) throws Exception {
+		boolean imgExist = false;
+		if (file != null) {
+			imgExist = true;
+		}
+
 		// locked check
 		isProjectLocked(projectForm.getProjectId());
 
@@ -219,8 +207,7 @@ public class ProjectService {
 				projectStatus = ProjectStatus.OFFLINE;
 				break;
 		}
-		// Set Project Img
-		project.setImg(s3Service.uploadProjectImg(project.getId(), file, projectForm.getTitle()));
+
 
 		// project
 		project.setOnoffline(projectStatus);
@@ -228,8 +215,12 @@ public class ProjectService {
 		project.setEndDate(endDate);
 		project.setTitle(projectForm.getTitle());
 		project.setTotalPeople(cntPeople);
-		project.setImg(projectForm.getImg());
 		project.setContents(projectForm.getContents());
+		// Set Project Img
+		if (imgExist) {
+			project.setImg(s3Service.uploadProjectImg(project.getId(), file, projectForm.getTitle()));
+		}
+
 
 		// project techstack
 		techStackService.modifyProjectTechStack(project.getId(), projectForm.getTechStacks());
@@ -259,11 +250,11 @@ public class ProjectService {
 		isProjectLocked(projectForm.getProjectId());
 
 		if (!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
-			|| userRepository.findById(projectForm.getUserId()).get().isLocked()) {
+				|| userRepository.findById(projectForm.getUserId()).get().isLocked()) {
 			throw new EntityNotFoundException("존재하지 않는 팀원입니다.");
 		}
 		Team fineTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId())
-			.get();
+				.get();
 		teamRepository.delete(fineTeam);
 	}
 
@@ -297,11 +288,12 @@ public class ProjectService {
 				continue;
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
 			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(), profile.getNickname(),
-				profile.getImg(), profile.getContext(), profile.getProfileOnOffStatus());
+					profile.getImg(), profile.getContext(), profile.getProfileOnOffStatus());
 			profileResultDtoList.add(profileResultDto);
 			if (t.getRole() == TeamRole.LEADER) {
 				projectDetail.setLeaderId(t.getUser().getId());
 				projectDetail.setLeaderNickname(profile.getNickname());
+
 			}
 		}
 		projectDetail.setProfileResultDtoList(profileResultDtoList);
@@ -309,9 +301,9 @@ public class ProjectService {
 		// TechStack
 		List<TechStackForm> techStackForms = new ArrayList<>();
 		List<TechStack> techStacks = projectTechStackRepository.findByProject_Id(projectId)
-			.stream()
-			.map(t -> t.getTechStack())
-			.collect(Collectors.toList());
+				.stream()
+				.map(t -> t.getTechStack())
+				.collect(Collectors.toList());
 		if (!techStacks.isEmpty()) {
 			for (TechStack t : techStacks) {
 				TechStackForm techStackForm = TechStackForm.toEntity(t);
@@ -327,8 +319,6 @@ public class ProjectService {
 	}
 
 	public boolean setIsLeader(Long userId, Long projectId) {
-		Project project = projectRepository.findById(projectId).get();
-		project.setHit(project.getHit()-1);
 		return teamService.checkLeader(userId, projectId);
 	}
 
