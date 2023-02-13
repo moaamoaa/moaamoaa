@@ -34,9 +34,9 @@ export default function LogInDialog(props) {
         const token = response.data.accessToken;
         const userPk = response.data.id;
 
-        // Set the access token
         Cookies.set('access_token', token, { expires: 1 });
         dispatch(loginSuccess({ userPk: userPk }));
+        location.reload();
       })
       .catch(error => {
         console.log(error);
