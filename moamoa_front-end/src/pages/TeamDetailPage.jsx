@@ -17,6 +17,7 @@ import CardList from 'components/common/card/CardList';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import Footer from 'components/common/footer/Footer';
 
 // axios 입력값을 불러와서 띄우기
 
@@ -115,8 +116,6 @@ export default function TeamDetailPage() {
             </Grid>
           </Grid>
         </Paper>
-      </Container>
-      <Container fixed>
         <Grid container justifyContent="flex-end">
           <Stack
             direction="row"
@@ -245,7 +244,7 @@ export default function TeamDetailPage() {
         <h2>팀원 소개</h2>
         <CardList cards={cards} type="member"></CardList>
       </Container>
-      <hr></hr>
+      <Footer></Footer>
     </>
   );
 }
