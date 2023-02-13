@@ -6,7 +6,11 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import { handleOpenTeamDetail } from 'redux/team';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 export default function TeamItem(props) {
   const navigate = useNavigate();
@@ -27,6 +31,9 @@ export default function TeamItem(props) {
         <ListItemAvatar>
           <Avatar alt="" src={props.offerapply.projectImg} />
         </ListItemAvatar>
+        <Button>
+          <DoDisturbOnIcon></DoDisturbOnIcon>
+        </Button>
         <ListItemText
           primary={props.offerapply.title}
           secondary={
@@ -67,6 +74,14 @@ export default function TeamItem(props) {
               >
                 {props.offerapply.projectContents}
               </Typography>
+              <Stack direction="row" sx={{ pt: 4 }}>
+                <Button>
+                  <CheckCircleIcon ㅣ뮤></CheckCircleIcon>
+                </Button>
+                <Button>
+                  <CancelIcon></CancelIcon>
+                </Button>
+              </Stack>
             </React.Fragment>
           }
         />
