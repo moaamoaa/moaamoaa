@@ -49,13 +49,6 @@ public class UserController {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final CookieUtil cookieUtil;
 
-	@ApiOperation(value = "전체 사용자 정보 조회", notes = "전체 사용자의 정보를 조회한다.")
-	@GetMapping
-	public ResponseEntity<?> showList() throws Exception {
-		List<User> users = userService.findUsers();
-		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
-	}
-
 	@ApiOperation(value = "회원 가입", notes = "email, password, nickname 정보로 회원 가입을 한다.")
 	// 회원 가입
 	@PostMapping("/signup")
@@ -90,7 +83,7 @@ public class UserController {
 		return new ResponseEntity<String>("닉네임 중복 검증 성공", HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "비밀번호 변경", notes = "id에 맞는 회원의 password를 수정한다.")
+	@ApiOperation(value = "비밀번호 변경", notes = "auth에 맞는 회원의 password를 수정한다.")
 	// 비밀번호 변경
 	@PostMapping("/password")
 	public ResponseEntity<?> updatePassword(@Valid @RequestBody SignForm signForm, Authentication authentication) {
@@ -112,11 +105,10 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "회원 삭제", notes = "email에 맞는 회원을 삭제한다.")
+	@ApiOperation(value = "회원 탈퇴", notes = "auth에 맞는 회원을 삭제한다.")
 	// 회원 삭제
 	@DeleteMapping
 	public ResponseEntity<?> deleteUser(Authentication authentication) {
-		// 받은 이메일로 delete
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		userService.deleteUser(Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);
