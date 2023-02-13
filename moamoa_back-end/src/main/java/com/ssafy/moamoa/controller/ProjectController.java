@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -135,8 +136,8 @@ public class ProjectController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-/*	@ApiOperation(value = "권한 위임", notes = "팀장이 팀원에게 권한을 위임한다.")
-	@DeleteMapping("/member")
+	@ApiOperation(value = "권한 위임", notes = "팀장이 팀원에게 권한을 위임한다.")
+	@PutMapping("/leader")
 	public ResponseEntity<?> changeLeader(@RequestBody ProjectForm projectForm, Authentication authentication) throws
 		Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
@@ -144,9 +145,9 @@ public class ProjectController {
 			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		if (Long.valueOf(userDetails.getUsername()).equals(projectForm.getUserId())) {
-			throw new AccessDeniedException("팀장은 강퇴할 수 없습니다.");
+			throw new AccessDeniedException("이미 팀장입니다.");
 		}
-		projectService.deleteMember(projectForm);
+		projectService.changeLeader(Long.valueOf(userDetails.getUsername()), projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
-	}*/
+	}
 }

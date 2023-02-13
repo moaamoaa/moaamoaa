@@ -47,4 +47,7 @@ public class Team {
 
 	public Team() {
 	}
+
+	//==set==//
+	public void setRole(TeamRole teamRole){this.role = teamRole;}
 }

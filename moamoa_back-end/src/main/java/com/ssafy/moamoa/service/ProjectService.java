@@ -239,9 +239,19 @@ public class ProjectService {
 	public void deleteProject(ProjectForm projectForm) throws Exception {
 		// locked check
 		isProjectLocked(projectForm.getProjectId());
-
-		Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
-		findProject.setLocked(true);
+		// 멤버수 체크
+		List<Team> findMembers = teamRepository.findByProject_Id(projectForm.getProjectId());
+		for (Team t: findMembers) {
+			if(t.getUser().getId() != projectForm.getUserId())
+			{
+				projectForm.setUserId(t.getUser().getId());
+				changeLeader(projectForm.getUserId(), projectForm);
+			}
+		}
+		if(findMembers.size()==1) {
+			Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
+			findProject.setLocked(true);
+		}
 	}
 
 	// 팀원 삭제
@@ -256,6 +266,23 @@ public class ProjectService {
 		Team fineTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId())
 				.get();
 		teamRepository.delete(fineTeam);
+	}
+
+	// 권한 위임
+	public void changeLeader(Long leaderId, ProjectForm projectForm) throws Exception {
+		// locked check
+		isProjectLocked(projectForm.getProjectId());
+
+		if (!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
+			|| userRepository.findById(projectForm.getUserId()).get().isLocked()) {
+			throw new EntityNotFoundException("존재하지 않는 팀원입니다.");
+		}
+		Team findLeader = teamRepository.findByUser_IdAndProject_Id(leaderId, projectForm.getProjectId())
+			.get();
+		Team findTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId())
+			.get();
+		findLeader.setRole(TeamRole.MEMBER);
+		findTeam.setRole(TeamRole.LEADER);
 	}
 
 	// 자신이 속한 프로젝트/스터디 반환
