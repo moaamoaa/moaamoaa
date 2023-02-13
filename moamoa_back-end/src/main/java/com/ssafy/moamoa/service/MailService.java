@@ -15,7 +15,11 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.ssafy.moamoa.domain.dto.MailForm;
+import com.ssafy.moamoa.domain.entity.Profile;
+import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.domain.entity.User;
+import com.ssafy.moamoa.repository.ProfileRepository;
+import com.ssafy.moamoa.repository.ProjectRepository;
 import com.ssafy.moamoa.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 public class MailService {
 
 	private final UserRepository userRepository;
+	private final ProfileRepository profileRepository;
+	private final ProjectRepository projectRepository;
 
 	private final JavaMailSender mailSender;
 	private final SpringTemplateEngine templateEngine;
@@ -82,27 +88,11 @@ public class MailService {
 		mailSender.send(mimeMessage);
 	}
 
-	// 회원 가입 시 메일 인증
-	// public String joinEmail(String email) throws MessagingException {
-	// 	int checkNum = makeRandomNum();
-	// 	MailForm mailForm = new MailForm();
-	// 	String setFrom = "moamoaofficial0@gmail.com";
-	// 	String subject = "[MoaMoa] 회원 가입 인증 이메일 입니다.";
-	// 	String content = "홈페이지를 방문해주셔서 감사합니다." + "<br><br>"
-	// 		+ "인증 번호는 " + checkNum + "입니다." + "<br>" + "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
-	//
-	// 	mailForm.setMailFrom(setFrom);
-	// 	mailForm.setMailTo(email);
-	// 	mailForm.setMailSubject(subject);
-	// 	mailForm.setMailContent(content);
-	// 	sendEmail(mailForm);
-	// 	return Integer.toString(checkNum);
-	// }
 	public String joinEmail(String email) throws MessagingException {
 		int checkNum = makeRandomNum();
 		MailForm mailForm = new MailForm();
 		String setFrom = "moaamoaaofficial@gmail.com";
-		String subject = "[MoaMoa] 회원 가입 인증 이메일 입니다.";
+		String subject = "[MoaaMoaa] 회원 가입 인증 이메일 입니다.";
 
 		Context context = new Context();
 		context.setVariable("checkNum", checkNum);
@@ -126,7 +116,7 @@ public class MailService {
 		String tempPassword = makeRandomPassword();
 		MailForm mailForm = new MailForm();
 		String setFrom = "moaamoaaofficial@gmail.com";
-		String subject = "[MoaMoa] 임시 비밀번호 발송 이메일 입니다.";
+		String subject = "[MoaaMoaa] 임시 비밀번호 발송 이메일 입니다.";
 
 		Context context = new Context();
 		context.setVariable("tempPassword", tempPassword);
@@ -138,6 +128,54 @@ public class MailService {
 		mailForm.setMailContent(content);
 		sendEmail(mailForm);
 		return (tempPassword);
+	}
+
+	public void receiveApply(Long userId, Long projectId, Long leaderId) throws MessagingException {
+		// 받은 지원 알림
+		// 유저의 닉네임 search
+		// project title search
+		Profile profile = profileRepository.findByUser_Id(userId).get();
+		Project project = projectRepository.findById(projectId).get();
+
+		// 팀장의 email search
+		String email = userRepository.findById(leaderId).get().getEmail();
+		String userNickname = profile.getNickname();
+		String projectTitle = project.getTitle();
+		MailForm mailForm = new MailForm();
+		String setFrom = "moaamoaaofficial@gmail.com";
+		String subject = "[MoaaMoaa] 지원 알림 이메일 입니다.";
+		String content = userNickname + "님이 " + projectTitle + "에 지원을 했습니다."
+			+ "<br>" + "확인하러 가시겠습니까?";
+
+		mailForm.setMailFrom(setFrom);
+		mailForm.setMailTo(email);
+		mailForm.setMailSubject(subject);
+		mailForm.setMailContent(content);
+		sendEmail(mailForm);
+	}
+
+	// 받은 제안 알림
+	public void receiveOffer(Long userId, Long projectId) throws MessagingException {
+		// 유저의 닉네임 search
+		// project title search
+		Profile profile = profileRepository.findByUser_Id(userId).get();
+		Project project = projectRepository.findById(projectId).get();
+
+		// 유저의 email search
+		String email = userRepository.findById(userId).get().getEmail();
+		String userNickname = profile.getNickname();
+		String projectTitle = project.getTitle();
+		MailForm mailForm = new MailForm();
+		String setFrom = "moaamoaaofficial@gmail.com";
+		String subject = "[MoaaMoaa] 제안 알림 이메일 입니다.";
+		String content = userNickname + "님 " + projectTitle + "에서 제안을 요청했습니다."
+			+ "<br>" + "확인하러 가시겠습니까?";
+
+		mailForm.setMailFrom(setFrom);
+		mailForm.setMailTo(email);
+		mailForm.setMailSubject(subject);
+		mailForm.setMailContent(content);
+		sendEmail(mailForm);
 	}
 }
 

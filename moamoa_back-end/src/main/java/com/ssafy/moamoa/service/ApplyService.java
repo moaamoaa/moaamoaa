@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApplyService {
 
+	private final MailService mailService;
 	private final UserService userService;
 	private final ProjectService projectService;
 	private final ProjectRepository projectRepository;
@@ -53,6 +54,8 @@ public class ApplyService {
 		if (applyRepository.findByUser_IdAndProject_Id(userId, projectId).isPresent()) {
 			throw new DuplicateOfferApplyException("이미 지원을 보냈습니다.");
 		} else {
+			Team leader = teamRepository.findByRoleAndProject_Id(TeamRole.LEADER, projectId).get();
+			mailService.receiveApply(userId, projectId, leader.getUser().getId());
 			Apply apply = Apply.builder()
 				.user(user)
 				.project(project)

@@ -32,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OfferService {
 
+	private final MailService mailService;
 	private final UserService userService;
 	private final ProjectService projectService;
 	private final ProjectRepository projectRepository;
@@ -54,6 +55,7 @@ public class OfferService {
 		if (offerRepository.findByUser_IdAndProject_Id(userId, projectId).isPresent()) {
 			throw new DuplicateOfferApplyException("이미 해당 회원에게 제안을 보냈습니다.");
 		} else {
+			mailService.receiveOffer(userId, projectId);
 			Offer offer = Offer.builder()
 				.user(user)
 				.project(project)
