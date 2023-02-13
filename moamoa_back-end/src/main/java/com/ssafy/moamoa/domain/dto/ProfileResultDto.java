@@ -37,9 +37,10 @@ public class ProfileResultDto {
 		this.cursorId = cursorId;
 	}
 
-	public ProfileResultDto(Long id, String nickname, String context, ProfileOnOffStatus status) {
+	public ProfileResultDto(Long id, String nickname, String img, String context, ProfileOnOffStatus status) {
 		this.id = id;
 		this.nickname = nickname;
+		this.img = img;
 		this.context = context;
 		this.status = status;
 	}

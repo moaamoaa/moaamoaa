@@ -134,4 +134,19 @@ public class ProjectController {
 		projectService.deleteMember(projectForm);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
+/*	@ApiOperation(value = "권한 위임", notes = "팀장이 팀원에게 권한을 위임한다.")
+	@DeleteMapping("/member")
+	public ResponseEntity<?> changeLeader(@RequestBody ProjectForm projectForm, Authentication authentication) throws
+		Exception {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		if (!teamService.checkLeader(Long.valueOf(userDetails.getUsername()), projectForm.getProjectId())) {
+			throw new AccessDeniedException("팀장이 아닙니다.");
+		}
+		if (Long.valueOf(userDetails.getUsername()).equals(projectForm.getUserId())) {
+			throw new AccessDeniedException("팀장은 강퇴할 수 없습니다.");
+		}
+		projectService.deleteMember(projectForm);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}*/
 }
