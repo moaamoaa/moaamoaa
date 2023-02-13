@@ -20,9 +20,9 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import useMobile from 'hooks/useMobile';
 // 자식
-import ProfileList from 'components/profile/ProfileList';
+import TeamList from 'components/team/TeamList';
 
-export default function ProfileApplyOffer() {
+export default function TeamApplyOffer() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [offers, setOffers] = useState([]);
   const [applies, setApplies] = useState([]);
@@ -33,11 +33,13 @@ export default function ProfileApplyOffer() {
     console.log(projectId);
     if (isLoaded) {
       CustomAxios.authAxios
-        .get('/offer/user')
+        .get('/offer/project', {
+          projectId: projectId,
+        })
         .then(response => {
           setOffers(response.data);
           console.log(response.data);
-          console.log('받은 제안 조회 완료!');
+          console.log('보낸 제안 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -50,11 +52,15 @@ export default function ProfileApplyOffer() {
   useEffect(() => {
     if (isLoaded) {
       CustomAxios.authAxios
-        .get('/apply/user')
+        .get('/apply/project', {
+          data: {
+            projectId: projectId,
+          },
+        })
         .then(response => {
           setApplies(response.data);
           console.log(response.data);
-          console.log('보낸 지원 조회 완료!');
+          console.log('받은 지원 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -106,7 +112,7 @@ export default function ProfileApplyOffer() {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            개인의 지원 및 제안 관리
+            팀의 지원 및 제안 관리
           </ListSubheader>
         }
       >
@@ -114,15 +120,15 @@ export default function ProfileApplyOffer() {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="받은 제안" />
+          <ListItemText primary="보낸 제안" />
           {openProjects ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={openProjects} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
-              {/* 받은 제안 리스트 컴포넌트 */}
-              <ProfileList offers={offers} type={'offer'}></ProfileList>
+              {/* 보낸 제안 리스트 컴포넌트 */}
+              <TeamList offers={offers} type={'offer'}></TeamList>
             </ListItemButton>
           </List>
         </Collapse>
@@ -130,15 +136,15 @@ export default function ProfileApplyOffer() {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="보낸 지원" />
+          <ListItemText primary="받은 지원" />
           {openStudies ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={openStudies} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
-              {/* 보낸 지원 리스트 컴포넌트 */}
-              <ProfileList applies={applies} type={'apply'}></ProfileList>
+              {/* 받은 지원 리스트 컴포넌트 */}
+              <TeamList applies={applies} type={'apply'}></TeamList>
             </ListItemButton>
           </List>
         </Collapse>
