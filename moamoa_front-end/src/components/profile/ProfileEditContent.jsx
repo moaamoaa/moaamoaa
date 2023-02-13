@@ -164,7 +164,7 @@ function ProfileEditContent() {
               링크
             </Typography>
           </Grid>
-          <Grid id="link_container" item container rowSpacing={2} xs={10}>
+          <Grid id="link_container" item container rowSpacing={3} xs={10}>
             {/* Github */}
             <Grid item xs={12} display={'flex'} alignItems={'center'}>
               <Avatar
@@ -256,14 +256,7 @@ function ProfileEditContent() {
           </Grid>
         </Grid>
         {/* 진행방식 */}
-        <Grid
-          id="progress"
-          item
-          container
-          alignItems={'start'}
-          marginBottom={'4rem'}
-          xs={12}
-        >
+        <Grid id="progress" item container alignItems={'start'} xs={12}>
           <Grid item paddingTop={'.5rem'} xs={2}>
             <Typography textAlign={'start'} variant="body1" color="initial">
               진행방식
@@ -285,7 +278,7 @@ function ProfileEditContent() {
             </ToggleButtonGroup>
 
             <Autocomplete
-              sx={{ display: `${progress === 'ONLINE' ? 'none' : 'flex'}` }}
+              disabled={progress === 'ONLINE' ? true : false}
               fullWidth
               multiple={true}
               id="tags-standard"

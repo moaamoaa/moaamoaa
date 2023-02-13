@@ -1,7 +1,7 @@
 import { TextField, Button, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleCreateReview } from 'redux/profile';
+import { handleSuccessReview } from 'redux/profile';
 import { handleSuccessState } from 'redux/snack';
 import customAxios from 'utils/axios';
 
@@ -36,7 +36,14 @@ function ReviewCreation() {
           profileId: profile.id,
         })
         .then(response => {
-          dispatch(handleCreateReview({ review: response.data.review }));
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '댓글이 생성 되었습니다.',
+              severity: 'success',
+            }),
+          );
+          dispatch(handleSuccessReview({ reviews: response.data.review }));
           setContext('');
         })
         .catch(error => {

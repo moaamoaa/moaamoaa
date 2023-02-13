@@ -82,6 +82,13 @@ function SideProjectEditor(props) {
           id: sideProject.id,
         })
         .then(response => {
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '프로젝트가 수정 되었습니다.',
+              severity: 'success',
+            }),
+          );
           dispatch(handleSuccessSidProject({ sideProjects: response.data }));
           props.setIsEdit(false);
         })
@@ -120,7 +127,7 @@ function SideProjectEditor(props) {
       );
     } else {
       customAxios.authAxios
-        .post(`/profile/sidepjt/`, {
+        .post(`/profile/sidepjt`, {
           year: String(year),
           name: name,
           pjt_tech_stack: selectedValue,
@@ -128,7 +135,13 @@ function SideProjectEditor(props) {
           profileId: profileId,
         })
         .then(response => {
-          console.log(response.data);
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '프로젝트가 생성 되었습니다.',
+              severity: 'success',
+            }),
+          );
           dispatch(handleSuccessSidProject({ sideProjects: response.data }));
           props.setIsAdd(false);
         })

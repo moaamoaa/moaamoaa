@@ -35,8 +35,8 @@ function ResponsiveAppBar() {
           color: 'inherit',
           textDecoration: 'none',
           cursor: 'pointer',
-          textAlign: isMobile ? 'center' : 'start',
-          mr: isMobile ? 0 : 2,
+          textAlign: { xs: 'center', md: 'start' },
+          mr: { xs: 0, md: 2 },
         }}
       >
         MOAAMOAA
