@@ -10,9 +10,11 @@ import SideProjectEditor from 'components/profile/SideProjectEditor';
 import { handleSuccessState } from 'redux/snack';
 
 function SideProject(props) {
+  const userPk = useSelector(state => state.user.userPk);
   const sideProject = props.sideProject;
   const profileId = useSelector(state => state.profile.userProfile[0].id);
   const [isEdit, setIsEdit] = useState(false);
+  const flag = userPk === profileId;
 
   const dispatch = useDispatch();
 
@@ -70,7 +72,12 @@ function SideProject(props) {
             </Grid>
             <SideProjectContext>{sideProject.context}</SideProjectContext>
           </Grid>
-          <Grid item xs={1} justifyContent="end" sx={{ display: 'flex' }}>
+          <Grid
+            item
+            xs={1}
+            justifyContent="end"
+            sx={{ display: flag ? 'flex' : 'none' }}
+          >
             <ProfileLongMenu
               isEdit={isEdit}
               handleOpenEdit={handleOpenEdit}
