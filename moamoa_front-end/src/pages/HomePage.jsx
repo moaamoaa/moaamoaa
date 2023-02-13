@@ -111,8 +111,8 @@ export default function HomePageSample() {
               position: 'relative',
               willChange: 'left',
               left:
-                windowHeight < 800
-                  ? `calc(1600px - ${windowHeight * 2}px)`
+                windowHeight < 600
+                  ? `calc(1200px - ${windowHeight * 2}px)`
                   : '0',
             }}
           >
@@ -126,8 +126,8 @@ export default function HomePageSample() {
               position: 'relative',
               willChange: 'left',
               left:
-                windowHeight < 1300
-                  ? `calc(2600px - ${windowHeight * 2}px)`
+                windowHeight < 1200
+                  ? `calc(2400px - ${windowHeight * 2}px)`
                   : '0',
             }}
           >
@@ -141,8 +141,8 @@ export default function HomePageSample() {
               position: 'relative',
               willChange: 'left',
               left:
-                windowHeight < 1800
-                  ? `calc(3600px - ${windowHeight * 2}px)`
+                windowHeight < 1600
+                  ? `calc(3200px - ${windowHeight * 2}px)`
                   : '0',
             }}
           >

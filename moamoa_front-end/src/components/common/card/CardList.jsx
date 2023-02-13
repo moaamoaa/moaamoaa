@@ -4,8 +4,12 @@ import Grid from '@mui/material/Grid';
 
 import CardItem from 'components/common/card/CardItem';
 import styled from '@emotion/styled';
+import { Typography } from '@mui/material';
+import useMobile from 'hooks/useMobile';
 
 export default function CardList(props) {
+  const isMobile = useMobile();
+
   if (props.type === 'team') {
     return (
       <MoaGrid container spacing={10}>
@@ -32,8 +36,10 @@ export default function CardList(props) {
     return (
       <Grid
         container
-        overflow="scroll"
-        sx={{ height: '50px', alignItems: 'center' }}
+        sx={{
+          height: '50px',
+          alignItems: 'center',
+        }}
       >
         {props.cards ? (
           props.cards &&
@@ -43,25 +49,24 @@ export default function CardList(props) {
             </Grid>
           ))
         ) : (
-          <>
-            {[0, 1, 2, 3].map(idx => (
-              <Grid
-                key={idx}
-                item
-                xs={3}
-                sx={{ display: 'flex', justifyContent: 'center' }}
-              >
-                <CardItem card={{ logo: null }} type={props.type}></CardItem>
-              </Grid>
-            ))}
-          </>
+          <Typography
+            variant={isMobile ? 'caption' : 'body1'}
+            sx={{
+              width: '100%',
+              fontWeight: '600',
+              opacity: '0.5',
+            }}
+            textAlign="center"
+          >
+            기술스택이 아직 등록되지 않았습니다.
+          </Typography>
         )}
       </Grid>
     );
   } else if (props.type === 'link') {
     return (
       <Grid container sx={{ height: '50px', alignItems: 'center' }}>
-        {props.cards ? (
+        {props.cards.length !== 0 ? (
           props.cards &&
           Object.entries(props.cards).map((card, idx) => (
             <Grid item key={idx} xs={3}>
@@ -69,18 +74,17 @@ export default function CardList(props) {
             </Grid>
           ))
         ) : (
-          <Grid container sx={{ height: '50px', alignItems: 'center' }}>
-            {[0, 1, 2, 3].map(idx => (
-              <Grid
-                key={idx}
-                item
-                xs={3}
-                sx={{ display: 'flex', justifyContent: 'center' }}
-              >
-                <CardItem card={{ site: null }} type={props.type}></CardItem>
-              </Grid>
-            ))}
-          </Grid>
+          <Typography
+            variant={isMobile ? 'caption' : 'body1'}
+            sx={{
+              width: '100%',
+              fontWeight: '600',
+              opacity: '0.5',
+            }}
+            textAlign="center"
+          >
+            사이트가 아직 등록되지 않았습니다.
+          </Typography>
         )}
       </Grid>
     );

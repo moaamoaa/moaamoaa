@@ -1,12 +1,12 @@
 import { Autocomplete, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import useMobile from 'hooks/useMobile';
 
 function TechStackSelector(props) {
   let techs = [];
   const tech = useSelector(state => state.search.tech);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
+  const isMobile = useMobile();
 
   tech.map(category => {
     techs.push(...category.techStacks);
@@ -23,14 +23,6 @@ function TechStackSelector(props) {
   const handleSelectedTech = (event, value) => {
     props.setSelectedValue(value);
   };
-
-  useEffect(() => {
-    const handleWindowResize = () => setWindowWidth(window.innerWidth);
-    setIsMobile(windowWidth < 500);
-
-    window.addEventListener('resize', handleWindowResize);
-    return () => window.removeEventListener('resize', handleWindowResize);
-  }, [windowWidth]);
 
   return (
     <>

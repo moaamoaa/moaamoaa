@@ -8,15 +8,16 @@ import ReviewCreation from 'components/profile/ReviewCreation';
 
 function ReviewList() {
   const reviews = useSelector(state => state.profile.reviews);
+  console.log(reviews);
 
   return (
     <>
       <ContentTitle color="initial">댓글</ContentTitle>
       <MoaContainer container>
         {reviews.length !== 0 ? (
-          reviews.map(review => {
+          reviews.map((review, idx) => {
             return (
-              <Grid key={review.id} item xs={12}>
+              <Grid key={idx} item xs={12}>
                 <Review review={review} />
               </Grid>
             );

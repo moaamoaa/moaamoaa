@@ -7,12 +7,15 @@ import { Grid, TextField, Typography } from '@mui/material';
 import LongMenu from 'components/profile/LongMenu';
 import customAxios from 'utils/axios';
 import { handleSuccessContext } from 'redux/profile';
+import { handleSuccessState } from 'redux/snack';
 
 export default function SelfIntroduction() {
   const userPk = useSelector(state => state.user.userPk);
   const userProfile = useSelector(state => state.profile.userProfile[0]);
   const [isEdit, setIsEdit] = useState(false);
-  const [context, setContext] = useState('');
+  const [context, setContext] = useState(
+    userProfile.context ? userProfile.context : '',
+  );
   const flag = userPk === userProfile.id;
 
   const dispatch = useDispatch();
@@ -31,9 +34,17 @@ export default function SelfIntroduction() {
   };
 
   const handleDelete = () => {
+    if (!context) return;
     customAxios.authAxios
       .delete('/profile/context')
       .then(response => {
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '자기 소개가 초기화 되었습니다.',
+            severity: 'success',
+          }),
+        );
         dispatch(handleSuccessContext({ context: response.data }));
         setIsEdit(false);
         setContext('');
@@ -50,7 +61,13 @@ export default function SelfIntroduction() {
         profileId: userProfile.id,
       })
       .then(response => {
-        console.log(response.data);
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '자기 소개가 수정 되었습니다.',
+            severity: 'success',
+          }),
+        );
         dispatch(handleSuccessContext({ context: response.data.context }));
         setIsEdit(false);
       })

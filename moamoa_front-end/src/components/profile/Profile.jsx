@@ -14,6 +14,8 @@ import {
   Badge,
   Tooltip,
   Fade,
+  Divider,
+  Avatar,
 } from '@mui/material';
 
 import { searchStatusChange, handleEditProfile } from 'redux/profile';
@@ -127,11 +129,14 @@ export default function Profile(props) {
             padding: '0 !important',
           }}
         >
-          <MoaSkeleton
+          <Avatar
+            src={userProfile.img}
             variant="circular"
             sx={{
               width: { md: '280px', xl: '320px' },
               height: { md: '280px', xl: '320px' },
+              boxShadow:
+                '0px 0px 10px 0px #88888888, 0px 2px 10px 0px rgba(100,0,0,0.5), 0px -2px 5px 0px rgba(0,100,0,0.5)',
             }}
           />
 
@@ -151,9 +156,15 @@ export default function Profile(props) {
         >
           <Grid container spacing={10} sx={{ alignItems: 'center' }}>
             <Grid item xs={4}>
-              <MoaSkeleton
+              <Avatar
+                src={userProfile.img}
                 variant="circular"
-                sx={{ width: '10rem', height: '10rem' }}
+                sx={{
+                  width: isMobile ? '100px' : '160px',
+                  height: isMobile ? '100px' : '160px',
+                  boxShadow:
+                    '0px 0px 10px 0px #88888888, 0px 2px 10px 0px rgba(100,0,0,0.5), 0px -2px 5px 0px rgba(0,100,0,0.5)',
+                }}
               />
             </Grid>
             <Grid item xs={8}>
@@ -200,14 +211,19 @@ export default function Profile(props) {
                   height: 50,
                   minWidth: 50,
                   borderRadius: 50,
+                  boxShadow:
+                    '0px 0px 10px 0px #88888888, 0px 2px 10px 0px rgba(100,0,0,0.5), 0px -2px 5px 0px rgba(0,100,0,0.5)',
                 },
               }}
             >
-              <MoaSkeleton
+              <Avatar
+                src={userProfile.img}
                 variant="circular"
                 sx={{
                   width: { md: '280px', xl: '320px' },
                   height: { md: '280px', xl: '320px' },
+                  boxShadow:
+                    '0px 0px 10px 0px #88888888, 0px 2px 10px 0px rgba(100,0,0,0.5), 0px -2px 5px 0px rgba(0,100,0,0.5)',
                 }}
               />
             </Badge>
@@ -231,37 +247,8 @@ export default function Profile(props) {
           component="article"
           sx={{ display: { xs: 'block', md: 'none' } }}
         >
-          <Grid container>
-            <Grid item xs={4}>
-              <Tooltip
-                title={badgeInfo.context}
-                TransitionComponent={Fade}
-                TransitionProps={{ timeout: 600 }}
-                onClick={handleBadge}
-                followCursor
-              >
-                <Badge
-                  badgeContent=" "
-                  color={badgeInfo.color}
-                  overlap="circular"
-                  sx={{
-                    '& .MuiBadge-badge': {
-                      fontSize: 9,
-                      height: '30px',
-                      minWidth: '30px',
-                      borderRadius: 5,
-                    },
-                  }}
-                >
-                  <MoaSkeleton
-                    variant="circular"
-                    sx={{
-                      width: isMobile ? '100px' : '160px',
-                      height: isMobile ? '100px' : '160px',
-                    }}
-                  />
-                </Badge>
-              </Tooltip>
+          <Grid container rowSpacing={2}>
+            <Grid item xs={12}>
               <Typography
                 variant={isMobile ? 'body1' : 'h6'}
                 color="initial"
@@ -270,16 +257,54 @@ export default function Profile(props) {
                 {userProfile.nickname}
               </Typography>
             </Grid>
-            <Grid item xs={8}>
-              <CardList type={'tech'} cards={techStacks}></CardList>
-              <hr />
-              <CardList type={'link'} cards={sites}></CardList>
+            <Grid container item xs={12} display="flex" alignItems={'center'}>
+              <Grid item xs={4}>
+                <Tooltip
+                  title={badgeInfo.context}
+                  TransitionComponent={Fade}
+                  TransitionProps={{ timeout: 600 }}
+                  onClick={handleBadge}
+                  followCursor
+                >
+                  <Badge
+                    badgeContent=" "
+                    color={badgeInfo.color}
+                    overlap="circular"
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        fontSize: 9,
+                        height: '30px',
+                        minWidth: '30px',
+                        borderRadius: 5,
+                      },
+                    }}
+                  >
+                    <Avatar
+                      src={userProfile.img}
+                      variant="circular"
+                      sx={{
+                        width: isMobile ? '100px' : '160px',
+                        height: isMobile ? '100px' : '160px',
+                        boxShadow:
+                          '0px 0px 10px 0px #88888888, 0px 2px 10px 0px rgba(100,0,0,0.5), 0px -2px 5px 0px rgba(0,100,0,0.5)',
+                      }}
+                    />
+                  </Badge>
+                </Tooltip>
+              </Grid>
+              <Grid item xs={8}>
+                <CardList type={'tech'} cards={techStacks}></CardList>
+                <Divider sx={{ marginY: 2 }} />
+                <CardList type={'link'} cards={sites}></CardList>
+              </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+              <ProfileButtonContainer>
+                {userPk === userProfile.id ? userButtons : otherButtons}
+              </ProfileButtonContainer>
             </Grid>
           </Grid>
-
-          <ProfileButtonContainer>
-            {userPk === userProfile.id ? userButtons : otherButtons}
-          </ProfileButtonContainer>
         </MoaProfile>
       </>
     );

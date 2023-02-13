@@ -20,17 +20,16 @@ function SideProject(props) {
     setIsEdit(true);
   };
   const handleDelete = () => {
-    dispatch(
-      handleSuccessState({
-        open: true,
-        message: '프로젝트가 삭제 되었습니다.',
-        severity: 'success',
-      }),
-    );
     customAxios.authAxios
       .delete(`profile/sidepjt/${sideProject.id}`)
       .then(response => {
-        console.log(response);
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '프로젝트가 삭제 되었습니다.',
+            severity: 'success',
+          }),
+        );
         dispatch(handleSuccessSidProject({ sideProjects: response.data }));
       })
       .catch(error => {

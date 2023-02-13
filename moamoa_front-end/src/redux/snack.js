@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialStateValue = {
   open: false,
   vertical: 'top',
-  horizontal: 'rigth',
+  horizontal: 'right',
   message: '',
   severity: 'success',
 };

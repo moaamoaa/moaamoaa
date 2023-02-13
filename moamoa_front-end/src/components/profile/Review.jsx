@@ -21,12 +21,13 @@ import customAxios from 'utils/axios';
 import scrollToTop from 'utils/scrollToTop';
 
 function Review(props) {
+  console.log(props);
   const userPk = useSelector(state => state.user.userPk);
   const [isEdit, setIsEdit] = useState(false);
   const [context, setContext] = useState(
     props.review.context ? props.review.context : '',
   );
-  const [flag, setFlag] = useState(userPk === props.review.senderId);
+  const flag = userPk === props.review.senderId;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,16 +37,16 @@ function Review(props) {
   };
 
   const handleSuccessDelete = () => {
-    dispatch(
-      handleSuccessState({
-        open: true,
-        message: '댓글이 삭제 되었습니다.',
-        severity: 'success',
-      }),
-    );
     customAxios.authAxios
       .delete(`/profile/review/${props.review.id}`)
       .then(response => {
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '댓글이 삭제 되었습니다.',
+            severity: 'success',
+          }),
+        );
         dispatch(
           handleSuccessReview({
             reviews: response.data.review,
@@ -76,10 +77,16 @@ function Review(props) {
           profileId: userPk,
         })
         .then(response => {
-          console.log(response);
           dispatch(
-            handleEditReview({
-              review: response.data.review,
+            handleSuccessState({
+              open: true,
+              message: '댓글이 수정 되었습니다.',
+              severity: 'success',
+            }),
+          );
+          dispatch(
+            handleSuccessReview({
+              reviews: response.data.review,
             }),
           );
 
