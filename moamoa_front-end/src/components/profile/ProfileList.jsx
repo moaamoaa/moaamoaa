@@ -1,6 +1,6 @@
 import * as React from 'react';
 import List from '@mui/material/List';
-import ProfileItem from 'components/team/ProfileItem';
+import ProfileItem from 'components/profile/ProfileItem';
 
 export default function ProfileList(props) {
   if (props.type === 'offer') {
