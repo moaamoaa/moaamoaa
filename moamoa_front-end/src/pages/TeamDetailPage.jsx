@@ -13,9 +13,10 @@ import {
   Avatar,
 } from '@mui/material/';
 import CardList from 'components/common/card/CardList';
-import TeamBanner from 'components/team/TeamBanner';
+// import TeamBanner from 'components/team/TeamBanner';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
 
 // axios 입력값을 불러와서 띄우기
 
@@ -58,16 +59,62 @@ export default function TeamDetailPage() {
   }, [projectId, isLoaded]);
 
   // 배너
-  const teamBanner = {
-    title: <p>{detail.title}</p>,
-    leader: <span>{detail.leaderNickname}</span>,
-    image: <span>{detail.img}</span>,
-  };
+  // const teamBanner = {
+  //   title: <p>{detail.title}</p>,
+  //   leader: <span>{detail.leaderNickname}</span>,
+  //   image: (
+  //     <span>
+  //       <img src="{detail.img}" alt=""></img>,
+  //     </span>
+  //   ),
+  // };
 
   return (
     <>
       <Container fixed>
-        <TeamBanner post={teamBanner} />
+        {/* <TeamBanner post={teamBanner} /> */}
+        {/* 팀 이미지 */}
+        <Paper
+          sx={{
+            position: 'relative',
+            color: '#fff',
+            mb: 4,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            backgroundImage: `url(${detail.img})`,
+            height: 'calc(400px + 10vw)', // 반응형 웹 calc
+            maxHeight: 'calc(100vh - 56px)',
+          }}
+        >
+          <Dim />
+          <Grid container>
+            <Grid item md={6}>
+              <Box
+                sx={{
+                  position: 'relative',
+                  p: { xs: 3, md: 6 },
+                  pr: { md: 0 },
+                }}
+              >
+                <Typography
+                  component="h1"
+                  variant="h2"
+                  color="inherit"
+                  gutterBottom
+                >
+                  {/* 팀 이름  */}
+                  {/* <SingleTextField ref={titleRef}></SingleTextField> */}
+                  {detail.title}
+                </Typography>
+                <Typography variant="h4" color="inherit" paragraph>
+                  {/* 팀장 이름 */}
+                  {detail.leaderNickname}
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
       </Container>
       <Container fixed>
         <Grid container justifyContent="flex-end">
@@ -207,4 +254,13 @@ const MoaImg = styled(Avatar)`
   min-width: 40px;
   min-height: 40px;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+`;
+
+const Dim = styled(Box)`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
