@@ -12,9 +12,9 @@ export default function ProjectItem(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const goToDetail = () => {
-    dispatch(handleOpenTeamDetail({ projectId: props.project.projectId })); // 오픈 했을 때, 값을 바꿔주고 그걸 디테일로 보내
+    dispatch(handleOpenTeamDetail({ projectId: props.projectstudy.projectId })); // 오픈 했을 때, 값을 바꿔주고 그걸 디테일로 보내
     // 팀 관리에서 팀을 눌렀을 때 이동할 프론트 디테일 페이지 주소
-    navigate(`/TeamDetailPage/?projectId=${props.project.projectId}`);
+    navigate(`/TeamDetailPage/?projectId=${props.projectstudy.projectId}`);
   };
 
   if (props.type === 'project') {
@@ -26,10 +26,10 @@ export default function ProjectItem(props) {
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="" src={props.projectstudy.img} />
         </ListItemAvatar>
         <ListItemText
-          primary={props.project.title}
+          primary={props.projectstudy.title}
           secondary={
             <React.Fragment>
               <Typography
@@ -38,9 +38,8 @@ export default function ProjectItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.project.projectId}
+                {props.projectstudy.contents}
               </Typography>
-              {props.project.contents}
             </React.Fragment>
           }
         />
@@ -54,10 +53,10 @@ export default function ProjectItem(props) {
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="" src={props.projectstudy.img}></Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={props.project.title}
+          primary={props.projectstudy.title}
           secondary={
             <React.Fragment>
               <Typography
@@ -66,9 +65,8 @@ export default function ProjectItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.project.projectId}
+                {props.projectstudy.contents}
               </Typography>
-              {props.project.contents}
             </React.Fragment>
           }
         />

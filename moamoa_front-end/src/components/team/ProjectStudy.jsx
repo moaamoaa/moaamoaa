@@ -22,7 +22,7 @@ import Diversity3Icon from '@mui/icons-material/Diversity3';
 import useMobile from 'hooks/useMobile';
 import ProjectList from 'components/team/ProjectList';
 
-export default function ApplyOffer() {
+export default function ProjectStudy() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
   const [studies, setStudies] = useState([]);
