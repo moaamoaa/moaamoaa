@@ -50,11 +50,6 @@ public class UserService {
 		return userRepository.findById(userId).get();
 	}
 
-	// 회원 전체 조회
-	public List<User> findUsers() {
-		return userRepository.findAll();
-	}
-
 	// 이메일 중복 조회
 	public void validateDuplicateUserEmail(User user) {
 		Optional<User> findUser = userRepository.findByEmail(user.getEmail());
