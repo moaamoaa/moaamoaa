@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Box,
@@ -18,6 +18,7 @@ import MemberSearchbar from 'components/team/searchFilter/MemberSearchbar';
 import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOffline';
 
 import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
+import { handleCursorIdMember } from 'redux/search';
 
 export default function TeamSearchPage(props) {
   // 기술스택 id 리스트를 스트링으로 바꾼 값을 담음
@@ -84,12 +85,19 @@ export default function TeamSearchPage(props) {
   const [searchResult, setSearchResult] = useState([]);
   const [check, setCheck] = useState(false);
 
+  // 무한 스크롤 마지막 커서
+  const cursorIdMember = useSelector(state => state.search.cursorIdMember);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     customAxios.basicAxios
       .get('/search/profile?&size=12')
       .then(response => {
         setSearchResult(response.data);
-        console.log(response);
+        dispatch(
+          handleCursorIdMember({ cursorIdMember: response.data[11].cursorId }),
+        );
       })
       .catch(error => {
         console.log(error.data);
@@ -97,15 +105,64 @@ export default function TeamSearchPage(props) {
     setCheck(true);
   }, [check]);
 
-  const search = () => {
+  // 무한스크롤
+  const [isFetching, setIsFetching] = useState(false);
+
+  // 만약 스크롤 높이의 0.8이 넘었을 때 isFetching를 true로 바꿈
+  const handleScroll = () => {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight * 0.8
+    ) {
+      setIsFetching(true);
+    }
+  };
+
+  // 화면이 랜더링될 때 돔에 스크롤 이벤트가 발생했을 때, 이벤트 삭제함
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 화면 랜더됐을 때 스크롤 내릴 시 마지막 커서를 백으로 보내서 get
+  useEffect(() => {
     axiosStackId = stackId.join(',');
-    console.log(axiosStackId);
+    if (!isFetching) return;
     customAxios.basicAxios
       .get(
-        `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}`,
+        `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&size=12&cursorId=${cursorIdMember}`,
       )
       .then(response => {
-        setSearchResult(response.data);
+        setSearchResult(searchResult.concat(...response.data));
+        dispatch(
+          handleCursorIdMember({
+            cursorIdMember: response.data[response.data.length - 1].cursorId,
+          }),
+        );
+        setIsFetching(false);
+      })
+      .catch(error => {
+        console.log(error.data);
+      });
+  }, [isFetching]);
+
+  // 검색 axios
+
+  const search = () => {
+    axiosStackId = stackId.join(',');
+    // console.log(axiosStackId);
+    customAxios.basicAxios
+      .get(
+        `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
+      )
+      .then(response => {
+        setSearchResult([...response.data]);
+        dispatch(
+          handleCursorIdMember({
+            cursorIdMember: response.data[response.data.length - 1].cursorId,
+          }),
+        );
+        setIsFetching(false);
       })
       .catch(error => {
         console.log(error);
@@ -151,7 +208,11 @@ export default function TeamSearchPage(props) {
         </Grid>
       </Grid>
       {status === 'OFFLINE' ? (
-        <SearchFilterOffline handleRegion={handleRegion}></SearchFilterOffline>
+        <Box sx={{ paddingTop: '1rem' }}>
+          <SearchFilterOffline
+            handleRegion={handleRegion}
+          ></SearchFilterOffline>
+        </Box>
       ) : (
         <></>
       )}

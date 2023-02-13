@@ -17,8 +17,8 @@ import {
   Button,
 } from '@mui/material/';
 
-import ChatIcon from '@mui/icons-material/Chat';
 import ProjectStudy from 'components/team/ProjectStudy';
+import ChattingDrawer from 'components/profile/ChattingDrawer';
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
@@ -106,14 +106,7 @@ export default function NavbarAccount() {
           {/* 팀관리아이콘 */}
           <ProjectStudy></ProjectStudy>
           {/* 채팅아이콘 */}
-          <Tooltip title="채팅">
-            <IconButton
-              onClick={null}
-              sx={{ mr: isMobile ? 0 : 2, scale: isMobile ? '.8' : '1' }}
-            >
-              <ChatIcon />
-            </IconButton>
-          </Tooltip>
+          <ChattingDrawer isMobile={isMobile}></ChattingDrawer>
           {/* 아바타버튼 */}
           <Tooltip title={userNickname}>
             <IconButton

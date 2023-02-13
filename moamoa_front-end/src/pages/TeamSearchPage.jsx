@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
@@ -59,8 +59,10 @@ export default function TeamSearchPage(props) {
 
   // box에 있는 기술 스택 클릭시 제거
   const removeTechNameList = removeItem => {
-    const delTechNameList = techNameList.filter(name => name !== removeItem);
-    const delStackId = stackId.filter(id => id !== removeItem.id);
+    const delTechNameList = techNameList
+      .slice()
+      .filter(name => name !== removeItem);
+    const delStackId = stackId.slice().filter(id => id !== removeItem.id);
     setTechNameList(delTechNameList);
     setStackId(delStackId);
   };
@@ -107,19 +109,20 @@ export default function TeamSearchPage(props) {
     customAxios.basicAxios
       .get('/search/project?&size=12')
       .then(response => {
+        console.log(response);
         setSearchResult(response.data);
         dispatch(handleCursorId({ cursorId: response.data[11].cursorId }));
       })
       .catch(error => {
         console.log(error.data);
       });
-    setCheck(true);
-  }, [check]);
+    // setCheck(true);
+  }, []);
 
   // 무한스크롤
   const [isFetching, setIsFetching] = useState(false);
 
-  // 만약
+  // 만약 스크롤 높이의 0.8이 넘었을 때 isFetching를 true로 바꿈
   const handleScroll = () => {
     if (
       window.innerHeight + window.scrollY >=
@@ -129,16 +132,22 @@ export default function TeamSearchPage(props) {
     }
   };
 
+  // 화면이 랜더링될 때 돔에 스크롤 이벤트가 발생했을 때, 이벤트 삭제함
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 화면 랜더됐을 때 스크롤 내릴 시 마지막 커서를 백으로 보내서 get
   useEffect(() => {
+    axiosStackId = stackId.join(',');
     if (!isFetching) return;
     customAxios.basicAxios
-      .get(`/search/project?&size=12&cursorId=${cursorId}`)
+      .get(
+        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc&size=12&cursorId=${cursorId}`,
+      )
       .then(response => {
+        console.log(response);
         setSearchResult(searchResult.concat(...response.data));
         dispatch(
           handleCursorId({
@@ -156,14 +165,24 @@ export default function TeamSearchPage(props) {
 
   const search = () => {
     axiosStackId = stackId.join(',');
-    console.log(axiosStackId);
+    // console.log(axiosStackId);
     customAxios.basicAxios
       .get(
         `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
       )
       .then(response => {
-        setSearchResult(response.data);
+        setSearchResult([...response.data]);
+        dispatch(
+          handleCursorId({
+            cursorId: response.data[response.data.length - 1].cursorId,
+          }),
+        );
+        setIsFetching(false);
       })
+
+      // .then(response => {
+      //   setSearchResult(response.data);
+      // })
       .catch(error => {
         console.log(error);
       });
@@ -210,7 +229,11 @@ export default function TeamSearchPage(props) {
       </Grid>
 
       {status === 'OFFLINE' ? (
-        <SearchFilterOffline handleRegion={handleRegion}></SearchFilterOffline>
+        <Box sx={{ paddingTop: '1rem' }}>
+          <SearchFilterOffline
+            handleRegion={handleRegion}
+          ></SearchFilterOffline>
+        </Box>
       ) : (
         <></>
       )}

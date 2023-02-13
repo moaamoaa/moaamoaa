@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import {
   Box,
   Drawer,
-  IconButton,
+  Button,
   List,
   Divider,
   ListItemButton,
@@ -150,7 +150,10 @@ export default function TeamApplyOffer() {
     <div>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <IconButton
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
             onClick={toggleDrawer(anchor, true)}
             sx={{
               mr: isMobile ? 0 : 2,
@@ -158,7 +161,7 @@ export default function TeamApplyOffer() {
             }}
           >
             지원 및 제안
-          </IconButton>
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
