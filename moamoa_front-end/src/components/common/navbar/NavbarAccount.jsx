@@ -32,7 +32,6 @@ export default function NavbarAccount() {
   const [logInDialog, setLogInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
   const [findPasswordDialog, setFindPasswordDialog] = useState(false);
-
   const userPk = useSelector(state => state.user.userPk);
   const isLogIn = useSelector(state => state.user.isLogged);
   const userImg = useSelector(state => state.user.userImg);
