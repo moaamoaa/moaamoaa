@@ -12,7 +12,7 @@ import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-export default function TeamItem(props) {
+export default function ProfileItem(props) {
   const navigate = useNavigate();
   const projectId = useSelector(state => state.team.projectId);
   // Item 클릭하면, 해당 팀 페이지로 이동할 수 있어야 함!
