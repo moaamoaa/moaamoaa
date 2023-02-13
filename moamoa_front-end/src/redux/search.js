@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialStateValue = {
   area: [],
   tech: [],
+  cursorId: 0,
 };
 
 const searchSlice = createSlice({
@@ -14,9 +15,12 @@ const searchSlice = createSlice({
       state.area = action.payload.area;
       state.tech = action.payload.tech;
     },
+    handleCursorId: (state, action) => {
+      state.cursorId = action.payload.cursorId;
+    },
   },
 });
 
-export const { searchState } = searchSlice.actions;
+export const { searchState, handleCursorId } = searchSlice.actions;
 
 export default searchSlice.reducer;

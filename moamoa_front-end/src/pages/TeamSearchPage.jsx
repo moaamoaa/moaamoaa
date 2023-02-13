@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Box,
@@ -19,6 +19,7 @@ import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOfflin
 
 import TeamSearchList from 'components/common/card/TeamSearchList';
 import { useNavigate } from 'react-router-dom';
+import { handleCursorId } from 'redux/search';
 
 export default function TeamSearchPage(props) {
   // 팀생성 링크
@@ -97,12 +98,17 @@ export default function TeamSearchPage(props) {
   const [searchResult, setSearchResult] = useState([]);
   const [check, setCheck] = useState(false);
 
+  // 무한 스크롤 마지막 커서
+  const cursorId = useSelector(state => state.search.cursorId);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     customAxios.basicAxios
       .get('/search/project?&size=12')
       .then(response => {
         setSearchResult(response.data);
-        console.log(response);
+        dispatch(handleCursorId({ cursorId: response.data[11].cursorId }));
       })
       .catch(error => {
         console.log(error.data);
@@ -110,12 +116,50 @@ export default function TeamSearchPage(props) {
     setCheck(true);
   }, [check]);
 
+  // 무한스크롤
+  const [isFetching, setIsFetching] = useState(false);
+
+  // 만약
+  const handleScroll = () => {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight * 0.8
+    ) {
+      setIsFetching(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!isFetching) return;
+    customAxios.basicAxios
+      .get(`/search/project?&size=12&cursorId=${cursorId}`)
+      .then(response => {
+        setSearchResult(searchResult.concat(...response.data));
+        dispatch(
+          handleCursorId({
+            cursorId: response.data[response.data.length - 1].cursorId,
+          }),
+        );
+        setIsFetching(false);
+      })
+      .catch(error => {
+        console.log(error.data);
+      });
+  }, [isFetching]);
+
+  // 검색 axios
+
   const search = () => {
     axiosStackId = stackId.join(',');
     console.log(axiosStackId);
     customAxios.basicAxios
       .get(
-        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}`,
+        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
       )
       .then(response => {
         setSearchResult(response.data);
