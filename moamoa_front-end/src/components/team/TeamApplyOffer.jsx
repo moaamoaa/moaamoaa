@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import CustomAxios from 'utils/axios';
-
+import { useSelector } from 'react-redux';
 import {
   Box,
   Drawer,
@@ -18,26 +18,31 @@ import {
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import Diversity3Icon from '@mui/icons-material/Diversity3';
 import useMobile from 'hooks/useMobile';
-import ProjectList from 'components/team/ProjectList';
+// 자식
+import TeamList from 'components/team/TeamList';
 
-export default function ProjectStudy() {
+export default function TeamApplyOffer() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [projects, setProjects] = useState([]);
-  const [studies, setStudies] = useState([]);
+  const [offers, setOffers] = useState([]);
+  const [applies, setApplies] = useState([]);
   const isMobile = useMobile();
+  const projectId = useSelector(state => state.team.projectId);
+
   useEffect(() => {
+    console.log(projectId);
     if (isLoaded) {
       CustomAxios.authAxios
-        .get('/projects/project')
+        .get('/offer/project', {
+          projectId: projectId,
+        })
         .then(response => {
-          setProjects(response.data);
-          // console.log(response.data);
-          // console.log('프로젝트조회완료!');
+          setOffers(response.data);
+          console.log(response.data);
+          console.log('보낸 제안 조회 완료!');
         })
         .catch(error => {
-          console.log(error.message);
+          console.log(error);
         });
     } else {
       setIsLoaded(true);
@@ -47,14 +52,18 @@ export default function ProjectStudy() {
   useEffect(() => {
     if (isLoaded) {
       CustomAxios.authAxios
-        .get('/projects/study')
+        .get('/apply/project', {
+          data: {
+            projectId: projectId,
+          },
+        })
         .then(response => {
-          setStudies(response.data);
-          // console.log(response.data);
-          // console.log('스터디조회완료!');
+          setApplies(response.data);
+          console.log(response.data);
+          console.log('받은 지원 조회 완료!');
         })
         .catch(error => {
-          console.log(error.message);
+          console.log(error);
         });
     } else {
       setIsLoaded(true);
@@ -103,7 +112,7 @@ export default function ProjectStudy() {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            나의 팀 관리
+            팀의 지원 및 제안 관리
           </ListSubheader>
         }
       >
@@ -111,15 +120,15 @@ export default function ProjectStudy() {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="프로젝트" />
+          <ListItemText primary="보낸 제안" />
           {openProjects ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={openProjects} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
-              {/* 프로젝트 리스트 컴포넌트 */}
-              <ProjectList projects={projects} type={'project'}></ProjectList>
+              {/* 보낸 제안 리스트 컴포넌트 */}
+              <TeamList offers={offers} type={'offer'}></TeamList>
             </ListItemButton>
           </List>
         </Collapse>
@@ -127,15 +136,15 @@ export default function ProjectStudy() {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="스터디" />
+          <ListItemText primary="받은 지원" />
           {openStudies ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={openStudies} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
-              {/* 스터디 리스트 컴포넌트 */}
-              <ProjectList studies={studies} type={'study'}></ProjectList>
+              {/* 받은 지원 리스트 컴포넌트 */}
+              <TeamList applies={applies} type={'apply'}></TeamList>
             </ListItemButton>
           </List>
         </Collapse>
@@ -154,7 +163,7 @@ export default function ProjectStudy() {
               scale: isMobile ? '.8' : '1',
             }}
           >
-            <Diversity3Icon />
+            지원 및 제안
           </IconButton>
           <Drawer
             anchor={anchor}

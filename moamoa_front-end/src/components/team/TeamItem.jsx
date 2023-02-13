@@ -8,28 +8,25 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { handleOpenTeamDetail } from 'redux/team';
 
-export default function ProjectItem(props) {
+export default function TeamItem(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const goToDetail = () => {
-    dispatch(handleOpenTeamDetail({ projectId: props.projectstudy.projectId })); // 오픈 했을 때, 값을 바꿔주고 그걸 디테일로 보내
-    // 팀 관리에서 팀을 눌렀을 때 이동할 프론트 디테일 페이지 주소
-    navigate(`/TeamDetailPage/?projectId=${props.projectstudy.projectId}`);
-  };
+  // Item 클릭하면, 해당 사람의 프로필로 이동할 수 있어야 함!
+  // const goToProfile = () => {}
 
-  if (props.type === 'project') {
+  // 팀에서 개인에게 보낸 제안 ( 사람이 뜸 )
+  if (props.type === 'offer') {
     return (
-      // 버튼에 온클릭 넣어서 팀 페이지 open으로 가게 (파라미터 가진)
       <ListItemButton
-        onClick={goToDetail}
+        // onClick={goToDeProfile}
         sx={{ pl: 4 }}
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="" src={props.projectstudy.img} />
+          <Avatar alt="" src={props.offerapply.projectImg} />
         </ListItemAvatar>
         <ListItemText
-          primary={props.projectstudy.title}
+          primary={props.offerapply.title}
           secondary={
             <React.Fragment>
               <Typography
@@ -38,25 +35,27 @@ export default function ProjectItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.projectstudy.contents}
+                {props.offerapply.nickname}
               </Typography>
+              {props.offerapply.time}
             </React.Fragment>
           }
         />
       </ListItemButton>
     );
-  } else if (props.type === 'study') {
+    // 팀에서 개인에게 받은 지원 (사람이 뜸)
+  } else if (props.type === 'apply') {
     return (
       <ListItemButton
-        onClick={goToDetail}
+        // onClick={goToProfile}
         sx={{ pl: 4 }}
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="" src={props.projectstudy.img}></Avatar>
+          <Avatar alt="" src={props.offerapply.profileImg} />
         </ListItemAvatar>
         <ListItemText
-          primary={props.projectstudy.title}
+          primary={props.offerapply.title}
           secondary={
             <React.Fragment>
               <Typography
@@ -65,8 +64,9 @@ export default function ProjectItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.projectstudy.contents}
+                {props.offerapply.nickname}
               </Typography>
+              {props.offerapply.time}
             </React.Fragment>
           }
         />

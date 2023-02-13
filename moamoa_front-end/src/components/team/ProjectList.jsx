@@ -10,7 +10,10 @@ export default function ProjectList(props) {
         {props.projects &&
           props.projects.map((project, idx) => (
             <span key={idx}>
-              <ProjectItem project={project} type={props.type}></ProjectItem>
+              <ProjectItem
+                projectstudy={project}
+                type={props.type}
+              ></ProjectItem>
             </span>
           ))}
       </List>
@@ -18,11 +21,11 @@ export default function ProjectList(props) {
   } else if (props.type === 'study') {
     return (
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {/* 프로젝트 */}
+        {/* 스터디 */}
         {props.studies &&
           props.studies.map((study, idx) => (
             <span key={idx}>
-              <ProjectItem project={study} type={props.type}></ProjectItem>
+              <ProjectItem projectstudy={study} type={props.type}></ProjectItem>
             </span>
           ))}
       </List>

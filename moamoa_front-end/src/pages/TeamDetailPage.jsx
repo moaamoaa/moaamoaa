@@ -18,10 +18,12 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Footer from 'components/common/footer/Footer';
-
+import useMobile from 'hooks/useMobile';
+import TeamApplyOffer from 'components/team/TeamApplyOffer';
 // axios 입력값을 불러와서 띄우기
 
 export default function TeamDetailPage() {
+  const isMobile = useMobile();
   //navigation
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -49,7 +51,7 @@ export default function TeamDetailPage() {
         console.log(response.data);
         console.log('조회성공!');
         setCards(response.data.profileResultDtoList);
-        console.log(setCards(response.data.profileResultDtoList));
+        console.log(response.data.profileResultDtoList);
         setLead(response.data.leader);
         console.log(response.data.leader);
       })
@@ -126,7 +128,9 @@ export default function TeamDetailPage() {
             {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
             {lead ? (
               <Button size="small" variant="contained" color="primary">
-                제안 및 지원 확인
+                {/* 지원 및 제안 확인 */}
+                {/* 팀관리아이콘 */}
+                <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
               </Button>
             ) : (
               <Button size="small" variant="contained" color="primary">
