@@ -23,10 +23,10 @@ export default function TeamItem(props) {
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="" src={props.offerapply.projectImg} />
+          <Avatar alt="" src={props.offerapply.profileImg} />
         </ListItemAvatar>
         <ListItemText
-          primary={props.offerapply.title}
+          primary={props.offerapply.nickname}
           secondary={
             <React.Fragment>
               <Typography
@@ -35,9 +35,8 @@ export default function TeamItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.offerapply.nickname}
+                {props.offerapply.profileContext}
               </Typography>
-              {props.offerapply.time}
             </React.Fragment>
           }
         />
@@ -55,7 +54,7 @@ export default function TeamItem(props) {
           <Avatar alt="" src={props.offerapply.profileImg} />
         </ListItemAvatar>
         <ListItemText
-          primary={props.offerapply.title}
+          primary={props.offerapply.nickname}
           secondary={
             <React.Fragment>
               <Typography
@@ -64,9 +63,8 @@ export default function TeamItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.offerapply.nickname}
+                {props.offerapply.profileContext}
               </Typography>
-              {props.offerapply.time}
             </React.Fragment>
           }
         />
