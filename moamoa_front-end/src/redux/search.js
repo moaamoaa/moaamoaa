@@ -5,6 +5,7 @@ const initialStateValue = {
   area: [],
   tech: [],
   cursorId: 0,
+  cursorIdMember: 0,
 };
 
 const searchSlice = createSlice({
@@ -18,9 +19,13 @@ const searchSlice = createSlice({
     handleCursorId: (state, action) => {
       state.cursorId = action.payload.cursorId;
     },
+    handleCursorIdMember: (state, action) => {
+      state.cursorIdMember = action.payload.cursorIdMember;
+    },
   },
 });
 
-export const { searchState, handleCursorId } = searchSlice.actions;
+export const { searchState, handleCursorId, handleCursorIdMember } =
+  searchSlice.actions;
 
 export default searchSlice.reducer;

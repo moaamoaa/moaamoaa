@@ -2,7 +2,7 @@ import React from 'react';
 import CardList from 'components/common/card/CardList';
 
 export default function TeamSearchList(props) {
-  console.log(props);
+  // console.log(props);
   // axios api 3가지 방법
   // useEffect(() => {
   //   axios
