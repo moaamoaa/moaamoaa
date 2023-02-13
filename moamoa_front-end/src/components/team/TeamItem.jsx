@@ -7,23 +7,27 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { handleOpenTeamDetail } from 'redux/team';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 
 export default function TeamItem(props) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   // Item 클릭하면, 해당 사람의 프로필로 이동할 수 있어야 함!
-  // const goToProfile = () => {}
+  // 제안을 보냈던 사람의 프로필로 offerId
+  const goToOfferProfile = () => {
+    navigate(`/profile/${props.applyoffer.offerId}`);
+  };
+  // 지원을 보낸 사람의 프로필로 applyId
+  const goToApplyProfile = () => {
+    navigate(`/profile/${props.applyoffer.applyId}`);
+  };
 
   // 팀에서 개인에게 보낸 제안 ( 사람이 뜸 ) - 철회-
   if (props.type === 'offer') {
     return (
       <ListItemButton
-        // onClick={goToDeProfile}
+        onClick={goToOfferProfile}
         sx={{ pl: 4 }}
         alignItems="flex-start"
       >
@@ -54,7 +58,7 @@ export default function TeamItem(props) {
   } else if (props.type === 'apply') {
     return (
       <ListItemButton
-        // onClick={goToProfile}
+        onClick={goToApplyProfile}
         sx={{ pl: 4 }}
         alignItems="flex-start"
       >

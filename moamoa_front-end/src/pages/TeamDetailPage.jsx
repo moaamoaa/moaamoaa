@@ -6,6 +6,7 @@ import { handleUpdate } from 'redux/team';
 import {
   Container,
   Paper,
+  IconButton,
   Button,
   Stack,
   Grid,
@@ -131,10 +132,10 @@ export default function TeamDetailPage() {
           >
             {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
             {lead ? (
-              <Button size="small" variant="contained" color="primary">
-                {/* 지원 및 제안 확인 */}
+              <IconButton size="small" variant="contained" color="primary">
+                {/* 지원 및 제안 버튼 return 해주는 component */}
                 <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
-              </Button>
+              </IconButton>
             ) : (
               <Button
                 size="small"
