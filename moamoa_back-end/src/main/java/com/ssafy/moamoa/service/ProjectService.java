@@ -297,12 +297,11 @@ public class ProjectService {
 				continue;
 			Profile profile = profileRepository.findByUser_Id(t.getUser().getId()).get();
 			ProfileResultDto profileResultDto = new ProfileResultDto(profile.getId(), profile.getNickname(),
-				profile.getContext(), profile.getProfileOnOffStatus());
+				profile.getImg(), profile.getContext(), profile.getProfileOnOffStatus());
 			profileResultDtoList.add(profileResultDto);
 			if (t.getRole() == TeamRole.LEADER) {
 				projectDetail.setLeaderId(t.getUser().getId());
 				projectDetail.setLeaderNickname(profile.getNickname());
-
 			}
 		}
 		projectDetail.setProfileResultDtoList(profileResultDtoList);
