@@ -33,9 +33,7 @@ export default function TeamApplyOffer() {
     console.log(projectId);
     if (isLoaded) {
       CustomAxios.authAxios
-        .get('/offer/project', {
-          projectId: projectId,
-        })
+        .get(`/offer/project?projectId=${projectId}`)
         .then(response => {
           setOffers(response.data);
           console.log(response.data);
@@ -52,11 +50,7 @@ export default function TeamApplyOffer() {
   useEffect(() => {
     if (isLoaded) {
       CustomAxios.authAxios
-        .get('/apply/project', {
-          data: {
-            projectId: projectId,
-          },
-        })
+        .get(`/apply/project?projectId=${projectId}`)
         .then(response => {
           setApplies(response.data);
           console.log(response.data);
