@@ -15,6 +15,7 @@ import {
   Avatar,
   MenuItem,
   Button,
+  Tooltip,
 } from '@mui/material/';
 
 import ProjectStudy from 'components/team/ProjectStudy';
@@ -22,10 +23,10 @@ import ChattingDrawer from 'components/profile/ChattingDrawer';
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
+
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
 import useMobile from 'hooks/useMobile';
-import Tooltip from '@mui/material/Tooltip';
 
 export default function NavbarAccount() {
   const isMobile = useMobile();

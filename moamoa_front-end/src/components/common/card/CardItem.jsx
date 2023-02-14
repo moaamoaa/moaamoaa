@@ -113,12 +113,7 @@ export default function CardItem(props) {
               </Button>
             </Grid>
             <Grid item xs>
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                // sx={{ display: 'none' }}
-              >
+              <Button size="small" variant="contained" color="primary">
                 제안하기
               </Button>
             </Grid>
