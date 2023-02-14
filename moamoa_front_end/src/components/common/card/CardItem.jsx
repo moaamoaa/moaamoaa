@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
 import { handleMemberId } from 'redux/member';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { handleProfilePk } from 'redux/profile';
 import MyProjectStudy from 'components/team/MyProjectStudy';
 import styled from 'styled-components';
@@ -27,6 +27,9 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 
 export default function CardItem(props) {
+  const leader = useSelector(state => state.team.leader);
+  const leaderId = useSelector(state => state.team.leaderId);
+  const userPk = useSelector(state => state.user.userPk);
   const isMobile = useMobile();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -113,25 +116,63 @@ export default function CardItem(props) {
         <CardActions>
           <Grid container>
             <Grid item xs>
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                sx={{ display: 'none' }}
-              >
-                권한위임
-              </Button>
+              {/* 리더이면서 해당 카드 id 가 리더가 아닌경우 => 권한위임 버튼이 보이고 아니면 안 보이고 */}
+              {leader && props.card.id !== leaderId ? (
+                <Button size="small" variant="contained" color="primary">
+                  권한위임
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  sx={{ display: 'none' }}
+                >
+                  권한위임
+                </Button>
+              )}
             </Grid>
             <Grid item xs>
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                onClick={handleSaveMemberId}
-              >
-                {/* 제안 */}
-                <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
-              </Button>
+              {/* 리더이면서 해당 카드 id 가 리더가 아닌경우 => 강퇴하기 버튼이 보이고 아니면 안 보이고 */}
+              {leader && props.card.id !== leaderId ? (
+                <Button size="small" variant="contained" color="primary">
+                  강퇴하기
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  sx={{ display: 'none' }}
+                >
+                  강퇴하기
+                </Button>
+              )}
+            </Grid>
+            <Grid item xs>
+              {/* 나 자신에게는 제안하지 않는다 */}
+              {userPk !== props.card.id ? (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSaveMemberId}
+                >
+                  {/* 제안 */}
+                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSaveMemberId}
+                  sx={{ display: 'none' }}
+                >
+                  {/* 제안 */}
+                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
+                </Button>
+              )}
             </Grid>
           </Grid>
         </CardActions>
