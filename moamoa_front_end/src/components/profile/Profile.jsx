@@ -16,6 +16,7 @@ import {
   Fade,
   Divider,
   Avatar,
+  IconButton,
 } from '@mui/material';
 
 import { searchStatusChange } from 'redux/profile';
@@ -24,6 +25,8 @@ import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
 import useMobile from 'hooks/useMobile';
 import ProfileApplyOffer from './ProfileApplyOffer';
+import { PhotoCamera } from '@mui/icons-material';
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 export default function Profile(props) {
   const isMobile = useMobile();
@@ -38,7 +41,9 @@ export default function Profile(props) {
   const techStacks = useSelector(state => state.profile.techStacks);
   const userProfile = useSelector(state => state.profile.userProfile[0]);
   const updateProfile = useSelector(state => state.profile.userProfile[1]);
-  const [image, setImage] = useState(userProfile.img);
+  const [previewImage, setPreviewImage] = useState(userProfile.img);
+  const [image, setImage] = useState('');
+  const [updateNickname, setUpdateNickname] = useState('');
 
   const navigate = useNavigate();
 
@@ -51,27 +56,41 @@ export default function Profile(props) {
 
   const handleOpenOfferList = () => {};
 
+  const handleNickname = event => {
+    setUpdateNickname(event.target.value);
+  };
+
   const handleEditSuccess = () => {
     const formData = new FormData();
 
-    formData.append('file', image);
+    if (previewImage !== userProfile.img) {
+      formData.append('file', image);
+    }
 
-    console.log(updateProfile);
-    const value = {
-      areas: updateProfile.areas,
-      nickname: updateProfile.nickname,
-      sites: updateProfile.sites,
-      techstacks: updateProfile.techStacks,
+    const updateUserProfile = {
+      userId: userProfile.id,
+      nickname: updateNickname,
+      profileSearchStatus: updateProfile.profileSearchStatus,
+      context: userProfile.context,
     };
+
+    const value = {
+      userprofile: updateUserProfile,
+      techstacks: updateProfile.techStacks,
+      links: updateProfile.sites,
+      areas: updateProfile.areas,
+    };
+
+    console.log(value);
+
     const blob = new Blob([JSON.stringify(value)], {
       type: 'application/json',
     });
+
     formData.append('projectForm', blob);
 
     customAxios.imageAxios
-      .post('/profile', {
-        data: formData,
-      })
+      .post('/profile', formData)
       .then(response => {
         console.log(response);
       })
@@ -119,17 +138,17 @@ export default function Profile(props) {
   const handleDrop = event => {
     event.preventDefault();
     const files = event.dataTransfer.files;
-    console.log(files);
-    if (files && files.length > 0) {
-      const file = files[0];
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = event => {
-          setImage(event.target.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    }
+    setPreviewImage(URL.createObjectURL(files[0]));
+    setImage(files[0]);
+  };
+
+  const handleChange = event => {
+    const files = event.target.files;
+    console.log(files[0]);
+    // 미리보기용
+    setPreviewImage(URL.createObjectURL(files[0]));
+    // axios용
+    setImage(files[0]);
   };
 
   const userButtons = [
@@ -174,19 +193,21 @@ export default function Profile(props) {
             padding: '0 !important',
           }}
         >
-          <Grid container display={'flex'}>
+          <Grid
+            container
+            display={'flex'}
+            onDrop={handleDrop}
+            onDragOver={event => event.preventDefault()}
+          >
             <Grid item>
               <Avatar
-                onDrop={handleDrop}
-                onDragOver={event => event.preventDefault()}
-                src={image}
+                src={previewImage}
                 variant="circular"
                 sx={{
                   width: { md: '280px', xl: '320px' },
                   height: { md: '280px', xl: '320px' },
                   boxShadow: '0px 0px 10px 4px #888888',
                   opacity: 0.5,
-                  backgroundColor: 'rgba(0, 0, 0, 1)',
                 }}
               />
             </Grid>
@@ -195,10 +216,10 @@ export default function Profile(props) {
               container
               sx={{
                 position: 'absolute',
+                top: { md: '140px', xl: '160px' },
+                left: '50%',
                 display: 'flex',
                 fontWeight: '600',
-                top: { md: '33%', xl: '35%' },
-                left: '50%',
                 transform: 'translate(-50%,-50%)',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -235,10 +256,58 @@ export default function Profile(props) {
             </Grid>
           </Grid>
 
+          <Grid
+            container
+            display={'flex'}
+            alignItems={'center'}
+            height={'5rem'}
+          >
+            <Grid item xs={1}>
+              <input
+                accept="image/*"
+                type="file" // 파일
+                id="select-image"
+                style={{ display: 'none' }}
+                onChange={handleChange}
+                multiple="multiple"
+              />
+              <label htmlFor="select-image">
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture"
+                  component="span"
+                >
+                  <input hidden accept="image/*" type="file" />
+                  <PhotoCamera fontSize="small" />
+                </IconButton>
+              </label>
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1" color="initial" textAlign={'center'}>
+                이미지 변경
+              </Typography>
+            </Grid>
+            <Grid item xs={1}>
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <ClearRoundedIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1" color="initial" textAlign={'center'}>
+                변경 취소
+              </Typography>
+            </Grid>
+          </Grid>
+
           <TextField
             fullWidth
             placeholder={userProfile.nickname}
-            onChange={null}
+            value={updateNickname}
+            onChange={handleNickname}
           />
 
           <ProfileButtonContainer>{editButtons}</ProfileButtonContainer>
@@ -247,28 +316,68 @@ export default function Profile(props) {
         {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
-          sx={{ display: { xs: 'block', md: 'none' } }}
+          sx={{
+            display: { xs: 'block', md: 'none' },
+          }}
         >
           <Grid container spacing={10} sx={{ alignItems: 'center' }}>
             <Grid item xs={4}>
               <Avatar
-                src={image}
+                src={previewImage}
                 variant="circular"
                 sx={{
                   width: isMobile ? '100px' : '160px',
                   height: isMobile ? '100px' : '160px',
                   boxShadow: '0px 0px 10px 0px #888888',
                   opacity: 0.5,
-                  backgroundColor: 'rgba(0, 0, 0, 1)',
                 }}
               />
             </Grid>
-            <Grid item xs={8}>
-              <TextField
-                fullWidth
-                placeholder={userProfile?.nickname}
-                onChange={null}
-              />
+
+            <Grid item container xs={8}>
+              <Grid
+                container
+                item
+                xs={12}
+                sx={{ display: 'flex', alignItems: 'center' }}
+              >
+                <Grid item xs={2}>
+                  <input
+                    accept="image/*"
+                    type="file" // 파일
+                    id="select-image"
+                    style={{ display: 'none' }}
+                    onChange={handleChange}
+                    multiple="multiple"
+                  />
+                  <label htmlFor="select-image">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="span"
+                    >
+                      <input hidden accept="image/*" type="file" />
+                      <PhotoCamera fontSize="small" />
+                    </IconButton>
+                  </label>
+                </Grid>
+                <Grid item xs={10}>
+                  <Typography
+                    variant="caption"
+                    color="initial"
+                    textAlign={'center'}
+                  >
+                    이미지 변경
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  placeholder={userProfile.nickname}
+                  onChange={handleNickname}
+                />
+              </Grid>
             </Grid>
           </Grid>
 
@@ -325,7 +434,7 @@ export default function Profile(props) {
             </Badge>
           </Tooltip>
 
-          <Typography variant="h4" color="initial" fontWeight={900} margin={2}>
+          <Typography variant="h4" color="initial" fontWeight={900} marginY={1}>
             {userProfile.nickname}
           </Typography>
 

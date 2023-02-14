@@ -47,7 +47,7 @@ export default function LogInDialog(props) {
               severity: 'success',
             }),
           );
-        }, 1000);
+        }, 500);
         dispatch(
           handleSuccessState({
             open: true,
