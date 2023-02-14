@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SiteService {
-
-    @PersistenceContext
-    EntityManager em;
 
     private final ProfileRepository profileRepository;
 

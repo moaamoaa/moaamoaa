@@ -1,14 +1,13 @@
 package com.ssafy.moamoa.repository.querydsl;
 
-import java.util.List;
-
 import com.ssafy.moamoa.domain.entity.TechStack;
+
+import java.util.List;
 
 public interface TechStackRepositoryCustom {
 
-	List<TechStack> searchTechStackByName(String techName);
+    List<TechStack> searchTechStackByName(String techName);
 
-	TechStack getTechStackById(Long techStackId);
+    TechStack getTechStackById(Long techStackId);
 
-	TechStack getTechStackByName(String techName);
 }
