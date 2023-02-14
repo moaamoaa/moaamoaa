@@ -1,0 +1,79 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # Mysql Settings
+    url: jdbc:mysql://mysql:3306/moamoa?serverTimezone=UTC&characterEncoding=UTF-8
+    username: moamoa
+    password: '0103'
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+  #        format_sql: true
+
+  redis:
+    host: myredis
+    port: 6379
+    password: 'd5a706b2e7a4ed4b'
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: moaamoaaofficial@gmail.com
+    password: imxwfakvkirblhjc
+    properties:
+      mail:
+        smtp:
+          timeout: 5000
+          auth: true
+          starttls:
+            enable: true
+  thymeleaf:
+    prefix: classpath:mail-templates/
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+    com.ssafy.moamoa: debug
+
+security:
+  jwt:
+    secret-key: 6ec2601c-5280-4761-810b-80a5478ec7ed
+    access-token-expire: 1800000
+    #    access-token-expire: 30000
+    refresh-token-expire: 1209600000
+
+
+cloud:
+  aws:
+    s3:
+      bucket: ssafy.moamoa.image.bucket
+      dir: /images
+    credentials:
+      access-key: AKIAVYLW4VT3B4HD4ENH
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
+  # multipartFile 용량 늘려주는 설정
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
