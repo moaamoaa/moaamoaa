@@ -95,8 +95,8 @@ export default function ProjectStudy() {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -118,7 +118,11 @@ export default function ProjectStudy() {
         <Collapse in={openProjects} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+            <ListItemButton
+              sx={{ pl: 4 }}
+              alignItems="flex-start"
+              onClick={toggleDrawer(anchor, !state[anchor])}
+            >
               {/* 프로젝트 리스트 컴포넌트 */}
               <ProjectList projects={projects} type={'project'}></ProjectList>
             </ListItemButton>
@@ -134,7 +138,11 @@ export default function ProjectStudy() {
         <Collapse in={openStudies} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+            <ListItemButton
+              sx={{ pl: 4 }}
+              alignItems="flex-start"
+              onClick={toggleDrawer(anchor, !state[anchor])}
+            >
               {/* 스터디 리스트 컴포넌트 */}
               <ProjectList studies={studies} type={'study'}></ProjectList>
             </ListItemButton>
@@ -161,7 +169,7 @@ export default function ProjectStudy() {
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
-            onClick={toggleDrawer(anchor, !state[anchor])}
+            // onClick={toggleDrawer(anchor, !state[anchor])} 각 리스트 컴포넌트 ListItemButton쪽으로
           >
             {list(anchor)}
           </Drawer>
