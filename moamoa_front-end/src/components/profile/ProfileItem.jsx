@@ -5,7 +5,6 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
@@ -14,10 +13,9 @@ import Stack from '@mui/material/Stack';
 
 export default function ProfileItem(props) {
   const navigate = useNavigate();
-  const projectId = useSelector(state => state.team.projectId);
   // Item 클릭하면, 해당 팀 페이지로 이동할 수 있어야 함!
   const goToDetail = () => {
-    navigate(`/TeamDetailPage/?projectId=${projectId}`);
+    navigate(`/TeamDetailPage/?projectId=${props.ask.projectId}`);
   };
 
   //내가 받은 제안
@@ -29,10 +27,10 @@ export default function ProfileItem(props) {
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="" src={props.offerapply.projectImg} />
+          <Avatar alt="" src={props.ask.projectImg} />
         </ListItemAvatar>
         <ListItemText
-          primary={props.offerapply.title}
+          primary={props.ask.title}
           secondary={
             <React.Fragment>
               <Typography
@@ -41,7 +39,7 @@ export default function ProfileItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.offerapply.projectContents}
+                {props.ask.projectContents}
               </Typography>
               <Button>
                 <DoDisturbOnIcon></DoDisturbOnIcon>
@@ -60,10 +58,10 @@ export default function ProfileItem(props) {
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="" src={props.offerapply.projectImg} />
+          <Avatar alt="" src={props.ask.projectImg} />
         </ListItemAvatar>
         <ListItemText
-          primary={props.offerapply.title}
+          primary={props.ask.title}
           secondary={
             <React.Fragment>
               <Typography
@@ -72,11 +70,11 @@ export default function ProfileItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.offerapply.projectContents}
+                {props.ask.projectContents}
               </Typography>
               <Stack direction="row" sx={{ pt: 4 }}>
                 <Button>
-                  <CheckCircleIcon ㅣ뮤></CheckCircleIcon>
+                  <CheckCircleIcon></CheckCircleIcon>
                 </Button>
                 <Button>
                   <CancelIcon></CancelIcon>
