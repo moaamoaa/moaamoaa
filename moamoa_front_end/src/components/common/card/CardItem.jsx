@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
 import { handleMemberId } from 'redux/member';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { handleProfilePk } from 'redux/profile';
 import MyProjectStudy from 'components/team/MyProjectStudy';
 import styled from 'styled-components';
@@ -17,7 +17,7 @@ import {
   Skeleton,
   Avatar,
 } from '@mui/material';
-
+import { handleSuccessState } from 'redux/snack';
 import CardList from 'components/common/card/CardList';
 import { Link } from '@mui/material';
 
@@ -25,8 +25,12 @@ import scrollToTop from 'utils/scrollToTop';
 
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import customAxios from 'utils/axios';
 
 export default function CardItem(props) {
+  const leader = useSelector(state => state.team.leader);
+  const leaderId = useSelector(state => state.team.leaderId);
+  const userPk = useSelector(state => state.user.userPk);
   const isMobile = useMobile();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,6 +51,77 @@ export default function CardItem(props) {
       // console.log(props.card);
       dispatch(handleMemberId({ memberId: props.card.id }));
     }
+  };
+
+  // 권한위임하기 요청
+  const handleRight = () => {
+    // customAxios
+    //   .authAxios({
+    //     method: 'PUT',
+    //     url: '/projects/leader',
+    //     data: {
+    //       areaId: null,
+    //       category: 'string',
+    //       contents: 'string',
+    //       endDate: 'string',
+    //       img: 'string',
+    //       projectId: 0, // team일 경우, props.card.id
+    //       projectStatus: 'string',
+    //       techStacks: [0],
+    //       title: 'string',
+    //       totalPeople: 0,
+    //       userId: null, // member일 경우, props.card.id
+    //     },
+    //   })
+    //   .then(response => {
+    //     dispatch(
+    //       handleSuccessState({
+    //         open: true,
+    //         message: '권한이 위임 되었습니다.',
+    //         severity: 'success',
+    //       }),
+    //     );
+    //     console.log(response.data);
+    //     console.log('권한 위임 완료!');
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+  };
+  // 강퇴하기 요청
+  const handleDrop = () => {
+    // customAxios
+    //   .authAxios({
+    //     method: 'DELETE',
+    //     url: '/projects/member',
+    //     data: {
+    //       areaId: 0,
+    //       category: 'string',
+    //       contents: 'string',
+    //       endDate: 'string',
+    //       img: 'string',
+    //       projectId: 0,
+    //       projectStatus: 'string',
+    //       techStacks: [0],
+    //       title: 'string',
+    //       totalPeople: 0,
+    //       userId: 0,
+    //     },
+    //   })
+    //   .then(response => {
+    //     dispatch(
+    //       handleSuccessState({
+    //         open: true,
+    //         message: '팀원이 강퇴되었습니다.',
+    //         severity: 'success',
+    //       }),
+    //     );
+    //     console.log(response.data);
+    //     console.log('팀원 강퇴 완료!');
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   if (props.type === 'team') {
@@ -113,25 +188,73 @@ export default function CardItem(props) {
         <CardActions>
           <Grid container>
             <Grid item xs>
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                sx={{ display: 'none' }}
-              >
-                권한위임
-              </Button>
+              {/* 리더이면서 해당 카드 id 가 리더가 아닌경우 => 권한위임 버튼이 보이고 아니면 안 보이고 */}
+              {leader && props.card.id !== leaderId ? (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleRight}
+                >
+                  권한위임
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  sx={{ display: 'none' }}
+                >
+                  권한위임
+                </Button>
+              )}
             </Grid>
             <Grid item xs>
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                onClick={handleSaveMemberId}
-              >
-                {/* 제안 */}
-                <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
-              </Button>
+              {/* 리더이면서 해당 카드 id 가 리더가 아닌경우 => 강퇴하기 버튼이 보이고 아니면 안 보이고 */}
+              {leader && props.card.id !== leaderId ? (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDrop}
+                >
+                  강퇴하기
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  sx={{ display: 'none' }}
+                >
+                  강퇴하기
+                </Button>
+              )}
+            </Grid>
+            <Grid item xs>
+              {/* 나 자신에게는 제안하지 않는다 */}
+              {userPk !== props.card.id ? (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSaveMemberId}
+                >
+                  {/* 제안 */}
+                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSaveMemberId}
+                  sx={{ display: 'none' }}
+                >
+                  {/* 제안 */}
+                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
+                </Button>
+              )}
             </Grid>
           </Grid>
         </CardActions>
