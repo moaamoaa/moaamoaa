@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
 import useMobile from 'hooks/useMobile';
+import ProfileApplyOffer from './ProfileApplyOffer';
 
 export default function Profile(props) {
   const isMobile = useMobile();
@@ -136,12 +137,14 @@ export default function Profile(props) {
       수정
     </ProfileButton>,
     <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
-      신청 목록
+      {/* 개인이 받은 지원 및 제안 확인 */}
+      <ProfileApplyOffer isMobile={isMobile}></ProfileApplyOffer>
     </ProfileButton>,
   ];
 
   const otherButtons = [
     <ProfileButton key="offer" variant="outlined">
+      {/* 타인에게 제안 보내기 버튼 */}
       <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
     </ProfileButton>,
     <ProfileButton key="chat" variant="outlined">

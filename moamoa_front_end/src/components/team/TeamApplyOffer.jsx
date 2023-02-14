@@ -153,7 +153,6 @@ export default function TeamApplyOffer() {
           <Button
             size="small"
             variant="contained"
-            color="primary"
             onClick={toggleDrawer(anchor, true)}
             sx={{
               mr: isMobile ? 0 : 2,
