@@ -59,7 +59,7 @@ export default function ProfileItem(props) {
         url: '/offer/user',
         data: {
           projectId: props.ask.projectId,
-          offerId: offerId,
+          offerId: props.ask.offerId,
         },
       })
       .then(response => {
@@ -86,7 +86,7 @@ export default function ProfileItem(props) {
         url: '/offer/user',
         data: {
           projectId: props.ask.projectId,
-          offerId: offerId,
+          offerId: props.ask.offerId,
         },
       })
       .then(response => {
@@ -158,10 +158,12 @@ export default function ProfileItem(props) {
               >
                 {props.ask.projectContents}
               </Typography>
-              <Button onChange={handleWithdrawApply}>
-                {/* - 아이콘 보낸 지원 철회 */}
-                <DoDisturbOnIcon></DoDisturbOnIcon>
-              </Button>
+              <Stack direction="row" sx={{ pt: 4 }}>
+                <Button onChange={handleWithdrawApply}>
+                  {/* - 아이콘 보낸 지원 철회 */}
+                  <DoDisturbOnIcon></DoDisturbOnIcon>
+                </Button>
+              </Stack>
             </React.Fragment>
           }
         />
