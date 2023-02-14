@@ -31,9 +31,6 @@ export default function ProfileItem(props) {
         <ListItemAvatar>
           <Avatar alt="" src={props.offerapply.projectImg} />
         </ListItemAvatar>
-        <Button>
-          <DoDisturbOnIcon></DoDisturbOnIcon>
-        </Button>
         <ListItemText
           primary={props.offerapply.title}
           secondary={
@@ -46,6 +43,9 @@ export default function ProfileItem(props) {
               >
                 {props.offerapply.projectContents}
               </Typography>
+              <Button>
+                <DoDisturbOnIcon></DoDisturbOnIcon>
+              </Button>
             </React.Fragment>
           }
         />
