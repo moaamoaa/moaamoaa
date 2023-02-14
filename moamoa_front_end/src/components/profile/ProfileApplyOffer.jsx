@@ -151,6 +151,8 @@ export default function ProfileApplyOffer() {
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
           <Button
+            size="small"
+            variant="contained"
             onClick={toggleDrawer(anchor, true)}
             sx={{
               mr: isMobile ? 0 : 2,
