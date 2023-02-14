@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import CustomAxios from 'utils/axios';
+import customAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleUpdate } from 'redux/team';
 import { handleSuccessState } from 'redux/snack';
@@ -44,7 +44,7 @@ export default function TeamDetailPage() {
 
   // axios
   useEffect(() => {
-    CustomAxios.authAxios
+    customAxios.authAxios
       // 해당 id의 프로젝트 조회됨 axios 주소
       .get(`/projects/detail?projectId=${projectId}`)
       .then(response => {
@@ -63,11 +63,12 @@ export default function TeamDetailPage() {
   }, [projectId, isLoaded]);
 
   const handleApply = () => {
-    CustomAxios.authAxios({
-      method: 'POST',
-      url: '/apply',
-      data: { projectId: projectId },
-    })
+    customAxios
+      .authAxios({
+        method: 'POST',
+        url: '/apply',
+        data: { projectId: projectId },
+      })
       .then(response => {
         dispatch(
           handleSuccessState({
@@ -176,7 +177,7 @@ export default function TeamDetailPage() {
                 color="primary"
                 onClick={async () => {
                   console.log(projectId); // 잘 뜸
-                  await CustomAxios.authAxios
+                  await customAxios.authAxios
                     .delete('/projects', {
                       data: {
                         projectId: projectId,

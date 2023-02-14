@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
-import CustomAxios from 'utils/axios';
+import customAxios from 'utils/axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -83,13 +83,14 @@ export default function TeamCreatePage() {
     console.log(formData.get('file'), '파일');
 
     //Axios
-    await CustomAxios.imageAxios({
-      method: 'POST',
-      url: '/projects/new',
-      mode: 'cors',
-      data: formData, // 요거 하나만 보내기!
-      // header: { 'Content-Type': 'multipart/form-data' },
-    })
+    await customAxios
+      .imageAxios({
+        method: 'POST',
+        url: '/projects/new',
+        mode: 'cors',
+        data: formData, // 요거 하나만 보내기!
+        // header: { 'Content-Type': 'multipart/form-data' },
+      })
       .then(response => {
         console.log(response.data);
         console.log('생성완료!');
