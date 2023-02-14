@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="39e12110-30fb-4ae3-a7e1-513d4e77023b" name="Changes" comment=":wrench: ddl-auto 수정">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/InitDb.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/MoamoaApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/MailConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/RedisConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/S3Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/WebConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/WebSocketConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/security/CookieUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/security/CustomAccessDeniedHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/security/CustomEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/security/JwtTokenProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/security/UserDetailsImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/security/UserDetailsServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/config/security/UserRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/controller/MatchingController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/controller/ProfileController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/controller/ProjectController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/controller/SearchController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/controller/TechStackController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/ProfileOnOffStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/ProfileSearchStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/ProjectCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/ProjectStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/TeamRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ApplyForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/AreaForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ContextForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/FileDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/FilterDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/LoginForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/MailForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/MatchingForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/OfferForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ProfileForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ProfilePageForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ProfileResultDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ProfileSearchStatusForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ProjectDetail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ProjectForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ProjectResultDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/ReviewForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/SearchCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/SidePjtForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/SignForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/SiteForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/TechStackCategoryDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/TechStackForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/TokenDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/dto/UserForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Apply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Area.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Category.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Chatroom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/File.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Message.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Offer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Profile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/ProfileArea.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/ProfileSite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/ProfileTechStack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Project.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/ProjectArea.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/ProjectTechStack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Review.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/SidePjt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/SidePjtTechStack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Site.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/Team.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/TechStack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/TechStackCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/domain/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/exception/ErrorResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/exception/ExControllerAdvice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/exception/customException/DuplicateOfferApplyException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/exception/customException/DuplicateUserException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/exception/customException/UnAuthorizedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/filter/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/interceptor/LogInterceptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ApplyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/AreaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/CategoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/FileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/OfferRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ProfileAreaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ProfileSiteRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ProfileTechStackRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ProjectAreaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ProjectRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ProjectTechStackRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/ReviewRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/SideProjectRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/SideProjectTechStackRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/SiteRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/TeamRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/TechStackCategoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/TechStackRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/UserAreaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/projection/AreaOnly.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/projection/TechStackOnly.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/AreaRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/AreaRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProfileAreaRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProfileAreaRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProfileRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProfileRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProfileSiteRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProfileSiteRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProfileTechStackRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProfileTechStackRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProjectAreaRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProjectAreaRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProjectRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProjectRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProjectTechStackRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ProjectTechStackRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ReviewRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/ReviewRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/SideProjectRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/SideProjectRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/SideProjectTechStackRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/SideProjectTechStackRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/SiteRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/SiteRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/TechStackCategoryRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/TechStackCategoryRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/TechStackRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/TechStackRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/UserRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/repository/querydsl/UserRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/ApplyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/AreaService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/CardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/FileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/ImageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/InitService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/MailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/OfferService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/ProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/ProjectService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/ReviewService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/S3Service.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/SearchService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/SideProjectService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/SiteService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/TeamService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/TechStackService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/TimeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssafy/moamoa/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mail-templates/tempPassword.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mail-templates/welcome.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/angular.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/aws.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/c.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/cpp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/csharp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/django.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/docker.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/figma.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/firebase.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/flutter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/git.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/go.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/graphql.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/java.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/javascript.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/jenkins.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/kotlin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/kubernetes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/mongodb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/mysql.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/nestjs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/nextjs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/nodejs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/python.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/react.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/redis.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/spring.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/svelte.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/swift.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/swiftui.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/typescript.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/unity.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/vue.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ssafy/moamoa/InitTestService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ssafy/moamoa/MoamoaApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ssafy/moamoa/domain/entity/ProfileTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ssafy/moamoa/repository/querydsl/ProjectRepositoryImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ssafy/moamoa/repository/querydsl/TechStackCategoryRepositoryImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ssafy/moamoa/service/SearchServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ssafy/moamoa/service/UserServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/.eslintrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/.prettierrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/jsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/500.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/blog_icons/github@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/blog_icons/tistory@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/blog_icons/velog@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/common/404.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/common/404m.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/common/500.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/common/500m.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/common/main.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/common/moamoa_main@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/c@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/cpp@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/csharp@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/django@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/firebase@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/go@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/graphql@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/java@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/kotlin@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/mongodb@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/mysql@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/nestjs@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/nodejs@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/python@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/redis@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/back-end_icons/spring@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/ect_icons/aws@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/ect_icons/docker@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/ect_icons/figma@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/ect_icons/git@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/ect_icons/jenkins@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/ect_icons/kubernetes@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/ect_icons/unity@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/front-end_icons/angular@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/front-end_icons/javascript@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/front-end_icons/nextjs@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/front-end_icons/react@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/front-end_icons/svelte@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/front-end_icons/typescript@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/front-end_icons/vue@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/mobile_icons/flutter@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/mobile_icons/kotlin@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/mobile_icons/react@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/mobile_icons/swift@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/tech-stack_icons/mobile_icons/swiftui@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/angular@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/aws@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/c@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/cpp@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/csharp@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/django@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/docker@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/figma@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/firebase@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/flutter@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/git@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/go@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/graphql@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/java@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/javascript@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/jenkins@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/kotlin@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/kubernetes@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/mongodb@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/mysql@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/nestjs@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/nextjs@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/nodejs@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/python@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/react@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/redis@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/spring@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/svelte@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/swift@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/swiftui@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/typescript@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/unity@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/images/whole_icons/vue@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/public/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/App.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/button/ScrollIndicator.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/button/ScrollToTopButton.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/card/CardItem.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/card/CardList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/card/TeamMemberSearchList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/card/TeamSearchList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/carousel/Carousel.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/carousel/MainBanner.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/dialog/DialogHeader.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/drawer/PermanentDrawer.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/drawer/PermanentDrawerList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/drawer/TemporaryDrawer.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/footer/Footer.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/navbar/Navbar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/navbar/NavbarAccount.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/navbar/NavbarLogo.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/navbar/NavbarMenu.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/snackbar/MoaSnackbar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/common/tab/ScrollableTab.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/logIn/FindPasswordDialog.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/logIn/LogInDialog.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ChattingDrawer.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ChattingItem.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ChattingList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ChattingRoom.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/LongMenu.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/Profile.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ProfileApplyOffer.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ProfileEditContent.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ProfileItem.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ProfileList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/Review.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ReviewCreation.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/ReviewList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/SelfIntroduction.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/SideProject.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/SideProjectContainer.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/SideProjectEditor.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/profile/TechStackSelector.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/signUp/CheckoutDialog.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/signUp/SignUpCertificationForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/signUp/SignUpEmailForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/signUp/SignUpNicknameForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/signUp/SignUpPasswordForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/Calendar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/MultilineText.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/MultipleSelect.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/ProjectItem.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/ProjectList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/ProjectStudy.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/SingleSelect.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/SingleSelectNumber.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/SingleSelectOnOff.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/SingleSelectRegion.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/SingleTextField.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/TeamApplyOffer.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/TeamItem.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/TeamList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/searchFilter/MemberSearchbar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/searchFilter/SearchFilterCategory.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/searchFilter/SearchFilterOffline.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/searchFilter/SearchFilterSatus.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/searchFilter/SearchFilterTech.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/components/team/searchFilter/TeamSearchbar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/hooks/useIsAtTop.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/hooks/useMobile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/ErrorPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/HomePage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/NotFoundPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/ProfileEditPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/ProfilePage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/TeamCreatePage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/TeamDetailPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/TeamMemberSearchPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/TeamSearchPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/pages/TeamUpdatePage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/redux/profile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/redux/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/redux/snack.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/redux/store.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/redux/team.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/redux/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/reportWebVitals.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/setupTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/utils/axios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/utils/hideConsole.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/utils/removeData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moamoa_front-end/src/utils/scrollToTop.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="develop" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2LfBe5s9k5kMRgsIljolIossJE6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/SSAFY/Documents/S08P12B110/moamoa_back-end/build.gradle",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.github.patou.gitmoji.config",
+    "spring.configuration.checksum": "4d325d1b0dbff49f914e4346049ce746",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="moamoa_back-end" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="moamoa_back-end" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MoamoaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="moamoa.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ssafy.moamoa.MoamoaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="39e12110-30fb-4ae3-a7e1-513d4e77023b" name="Changes" comment="" />
+      <created>1676252351539</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676252351539</updated>
+      <workItem from="1676252355805" duration="25624000" />
+      <workItem from="1676333682451" duration="8945000" />
+    </task>
+    <task id="LOCAL-00001" summary=":memo: fix annotation delete user &amp; 전체 회원 조회 기능 삭제">
+      <created>1676253827518</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676253827518</updated>
+    </task>
+    <task id="LOCAL-00002" summary=":art: fix update hit">
+      <created>1676262436125</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1676262436125</updated>
+    </task>
+    <task id="LOCAL-00003" summary=":art: fix show img">
+      <created>1676264853307</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1676264853307</updated>
+    </task>
+    <task id="LOCAL-00004" summary=":sparkles: add change leader">
+      <created>1676270695417</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676270695417</updated>
+    </task>
+    <task id="LOCAL-00005" summary=":bug: change get">
+      <created>1676271055675</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1676271055675</updated>
+    </task>
+    <task id="LOCAL-00006" summary=":art: fix delete project &amp; member">
+      <created>1676276397745</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1676276397745</updated>
+    </task>
+    <task id="LOCAL-00007" summary=":closed_lock_with_key: change official mail">
+      <created>1676302568196</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1676302568196</updated>
+    </task>
+    <task id="LOCAL-00008" summary=":sparkles: add alarm apply &amp; offer">
+      <created>1676308252091</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676308252091</updated>
+    </task>
+    <task id="LOCAL-00009" summary=":coffin: 사용안하는 코드 제거">
+      <created>1676336427458</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1676336427458</updated>
+    </task>
+    <task id="LOCAL-00010" summary=":wrench: application.yml &amp; initdb 수정">
+      <created>1676345506632</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1676345506632</updated>
+    </task>
+    <task id="LOCAL-00011" summary=":see_no_evil: gradle/wrapper/ 제거">
+      <created>1676345832843</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1676345832843</updated>
+    </task>
+    <task id="LOCAL-00012" summary=":truck: 폴더명 수정">
+      <created>1676346239525</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1676346239525</updated>
+    </task>
+    <task id="LOCAL-00013" summary=":wrench: ddl-auto 수정">
+      <created>1676346716094</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1676346716094</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value=":memo: fix annotation delete user &amp; 전체 회원 조회 기능 삭제" />
+    <MESSAGE value=":art: fix update hit" />
+    <MESSAGE value=":art: fix show img" />
+    <MESSAGE value=":sparkles: add change leader" />
+    <MESSAGE value=":bug: change get" />
+    <MESSAGE value=":art: fix delete project &amp; member" />
+    <MESSAGE value=":closed_lock_with_key: change official mail" />
+    <MESSAGE value=":sparkles: add alarm apply &amp; offer" />
+    <MESSAGE value=":coffin: 사용안하는 코드 제거" />
+    <MESSAGE value=":wrench: application.yml &amp; initdb 수정" />
+    <MESSAGE value=":see_no_evil: gradle/wrapper/ 제거" />
+    <MESSAGE value=":truck: 폴더명 수정" />
+    <MESSAGE value=":wrench: ddl-auto 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value=":wrench: ddl-auto 수정" />
+  </component>
+</project>
