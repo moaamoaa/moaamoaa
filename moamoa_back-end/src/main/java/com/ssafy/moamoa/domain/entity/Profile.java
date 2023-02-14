@@ -1,27 +1,16 @@
 package com.ssafy.moamoa.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-
+import com.ssafy.moamoa.domain.ProfileOnOffStatus;
+import com.ssafy.moamoa.domain.ProfileSearchStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.ssafy.moamoa.domain.ProfileOnOffStatus;
-import com.ssafy.moamoa.domain.ProfileSearchStatus;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -61,16 +50,11 @@ public class Profile {
 	@Column(name = "profile_context", columnDefinition = "TEXT")
 	private String context;
 
-	// @OneToMany(mappedBy = "profile_stack_no")
-	// private List<ProfileTechStack> profileTechStack;
-	//
-	// @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
-	// private List<ProfileArea> profileAreas = new ArrayList<>();
-	@Column(name="profile_cnt_offer")
+	@Column(name = "profile_cnt_offer")
 	@ColumnDefault("0")
 	private int countOffer;
 
-	@Column(name="profile_hit")
+	@Column(name = "profile_hit")
 	@ColumnDefault("0")
 	private int hit;
 
@@ -106,7 +90,9 @@ public class Profile {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	
-	public void setCountOffer(int countOffer){this.countOffer = countOffer;}
+
+	public void setCountOffer(int countOffer) {
+		this.countOffer = countOffer;
+	}
 
 }
