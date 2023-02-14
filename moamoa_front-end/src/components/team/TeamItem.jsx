@@ -16,11 +16,11 @@ export default function TeamItem(props) {
   // Item 클릭하면, 해당 사람의 프로필로 이동할 수 있어야 함!
   // 제안을 보냈던 사람의 프로필로 offerId
   const goToOfferProfile = () => {
-    navigate(`/profile/${props.applyoffer.offerId}`);
+    navigate(`/profile/${props.ask.offerId}`);
   };
   // 지원을 보낸 사람의 프로필로 applyId
   const goToApplyProfile = () => {
-    navigate(`/profile/${props.applyoffer.applyId}`);
+    navigate(`/profile/${props.ask.applyId}`);
   };
 
   // 팀에서 개인에게 보낸 제안 ( 사람이 뜸 ) - 철회-
@@ -32,13 +32,13 @@ export default function TeamItem(props) {
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="" src={props.offerapply.profileImg} />
+          <Avatar alt="" src={props.ask.profileImg} />
         </ListItemAvatar>
         <Button>
           <DoDisturbOnIcon></DoDisturbOnIcon>
         </Button>
         <ListItemText
-          primary={props.offerapply.nickname}
+          primary={props.ask.nickname}
           secondary={
             <React.Fragment>
               <Typography
@@ -47,7 +47,7 @@ export default function TeamItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.offerapply.profileContext}
+                {props.ask.profileContext}
               </Typography>
             </React.Fragment>
           }
@@ -63,10 +63,10 @@ export default function TeamItem(props) {
         alignItems="flex-start"
       >
         <ListItemAvatar>
-          <Avatar alt="" src={props.offerapply.profileImg} />
+          <Avatar alt="" src={props.ask.profileImg} />
         </ListItemAvatar>
         <ListItemText
-          primary={props.offerapply.nickname}
+          primary={props.ask.nickname}
           secondary={
             <React.Fragment>
               <Typography
@@ -75,7 +75,7 @@ export default function TeamItem(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {props.offerapply.profileContext}
+                {props.ask.profileContext}
               </Typography>
               <Stack direction="row" sx={{ pt: 4 }}>
                 <Button>

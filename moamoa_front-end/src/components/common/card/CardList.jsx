@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import Grid from '@mui/material/Grid';
 
 import CardItem from 'components/common/card/CardItem';

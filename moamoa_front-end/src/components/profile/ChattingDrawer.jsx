@@ -6,17 +6,10 @@ import {
   Drawer,
   IconButton,
   List,
-  // Divider,
   ListItemButton,
-  ListItemIcon,
-  ListItemText,
   ListSubheader,
-  // Collapse,
 } from '@mui/material/';
 import ChatIcon from '@mui/icons-material/Chat';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-// import ExpandLess from '@mui/icons-material/ExpandLess';
-// import ExpandMore from '@mui/icons-material/ExpandMore';
 import useMobile from 'hooks/useMobile';
 import ChattingList from 'components/profile/ChattingList';
 
