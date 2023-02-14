@@ -14,7 +14,6 @@ import {
   Avatar,
 } from '@mui/material/';
 import CardList from 'components/common/card/CardList';
-// import TeamBanner from 'components/team/TeamBanner';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';

@@ -6,7 +6,6 @@ import CardList from 'components/common/card/CardList';
 import {
   Button,
   Typography,
-  Skeleton,
   Container,
   Box,
   Grid,
@@ -18,7 +17,7 @@ import {
   Avatar,
 } from '@mui/material';
 
-import { searchStatusChange, handleEditProfile } from 'redux/profile';
+import { searchStatusChange } from 'redux/profile';
 import { useNavigate } from 'react-router-dom';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';

@@ -37,6 +37,17 @@ export default function LogInDialog(props) {
 
         Cookies.set('access_token', token, { expires: 1 });
         dispatch(loginSuccess({ userPk: userPk }));
+
+        setTimeout(() => {
+          location.reload();
+          dispatch(
+            handleSuccessState({
+              open: false,
+              message: '로그인 되었습니다.',
+              severity: 'success',
+            }),
+          );
+        }, 1000);
         dispatch(
           handleSuccessState({
             open: true,
@@ -44,17 +55,9 @@ export default function LogInDialog(props) {
             severity: 'success',
           }),
         );
-        location.reload();
       })
       .catch(error => {
         console.log(error);
-        dispatch(
-          handleSuccessState({
-            open: true,
-            message: '로그인에 실패 하였습니다.',
-            severity: 'error',
-          }),
-        );
       });
   };
 

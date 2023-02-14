@@ -10,7 +10,7 @@ export default function TeamList(props) {
         {props.offers &&
           props.offers.map((offer, idx) => (
             <span key={idx}>
-              <TeamItem offerapply={offer} type={props.type}></TeamItem>
+              <TeamItem ask={offer} type={props.type}></TeamItem>
             </span>
           ))}
       </List>
@@ -22,7 +22,7 @@ export default function TeamList(props) {
         {props.applies &&
           props.applies.map((apply, idx) => (
             <span key={idx}>
-              <TeamItem offerapply={apply} type={props.type}></TeamItem>
+              <TeamItem ask={apply} type={props.type}></TeamItem>
             </span>
           ))}
       </List>

@@ -10,7 +10,7 @@ export default function ProfileList(props) {
         {props.offers &&
           props.offers.map((offer, idx) => (
             <span key={idx}>
-              <ProfileItem offerapply={offer} type={props.type}></ProfileItem>
+              <ProfileItem ask={offer} type={props.type}></ProfileItem>
             </span>
           ))}
       </List>
@@ -22,7 +22,7 @@ export default function ProfileList(props) {
         {props.applies &&
           props.applies.map((apply, idx) => (
             <span key={idx}>
-              <ProfileItem offerapply={apply} type={props.type}></ProfileItem>
+              <ProfileItem ask={apply} type={props.type}></ProfileItem>
             </span>
           ))}
       </List>

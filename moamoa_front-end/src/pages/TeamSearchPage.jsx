@@ -98,7 +98,6 @@ export default function TeamSearchPage(props) {
 
   // reponse data로 넘어오는 값을 자식에게 넘겨줌
   const [searchResult, setSearchResult] = useState([]);
-  const [check, setCheck] = useState(false);
 
   // 무한 스크롤 마지막 커서
   const cursorId = useSelector(state => state.search.cursorId);
@@ -179,10 +178,6 @@ export default function TeamSearchPage(props) {
         );
         setIsFetching(false);
       })
-
-      // .then(response => {
-      //   setSearchResult(response.data);
-      // })
       .catch(error => {
         console.log(error);
       });

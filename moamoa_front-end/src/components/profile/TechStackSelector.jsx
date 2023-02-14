@@ -1,5 +1,4 @@
 import { Autocomplete, TextField } from '@mui/material';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import useMobile from 'hooks/useMobile';
 
