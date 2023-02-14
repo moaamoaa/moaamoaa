@@ -1,4 +1,4 @@
-# MoaMoa
+# MoaaMoaa
 
 ## 소개
 
@@ -19,33 +19,38 @@ Front-End README입니다.
 
 - React
 - Redux
-- React Router
+- React Route
+- React Hook
 - Axios
-- Semantic UI
+- Meterial UI
+- CSS-in-js
 
 ## 폴더 구조
 
 ```bash
 src/
-|-- components/   # 모든 컴포넌트
-|   |-- commons/        # 공통 컴포넌트
-|   |   |-- Button/             # 컴포넌트
-|   |   |   |-- ScrollToTop.jsx         # 컴포넌트 로직
-|   |   |-- ...
-|   |-- profile/        # 기능 컴포넌트
-|   |-- ...
-|-- pages/        # 라우트 기반 Page
-|   |-- HomePage.jsx    # 홈 페이지 컴포넌트
-|   |-- ...
-|-- redux/        # Redux store
-|   |-- store.js        # store 생성
-|   |-- ...
-|-- utils/        # 공통 기능
-|   |-- api.js          # API 통신 관련 기능
-|   |-- axios.js        # Custom Axios 기능
-|   |-- ...
-|-- App.jsx       # 각 컴포넌트들을 결합하여 애플리케이션을 구성하는 기본 컴포넌트
-|-- index.js      # 애플리케이션을 렌더링하는 엔트리 파일
+├── components/   # 모든 컴포넌트
+|   ├── commons/        # 공통 컴포넌트
+|   |   ├── button/             # 컴포넌트
+|   |   |   └── ScrollToTop.jsx         # 컴포넌트 로직
+|   |   └── ...
+|   ├── profile/        # 기능 컴포넌트
+|   └── ...
+├── pages/        # 라우트 기반 Page
+|   ├── HomePage.jsx    # 홈 페이지 컴포넌트
+|   ├── ...
+├── hooks/        # 모든 Hooks
+|   ├── useIsAtTop.js    # custom hook
+|   └── ...
+├── redux/        # Redux store
+|   ├── store.js        # store 생성
+|   └── ...
+├── utils/        # 공통 기능
+|   ├── api.js          # API 통신 관련 기능
+|   ├── axios.js        # Custom Axios 기능
+|   └── ...
+├── App.jsx       # 애플리케이션을 구성하는 기본 컴포넌트
+└── index.js      # 애플리케이션을 렌더링하는 엔트리 파일
 
 ```
 
