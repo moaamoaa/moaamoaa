@@ -18,7 +18,9 @@ const SingleSelectRegion = forwardRef((props, ref) => {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">선택</InputLabel>
+        <InputLabel id="demo-simple-select-label">
+          진행 방식이 오프라인일 경우 선택해주세요.
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
