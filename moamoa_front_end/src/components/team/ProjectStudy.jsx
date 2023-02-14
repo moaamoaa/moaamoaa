@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import CustomAxios from 'utils/axios';
+import customAxios from 'utils/axios';
 
 import {
   Box,
@@ -30,7 +30,7 @@ export default function ProjectStudy() {
 
   useEffect(() => {
     if (isLoaded) {
-      CustomAxios.authAxios
+      customAxios.authAxios
         .get('/projects/project')
         .then(response => {
           setProjects(response.data);
@@ -47,7 +47,7 @@ export default function ProjectStudy() {
 
   useEffect(() => {
     if (isLoaded) {
-      CustomAxios.authAxios
+      customAxios.authAxios
         .get('/projects/study')
         .then(response => {
           setStudies(response.data);
