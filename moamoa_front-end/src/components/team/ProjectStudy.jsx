@@ -27,6 +27,7 @@ export default function ProjectStudy() {
   const [projects, setProjects] = useState([]);
   const [studies, setStudies] = useState([]);
   const isMobile = useMobile();
+
   useEffect(() => {
     if (isLoaded) {
       CustomAxios.authAxios
