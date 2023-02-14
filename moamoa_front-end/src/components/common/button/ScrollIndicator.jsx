@@ -19,6 +19,8 @@ const ScrollIndicator = () => {
         transform: 'translateX(-50%)',
         zIndex: '1',
         opacity: isAtTop ? 1 : 0,
+        textShadow: '0px 0px 5px #00000050',
+        color: '#fff',
       }}
       rowSpacing={2}
     >
@@ -34,7 +36,10 @@ const ScrollIndicator = () => {
         display={'flex'}
         justifyContent="center"
       >
-        <KeyboardDoubleArrowDownRoundedIcon fontSize="large" />
+        <KeyboardDoubleArrowDownRoundedIcon
+          fontSize="large"
+          sx={{ filter: ' drop-shadow(0px 0px 2px rgb(0 0 0 / 0.4))' }}
+        />
       </Icon>
     </ScrollIndicatorIcon>
   );

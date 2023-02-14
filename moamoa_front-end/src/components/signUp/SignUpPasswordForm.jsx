@@ -13,7 +13,7 @@ export default function SignUpPasswordForm(props) {
   const [message, setMessage] = useState('');
   const [passwordError, setPasswordError] = useState(true);
   const [passwordValidation, setPasswordValidation] = useState(
-    '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요',
+    '영문, 숫자, 특수기호 조합으로 8-20자리 입력해주세요.',
   );
 
   const regExp =
@@ -23,7 +23,7 @@ export default function SignUpPasswordForm(props) {
     setPassword(event.target.value);
     if (!regExp.test(event.target.value)) {
       setPasswordValidation(
-        '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요',
+        '영문, 숫자, 특수기호 조합으로 8-20자리 입력해주세요.',
       );
     } else {
       setPasswordValidation(false);

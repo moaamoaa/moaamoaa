@@ -16,6 +16,7 @@ import {
 } from '@mui/material/';
 
 import DialogHeader from 'components/common/dialog/DialogHeader';
+import { handleSuccessState } from 'redux/snack';
 
 export default function LogInDialog(props) {
   const [email, setEmail] = useState('');
@@ -36,10 +37,24 @@ export default function LogInDialog(props) {
 
         Cookies.set('access_token', token, { expires: 1 });
         dispatch(loginSuccess({ userPk: userPk }));
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '로그인 되었습니다.',
+            severity: 'success',
+          }),
+        );
         location.reload();
       })
       .catch(error => {
         console.log(error);
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '로그인에 실패 하였습니다.',
+            severity: 'error',
+          }),
+        );
       });
   };
 

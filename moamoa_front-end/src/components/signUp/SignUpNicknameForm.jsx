@@ -58,6 +58,7 @@ export default function SignUpNicknameForm(props) {
             onClick={submitNickName}
             variant="contained"
             sx={{ mt: 3, ml: 1 }}
+            disabled={userName.length >= 2 ? false : true}
           >
             다음
           </Button>
