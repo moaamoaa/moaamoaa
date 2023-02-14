@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import CustomAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleUpdate } from 'redux/team';
+import { handleSuccessState } from 'redux/snack';
 import {
   Container,
   Paper,
@@ -68,6 +69,13 @@ export default function TeamDetailPage() {
       data: { projectId: projectId },
     })
       .then(response => {
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '지원이 완료 되었습니다.',
+            severity: 'success',
+          }),
+        );
         console.log(response.data);
         console.log('지원완료!');
       })

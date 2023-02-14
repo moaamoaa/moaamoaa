@@ -79,7 +79,7 @@ export default function TeamItem(props) {
               </Typography>
               <Stack direction="row" sx={{ pt: 4 }}>
                 <Button>
-                  <CheckCircleIcon ㅣ뮤></CheckCircleIcon>
+                  <CheckCircleIcon></CheckCircleIcon>
                 </Button>
                 <Button>
                   <CancelIcon></CancelIcon>
