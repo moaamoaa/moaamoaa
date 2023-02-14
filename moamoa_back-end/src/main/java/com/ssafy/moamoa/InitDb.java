@@ -20,8 +20,6 @@ public class InitDb {
 	public void init() throws Exception {
 		initService.addTechstackCatagory();
 		initService.addArea();
-		initService.addUser();
-		initService.addProject();
 		initService.addSite();
 	}
 }
