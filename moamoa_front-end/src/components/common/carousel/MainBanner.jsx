@@ -12,29 +12,29 @@ import ScrollIndicator from '../button/ScrollIndicator';
 
 export default function MainBanner() {
   const post = {
-    img: '',
+    img: `${process.env.PUBLIC_URL}/images/common/main.png`,
     title: '모아모아에 오신 것을 환영합니다.',
     description: '',
     linkText: '깃랩으로 가기',
   };
-
   return (
     <Paper
       sx={{
         position: 'relative',
-        color: '#fff',
+        color: '#000',
         mb: 4,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        backgroundImage: `${post.img}`,
+        backgroundImage: `url(${post.img})`,
         height: 'calc(200px + 40vw)',
         maxHeight: 'calc(100vh - 56px)',
         borderRadius: 0,
+        boxShadow: '0px 0px 0px 0px rgb(0 0 0 / 0%)',
       }}
     >
       <ScrollIndicator></ScrollIndicator>
-      <Dim />
+      {/* <Dim /> */}
       <Container fixed>
         <Grid container>
           <Grid item md={8}>
