@@ -182,7 +182,7 @@ export default function TeamSearchPage(props) {
   }, [techstack]);
 
   return (
-    <Container fixed sx={{ paddingTop: '4rem' }}>
+    <Container fixed sx={{ paddingTop: '6.3rem' }}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <div onKeyPress={search}>
