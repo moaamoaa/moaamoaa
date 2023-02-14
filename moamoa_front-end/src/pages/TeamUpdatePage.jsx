@@ -1,18 +1,24 @@
-import * as React from 'react';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import CustomAxios from 'utils/axios';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
+import {
+  Container,
+  Box,
+  Button,
+  Stack,
+  Grid,
+  IconButton,
+  Typography,
+  Paper,
+} from '@mui/material/';
+
 import Calendar from 'components/team/Calendar';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
-import { useNavigate } from 'react-router-dom';
-import IconButton from '@mui/material/IconButton';
+
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+
 import SingleTextField from 'components/team/SingleTextField';
 import MultipleSelect from 'components/team/MultipleSelect';
 import MultilineText from 'components/team/MultilineText';
@@ -20,8 +26,6 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 
 export default function TeamCreatePage() {
   //ref

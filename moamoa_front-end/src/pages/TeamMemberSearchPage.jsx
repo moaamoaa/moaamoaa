@@ -150,7 +150,6 @@ export default function TeamSearchPage(props) {
 
   const search = () => {
     axiosStackId = stackId.join(',');
-    // console.log(axiosStackId);
     customAxios.basicAxios
       .get(
         `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
