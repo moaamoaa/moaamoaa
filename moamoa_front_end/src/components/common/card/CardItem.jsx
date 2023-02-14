@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
 import { useDispatch } from 'react-redux';
 import { handleProfilePk } from 'redux/profile';
-
+import MyProjectStudy from 'components/team/MyProjectStudy';
 import styled from 'styled-components';
-
+import useMobile from 'hooks/useMobile';
 import {
   Card,
   CardContent,
@@ -26,6 +26,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 
 export default function CardItem(props) {
+  const isMobile = useMobile();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const goToDetail = () => {
@@ -99,7 +100,7 @@ export default function CardItem(props) {
     );
   } else if (props.type === 'member') {
     return (
-      <MoaCard onClick={goToDetail}>
+      <MoaCard>
         <CardActions>
           <Grid container>
             <Grid item xs>
@@ -114,13 +115,15 @@ export default function CardItem(props) {
             </Grid>
             <Grid item xs>
               <Button size="small" variant="contained" color="primary">
-                제안하기
+                {/* 제안 */}
+                <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
               </Button>
             </Grid>
           </Grid>
         </CardActions>
         {props.card.img ? (
           <CardMedia
+            onClick={goToDetail}
             component="img"
             src={props.card.img}
             alt="random"
@@ -130,6 +133,7 @@ export default function CardItem(props) {
               height: '100px',
               margin: '0 auto',
               boxShadow: 5,
+              cursor: 'pointer',
             }}
           />
         ) : (
@@ -171,7 +175,6 @@ const MoaCard = styled(Card)`
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
     transition: 0.4s;
   }
-  cursor: pointer;
 `;
 
 const MoaSkeleton = styled(Skeleton)`
