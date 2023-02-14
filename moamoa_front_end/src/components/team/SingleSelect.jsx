@@ -22,7 +22,9 @@ const SingleSelect = forwardRef((props, ref) => {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">선택</InputLabel>
+        <InputLabel id="demo-simple-select-label">
+          프로젝트 혹은 스터디를 선택해주세요.
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
