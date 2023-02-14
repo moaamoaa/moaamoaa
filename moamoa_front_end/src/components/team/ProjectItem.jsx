@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux';
 import { handleOpenTeamDetail } from 'redux/team';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
@@ -47,9 +46,6 @@ export default function ProjectItem(props) {
               >
                 {props.projectstudy.contents}
               </Typography>
-              <Button sx={{ zIndex: '1' }} onClick={console.log('hi')}>
-                <DoDisturbOnIcon></DoDisturbOnIcon>
-              </Button>
             </React.Fragment>
           }
         />
