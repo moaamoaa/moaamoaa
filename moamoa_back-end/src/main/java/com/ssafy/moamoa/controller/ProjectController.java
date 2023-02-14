@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/projects")
+@RequestMapping("/api/projects")
 @Transactional
 public class ProjectController {
 	private final ProjectService projectService;

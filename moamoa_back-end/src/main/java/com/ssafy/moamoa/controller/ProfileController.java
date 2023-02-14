@@ -28,7 +28,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @Transactional
-@RequestMapping("/profile")
+@RequestMapping("/api/profile")
 public class ProfileController {
 
     private static final HttpStatus OK = HttpStatus.OK;
