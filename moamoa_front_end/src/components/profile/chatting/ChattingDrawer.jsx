@@ -54,8 +54,8 @@ export default function ChattingDrawer() {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -69,7 +69,11 @@ export default function ChattingDrawer() {
       >
         <List component="div" disablePadding>
           {/* onClick */}
-          <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+          <ListItemButton
+            onClick={toggleDrawer(anchor, !state[anchor])}
+            sx={{ pl: 4 }}
+            alignItems="flex-start"
+          >
             <ChattingList chats={chats}></ChattingList>
           </ListItemButton>
         </List>
@@ -91,7 +95,7 @@ export default function ChattingDrawer() {
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
-            onClick={toggleDrawer(anchor, !state[anchor])}
+            // onClick={toggleDrawer(anchor, !state[anchor])}
           >
             {list(anchor)}
           </Drawer>

@@ -93,10 +93,10 @@ export default function ProjectStudy() {
 
   const list = anchor => (
     <Box
-      sx={{
-        width: anchor === 'top' || isMobile ? '100vw' : '360px',
-      }}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
       role="presentation"
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -121,7 +121,7 @@ export default function ProjectStudy() {
             <ListItemButton
               sx={{ pl: 4 }}
               alignItems="flex-start"
-              onClick={toggleDrawer(anchor, false)}
+              onClick={toggleDrawer(anchor, !state[anchor])}
             >
               {/* 프로젝트 리스트 컴포넌트 */}
               <ProjectList projects={projects} type={'project'}></ProjectList>
@@ -141,7 +141,7 @@ export default function ProjectStudy() {
             <ListItemButton
               sx={{ pl: 4 }}
               alignItems="flex-start"
-              onClick={toggleDrawer(anchor, false)}
+              onClick={toggleDrawer(anchor, !state[anchor])}
             >
               {/* 스터디 리스트 컴포넌트 */}
               <ProjectList studies={studies} type={'study'}></ProjectList>
@@ -169,6 +169,7 @@ export default function ProjectStudy() {
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
+            // onClick={toggleDrawer(anchor, !state[anchor])} 각 리스트 컴포넌트 ListItemButton쪽으로
           >
             {list(anchor)}
           </Drawer>
