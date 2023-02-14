@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -119,8 +120,8 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletResponse response) {
 		TokenDto tokenDto = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
 
-		Cookie cookie = cookieUtil.createCookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
-		response.addCookie(cookie);
+		ResponseCookie cookie = cookieUtil.createCookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
+		response.addHeader("Set-Cookie",cookie.toString());
 
 		return new ResponseEntity<>(tokenDto, HttpStatus.OK);
 	}
