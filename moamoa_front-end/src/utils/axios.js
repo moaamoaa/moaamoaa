@@ -4,10 +4,9 @@ import Cookies from 'js-cookie';
 let baseURL;
 
 if (process.env.NODE_ENV === 'development') {
-  baseURL = 'http://localhost:8080';
+  baseURL = 'http://localhost:8080/api';
 } else {
-  baseURL = 'back_server:8080/api';
-  // baseURL = 'https://moaamoaa.com/';
+  baseURL = 'https://moaamoaa.com/api';
 }
 
 const accessToken = Cookies.get('access_token');
