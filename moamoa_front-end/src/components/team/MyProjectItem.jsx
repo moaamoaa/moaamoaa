@@ -1,21 +1,20 @@
 import * as React from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
+import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { handleOpenTeamDetail } from 'redux/team';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { handleSuccessState } from 'redux/snack';
+import customAxios from 'utils/axios';
 
-// 나의 팀 관리 (네브바) 따로 버튼 아이콘 없음!
+// 제안 보낼 때, 제안 할 해당 프로젝트를 선택 (+) 해야함 (버튼 존재)
 
-export default function ProjectItem(props) {
+export default function MyProjectItem(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const goToDetail = () => {
@@ -23,16 +22,38 @@ export default function ProjectItem(props) {
     // 팀 관리에서 팀을 눌렀을 때 이동할 프론트 디테일 페이지 주소
     navigate(`/TeamDetailPage/?projectId=${props.projectstudy.projectId}`);
   };
+  // 팀에서 개인에게 제안 보내기 ( *일단 사이드바를 열게 됨 -> 팀원 구하기 페이지에서 혹은 프로필 페이지에서 가능 )
+  const handleOffer = () => {
+    console.log(userPk);
+    console.log(props.projectstudy.projectId);
+    customAxios
+      .authAxios({
+        method: 'POST',
+        url: '/offer',
+        // userId 는 제안을 받을 사람 ID : 어떻게 얻어오지?
+        data: { projectId: props.projectstudy.projectId, userId: userPk },
+      })
+      .then(response => {
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '제안이 완료 되었습니다.',
+            severity: 'success',
+          }),
+        );
+        console.log(response.data);
+        console.log('제안 완료!');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   if (props.type === 'project') {
     return (
       // 버튼에 온클릭 넣어서 팀 페이지 open으로 가게 (파라미터 가진)
-      <ListItemButton
-        onClick={goToDetail}
-        sx={{ pl: 4 }}
-        alignItems="flex-start"
-      >
-        <ListItemAvatar>
+      <ListItem sx={{ pl: 4 }} alignItems="flex-start">
+        <ListItemAvatar onClick={goToDetail}>
           <Avatar alt="" src={props.projectstudy.img} />
         </ListItemAvatar>
         <ListItemText
@@ -47,22 +68,18 @@ export default function ProjectItem(props) {
               >
                 {props.projectstudy.contents}
               </Typography>
-              <Button sx={{ zIndex: '1' }} onClick={console.log('hi')}>
-                <DoDisturbOnIcon></DoDisturbOnIcon>
-              </Button>
             </React.Fragment>
           }
         />
-      </ListItemButton>
+        <Button onClick={handleOffer}>
+          <AddCircleIcon></AddCircleIcon>
+        </Button>
+      </ListItem>
     );
   } else if (props.type === 'study') {
     return (
-      <ListItemButton
-        onClick={goToDetail}
-        sx={{ pl: 4 }}
-        alignItems="flex-start"
-      >
-        <ListItemAvatar>
+      <ListItem sx={{ pl: 4 }} alignItems="flex-start">
+        <ListItemAvatar onClick={goToDetail}>
           <Avatar alt="" src={props.projectstudy.img}></Avatar>
         </ListItemAvatar>
         <ListItemText
@@ -77,18 +94,13 @@ export default function ProjectItem(props) {
               >
                 {props.projectstudy.contents}
               </Typography>
-              <Stack direction="row" sx={{ pt: 4 }}>
-                <Button>
-                  <CheckCircleIcon></CheckCircleIcon>
-                </Button>
-                <Button>
-                  <CancelIcon></CancelIcon>
-                </Button>
-              </Stack>
+              <Button onClick={handleOffer}>
+                <AddCircleIcon></AddCircleIcon>
+              </Button>
             </React.Fragment>
           }
         />
-      </ListItemButton>
+      </ListItem>
     );
   }
 }
