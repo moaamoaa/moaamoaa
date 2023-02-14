@@ -24,13 +24,18 @@ export default function LogInDialog(props) {
 
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.user.isLogged);
+  // axios.defaults.withCredentials = true
 
   const handleLogIn = () => {
     customAxios.basicAxios
-      .post(`/users/login`, {
-        email: email,
-        password: password,
-      })
+      .post(
+        `/users/login`,
+        {
+          email: email,
+          password: password,
+        },
+        // { withCredentials: true },
+      )
       .then(response => {
         const token = response.data.accessToken;
         const userPk = response.data.id;
