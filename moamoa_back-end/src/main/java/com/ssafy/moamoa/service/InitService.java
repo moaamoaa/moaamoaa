@@ -1,21 +1,11 @@
 package com.ssafy.moamoa.service;
 
+import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.domain.entity.*;
+import com.ssafy.moamoa.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.ssafy.moamoa.domain.dto.ProjectForm;
-import com.ssafy.moamoa.domain.entity.Area;
-import com.ssafy.moamoa.domain.entity.Category;
-import com.ssafy.moamoa.domain.entity.Site;
-import com.ssafy.moamoa.domain.entity.TechStack;
-import com.ssafy.moamoa.domain.entity.TechStackCategory;
-import com.ssafy.moamoa.repository.AreaRepository;
-import com.ssafy.moamoa.repository.CategoryRepository;
-import com.ssafy.moamoa.repository.SiteRepository;
-import com.ssafy.moamoa.repository.TechStackCategoryRepository;
-import com.ssafy.moamoa.repository.TechStackRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @Component
 @Transactional
@@ -422,19 +412,19 @@ public class InitService {
         ProjectForm projectOnForm = new ProjectForm(0L, "projectOn", "", "", "ONLINE", 10, "PROJECT", "2023-02-21", 1L,
                 new Long[]{5L, 6L}, 1L);
         for (int i = 0; i < 20; i++) {
-            projectService.creatProject(studyOffForm,null);
-            projectService.creatProject(projectOffForm,null);
-            projectService.creatProject(studyOnForm,null);
-            projectService.creatProject(projectOnForm,null);
+            projectService.creatProject(studyOffForm, null);
+            projectService.creatProject(projectOffForm, null);
+            projectService.creatProject(studyOnForm, null);
+            projectService.creatProject(projectOnForm, null);
 
         }
 
     }
 
     public void addSite() {
-        Site github = Site.builder().name("Github").build();
-        Site velog = Site.builder().name("Velog").build();
-        Site tistory = Site.builder().name("Tistory").build();
+        Site github = Site.builder().name("Github").logo("https://s3.ap-northeast-2.amazonaws.com/ssafy.moamoa.image.bucket/sites/github.png").build();
+        Site velog = Site.builder().name("Velog").logo("https://s3.ap-northeast-2.amazonaws.com/ssafy.moamoa.image.bucket/sites/velog.png").build();
+        Site tistory = Site.builder().name("Tistory").logo("https://s3.ap-northeast-2.amazonaws.com/ssafy.moamoa.image.bucket/sites/tistory.png").build();
         Site cutsom = Site.builder().name("Custom").build();
 
         siteRepository.save(github);

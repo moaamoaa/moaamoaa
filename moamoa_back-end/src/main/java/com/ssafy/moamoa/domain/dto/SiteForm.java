@@ -14,4 +14,7 @@ public class SiteForm {
     private String name;
     @JsonProperty("link")
     private String link;
+
+    @JsonProperty("logo")
+    private String logo;
 }
