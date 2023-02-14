@@ -31,58 +31,58 @@ export default function TeamItem(props) {
 
   // 보낸 제안 철회
   const handleWithdrawOffer = () => {
-    // customAxios
-    //   .authAxios({
-    //     method: 'DELETE',
-    //     url: '/offer/project',
-    //     data: {
-    //       userId: 리덕스,
-    //       projectId: props.ask.projectId,
-    //       offerId: props.ask.offerId,
-    //     },
-    //   })
-    //   .then(response => {
-    //     dispatch(
-    //       handleSuccessState({
-    //         open: true,
-    //         message: '제안이 철회 되었습니다.',
-    //         severity: 'success',
-    //       }),
-    //     );
-    //     console.log(response.data);
-    //     console.log('제안 철회 완료!');
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    customAxios
+      .authAxios({
+        method: 'DELETE',
+        url: '/offer/project',
+        data: {
+          userId: props.ask.userId,
+          projectId: props.ask.projectId,
+          offerId: props.ask.offerId,
+        },
+      })
+      .then(response => {
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '제안이 철회 되었습니다.',
+            severity: 'success',
+          }),
+        );
+        console.log(response.data);
+        console.log('제안 철회 완료!');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   // 받은 지원 수락
   const handleAcceptApply = () => {
-    // customAxios
-    //   .authAxios({
-    //     method: 'PUT',
-    //     url: '/apply/project',
-    //     data: {
-    //       userId: 리덕스,
-    //       projectId: props.ask.projectId,
-    //       applyId: props.ask.applyId,
-    //     },
-    //   })
-    //   .then(response => {
-    //     dispatch(
-    //       handleSuccessState({
-    //         open: true,
-    //         message: '지원이 수락 되었습니다.',
-    //         severity: 'success',
-    //       }),
-    //     );
-    //     console.log(response.data);
-    //     console.log('지원 수락 완료!');
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    customAxios
+      .authAxios({
+        method: 'PUT',
+        url: '/apply/project',
+        data: {
+          userId: props.ask.userId,
+          projectId: props.ask.projectId,
+          applyId: props.ask.applyId,
+        },
+      })
+      .then(response => {
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '지원이 수락 되었습니다.',
+            severity: 'success',
+          }),
+        );
+        console.log(response.data);
+        console.log('지원 수락 완료!');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   // 받은 지원 거절
