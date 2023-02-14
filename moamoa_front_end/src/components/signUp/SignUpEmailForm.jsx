@@ -20,6 +20,12 @@ export default function SignUpEmailForm(props) {
     setUserEmail(e.target.value);
   };
 
+  // 이메일 input 요소의 value 속성 값을 받아오기 위해 event.target.value를 사용합니다.
+  const handleChange = event => {
+    const email = event.target.value;
+    props.handleEmail(email);
+  };
+
   const getCode = () => {
     // 로딩창 보여주기
 
@@ -35,7 +41,7 @@ export default function SignUpEmailForm(props) {
         console.log(response.data);
       })
       .catch(error => {
-        const errorStatus = error.response.data.status;
+        const errorStatus = error.response.status;
 
         setOpen(false);
 
@@ -84,13 +90,16 @@ export default function SignUpEmailForm(props) {
           비밀번호를 찾고자하는 이메일을 알려주세요!
         </Typography>
         <TextField
-          autoFocus
           margin="dense"
-          id="name"
-          label="Email Address"
+          id="outlined-basic"
+          label="이메일 작성"
           type="email"
           fullWidth
-          variant="standard"
+          variant="outlined"
+          required={true}
+          value={userEmail}
+          onChange={handleChange}
+          sx={{ mt: '2rem' }}
         />
       </DialogContent>
     );

@@ -43,6 +43,7 @@ export default function SignUpCertificationform(props) {
     customAxios.basicAxios
       .get(`/users/email?email=${userEmail}`)
       .then(response => {
+        setUserVaildCode('');
         console.log(response.data);
         props.handleCode(response.data);
       })
