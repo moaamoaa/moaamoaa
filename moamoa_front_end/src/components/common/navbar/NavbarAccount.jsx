@@ -19,7 +19,7 @@ import {
 } from '@mui/material/';
 
 import ProjectStudy from 'components/team/ProjectStudy';
-import ChattingDrawer from 'components/profile/ChattingDrawer';
+import ChattingDrawer from 'components/profile/chatting/ChattingDrawer';
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/logIn/FindPasswordDialog';

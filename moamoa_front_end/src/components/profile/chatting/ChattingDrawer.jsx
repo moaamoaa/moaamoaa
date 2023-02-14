@@ -11,7 +11,7 @@ import {
 } from '@mui/material/';
 import ChatIcon from '@mui/icons-material/Chat';
 import useMobile from 'hooks/useMobile';
-import ChattingList from 'components/profile/ChattingList';
+import ChattingList from 'components/profile/chatting/ChattingList';
 
 export default function ChattingDrawer() {
   const [isLoaded, setIsLoaded] = useState(false);

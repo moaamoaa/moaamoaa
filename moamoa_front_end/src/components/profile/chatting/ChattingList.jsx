@@ -1,6 +1,6 @@
 import * as React from 'react';
 import List from '@mui/material/List';
-import ChattingItem from 'components/profile/ChattingItem';
+import ChattingItem from 'components/profile/chatting/ChattingList';
 
 export default function ChattingList(props) {
   return (
