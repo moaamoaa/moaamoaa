@@ -5,7 +5,6 @@ import { Container, Grid, Typography } from '@mui/material';
 
 import CardList from 'components/common/card/CardList';
 import MainBanner from 'components/common/carousel/MainBanner';
-import CustomAxios from 'utils/axios';
 import { searchState } from 'redux/search';
 import { useDispatch } from 'react-redux';
 import customAxios from 'utils/axios';
@@ -17,7 +16,7 @@ export default function HomePageSample() {
 
   // axios
   useEffect(() => {
-    CustomAxios.basicAxios
+    customAxios.basicAxios
       .get('/search')
       .then(response => {
         const areas = response.data.areas;
