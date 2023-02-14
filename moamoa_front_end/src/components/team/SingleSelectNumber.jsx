@@ -18,7 +18,9 @@ const SingleSelectNumber = forwardRef((props, ref) => {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">선택</InputLabel>
+        <InputLabel id="demo-simple-select-label">
+          본인 포함 전체 팀 인원을 선택해주세요.
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

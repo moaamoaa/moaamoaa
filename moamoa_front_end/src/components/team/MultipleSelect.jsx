@@ -83,7 +83,9 @@ const MultipleSelect = forwardRef((props, ref) => {
   return (
     <div>
       <FormControl fullWidth>
-        <InputLabel id="demo-multiple-chip-label">복수 선택</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">
+          사용할 기술 스택을 선택해주세요. [복수 응답 가능]
+        </InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
