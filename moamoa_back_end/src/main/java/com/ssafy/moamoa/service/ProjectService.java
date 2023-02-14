@@ -350,6 +350,10 @@ public class ProjectService {
 	}
 
 	public boolean setIsLeader(Long userId, Long projectId) {
+		if(teamService.checkLeader(userId, projectId)) {
+			Project project = projectRepository.findById(projectId).get();
+			project.setHit(project.getHit()-1);
+		}
 		return teamService.checkLeader(userId, projectId);
 	}
 
