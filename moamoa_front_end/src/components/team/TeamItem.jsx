@@ -131,10 +131,12 @@ export default function TeamItem(props) {
               >
                 {props.ask.profileContext}
               </Typography>
-              <Button onClick={handleWithdrawOffer}>
-                {/* - 아이콘 보낸 제안 철회 */}
-                <DoDisturbOnIcon></DoDisturbOnIcon>
-              </Button>
+              <Stack direction="row" sx={{ pt: 4 }}>
+                <Button onClick={handleWithdrawOffer}>
+                  {/* - 아이콘 보낸 제안 철회 */}
+                  <DoDisturbOnIcon></DoDisturbOnIcon>
+                </Button>
+              </Stack>
             </React.Fragment>
           }
         />

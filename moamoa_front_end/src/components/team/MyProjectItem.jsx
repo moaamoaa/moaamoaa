@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { handleSuccessState } from 'redux/snack';
 import customAxios from 'utils/axios';
-
+import Stack from '@mui/material/Stack';
 // 제안 보낼 때, 제안 할 해당 프로젝트를 선택 (+) 해야함 (버튼 존재)
 
 export default function MyProjectItem(props) {
@@ -75,9 +75,11 @@ export default function MyProjectItem(props) {
             </React.Fragment>
           }
         />
-        <Button onClick={handleOffer}>
-          <AddCircleIcon></AddCircleIcon>
-        </Button>
+        <Stack direction="row" sx={{ pt: 4 }}>
+          <Button onClick={handleOffer}>
+            <AddCircleIcon></AddCircleIcon>
+          </Button>
+        </Stack>
       </ListItem>
     );
   } else if (props.type === 'study') {
@@ -98,9 +100,11 @@ export default function MyProjectItem(props) {
               >
                 {props.projectstudy.contents}
               </Typography>
-              <Button onClick={handleOffer}>
-                <AddCircleIcon></AddCircleIcon>
-              </Button>
+              <Stack direction="row" sx={{ pt: 4 }}>
+                <Button onClick={handleOffer}>
+                  <AddCircleIcon></AddCircleIcon>
+                </Button>
+              </Stack>
             </React.Fragment>
           }
         />
