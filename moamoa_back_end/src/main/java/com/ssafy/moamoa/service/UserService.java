@@ -145,7 +145,7 @@ public class UserService {
 	public void updatePasswordByEmail(String password, String email) {
 		Optional<User> findUsers = userRepository.findByEmail(email);
 		if (!findUsers.isPresent()) {
-			return;
+			throw new EntityNotFoundException("email에 정보가 맞지않습니다.");
 		}
 		User findUser = findUsers.get();
 		findUser.setPassword(getEncodedPassword(password));
