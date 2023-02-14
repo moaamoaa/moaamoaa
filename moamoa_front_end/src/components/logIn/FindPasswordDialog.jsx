@@ -66,7 +66,7 @@ export default function FindPasswordDialog(props) {
   const handleAlert = () => {
     if (email) {
       customAxios.basicAxios
-        .put(`/users/email/`, {
+        .put(`/users/email`, {
           email: email,
         })
         .then(response => {
