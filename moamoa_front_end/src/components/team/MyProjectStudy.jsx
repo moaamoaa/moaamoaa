@@ -159,7 +159,7 @@ export default function MyProjectStudy() {
               scale: isMobile ? '.8' : '1',
             }}
           >
-            제안
+            제안하기
           </IconButton>
           <Drawer
             anchor={anchor}

@@ -95,7 +95,7 @@ export default function TeamCreatePage() {
         console.log(response.data);
         console.log('생성완료!');
         // response data 의 형식에 맞게
-        const areaForm = response.data.areaForm; // reponse 데이터에서 가져옴
+        const areaForm = response.data.areaForm;
         const category = response.data.category;
         const contents = response.data.contents;
         const endDate = response.data.endDate;
@@ -112,13 +112,13 @@ export default function TeamCreatePage() {
         const title = response.data.title;
         dispatch(
           teamOpenSuccess({
-            // 리덕스 변수명에 맞게
-            areaForm: areaForm, // 리덕스에 저장
+            // 리덕스 변수명에 맞게 리덕스에 저장
+            areaForm: areaForm,
             category: category,
             contents: contents,
             endDate: endDate,
             img: img,
-            leader: leader, // 내가 생성했으니 내가 리더 false -> true
+            leader: leader, // 리더인지 아닌지 판별해서 백에서 반환해주는 값
             leaderId: leaderId, // leader ID
             leaderNickname: leaderNickname,
             profileResultDtoList: profileResultDtoList,
