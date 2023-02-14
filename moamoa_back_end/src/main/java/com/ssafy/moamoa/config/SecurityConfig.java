@@ -36,7 +36,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 			.authorizeRequests(auth -> auth
-				.antMatchers(HttpMethod.OPTIONS,"/*/").permitAll()
+				.antMatchers(HttpMethod.OPTIONS,"/**/*").permitAll()
 				.antMatchers("/api/users/login", "/api/users/signup", "/api/users/reissue", "/api/users/nickname",
 					"/api/search/**", "/api/projects/detail", "/api/swagger-ui")
 				.permitAll()
