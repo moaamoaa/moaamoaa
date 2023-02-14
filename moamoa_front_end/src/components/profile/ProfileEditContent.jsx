@@ -15,13 +15,18 @@ import {
 } from '@mui/material';
 
 import TechStackSelector from 'components/profile/TechStackSelector';
+import useMobile from 'hooks/useMobile';
 
 function ProfileEditContent() {
   const profile = useSelector(state => state.profile);
   const areas = useSelector(state => state.search.area);
 
-  const [selectedValue, setSelectedValue] = useState(profile.techStacks);
-  const [selectedArea, setSelectedArea] = useState(profile.areas);
+  const [selectedValue, setSelectedValue] = useState(
+    profile.techStacks ? profile.techStacks : [],
+  );
+  const [selectedArea, setSelectedArea] = useState(
+    profile.areas ? profile.areas : [],
+  );
 
   const [githubLink, setGithubLink] = useState('');
   const [tistoryLink, setTistoryLink] = useState('');
@@ -29,6 +34,8 @@ function ProfileEditContent() {
   const [projectLink, setProjectLink] = useState('');
 
   const [progress, setProgress] = useState('ALL');
+
+  const isMobile = useMobile();
 
   const dispatch = useDispatch();
 
@@ -45,6 +52,7 @@ function ProfileEditContent() {
         ],
         areas: selectedArea,
         techStacks: selectedValue,
+        profileSearchStatus: progress,
       }),
     );
   };
@@ -61,6 +69,7 @@ function ProfileEditContent() {
         ],
         areas: selectedArea,
         techStacks: selectedValue,
+        profileSearchStatus: progress,
       }),
     );
   };
@@ -77,6 +86,7 @@ function ProfileEditContent() {
         ],
         areas: selectedArea,
         techStacks: selectedValue,
+        profileSearchStatus: progress,
       }),
     );
   };
@@ -93,13 +103,12 @@ function ProfileEditContent() {
         ],
         areas: selectedArea,
         techStacks: selectedValue,
+        profileSearchStatus: progress,
       }),
     );
   };
 
   const handleProgress = event => {
-    console.log(event.target.value);
-
     setProgress(event.target.value);
 
     if (event.target.value === 'ONLINE') {
@@ -113,6 +122,7 @@ function ProfileEditContent() {
           ],
           areas: [],
           techStacks: selectedValue,
+          profileSearchStatus: event.target.value,
         }),
       );
     } else {
@@ -126,15 +136,28 @@ function ProfileEditContent() {
           ],
           areas: selectedArea,
           techStacks: selectedValue,
+          profileSearchStatus: event.target.value,
         }),
       );
     }
   };
 
   const handleSelectedArea = (event, value) => {
-    if (value.length > 3) return;
-    console.log('hi');
     setSelectedArea(value);
+
+    dispatch(
+      handleEditProfile({
+        sites: [
+          { link: githubLink, name: 'github' },
+          { link: tistoryLink, name: 'tistory' },
+          { link: velogLink, name: 'velog' },
+          { link: projectLink, name: 'project' },
+        ],
+        areas: value,
+        techStacks: selectedValue,
+        profileSearchStatus: progress,
+      }),
+    );
   };
 
   return (
@@ -151,7 +174,11 @@ function ProfileEditContent() {
           xs={12}
         >
           <Grid item paddingTop={'.3rem'} xs={2}>
-            <Typography textAlign={'start'} variant="body1" color="initial">
+            <Typography
+              textAlign={'start'}
+              variant={isMobile ? 'caption' : 'body1'}
+              color="initial"
+            >
               기술스택
             </Typography>
           </Grid>
@@ -173,7 +200,11 @@ function ProfileEditContent() {
           xs={12}
         >
           <Grid item paddingTop={'.3rem'} xs={2}>
-            <Typography textAlign={'start'} variant="body1" color="initial">
+            <Typography
+              textAlign={'start'}
+              variant={isMobile ? 'caption' : 'body1'}
+              color="initial"
+            >
               링크
             </Typography>
           </Grid>
@@ -271,7 +302,11 @@ function ProfileEditContent() {
         {/* 진행방식 */}
         <Grid id="progress" item container alignItems={'start'} xs={12}>
           <Grid item paddingTop={'.5rem'} xs={2}>
-            <Typography textAlign={'start'} variant="body1" color="initial">
+            <Typography
+              textAlign={'start'}
+              variant={isMobile ? 'caption' : 'body1'}
+              color="initial"
+            >
               진행방식
             </Typography>
           </Grid>
