@@ -16,6 +16,7 @@ const initialStateValue = {
     {
       nickname: '',
       profileOnOffStatus: '',
+      profileSearchStatus: 'ALL',
       sites: [
         { link: '', name: 'github' },
         { link: '', name: 'tistory' },
@@ -35,7 +36,6 @@ const profileSlice = createSlice({
   initialState: initialStateValue,
   reducers: {
     handleProfilePk: (state, action) => {
-      console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
       state.areas = [];
       state.reviews = [];
@@ -51,7 +51,6 @@ const profileSlice = createSlice({
       state.sideProjects = action.payload.sideProjects;
     },
     handleSuccessReview: (state, action) => {
-      console.log(action.payload.reviews);
       state.reviews = action.payload.reviews;
     },
     handleChangeState: (state, action) => {
@@ -61,10 +60,11 @@ const profileSlice = createSlice({
         action.payload.profileOnOffStatus;
     },
     handleEditProfile: (state, action) => {
-      console.log(action.payload);
       state.userProfile[1].areas = action.payload.areas;
       state.userProfile[1].sites = action.payload.sites;
       state.userProfile[1].techStacks = action.payload.techStacks;
+      state.userProfile[1].profileSearchStatus =
+        action.payload.profileSearchStatus;
     },
     profileOpenSuccess: (state, action) => {
       state.areas = action.payload.profile.areas;
