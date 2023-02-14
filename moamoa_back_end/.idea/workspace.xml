@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="39e12110-30fb-4ae3-a7e1-513d4e77023b" name="Changes" comment=":wrench: ddl-auto 수정">
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="develop" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2LfBe5s9k5kMRgsIljolIossJE6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/SSAFY/Documents/S08P12B110/moamoa_back-end/build.gradle",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.github.patou.gitmoji.config",
+    "spring.configuration.checksum": "4d325d1b0dbff49f914e4346049ce746",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="moamoa_back-end" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="moamoa_back-end" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MoamoaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="moamoa.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ssafy.moamoa.MoamoaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="39e12110-30fb-4ae3-a7e1-513d4e77023b" name="Changes" comment="" />
+      <created>1676252351539</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676252351539</updated>
+      <workItem from="1676252355805" duration="25624000" />
+      <workItem from="1676333682451" duration="8768000" />
+    </task>
+    <task id="LOCAL-00001" summary=":memo: fix annotation delete user &amp; 전체 회원 조회 기능 삭제">
+      <created>1676253827518</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676253827518</updated>
+    </task>
+    <task id="LOCAL-00002" summary=":art: fix update hit">
+      <created>1676262436125</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1676262436125</updated>
+    </task>
+    <task id="LOCAL-00003" summary=":art: fix show img">
+      <created>1676264853307</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1676264853307</updated>
+    </task>
+    <task id="LOCAL-00004" summary=":sparkles: add change leader">
+      <created>1676270695417</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676270695417</updated>
+    </task>
+    <task id="LOCAL-00005" summary=":bug: change get">
+      <created>1676271055675</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1676271055675</updated>
+    </task>
+    <task id="LOCAL-00006" summary=":art: fix delete project &amp; member">
+      <created>1676276397745</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1676276397745</updated>
+    </task>
+    <task id="LOCAL-00007" summary=":closed_lock_with_key: change official mail">
+      <created>1676302568196</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1676302568196</updated>
+    </task>
+    <task id="LOCAL-00008" summary=":sparkles: add alarm apply &amp; offer">
+      <created>1676308252091</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676308252091</updated>
+    </task>
+    <task id="LOCAL-00009" summary=":coffin: 사용안하는 코드 제거">
+      <created>1676336427458</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1676336427458</updated>
+    </task>
+    <task id="LOCAL-00010" summary=":wrench: application.yml &amp; initdb 수정">
+      <created>1676345506632</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1676345506632</updated>
+    </task>
+    <task id="LOCAL-00011" summary=":see_no_evil: gradle/wrapper/ 제거">
+      <created>1676345832843</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1676345832843</updated>
+    </task>
+    <task id="LOCAL-00012" summary=":truck: 폴더명 수정">
+      <created>1676346239525</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1676346239525</updated>
+    </task>
+    <task id="LOCAL-00013" summary=":wrench: ddl-auto 수정">
+      <created>1676346716094</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1676346716094</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value=":memo: fix annotation delete user &amp; 전체 회원 조회 기능 삭제" />
+    <MESSAGE value=":art: fix update hit" />
+    <MESSAGE value=":art: fix show img" />
+    <MESSAGE value=":sparkles: add change leader" />
+    <MESSAGE value=":bug: change get" />
+    <MESSAGE value=":art: fix delete project &amp; member" />
+    <MESSAGE value=":closed_lock_with_key: change official mail" />
+    <MESSAGE value=":sparkles: add alarm apply &amp; offer" />
+    <MESSAGE value=":coffin: 사용안하는 코드 제거" />
+    <MESSAGE value=":wrench: application.yml &amp; initdb 수정" />
+    <MESSAGE value=":see_no_evil: gradle/wrapper/ 제거" />
+    <MESSAGE value=":truck: 폴더명 수정" />
+    <MESSAGE value=":wrench: ddl-auto 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value=":wrench: ddl-auto 수정" />
+  </component>
+</project>
