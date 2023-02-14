@@ -64,10 +64,23 @@ export default function NavbarAccount() {
 
   const handleLogOut = () => {
     handleCloseUserMenu();
-    dispatch(logoutSuccess());
-    navigate('/');
-    Cookies.remove('access_token');
-    scrollToTop();
+    // dispatch(logoutSuccess());
+    // navigate('/');
+    // Cookies.remove('access_token');
+    // scrollToTop();
+
+    customAxios.authAxios
+      .post(`/users/logout`)
+      .then(response => {
+        console.log(response);
+        dispatch(logoutSuccess());
+        navigate('/');
+        Cookies.remove('access_token');
+        scrollToTop();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const settings = [
