@@ -1,14 +1,14 @@
 package com.ssafy.moamoa.domain.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 
 @Entity
 @Getter
@@ -25,7 +25,6 @@ public class TechStack {
 	@Column(name = "tech_stack_name")
 	private String name;
 
-	//@NotNull
 	@Column(name = "tech_stack_logo")
 	private String logo;
 

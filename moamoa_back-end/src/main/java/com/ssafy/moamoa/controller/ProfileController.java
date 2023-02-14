@@ -42,7 +42,7 @@ public class ProfileController {
     // 검색 여부 변경
     @ApiOperation(value = "검색 여부 변경", notes = "검색 여부를 (ALL -> PROJECT -> STUDY -> NONE ) 순으로 변경해줍니다. ")
     @PutMapping("/search-state")
-    ResponseEntity<ProfileSearchStatusForm> updateSearchState(
+    ResponseEntity<?> updateSearchState(
             @RequestBody ProfileSearchStatusForm profileSearchStatusForm) {
 
         ProfileSearchStatusForm result = profileService.changeUserSearchState(profileSearchStatusForm.getId());
@@ -50,16 +50,6 @@ public class ProfileController {
         return new ResponseEntity<ProfileSearchStatusForm>(result, OK);
     }
 
-//	@ApiOperation(value = "회원 탈퇴", notes = "회원을 탈퇴합니다.", response = ProfilePageForm.class)
-//	@ApiResponses({@ApiResponse(code = 200, message = "HttpStatus.OK"),
-//		@ApiResponse(code = 404, message = "User not found"),
-//		@ApiResponse(code = 500, message = "Internal server error")})
-//	@DeleteMapping()
-//	public ResponseEntity<?> deleteUser(Authentication authentication) {
-//		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-//		profileService.deleteUser(Long.valueOf(userDetails.getUsername()));
-//		return new ResponseEntity<ProfilePageForm>(OK);
-//	}
 
     @ApiOperation(value = "사용자 페이지 접근", notes = "사용자 페이지 정보를 리턴해줍니다.", response = ProfilePageForm.class)
     @ApiResponses({@ApiResponse(code = 200, message = "유저의 프로필 정보들을 리턴해줍니다."),
@@ -79,7 +69,6 @@ public class ProfileController {
             profilePageForm = profileService.getProfile(profileId);
         }
 
-        // ProfilePageForm profilePageForm = profileService.getProfile(profileId);
         return new ResponseEntity<ProfilePageForm>(profilePageForm, status);
     }
 
@@ -112,14 +101,13 @@ public class ProfileController {
             @ApiParam(value = "\"context\": \"string\"") @RequestBody ContextForm contextForm,
             Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = null;
+
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // Service
         ContextForm contextFormReturn = profileService.addContext(
                 profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), contextForm.getContext());
 
-        status = HttpStatus.ACCEPTED;
+        HttpStatus status = HttpStatus.ACCEPTED;
         return new ResponseEntity<ContextForm>(contextFormReturn, status);
     }
 
@@ -193,16 +181,14 @@ public class ProfileController {
     @GetMapping("review")
     public ResponseEntity<?> getReviews(Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = null;
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // Service
         List<ReviewForm> result = reviewService.getReviews(
                 profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId());
 
         resultMap.put("review", result);
 
-        status = HttpStatus.ACCEPTED;
+        HttpStatus status = HttpStatus.ACCEPTED;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
@@ -238,7 +224,8 @@ public class ProfileController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        // Service
+
+
         List<ReviewForm> result = reviewService.modifyReview(
                 profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), reviewForm);
 
@@ -264,7 +251,6 @@ public class ProfileController {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // Service
         List<ReviewForm> result = reviewService.deleteReview(
                 profileService.profileByUserId(Long.valueOf(userDetails.getUsername())).getId(), reviewId);
         if (result == null) {

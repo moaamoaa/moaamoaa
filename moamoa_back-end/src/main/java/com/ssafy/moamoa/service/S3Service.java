@@ -1,27 +1,21 @@
 package com.ssafy.moamoa.service;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.model.*;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Project;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.ProjectRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -43,16 +37,15 @@ public class S3Service {
     public String uploadProfileImg(Long profileId, MultipartFile multipartFile, String newName) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
 
-        log.info("File Name: " + fileName);
+        
         Profile profile = profileRepository.getProfileById(profileId);
         StringBuilder sb = new StringBuilder();
         sb.append(profile.getNickname());
-       if(newName.equals(profile.getNickname()))
-       {
-           newName = profile.getNickname();
-       }
+        if (newName.equals(profile.getNickname())) {
+            newName = profile.getNickname();
+        }
         String imgSet = "";
-        
+
         //파일 형식 구하기
         String ext = fileName.split("\\.")[1];
         String contentType = "";
@@ -83,8 +76,6 @@ public class S3Service {
             boolean isExist = false;
 
 
-
-
             if (profile.getImg() != null) {
                 isExist = true;
             }
@@ -92,8 +83,8 @@ public class S3Service {
             if (isExist) {
                 // 기존 이미지 삭제
                 profileRepository.setProfileImgNull(profileId);
-                log.info("DBIMG ======"+ sb.toString());
-                amazonS3.deleteObject(bucket, "profile/"+sb.toString());
+
+                amazonS3.deleteObject(bucket, "profile/" + sb.toString());
 
             }
 
@@ -106,7 +97,7 @@ public class S3Service {
 
             imgSet = imgLink + "/profile" + "/" + sb.toString();
             profileRepository.setProfileImgLink(profileId, imgSet);
-            log.info(" Input Image Link " + imgSet);
+
 
         } catch (AmazonServiceException e) {
             e.printStackTrace();
@@ -131,9 +122,8 @@ public class S3Service {
         StringBuilder sb = new StringBuilder();
 
         // 프로젝트 명 : 시작데이트_projectName
-        sb.append(timeService.parseCreatedTime(project.getCreateDate())+"_"+project.getTitle());
-        if(newName.equals(project.getTitle()))
-        {
+        sb.append(timeService.parseCreatedTime(project.getCreateDate()) + "_" + project.getTitle());
+        if (newName.equals(project.getTitle())) {
             newName = project.getTitle();
         }
         String imgSet = "";
@@ -169,8 +159,6 @@ public class S3Service {
             boolean isExist = false;
 
 
-
-
             if (project.getImg() != null) {
                 isExist = true;
             }
@@ -178,8 +166,8 @@ public class S3Service {
             if (isExist) {
                 // 기존 이미지 삭제
                 projectRepository.setProjectImgNull(projectId);
-                log.info("DBIMG ======"+ sb.toString());
-                amazonS3.deleteObject(bucket, "project/"+sb.toString());
+
+                amazonS3.deleteObject(bucket, "project/" + sb.toString());
 
             }
 
@@ -188,11 +176,11 @@ public class S3Service {
             sb = new StringBuilder();
             sb.append(newName);
             amazonS3.putObject(new PutObjectRequest(bucket, "project/" + sb.toString(), multipartFile.getInputStream(), metadata)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
 
             imgSet = imgLink + "/project" + "/" + sb.toString();
             projectRepository.setProjectImgLink(projectId, imgSet);
-            log.info(" Input Image Link " + imgSet);
+
 
         } catch (AmazonServiceException e) {
             e.printStackTrace();
