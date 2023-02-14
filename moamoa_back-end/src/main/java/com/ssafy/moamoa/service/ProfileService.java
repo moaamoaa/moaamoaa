@@ -1,13 +1,5 @@
 package com.ssafy.moamoa.service;
 
-import java.io.IOException;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.ProfileSearchStatus;
 import com.ssafy.moamoa.domain.dto.ContextForm;
@@ -18,9 +10,15 @@ import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @Slf4j
@@ -85,24 +83,19 @@ public class ProfileService {
                 .id(profileId)
                 .profileOnOffStatus(ProfileOnOffStatus.valueOf(profileForm.getProfileOnOffStatus()))
                 .nickname(profilePageForm.getProfileForm().getNickname())
-                // Multipart -> String 으로 Parsing
-                // profileForm.getFile()
                 .build();
 
         String output = s3Service.uploadProfileImg(profileId, file, profileForm.getNickname());
 
         // Profile
         profile.setProfileOnOffStatus(inputProfile.getProfileOnOffStatus());
-        if(inputProfile.getNickname()!=null)
-        {
+        if (inputProfile.getNickname() != null) {
             profile.setNickname(inputProfile.getNickname());
         }
         profile.setImg(output);
 
 
-
-        // Return
-        ProfilePageForm returnForm  = ProfilePageForm.builder()
+        ProfilePageForm returnForm = ProfilePageForm.builder()
                 .profileForm(profileForm)
                 .techStackFormList(techStackService.modifyProfileTechStack(profileId, profilePageForm.getTechStackFormList()))
                 .reviewFormList(reviewService.getReviews(profileId))
@@ -141,11 +134,9 @@ public class ProfileService {
         return ProfileSearchStatusForm.builder().id(profile.getId()).status(originSearchState.toString()).build();
     }
 
-    public boolean checkDeletedUser(Long profileId)
-    {
+    public boolean checkDeletedUser(Long profileId) {
         User user = profileRepository.getUserByProfileId(profileId);
-        if(user.isLocked())
-        {
+        if (user.isLocked()) {
             return false;
         }
 
@@ -173,42 +164,35 @@ public class ProfileService {
 
     }
 
-    public void deleteUser(Long userId)
-    {
+    public void deleteUser(Long userId) {
         User user = userRepository.getUserById(userId);
         user.setLocked(true);
 
     }
 
-    public Profile profileByUserId(Long userId)
-    {
-       return profileRepository.getProfileByUserId(userId);
+    public Profile profileByUserId(Long userId) {
+        return profileRepository.getProfileByUserId(userId);
 
     }
 
     // 프로필 조회수 증가 : 본인이거나, 로그인 하지 않은 사람이면 증가하지 않음.
-    public void addProfileHit(Long profileId, Authentication authentication)
-    {
+    public void addProfileHit(Long profileId, Authentication authentication) {
 
         UserDetails userDetails = null;
 
-        // 자기자신만 검증 하고 나머지는 오픈
         Profile loggedInProfile = null;
-        if(authentication !=null)
-        {
-            userDetails = (UserDetails)authentication.getPrincipal();
-            loggedInProfile =  profileRepository.getProfileByUserId(Long.valueOf(userDetails.getUsername()));
-            if(loggedInProfile.getId() == profileId)
-            {
-                return ;
+        if (authentication != null) {
+            userDetails = (UserDetails) authentication.getPrincipal();
+            loggedInProfile = profileRepository.getProfileByUserId(Long.valueOf(userDetails.getUsername()));
+            if (loggedInProfile.getId() == profileId) {
+                return;
             }
         }
 
 
-
         Profile profile = profileRepository.getProfileById(profileId);
 
-        profile.setHit(profile.getHit()+1);
+        profile.setHit(profile.getHit() + 1);
 
         profileRepository.save(profile);
 

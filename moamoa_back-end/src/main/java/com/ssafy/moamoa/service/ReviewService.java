@@ -5,7 +5,6 @@ import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.Review;
 import com.ssafy.moamoa.repository.ProfileRepository;
 import com.ssafy.moamoa.repository.ReviewRepository;
-import com.ssafy.moamoa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,12 +20,8 @@ import java.util.List;
 @Slf4j
 public class ReviewService {
 
-    private static final String SUCCESS = "SUCCESS";
-    private static final String FAIL = "FAIL";
-
     private final ProfileRepository profileRepository;
 
-    private final UserRepository userRepository;
 
     private final ReviewRepository reviewRepository;
 
@@ -147,12 +142,11 @@ public class ReviewService {
 
         Review review = reviewRepository.getReviewById(reviewId);
 
-        log.info("Review SendUser : " + review.getSendUser().getNickname() + "     UserId Profile : " + senderProfile.getNickname());
 
         if (review.getSendUser().getId() != senderProfile.getId()) {
             return null;
         }
-        //
+
         Long deleteCount = reviewRepository.deleteReviewById(reviewId);
 
         // Return

@@ -1,14 +1,11 @@
 package com.ssafy.moamoa.repository.querydsl;
 
 
-import org.springframework.data.domain.Pageable;
-
-import com.ssafy.moamoa.domain.ProfileOnOffStatus;
 import com.ssafy.moamoa.domain.dto.ProfileResultDto;
 import com.ssafy.moamoa.domain.dto.SearchCondition;
 import com.ssafy.moamoa.domain.entity.Profile;
-
 import com.ssafy.moamoa.domain.entity.User;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,8 +16,6 @@ public interface ProfileRepositoryCustom {
     Profile getProfileById(Long profileId);
 
     void deleteProfileContextById(Long profileId);
-
-    String setProfileOnOffStatus(Long profileId, ProfileOnOffStatus status);
 
 
     void setProfile(Profile profile);
