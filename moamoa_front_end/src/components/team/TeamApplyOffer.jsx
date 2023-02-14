@@ -97,8 +97,8 @@ export default function TeamApplyOffer() {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -120,7 +120,11 @@ export default function TeamApplyOffer() {
         <Collapse in={openProjects} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+            <ListItemButton
+              onClick={toggleDrawer(anchor, !state[anchor])}
+              sx={{ pl: 4 }}
+              alignItems="flex-start"
+            >
               {/* 보낸 제안 리스트 컴포넌트 */}
               <TeamList offers={offers} type={'offer'}></TeamList>
             </ListItemButton>
@@ -136,7 +140,11 @@ export default function TeamApplyOffer() {
         <Collapse in={openStudies} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+            <ListItemButton
+              onClick={toggleDrawer(anchor, !state[anchor])}
+              sx={{ pl: 4 }}
+              alignItems="flex-start"
+            >
               {/* 받은 지원 리스트 컴포넌트 */}
               <TeamList applies={applies} type={'apply'}></TeamList>
             </ListItemButton>
@@ -165,7 +173,7 @@ export default function TeamApplyOffer() {
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
-            onClick={toggleDrawer(anchor, !state[anchor])}
+            // onClick={toggleDrawer(anchor, !state[anchor])}
           >
             {list(anchor)}
           </Drawer>
