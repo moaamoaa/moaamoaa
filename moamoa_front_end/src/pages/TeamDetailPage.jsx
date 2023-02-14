@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import customAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleUpdate } from 'redux/team';
+import { handleUpdate, handleOpenTeamDetail } from 'redux/team';
 import { handleSuccessState } from 'redux/snack';
 import {
   Container,
@@ -55,6 +55,41 @@ export default function TeamDetailPage() {
         console.log(response.data.profileResultDtoList);
         setLead(response.data.leader);
         console.log(response.data.leader);
+        const areaForm = response.data.areaForm;
+        const category = response.data.category;
+        const contents = response.data.contents;
+        const endDate = response.data.endDate;
+        const img = response.data.img;
+        const leader = response.data.leader; // true
+        const leaderId = response.data.leaderId;
+        const leaderNickname = response.data.leaderNickname;
+        const profileResultDtoList = response.data.profileResultDtoList;
+        const projectId = response.data.projectId;
+        const projectStatus = response.data.projectStatus;
+        const totalPeople = response.data.titotalPeopletle;
+        const projectTechStacks = response.data.projectTechStacks;
+        const startDate = response.data.startDate;
+        const title = response.data.title;
+        dispatch(
+          handleOpenTeamDetail({
+            // 리덕스 변수명에 맞게 리덕스에 저장
+            areaForm: areaForm,
+            category: category,
+            contents: contents,
+            endDate: endDate,
+            img: img,
+            leader: leader, // 리더인지 아닌지 판별해서 백에서 반환해주는 값
+            leaderId: leaderId, // leader ID
+            leaderNickname: leaderNickname,
+            profileResultDtoList: profileResultDtoList,
+            projectId: projectId,
+            projectStatus: projectStatus,
+            totalPeople: totalPeople,
+            projectTechStacks: projectTechStacks,
+            startDate: startDate,
+            title: title,
+          }),
+        );
       })
       .catch(error => {
         console.log(error.data);
