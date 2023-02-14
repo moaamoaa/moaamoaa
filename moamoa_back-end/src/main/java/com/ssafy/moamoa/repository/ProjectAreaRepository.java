@@ -11,10 +11,5 @@ import com.ssafy.moamoa.domain.entity.ProjectArea;
 import org.springframework.data.repository.query.Param;
 
 public interface ProjectAreaRepository extends JpaRepository<ProjectArea, Long> , ProjectAreaRepositoryCustom {
-
-	@Query(value = "select projectArea " +
-		"from ProjectArea projectArea " +
-		"where projectArea.project = :project")
-	Optional<ProjectArea> findByProject(@Param("project") Project project);
 }
 
