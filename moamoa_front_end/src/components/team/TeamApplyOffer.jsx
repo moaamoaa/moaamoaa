@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import CustomAxios from 'utils/axios';
+import customAxios from 'utils/axios';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -32,7 +32,7 @@ export default function TeamApplyOffer() {
   useEffect(() => {
     console.log(projectId);
     if (isLoaded) {
-      CustomAxios.authAxios
+      customAxios.authAxios
         .get(`/offer/project?projectId=${projectId}`)
         .then(response => {
           setOffers(response.data);
@@ -49,7 +49,7 @@ export default function TeamApplyOffer() {
 
   useEffect(() => {
     if (isLoaded) {
-      CustomAxios.authAxios
+      customAxios.authAxios
         .get(`/apply/project?projectId=${projectId}`)
         .then(response => {
           setApplies(response.data);
