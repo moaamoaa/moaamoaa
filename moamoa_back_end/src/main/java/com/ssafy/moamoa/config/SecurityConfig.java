@@ -38,9 +38,10 @@ public class SecurityConfig {
 			.authorizeRequests(auth -> auth
 				.antMatchers(HttpMethod.OPTIONS,"/**/*").permitAll()
 				.antMatchers("/api/users/login", "/api/users/signup", "/api/users/reissue", "/api/users/nickname",
-					"/api/search/**", "/api/projects/detail", "/api/swagger-ui")
+					"/api/search/**", "/api/projects/detail", "/api/swagger-ui","/api/users/email","/swagger-ui/**")
 				.permitAll()
-				.antMatchers(HttpMethod.GET, "/api/users/email", "/api/profile/{\\d+}", "/api/profile/review")
+				.antMatchers("/swagger-resources/**","/swagger-ui/**", "/v2/api-docs").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/profile/{\\d+}", "/api/profile/review")
 				.permitAll()
 				.anyRequest()
 				.authenticated())
