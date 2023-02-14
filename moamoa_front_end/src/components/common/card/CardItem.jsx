@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
+import { handleMemberId } from 'redux/member';
 import { useDispatch } from 'react-redux';
 import { handleProfilePk } from 'redux/profile';
 import MyProjectStudy from 'components/team/MyProjectStudy';
@@ -40,6 +41,14 @@ export default function CardItem(props) {
       scrollToTop();
     }
   };
+
+  const handleSaveMemberId = () => {
+    if (props.type === 'member') {
+      // console.log(props.card);
+      dispatch(handleMemberId({ memberId: props.card.id }));
+    }
+  };
+
   if (props.type === 'team') {
     return (
       <MoaCard onClick={goToDetail}>
@@ -114,7 +123,12 @@ export default function CardItem(props) {
               </Button>
             </Grid>
             <Grid item xs>
-              <Button size="small" variant="contained" color="primary">
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                onClick={handleSaveMemberId}
+              >
                 {/* 제안 */}
                 <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
               </Button>
