@@ -150,22 +150,42 @@ export default function TeamSearchPage(props) {
 
   const search = () => {
     axiosStackId = stackId.join(',');
-    customAxios.basicAxios
-      .get(
-        `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
-      )
-      .then(response => {
-        setSearchResult([...response.data]);
-        dispatch(
-          handleCursorIdMember({
-            cursorIdMember: response.data[response.data.length - 1].cursorId,
-          }),
-        );
-        setIsFetching(false);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+
+    if (window.event.keyCode == 13) {
+      customAxios.basicAxios
+        .get(
+          `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
+        )
+        .then(response => {
+          setSearchResult([...response.data]);
+          dispatch(
+            handleCursorIdMember({
+              cursorIdMember: response.data[response.data.length - 1].cursorId,
+            }),
+          );
+          setIsFetching(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      customAxios.basicAxios
+        .get(
+          `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
+        )
+        .then(response => {
+          setSearchResult([...response.data]);
+          dispatch(
+            handleCursorIdMember({
+              cursorIdMember: response.data[response.data.length - 1].cursorId,
+            }),
+          );
+          setIsFetching(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {
@@ -184,7 +204,7 @@ export default function TeamSearchPage(props) {
     <Container fixed sx={{ paddingTop: '6.3rem' }}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <div onKeyPress={search}>
+          <div onKeyUp={search}>
             <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
           </div>
         </Grid>
