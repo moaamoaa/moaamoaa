@@ -11,11 +11,7 @@ import LongMenu from 'components/profile/LongMenu';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  handleEditReview,
-  handleProfilePk,
-  handleSuccessReview,
-} from 'redux/profile';
+import { handleProfilePk, handleSuccessReview } from 'redux/profile';
 import { handleSuccessState } from 'redux/snack';
 import customAxios from 'utils/axios';
 import scrollToTop from 'utils/scrollToTop';

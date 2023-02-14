@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import { Container, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import styled from '@emotion/styled';
 import KeyboardDoubleArrowDownRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowDownRounded';
 import useIsAtTop from 'hooks/useIsAtTop';
