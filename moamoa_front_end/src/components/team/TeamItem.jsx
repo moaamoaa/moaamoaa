@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
+import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
+
+// 팀에서 개인에게 제안을 보내거나 (철회)하고 개인으로부터 지원을 받고 (수락)(거절) 한다.
 
 export default function TeamItem(props) {
   const navigate = useNavigate();
@@ -26,17 +28,10 @@ export default function TeamItem(props) {
   // 팀에서 개인에게 보낸 제안 ( 사람이 뜸 ) - 철회-
   if (props.type === 'offer') {
     return (
-      <ListItemButton
-        onClick={goToOfferProfile}
-        sx={{ pl: 4 }}
-        alignItems="flex-start"
-      >
-        <ListItemAvatar>
+      <ListItem sx={{ pl: 4 }} alignItems="flex-start">
+        <ListItemAvatar onClick={goToOfferProfile}>
           <Avatar alt="" src={props.ask.profileImg} />
         </ListItemAvatar>
-        <Button>
-          <DoDisturbOnIcon></DoDisturbOnIcon>
-        </Button>
         <ListItemText
           primary={props.ask.nickname}
           secondary={
@@ -49,20 +44,20 @@ export default function TeamItem(props) {
               >
                 {props.ask.profileContext}
               </Typography>
+              <Button>
+                <DoDisturbOnIcon></DoDisturbOnIcon>
+              </Button>
             </React.Fragment>
           }
         />
-      </ListItemButton>
+      </ListItem>
     );
+
     // 팀에서 개인에게 받은 지원 (사람이 뜸) - 수락v 거절x
   } else if (props.type === 'apply') {
     return (
-      <ListItemButton
-        onClick={goToApplyProfile}
-        sx={{ pl: 4 }}
-        alignItems="flex-start"
-      >
-        <ListItemAvatar>
+      <ListItem sx={{ pl: 4 }} alignItems="flex-start">
+        <ListItemAvatar onClick={goToApplyProfile}>
           <Avatar alt="" src={props.ask.profileImg} />
         </ListItemAvatar>
         <ListItemText
@@ -88,7 +83,7 @@ export default function TeamItem(props) {
             </React.Fragment>
           }
         />
-      </ListItemButton>
+      </ListItem>
     );
   }
 }

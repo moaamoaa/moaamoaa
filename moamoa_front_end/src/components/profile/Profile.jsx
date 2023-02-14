@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import CardList from 'components/common/card/CardList';
+import MyProjectStudy from 'components/team/MyProjectStudy';
 import {
   Button,
   Typography,
@@ -141,7 +142,7 @@ export default function Profile(props) {
 
   const otherButtons = [
     <ProfileButton key="offer" variant="outlined">
-      제안
+      <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
     </ProfileButton>,
     <ProfileButton key="chat" variant="outlined">
       채팅
