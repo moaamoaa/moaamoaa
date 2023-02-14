@@ -70,7 +70,7 @@ function Review(props) {
         .put('/profile/review', {
           id: props.review.id,
           context: context,
-          profileId: userPk,
+          profileId: props.review.profileId,
         })
         .then(response => {
           dispatch(
