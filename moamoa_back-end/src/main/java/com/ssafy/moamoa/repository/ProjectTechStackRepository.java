@@ -14,11 +14,6 @@ import com.ssafy.moamoa.repository.querydsl.ProjectTechStackRepositoryCustom;
 public interface ProjectTechStackRepository extends JpaRepository<ProjectTechStack, Long>,
 	ProjectTechStackRepositoryCustom {
 
-	@Query(value = "select projectTechStack " +
-		"from ProjectTechStack projectTechStack " +
-		"where projectTechStack.project = :project")
-	List<ProjectTechStack> findByProject(@Param("project") Project project);
-
 	List<TechStackOnly> findByProject_Id(Long id);
 
 	List<TechStackOnly> findTop4ByProject_IdOrderByOrderAsc(Long id);

@@ -151,27 +151,6 @@ public class UserService {
 		findUser.setPassword(getEncodedPassword(password));
 	}
 
-	public void updateNickname(String nickname, Long userId) {
-		Optional<User> findUsers = userRepository.findById(userId);
-		if (!findUsers.isPresent()) {
-			return;
-		}
-		User findUser = findUsers.get();
-		// profile
-		Profile profile = Profile.builder()
-			.nickname(nickname)
-			.searchState(ProfileSearchStatus.ALL)
-			.build();
-
-		validateDuplicateProfileNickname(profile);
-		Optional<Profile> findProfiles = profileRepository.findByUser(findUser);
-		if (!findProfiles.isPresent()) {
-			return;
-		}
-		Profile findProfile = findProfiles.get();
-		findProfile.setNickname(nickname);
-	}
-
 	public void deleteUser(Long id) {
 		Optional<User> findUsers = userRepository.findById(id);
 		if (!findUsers.isPresent()) {
