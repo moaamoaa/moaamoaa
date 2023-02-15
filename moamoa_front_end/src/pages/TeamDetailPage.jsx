@@ -2,11 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import customAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  handleUpdate,
-  handleOpenTeamDetail,
-  handleCloseTeamDetail,
-} from 'redux/team';
+import { handleUpdate, handleOpenTeamDetail } from 'redux/team';
 import { handleSuccessState } from 'redux/snack';
 import {
   Container,
