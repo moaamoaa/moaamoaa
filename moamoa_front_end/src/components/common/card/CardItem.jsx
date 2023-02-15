@@ -55,6 +55,7 @@ export default function CardItem(props) {
 
   // 멤버 카드일 경우,
   // 권한위임하기 요청
+  // 성공!
   const handleRight = () => {
     if (props.type === 'member') {
       customAxios
@@ -85,6 +86,7 @@ export default function CardItem(props) {
 
   // 멤버 카드일 경우,
   // 강퇴하기 요청
+  // 성공!
   const handleDrop = () => {
     if (props.type === 'member') {
       customAxios
