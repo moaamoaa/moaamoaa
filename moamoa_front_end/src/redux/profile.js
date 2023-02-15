@@ -80,7 +80,7 @@ const profileSlice = createSlice({
         action.payload.profile.profile.profileSearchStatus;
 
       state.sideProjects = action.payload.profile.sideprojects;
-      state.techStacks = action.payload.profile.techStacks;
+      state.techStacks = action.payload.profile.techstacks;
     },
     profileEditSuccess: (state, action) => {
       state.areas = action.payload.areas;
