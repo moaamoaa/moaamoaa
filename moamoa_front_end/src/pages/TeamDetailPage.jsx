@@ -155,6 +155,7 @@ export default function TeamDetailPage() {
                 }}
               >
                 <Typography
+                  id="title"
                   component="h1"
                   variant="h2"
                   color="inherit"
