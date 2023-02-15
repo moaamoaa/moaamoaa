@@ -17,9 +17,9 @@ import SearchFilterTech from 'components/team/searchFilter/SearchFilterTech';
 import TeamSearchbar from 'components/team/searchFilter/TeamSearchbar';
 import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOffline';
 
-import TeamSearchList from 'components/common/card/TeamSearchList';
 import { useNavigate } from 'react-router-dom';
 import { handleCursorId } from 'redux/search';
+import CardList from 'components/common/card/CardList';
 
 export default function TeamSearchPage(props) {
   // 팀생성 링크
@@ -299,7 +299,7 @@ export default function TeamSearchPage(props) {
         </Button>
       </Box>
       <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
-        <TeamSearchList cards={searchResult}></TeamSearchList>
+        <CardList cards={searchResult} type="team"></CardList>
       </Container>
     </Container>
   );

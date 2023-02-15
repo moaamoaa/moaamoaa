@@ -37,7 +37,7 @@ public class ProjectForm {
 	private Long[] techStacks;
 
 	// project area
-	private Long areaId;
+	private Long areaId = 0L;
 
 	public static ProjectForm toEntity(Project project){
 		return ProjectForm.builder()
