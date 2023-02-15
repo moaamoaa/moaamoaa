@@ -296,9 +296,10 @@ export default function CardItem(props) {
   } else if (props.type === 'tech') {
     return <MoaImg src={props.card.logo} />;
   } else if (props.type === 'link') {
+    console.log(props);
     return (
-      <Link href={props.card.site} target="_blank">
-        <MoaImg src={props.card.site} />
+      <Link href={props.card[1].link} target="_blank">
+        <MoaImg src={props.card[1].logo} />
       </Link>
     );
   }
