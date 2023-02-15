@@ -46,34 +46,6 @@ export default function Profile(props) {
   );
   const [badgeInfo, setBadgeInfo] = useState({});
 
-  useEffect(() => {
-    if (searchstatus === 'ALL') {
-      setBadgeInfo({
-        name: 'ALL',
-        color: 'primary',
-        context: '모든 팀을 구하고 있습니다.',
-      });
-    } else if (searchstatus === 'PROJECT') {
-      setBadgeInfo({
-        name: 'PROJECT',
-        color: 'secondary',
-        context: '팀을 구하고 있지 않습니다.',
-      });
-    } else if (searchstatus === 'STUDY') {
-      setBadgeInfo({
-        name: 'STUDY',
-        color: 'success',
-        context: '프로젝트 팀을 구하고 있습니다.',
-      });
-    } else if (searchstatus === 'NONE') {
-      setBadgeInfo({
-        name: 'NONE',
-        color: 'warning',
-        context: '스터디 팀을 구하고 있습니다.',
-      });
-    }
-  }, []);
-
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -187,19 +159,19 @@ export default function Profile(props) {
       setBadgeInfo({
         name: 'PROJECT',
         color: 'secondary',
-        context: '팀을 구하고 있지 않습니다.',
+        context: '프로젝트 팀을 구하고 있습니다.',
       });
     } else if (badgeInfo.name === 'PROJECT') {
       setBadgeInfo({
         name: 'STUDY',
         color: 'success',
-        context: '프로젝트 팀을 구하고 있습니다.',
+        context: '스터디 팀을 구하고 있습니다.',
       });
     } else if (badgeInfo.name === 'STUDY') {
       setBadgeInfo({
         name: 'NONE',
         color: 'warning',
-        context: '스터디 팀을 구하고 있습니다.',
+        context: '팀을 구하고 있지 않습니다.',
       });
     } else if (badgeInfo.name === 'NONE') {
       setBadgeInfo({
@@ -209,6 +181,35 @@ export default function Profile(props) {
       });
     }
   };
+
+  useEffect(() => {
+    console.log(searchstatus);
+    if (searchstatus === 'ALL') {
+      setBadgeInfo({
+        name: 'ALL',
+        color: 'primary',
+        context: '모든 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'PROJECT') {
+      setBadgeInfo({
+        name: 'PROJECT',
+        color: 'secondary',
+        context: '프로젝트 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'STUDY') {
+      setBadgeInfo({
+        name: 'STUDY',
+        color: 'success',
+        context: '스터디 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'NONE') {
+      setBadgeInfo({
+        name: 'NONE',
+        color: 'warning',
+        context: '팀을 구하고 있지 않습니다.',
+      });
+    }
+  }, [searchstatus]);
 
   const handleDrop = event => {
     event.preventDefault();
@@ -331,7 +332,7 @@ export default function Profile(props) {
             alignItems={'center'}
             height={'5rem'}
           >
-            <Grid item xs={1}>
+            <Grid item xs={4} display="flex" justifyContent={'end'}>
               <input
                 accept="image/*"
                 type="file" // 파일
@@ -351,12 +352,12 @@ export default function Profile(props) {
                 </IconButton>
               </label>
             </Grid>
-            <Grid item xs={5}>
-              <Typography variant="body1" color="initial" textAlign={'center'}>
+            <Grid item xs={4}>
+              <Typography color="primary" variant="body1" textAlign={'center'}>
                 이미지 변경
               </Typography>
             </Grid>
-            <Grid item xs={1}>
+            {/* <Grid item xs={1}>
               <IconButton
                 color="primary"
                 aria-label="upload picture"
@@ -369,7 +370,7 @@ export default function Profile(props) {
               <Typography variant="body1" color="initial" textAlign={'center'}>
                 변경 취소
               </Typography>
-            </Grid>
+            </Grid> */}
           </Grid>
 
           <TextField
@@ -432,7 +433,7 @@ export default function Profile(props) {
                 <Grid item xs={10}>
                   <Typography
                     variant="caption"
-                    color="initial"
+                    color="primary"
                     textAlign={'center'}
                   >
                     이미지 변경
