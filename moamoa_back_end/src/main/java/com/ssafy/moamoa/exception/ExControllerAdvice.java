@@ -11,6 +11,7 @@ import com.ssafy.moamoa.exception.customException.DuplicateOfferApplyException;
 import com.ssafy.moamoa.exception.customException.DuplicateUserException;
 import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -32,6 +33,13 @@ public class ExControllerAdvice {
 
 	@ExceptionHandler(UnAuthorizedException.class)
 	public ResponseEntity<ErrorResult> unAuthorizedExHandle(UnAuthorizedException e) {
+		log.error("[exceptionHandle] ex", e);
+		ErrorResult errorResult = new ErrorResult("401", e.getMessage());
+		return new ResponseEntity<>(errorResult, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(ExpiredJwtException.class)
+	public ResponseEntity<ErrorResult> ExpiredJwtExHandle(ExpiredJwtException e) {
 		log.error("[exceptionHandle] ex", e);
 		ErrorResult errorResult = new ErrorResult("401", e.getMessage());
 		return new ResponseEntity<>(errorResult, HttpStatus.UNAUTHORIZED);
