@@ -135,7 +135,7 @@ export default function TeamDetailPage() {
           sx={{
             position: 'relative',
             color: '#fff',
-            mb: 4,
+            mb: 1,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -154,13 +154,7 @@ export default function TeamDetailPage() {
                   pr: { md: 0 },
                 }}
               >
-                <Typography
-                  id="title"
-                  component="h1"
-                  variant="h2"
-                  color="inherit"
-                  gutterBottom
-                >
+                <Typography id="title" variant="h1" gutterBottom>
                   {/* 팀 이름  */}
                   {/* <SingleTextField ref={titleRef}></SingleTextField> */}
                   {detail.title}
