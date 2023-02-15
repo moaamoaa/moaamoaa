@@ -163,7 +163,7 @@ public class ProjectService {
 		techStackService.modifyProjectTechStack(project.getId(), projectForm.getTechStacks());
 
 		// project area
-		if(projectForm.getAreaId()!=0L) {
+		if(projectForm.getAreaId()!=null) {
 			areaService.addProjectAreaList(project, projectForm.getAreaId());
 		}
 		ProjectDetail projectDetail = accessProject(project.getId(), 0);
