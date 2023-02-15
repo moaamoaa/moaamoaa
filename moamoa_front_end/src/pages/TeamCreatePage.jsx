@@ -24,7 +24,7 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
-import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
+import scrollToTop from 'utils/scrollToTop';
 
 export default function TeamCreatePage() {
   //ref
@@ -134,8 +134,8 @@ export default function TeamCreatePage() {
             title: title,
           }),
         ); // 저장시키기
-        ScrollToTopButton(); // 등록 버튼 누르고 마우스 커서 위치가 중간에 있어서
         navigate(`/TeamDetailPage/?projectId=${projectId}`); // 이동하고
+        scrollToTop();
       })
       .catch(error => {
         console.log(error);
