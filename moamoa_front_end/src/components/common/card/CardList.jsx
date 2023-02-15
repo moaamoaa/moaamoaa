@@ -14,7 +14,11 @@ export default function CardList(props) {
         {props.cards &&
           props.cards.map((card, idx) => (
             <Grid item key={idx} xs={12} md={6} lg={4}>
-              <CardItem card={card} type={props.type}></CardItem>
+              <CardItem
+                card={card}
+                isDetail={true}
+                type={props.type}
+              ></CardItem>
             </Grid>
           ))}
       </MoaGrid>
@@ -25,7 +29,11 @@ export default function CardList(props) {
         {props.cards &&
           props.cards.map((card, idx) => (
             <Grid item key={idx} xs={12} sm={6} md={4} lg={3}>
-              <CardItem card={card} type={props.type}></CardItem>
+              <CardItem
+                card={card}
+                isDetail={true}
+                type={props.type}
+              ></CardItem>
             </Grid>
           ))}
       </MoaGrid>
@@ -43,7 +51,11 @@ export default function CardList(props) {
           props.cards &&
           props.cards.map((card, idx) => (
             <Grid item key={idx} mr={2}>
-              <CardItem card={card} type={props.type}></CardItem>
+              <CardItem
+                card={card}
+                isDetail={true}
+                type={props.type}
+              ></CardItem>
             </Grid>
           ))
         ) : (
@@ -68,7 +80,11 @@ export default function CardList(props) {
           props.cards &&
           Object.entries(props.cards).map((card, idx) => (
             <Grid item key={idx} xs={3}>
-              <CardItem card={card} type={props.type}></CardItem>
+              <CardItem
+                card={card}
+                isDetail={true}
+                type={props.type}
+              ></CardItem>
             </Grid>
           ))
         ) : (

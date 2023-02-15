@@ -17,8 +17,8 @@ import SearchFilterTech from 'components/team/searchFilter/SearchFilterTech';
 import MemberSearchbar from 'components/team/searchFilter/MemberSearchbar';
 import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOffline';
 
-import TeamMemberSearchList from 'components/common/card/TeamMemberSearchList';
 import { handleCursorIdMember } from 'redux/search';
+import CardList from 'components/common/card/CardList';
 
 export default function TeamSearchPage(props) {
   // 기술스택 id 리스트를 스트링으로 바꾼 값을 담음
@@ -283,7 +283,7 @@ export default function TeamSearchPage(props) {
       </Box>
 
       <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
-        <TeamMemberSearchList cards={searchResult}></TeamMemberSearchList>
+        <CardList cards={searchResult} type="member"></CardList>
       </Container>
     </Container>
   );
