@@ -1,7 +1,6 @@
 import * as React from 'react';
 import List from '@mui/material/List';
-import ChattingItem from 'components/profile/chatting/ChattingList';
-
+import ChattingItem from 'components/profile/chatting/ChattingItem';
 export default function ChattingList(props) {
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>

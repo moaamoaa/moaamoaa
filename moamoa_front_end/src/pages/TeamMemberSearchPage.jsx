@@ -203,23 +203,18 @@ export default function TeamSearchPage(props) {
   return (
     <Container fixed sx={{ paddingTop: '6.3rem' }}>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <div onKeyUp={search}>
             <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
           </div>
         </Grid>
-        <Grid container item xs={8} spacing={1}>
-          <Grid item xs={4}>
+        <Grid container item xs={6} spacing={1}>
+          <Grid item xs={6}>
             <SearchFilterTech
               handleTechstack={handleTechstack}
             ></SearchFilterTech>
           </Grid>
-          <Grid item xs={4}>
-            <SearchFilterCategory
-              handleCategory={handleCategory}
-            ></SearchFilterCategory>
-          </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <SearchFilterStatus
               handleStatus={handleStatus}
             ></SearchFilterStatus>
