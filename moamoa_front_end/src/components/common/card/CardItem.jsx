@@ -26,6 +26,7 @@ import scrollToTop from 'utils/scrollToTop';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import customAxios from 'utils/axios';
+import { Container } from '@mui/system';
 
 export default function CardItem(props) {
   const projectId = useSelector(state => state.team.projectId);
@@ -172,6 +173,15 @@ export default function CardItem(props) {
       </MoaCard>
     );
   } else if (props.type === 'member') {
+
+    let area = '온라인';
+    if (props.card.area.length > 1) {
+      const areaTwoWord = props.card.area.map(e => {
+        return e.slice(0, 2);
+      });
+      area = areaTwoWord.join(' / ');
+    }
+    
     return (
       <MoaCard>
         <CardActions>
@@ -248,39 +258,45 @@ export default function CardItem(props) {
             </Grid>
           </Grid>
         </CardActions>
-        {props.card.img ? (
-          <CardMedia
-            onClick={goToDetail}
-            component="img"
-            src={props.card.img}
-            alt="random"
-            sx={{
-              borderRadius: '50%',
-              width: '100px',
-              height: '100px',
-              margin: '0 auto',
-              boxShadow: 5,
-              cursor: 'pointer',
-            }}
-          />
-        ) : (
-          <MoaSkeleton variant="circular" width={100} height={100} />
-        )}
-        <CardContent>
-          <MoaTypography gutterBottom variant="h5" component="div">
-            {props.card.nickname}
-          </MoaTypography>
-          <MoaTypography variant="body2" color="text.secondary">
-            {props.card.area ? props.card.area : '온라인 / 전 지역'}
-          </MoaTypography>
-          <InfoTypography variant="body2" color="text.secondary">
-            {props.card.contents
-              ? props.card.contents
-              : `안녕하세요. ${props.card.nickname}입니다.`}
-          </InfoTypography>
+        <Grid
+          onClick={goToDetail}
+          sx={{
+            cursor: 'pointer',
+          }}
+        >
+          {props.card.img ? (
+            <CardMedia
+              onClick={goToDetail}
+              component="img"
+              src={props.card.img}
+              alt="random"
+              sx={{
+                borderRadius: '50%',
+                width: '100px',
+                height: '100px',
+                margin: '0 auto',
+                boxShadow: 5,
+              }}
+            />
+          ) : (
+            <MoaSkeleton variant="circular" width={100} height={100} />
+          )}
+          <CardContent>
+            <MoaTypography gutterBottom variant="h5" component="div">
+              {props.card.nickname}
+            </MoaTypography>
+            <MoaTypography variant="body2" color="text.secondary">
+              {area}
+            </MoaTypography>
+            <InfoTypography variant="body2" color="text.secondary">
+              {props.card.context
+                ? props.card.context
+                : `안녕하세요. ${props.card.nickname}입니다.`}
+            </InfoTypography>
 
-          <CardList type={'tech'} cards={props.card.techStacks}></CardList>
-        </CardContent>
+            <CardList type={'tech'} cards={props.card.techStacks}></CardList>
+          </CardContent>
+        </Grid>
       </MoaCard>
     );
   } else if (props.type === 'tech') {
