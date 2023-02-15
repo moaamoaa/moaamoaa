@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import CardList from 'components/common/card/CardList';
 import MyProjectStudy from 'components/team/MyProjectStudy';
 import {
-  ButtonBase,
   Button,
   Typography,
   Container,
@@ -20,7 +19,6 @@ import {
   IconButton,
 } from '@mui/material';
 
-import { searchStatusChange } from 'redux/profile';
 import { useNavigate } from 'react-router-dom';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
@@ -28,14 +26,11 @@ import useMobile from 'hooks/useMobile';
 import ProfileApplyOffer from './ProfileApplyOffer';
 import { PhotoCamera } from '@mui/icons-material';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { handleSuccessState } from 'redux/snack';
 import ChattingRoom from './chatting/ChattingRoom';
 
 export default function Profile(props) {
   const isMobile = useMobile();
-  const [badgeInfo, setBadgeInfo] = useState({
-    color: 'primary',
-    context: '온라인 오프라인 팀을 구하고 있습니다.',
-  });
 
   const userPk = useSelector(state => state.user.userPk);
 
@@ -46,6 +41,38 @@ export default function Profile(props) {
   const [previewImage, setPreviewImage] = useState(userProfile.img);
   const [image, setImage] = useState('');
   const [updateNickname, setUpdateNickname] = useState('');
+  const searchstatus = useSelector(
+    state => state.profile.userProfile[0].profileSearchStatus,
+  );
+  const [badgeInfo, setBadgeInfo] = useState({});
+
+  useEffect(() => {
+    if (searchstatus === 'ALL') {
+      setBadgeInfo({
+        name: 'ALL',
+        color: 'primary',
+        context: '모든 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'PROJECT') {
+      setBadgeInfo({
+        name: 'PROJECT',
+        color: 'secondary',
+        context: '팀을 구하고 있지 않습니다.',
+      });
+    } else if (searchstatus === 'STUDY') {
+      setBadgeInfo({
+        name: 'STUDY',
+        color: 'success',
+        context: '프로젝트 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'NONE') {
+      setBadgeInfo({
+        name: 'NONE',
+        color: 'warning',
+        context: '스터디 팀을 구하고 있습니다.',
+      });
+    }
+  }, []);
 
   const navigate = useNavigate();
 
@@ -63,6 +90,16 @@ export default function Profile(props) {
   };
 
   const handleEditSuccess = () => {
+    if (updateNickname.length < 2) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '2글자 이상의 닉네임을 입력해 주세요.',
+          severity: 'error',
+        }),
+      );
+      return;
+    }
     customAxios.basicAxios
       .get(`/users/nickname?nickname=${updateNickname}`)
       .then(response => {
@@ -96,10 +133,18 @@ export default function Profile(props) {
         customAxios.imageAxios
           .post('/profile', formData)
           .then(response => {
+            console.log(response);
             navigate('/profilepage');
             scrollToTop();
           })
           .catch(error => {
+            dispatch(
+              handleSuccessState({
+                open: true,
+                message: '비어 있는 값이 존재합니다.',
+                severity: 'error',
+              }),
+            );
             console.log(error);
           });
       })
@@ -122,32 +167,47 @@ export default function Profile(props) {
   const handleBadge = () => {
     if (userPk !== userProfile.id) return;
 
-    if (badgeInfo.color === 'primary') {
+    customAxios.authAxios
+      .put('/profile/search-state', {
+        id: userPk,
+        searchstatus: badgeInfo.name,
+      })
+      .then(response => {})
+      .catch(error => {
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '검색 상태 변경에 실패했습니다.',
+            severity: 'error',
+          }),
+        );
+      });
+
+    if (badgeInfo.name === 'ALL') {
       setBadgeInfo({
+        name: 'PROJECT',
         color: 'secondary',
-        context: '온라인 팀을 구하고 있습니다.',
-      });
-    } else if (badgeInfo.color === 'secondary') {
-      setBadgeInfo({
-        color: 'success',
-        context: '오프라인 팀을 구하고 있습니다.',
-      });
-    } else if (badgeInfo.color === 'success') {
-      setBadgeInfo({
-        color: 'warning',
         context: '팀을 구하고 있지 않습니다.',
       });
-    } else if (badgeInfo.color === 'warning') {
+    } else if (badgeInfo.name === 'PROJECT') {
       setBadgeInfo({
+        name: 'STUDY',
+        color: 'success',
+        context: '프로젝트 팀을 구하고 있습니다.',
+      });
+    } else if (badgeInfo.name === 'STUDY') {
+      setBadgeInfo({
+        name: 'NONE',
+        color: 'warning',
+        context: '스터디 팀을 구하고 있습니다.',
+      });
+    } else if (badgeInfo.name === 'NONE') {
+      setBadgeInfo({
+        name: 'ALL',
         color: 'primary',
-        context: '온라인 오프라인 팀을 구하고 있습니다.',
+        context: '모든 팀을 구하고 있습니다.',
       });
     }
-    dispatch(
-      searchStatusChange({
-        profileSearchStatus: userProfile.profileSearchStatus,
-      }),
-    );
   };
 
   const handleDrop = event => {
@@ -159,9 +219,7 @@ export default function Profile(props) {
 
   const handleChange = event => {
     const files = event.target.files;
-    // 미리보기용
     setPreviewImage(URL.createObjectURL(files[0]));
-    // axios용
     setImage(files[0]);
   };
 
@@ -170,14 +228,12 @@ export default function Profile(props) {
       수정
     </ProfileButton>,
     <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
-      {/* 개인이 받은 지원 및 제안 확인 */}
       <ProfileApplyOffer isMobile={isMobile}></ProfileApplyOffer>
     </ProfileButton>,
   ];
 
   const otherButtons = [
     <ProfileButton key="offer" variant="outlined">
-      {/* 타인에게 제안 보내기 버튼 */}
       <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
     </ProfileButton>,
     <ProfileButton key="chat" variant="outlined">
@@ -197,7 +253,6 @@ export default function Profile(props) {
   if (props.type === 'edit') {
     return (
       <>
-        {/* 반응형 md 이상 */}
         <MoaProfile
           component="article"
           sx={{
@@ -327,7 +382,6 @@ export default function Profile(props) {
           <ProfileButtonContainer>{editButtons}</ProfileButtonContainer>
         </MoaProfile>
 
-        {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
           sx={{
@@ -402,7 +456,6 @@ export default function Profile(props) {
   } else {
     return (
       <>
-        {/* 반응형 md 이상 */}
         <MoaProfile
           component="article"
           sx={{
@@ -461,7 +514,6 @@ export default function Profile(props) {
           </ProfileButtonContainer>
         </MoaProfile>
 
-        {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
           sx={{ display: { xs: 'block', md: 'none' } }}

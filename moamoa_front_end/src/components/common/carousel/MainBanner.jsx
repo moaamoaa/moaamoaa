@@ -50,6 +50,7 @@ export default function MainBanner() {
               }}
             >
               <Typography
+                id="title"
                 component="h1"
                 variant="h3"
                 color="inherit"

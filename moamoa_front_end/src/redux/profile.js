@@ -17,10 +17,10 @@ const initialStateValue = {
       nickname: '',
       profileOnOffStatus: 'ALL',
       sites: [
-        { link: '', name: 'github' },
-        { link: '', name: 'tistory' },
-        { link: '', name: 'velog' },
-        { link: '', name: 'project' },
+        { link: '', name: 'Github' },
+        { link: '', name: 'Tistory' },
+        { link: '', name: 'Velog' },
+        { link: '', name: 'Custom' },
       ],
       areas: [],
       techStacks: [],
@@ -93,17 +93,6 @@ const profileSlice = createSlice({
 
       state.sideProjects = action.payload.userProfile;
     },
-    searchStatusChange: (state, action) => {
-      if (action.payload.profileSearchStatus === 'ALL') {
-        state.userProfile[0].profileSearchStatus = 'ONLINE';
-      } else if (action.payload.profileSearchStatus === 'ONLINE') {
-        state.userProfile[0].profileSearchStatus = 'OFFLINE';
-      } else if (action.payload.profileSearchStatus === 'OFFLINE') {
-        state.userProfile[0].profileSearchStatus = 'NONE';
-      } else if (action.payload.profileSearchStatus === 'NONE') {
-        state.userProfile[0].profileSearchStatus = 'ALL';
-      }
-    },
   },
 });
 
@@ -118,7 +107,6 @@ export const {
   handleChangeState,
   profileCloseSuccess,
   profileEditSuccess,
-  searchStatusChange,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

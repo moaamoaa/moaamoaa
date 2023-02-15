@@ -294,7 +294,14 @@ export default function CardItem(props) {
                 : `안녕하세요. ${props.card.nickname}입니다.`}
             </InfoTypography>
 
-            <CardList type={'tech'} cards={props.card.techStacks}></CardList>
+            <div
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <CardList type={'tech'} cards={props.card.techStacks}></CardList>
+            </div>
           </CardContent>
         </Grid>
       </MoaCard>
