@@ -1,36 +1,40 @@
 package com.ssafy.moamoa.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Chatroom {
 
-	@Id
-	@GeneratedValue
-	@Column(name = "chatroom_no")
-	private Long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "chatroom_no")
+    private Long id;
 
-	@Column(name = "chatroom_title")
-	private String title;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chatroom_user_one")
+    private Profile userOne;
 
-	@NotNull
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "chatroom_user_one")
-	private User userOne;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chatroom_user_two")
+    private Profile userTwo;
 
-	@NotNull
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "chatroom_user_two")
-	private User userTwo;
+    @OneToMany(mappedBy = "chatroom", cascade = CascadeType.ALL)
+    private List<Message> messageList = new ArrayList<>();
 
 }

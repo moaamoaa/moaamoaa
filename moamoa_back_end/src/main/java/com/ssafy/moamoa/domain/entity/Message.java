@@ -2,19 +2,17 @@ package com.ssafy.moamoa.domain.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Message {
 	@Id
 	@GeneratedValue
@@ -29,7 +27,12 @@ public class Message {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "message_sender")
-	private User user;
+	private Profile sender;
+
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "message_receiver")
+	private Profile receiver;
 
 	@NotNull
 	@Column(name = "message_text", columnDefinition = "TEXT")
@@ -37,6 +40,6 @@ public class Message {
 
 	@NotNull
 	@Column(name = "message_date", columnDefinition = "TIMESTAMP")
-	private LocalDateTime date;
+	private LocalDateTime time;
 
 }
