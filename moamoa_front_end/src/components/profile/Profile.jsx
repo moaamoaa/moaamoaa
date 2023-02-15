@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
@@ -27,15 +27,10 @@ import useMobile from 'hooks/useMobile';
 import ProfileApplyOffer from './ProfileApplyOffer';
 import { PhotoCamera } from '@mui/icons-material';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { handleSuccessState } from 'redux/snack';
 
 export default function Profile(props) {
   const isMobile = useMobile();
-  const searchstatus = useSelector(state => state.user.profileSearchStatus);
-  const [badgeInfo, setBadgeInfo] = useState({
-    name: 'ALL',
-    color: 'primary',
-    context: '온라인 오프라인 팀을 구하고 있습니다.',
-  });
 
   const userPk = useSelector(state => state.user.userPk);
 
@@ -46,6 +41,38 @@ export default function Profile(props) {
   const [previewImage, setPreviewImage] = useState(userProfile.img);
   const [image, setImage] = useState('');
   const [updateNickname, setUpdateNickname] = useState('');
+  const searchstatus = useSelector(
+    state => state.profile.userProfile[0].profileSearchStatus,
+  );
+  const [badgeInfo, setBadgeInfo] = useState({});
+
+  useEffect(() => {
+    if (searchstatus === 'ALL') {
+      setBadgeInfo({
+        name: 'ALL',
+        color: 'primary',
+        context: '모든 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'PROJECT') {
+      setBadgeInfo({
+        name: 'PROJECT',
+        color: 'secondary',
+        context: '팀을 구하고 있지 않습니다.',
+      });
+    } else if (searchstatus === 'STUDY') {
+      setBadgeInfo({
+        name: 'STUDY',
+        color: 'success',
+        context: '프로젝트 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'NONE') {
+      setBadgeInfo({
+        name: 'NONE',
+        color: 'warning',
+        context: '스터디 팀을 구하고 있습니다.',
+      });
+    }
+  }, []);
 
   const navigate = useNavigate();
 
@@ -63,6 +90,16 @@ export default function Profile(props) {
   };
 
   const handleEditSuccess = () => {
+    if (updateNickname.length < 2) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '2글자 이상의 닉네임을 입력해 주세요.',
+          severity: 'error',
+        }),
+      );
+      return;
+    }
     customAxios.basicAxios
       .get(`/users/nickname?nickname=${updateNickname}`)
       .then(response => {
@@ -96,10 +133,18 @@ export default function Profile(props) {
         customAxios.imageAxios
           .post('/profile', formData)
           .then(response => {
+            console.log(response);
             navigate('/profilepage');
             scrollToTop();
           })
           .catch(error => {
+            dispatch(
+              handleSuccessState({
+                open: true,
+                message: '비어 있는 값이 존재합니다.',
+                severity: 'error',
+              }),
+            );
             console.log(error);
           });
       })
@@ -121,6 +166,21 @@ export default function Profile(props) {
 
   const handleBadge = () => {
     if (userPk !== userProfile.id) return;
+
+    customAxios.authAxios
+      .put('/profile/search-state', {
+        id: userPk,
+        searchstatus: badgeInfo.name,
+      })
+      .then(response => {
+        console.log(response);
+        // dispatch(
+        //   handleSearchStatus({ searchstatus: response.data.searchstatus }),
+        // );
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     if (badgeInfo.name === 'ALL') {
       setBadgeInfo({
@@ -147,25 +207,6 @@ export default function Profile(props) {
         context: '모든 팀을 구하고 있습니다.',
       });
     }
-    dispatch(
-      searchStatusChange({
-        profileSearchStatus: userProfile.profileSearchStatus,
-      }),
-    );
-    customAxios.authAxios
-      .put('/profile/search-state', {
-        id: userPk,
-        searchstatus: badgeInfo.name,
-      })
-      .then(response => {
-        console.log(response);
-        dispatch(
-          handleSearchStatus({ searchstatus: response.data.searchstatus }),
-        );
-      })
-      .catch(error => {
-        console.log(error);
-      });
   };
 
   const handleDrop = event => {
