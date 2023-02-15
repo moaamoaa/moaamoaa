@@ -1,7 +1,6 @@
 package com.ssafy.moamoa.service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -182,7 +181,8 @@ public class UserService {
 			Optional<User> findUser = userRepository.findByEmail(userEmail);
 
 			//accessToken & refreshToken 인증X
-			if (!findUser.isPresent() || !jwtTokenProvider.validateToken(refreshToken) || !refreshToken.equals(
+			if (!findUser.isPresent() || refreshToken == null || !jwtTokenProvider.validateToken(refreshToken)
+				|| !refreshToken.equals(
 				findUser.get().getRefreshToken())) {
 				return null;
 			}
