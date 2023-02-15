@@ -10,6 +10,7 @@ import {
   Avatar,
 } from '@mui/material/';
 import customAxios from 'utils/axios';
+import useMobile from 'hooks/useMobile';
 // 검색 상단 컴포넌트
 import SearchFilterCategory from 'components/team/searchFilter/SearchFilterCategory';
 import SearchFilterStatus from 'components/team/searchFilter/SearchFilterSatus';
@@ -21,6 +22,7 @@ import { handleCursorIdMember } from 'redux/search';
 import CardList from 'components/common/card/CardList';
 
 export default function TeamSearchPage(props) {
+  const isMobile = useMobile();
   // 기술스택 id 리스트를 스트링으로 바꾼 값을 담음
   let axiosStackId = '';
   // usestate
@@ -202,30 +204,46 @@ export default function TeamSearchPage(props) {
 
   return (
     <Container fixed sx={{ paddingTop: '6.3rem' }}>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <div onKeyUp={search}>
-            <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
-          </div>
-        </Grid>
-        <Grid container item xs={8} spacing={1}>
-          <Grid item xs={4}>
-            <SearchFilterTech
-              handleTechstack={handleTechstack}
-            ></SearchFilterTech>
+      {isMobile ? (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <div onKeyUp={search}>
+              <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
+            </div>
           </Grid>
-          <Grid item xs={4}>
-            <SearchFilterCategory
-              handleCategory={handleCategory}
-            ></SearchFilterCategory>
-          </Grid>
-          <Grid item xs={4}>
-            <SearchFilterStatus
-              handleStatus={handleStatus}
-            ></SearchFilterStatus>
+          <Grid container item xs={12} spacing={1}>
+            <Grid item xs={12}>
+              <SearchFilterTech handleTechstack={handleTechstack} />
+            </Grid>
+            <Grid item xs={12}>
+              <SearchFilterCategory handleCategory={handleCategory} />
+            </Grid>
+            <Grid item xs={12}>
+              <SearchFilterStatus handleStatus={handleStatus} />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      ) : (
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <div onKeyUp={search}>
+              <MemberSearchbar handleQuery={handleQuery}></MemberSearchbar>
+            </div>
+          </Grid>
+          <Grid container item xs={8} spacing={1}>
+            <Grid item xs={4}>
+              <SearchFilterTech handleTechstack={handleTechstack} />
+            </Grid>
+            <Grid item xs={4}>
+              <SearchFilterCategory handleCategory={handleCategory} />
+            </Grid>
+            <Grid item xs={4}>
+              <SearchFilterStatus handleStatus={handleStatus} />
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
+
       {status === 'OFFLINE' ? (
         <Box sx={{ paddingTop: '1rem' }}>
           <SearchFilterOffline
