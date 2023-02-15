@@ -38,7 +38,6 @@ export default function SignUpEmailForm(props) {
         props.setActiveStep(1);
         props.handleEmail(userEmail);
         props.handleCode(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         const errorStatus = error.response.status;

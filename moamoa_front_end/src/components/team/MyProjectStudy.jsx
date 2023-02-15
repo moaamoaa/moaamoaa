@@ -5,11 +5,11 @@ import customAxios from 'utils/axios';
 import {
   Box,
   Drawer,
-  IconButton,
+  ButtonBase,
   List,
   Divider,
-  ListItemButton,
   ListItemIcon,
+  ListItemButton,
   ListItemText,
   ListSubheader,
   Collapse,
@@ -34,8 +34,6 @@ export default function MyProjectStudy() {
         .get('/projects/project')
         .then(response => {
           setProjects(response.data);
-          // console.log(response.data);
-          // console.log('프로젝트조회완료!');
         })
         .catch(error => {
           console.log(error.message);
@@ -51,8 +49,6 @@ export default function MyProjectStudy() {
         .get('/projects/study')
         .then(response => {
           setStudies(response.data);
-          // console.log(response.data);
-          // console.log('스터디조회완료!');
         })
         .catch(error => {
           console.log(error.message);
@@ -161,7 +157,7 @@ export default function MyProjectStudy() {
     <>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <IconButton
+          <ButtonBase
             size="small"
             variant="outlined"
             onClick={toggleDrawer(anchor, true)}
@@ -170,8 +166,8 @@ export default function MyProjectStudy() {
               scale: isMobile ? '.8' : '1',
             }}
           >
-            제안하기
-          </IconButton>
+            제안 하기
+          </ButtonBase>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

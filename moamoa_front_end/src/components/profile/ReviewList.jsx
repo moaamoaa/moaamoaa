@@ -8,7 +8,6 @@ import ReviewCreation from 'components/profile/ReviewCreation';
 
 function ReviewList() {
   const reviews = useSelector(state => state.profile.reviews);
-  console.log(reviews);
 
   return (
     <>

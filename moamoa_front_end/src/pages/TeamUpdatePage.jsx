@@ -26,6 +26,7 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
+import scrollToTop from 'utils/scrollToTop';
 
 export default function TeamCreatePage() {
   //ref
@@ -87,8 +88,6 @@ export default function TeamCreatePage() {
     // OR 백엔드 요청 방식에 따라
     // formData.append('projectForm', JSON.stringify(value));
     // 찍어보기
-    console.log(formData.get('projectForm'), '프로젝트폼');
-    console.log(formData.get('file'), '파일');
     // Axios
     await customAxios
       .imageAxios({
@@ -99,8 +98,7 @@ export default function TeamCreatePage() {
         // header: { 'Content-Type': 'multipart/form-data' },
       })
       .then(e => {
-        console.log(e);
-        console.log('수정완료!');
+        scrollToTop();
         navigate(`/TeamDetailPage/?projectId=${projectId}`); // 수정 완료 후 디테일 페이지로
       })
       .catch(error => {

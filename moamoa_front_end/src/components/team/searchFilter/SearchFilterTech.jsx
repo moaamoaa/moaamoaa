@@ -5,7 +5,6 @@ export default function SearchFilterTech(props) {
   const [tech, setTech] = useState('');
   const handleTechstack = event => {
     setTech(event.target.value);
-    console.log(event.target.value);
     props.handleTechstack(event.target.value);
   };
   return (

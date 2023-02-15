@@ -24,7 +24,7 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
-import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
+import scrollToTop from 'utils/scrollToTop';
 
 export default function TeamCreatePage() {
   //ref
@@ -54,10 +54,6 @@ export default function TeamCreatePage() {
 
   // handler : 팀 등록 버튼 클릭
   const handleClick = async event => {
-    console.log(regionRef.current);
-    console.log(typeof regionRef.current);
-    console.log(onoffRef.current);
-    console.log(typeof onoffRef.current);
     // FormData 객체 생성
     const formData = new FormData();
     // file이라는 key값에 value로 이미지 파일 담기
@@ -83,8 +79,6 @@ export default function TeamCreatePage() {
     // OR 백엔드 요청 방식에 따라
     // formData.append('projectForm', JSON.stringify(value));
     // 찍어보기
-    console.log(formData.get('projectForm'), '프로젝트폼');
-    console.log(formData.get('file'), '파일');
 
     //Axios
     await customAxios
@@ -96,8 +90,6 @@ export default function TeamCreatePage() {
         // header: { 'Content-Type': 'multipart/form-data' },
       })
       .then(response => {
-        console.log(response.data);
-        console.log('생성완료!');
         // response data 의 형식에 맞게
         const areaForm = response.data.areaForm;
         const category = response.data.category;
@@ -134,8 +126,8 @@ export default function TeamCreatePage() {
             title: title,
           }),
         ); // 저장시키기
-        ScrollToTopButton(); // 등록 버튼 누르고 마우스 커서 위치가 중간에 있어서
         navigate(`/TeamDetailPage/?projectId=${projectId}`); // 이동하고
+        scrollToTop();
       })
       .catch(error => {
         console.log(error);

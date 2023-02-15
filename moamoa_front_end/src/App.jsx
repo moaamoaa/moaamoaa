@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { ThemeProvider } from '@mui/material/styles';
 
+import theme from './theme';
 import HomePage from 'pages/HomePage';
 import TeamSearchPage from 'pages/TeamSearchPage';
 import TeamMemberSearchPage from 'pages/TeamMemberSearchPage';
@@ -21,28 +23,30 @@ export default function App() {
   // 이거있으면 리덕스 상태유지 안 됩니다
 
   return (
-    <BrowserRouter>
-      <MoaSnackbar></MoaSnackbar>
-      <Navbar></Navbar>
-      <Moa>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/TeamSearchPage" element={<TeamSearchPage />} />
-          <Route
-            path="/TeamMemberSearchPage"
-            element={<TeamMemberSearchPage />}
-          />
-          <Route path="/TeamCreatePage" element={<TeamCreatePage />} />
-          <Route path="/TeamDetailPage" element={<TeamDetailPage />} />
-          <Route path="/TeamUpdatePage" element={<TeamUpdatePage />} />
-          <Route path="/ProfilePage" element={<ProfilePage />} />
-          <Route path="/ProfileEditPage" element={<ProfileEditPage />} />
-          <Route path="/ErrorPage" element={<ErrorPage />} />
-          <Route path="/*" element={<NotFoundPage />} />
-        </Routes>
-        <ScrollToTopButton></ScrollToTopButton>
-      </Moa>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <MoaSnackbar></MoaSnackbar>
+        <Navbar></Navbar>
+        <Moa>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/TeamSearchPage" element={<TeamSearchPage />} />
+            <Route
+              path="/TeamMemberSearchPage"
+              element={<TeamMemberSearchPage />}
+            />
+            <Route path="/TeamCreatePage" element={<TeamCreatePage />} />
+            <Route path="/TeamDetailPage" element={<TeamDetailPage />} />
+            <Route path="/TeamUpdatePage" element={<TeamUpdatePage />} />
+            <Route path="/ProfilePage" element={<ProfilePage />} />
+            <Route path="/ProfileEditPage" element={<ProfileEditPage />} />
+            <Route path="/ErrorPage" element={<ErrorPage />} />
+            <Route path="/*" element={<NotFoundPage />} />
+          </Routes>
+          <ScrollToTopButton></ScrollToTopButton>
+        </Moa>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

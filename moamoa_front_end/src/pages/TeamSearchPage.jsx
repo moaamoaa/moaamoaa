@@ -54,7 +54,6 @@ export default function TeamSearchPage(props) {
     const newStackId = [...stackId, event.id];
     setTechNameList([...new Set(newTechNameList)]);
     setStackId([...new Set(newStackId)]);
-    // console.log(value);
   };
 
   // box에 있는 기술 스택 클릭시 제거
@@ -105,7 +104,6 @@ export default function TeamSearchPage(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(`첫 useEffect ${cursorId}`);
     customAxios.basicAxios
       .get('/search/project?&size=12&sort=hit,desc')
       .then(response => {
@@ -139,7 +137,6 @@ export default function TeamSearchPage(props) {
 
   // 화면 랜더됐을 때 스크롤 내릴 시 마지막 커서를 백으로 보내서 get
   useEffect(() => {
-    console.log(`그다음 useEffect ${cursorId}`);
     axiosStackId = stackId.join(',');
     if (!isFetching) return;
     customAxios.basicAxios
@@ -216,7 +213,9 @@ export default function TeamSearchPage(props) {
 
   return (
     <Container fixed sx={{ paddingTop: '4rem' }}>
-      <Button onClick={goToCreate}>팀을 생성하시겠습니까?</Button>
+      <Button color="secondary" variant="contained" onClick={goToCreate}>
+        팀을 생성하시겠습니까?
+      </Button>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <div onKeyUp={search}>
@@ -293,6 +292,7 @@ export default function TeamSearchPage(props) {
         <Button
           variant="contained"
           onClick={search}
+          color="secondary"
           sx={{ borderRadius: '0 .5rem .5rem 0' }}
         >
           검색

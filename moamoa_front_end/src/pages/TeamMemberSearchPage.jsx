@@ -276,6 +276,7 @@ export default function TeamSearchPage(props) {
         <Button
           variant="contained"
           onClick={search}
+          color="secondary"
           sx={{ borderRadius: '0 .5rem .5rem 0' }}
         >
           검색
