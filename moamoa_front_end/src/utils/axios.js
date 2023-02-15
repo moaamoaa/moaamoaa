@@ -24,6 +24,7 @@ const authAxios = axios.create({
 
 const imageAxios = axios.create({
   baseURL: baseURL,
+  mode: 'cors',
   headers: {
     Authorization: `Bearer ${accessToken}`,
     'Content-Type': 'multipart/form-data',

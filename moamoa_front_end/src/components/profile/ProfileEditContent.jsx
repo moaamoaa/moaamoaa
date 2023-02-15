@@ -45,14 +45,14 @@ function ProfileEditContent() {
     dispatch(
       handleEditProfile({
         sites: [
-          { link: event.target.value, name: 'github' },
-          { link: tistoryLink, name: 'tistory' },
-          { link: velogLink, name: 'velog' },
-          { link: projectLink, name: 'project' },
+          { link: event.target.value, name: 'Github' },
+          { link: tistoryLink, name: 'Tistory' },
+          { link: velogLink, name: 'Velog' },
+          { link: projectLink, name: 'Custom' },
         ],
         areas: selectedArea,
         techStacks: selectedValue,
-        profileSearchStatus: progress,
+        profileOnOffStatus: progress,
       }),
     );
   };
@@ -62,14 +62,14 @@ function ProfileEditContent() {
     dispatch(
       handleEditProfile({
         sites: [
-          { link: githubLink, name: 'github' },
-          { link: event.target.value, name: 'tistory' },
-          { link: velogLink, name: 'velog' },
-          { link: projectLink, name: 'project' },
+          { link: githubLink, name: 'Github' },
+          { link: event.target.value, name: 'Tistory' },
+          { link: velogLink, name: 'Velog' },
+          { link: projectLink, name: 'Custom' },
         ],
         areas: selectedArea,
         techStacks: selectedValue,
-        profileSearchStatus: progress,
+        profileOnOffStatus: progress,
       }),
     );
   };
@@ -79,14 +79,14 @@ function ProfileEditContent() {
     dispatch(
       handleEditProfile({
         sites: [
-          { link: githubLink, name: 'github' },
-          { link: tistoryLink, name: 'tistory' },
-          { link: event.target.value, name: 'velog' },
-          { link: projectLink, name: 'project' },
+          { link: githubLink, name: 'Github' },
+          { link: tistoryLink, name: 'Tistory' },
+          { link: event.target.value, name: 'Velog' },
+          { link: projectLink, name: 'Custom' },
         ],
         areas: selectedArea,
         techStacks: selectedValue,
-        profileSearchStatus: progress,
+        profileOnOffStatus: progress,
       }),
     );
   };
@@ -96,14 +96,14 @@ function ProfileEditContent() {
     dispatch(
       handleEditProfile({
         sites: [
-          { link: githubLink, name: 'github' },
-          { link: tistoryLink, name: 'tistory' },
-          { link: velogLink, name: 'velog' },
-          { link: event.target.value, name: 'project' },
+          { link: githubLink, name: 'Github' },
+          { link: tistoryLink, name: 'Tistory' },
+          { link: velogLink, name: 'Velog' },
+          { link: event.target.value, name: 'Custom' },
         ],
         areas: selectedArea,
         techStacks: selectedValue,
-        profileSearchStatus: progress,
+        profileOnOffStatus: progress,
       }),
     );
   };
@@ -115,28 +115,28 @@ function ProfileEditContent() {
       dispatch(
         handleEditProfile({
           sites: [
-            { link: githubLink, name: 'github' },
-            { link: tistoryLink, name: 'tistory' },
-            { link: velogLink, name: 'velog' },
-            { link: projectLink, name: 'project' },
+            { link: githubLink, name: 'Github' },
+            { link: tistoryLink, name: 'Tistory' },
+            { link: velogLink, name: 'Velog' },
+            { link: projectLink, name: 'Custom' },
           ],
           areas: [],
           techStacks: selectedValue,
-          profileSearchStatus: event.target.value,
+          profileOnOffStatus: event.target.value,
         }),
       );
     } else {
       dispatch(
         handleEditProfile({
           sites: [
-            { link: githubLink, name: 'github' },
-            { link: tistoryLink, name: 'tistory' },
-            { link: velogLink, name: 'velog' },
-            { link: projectLink, name: 'project' },
+            { link: githubLink, name: 'Github' },
+            { link: tistoryLink, name: 'Tistory' },
+            { link: velogLink, name: 'Velog' },
+            { link: projectLink, name: 'Custom' },
           ],
           areas: selectedArea,
           techStacks: selectedValue,
-          profileSearchStatus: event.target.value,
+          profileOnOffStatus: event.target.value,
         }),
       );
     }
@@ -148,14 +148,14 @@ function ProfileEditContent() {
     dispatch(
       handleEditProfile({
         sites: [
-          { link: githubLink, name: 'github' },
-          { link: tistoryLink, name: 'tistory' },
-          { link: velogLink, name: 'velog' },
-          { link: projectLink, name: 'project' },
+          { link: githubLink, name: 'Github' },
+          { link: tistoryLink, name: 'Tistory' },
+          { link: velogLink, name: 'Velog' },
+          { link: projectLink, name: 'Custom' },
         ],
         areas: value,
         techStacks: selectedValue,
-        profileSearchStatus: progress,
+        profileOnOffStatus: progress,
       }),
     );
   };

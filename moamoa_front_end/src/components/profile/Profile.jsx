@@ -65,19 +65,21 @@ export default function Profile(props) {
 
     if (previewImage !== userProfile.img) {
       formData.append('file', image);
+    } else {
+      formData.append('file', null);
     }
 
     const updateUserProfile = {
       userId: userProfile.id,
       nickname: updateNickname,
-      profileSearchStatus: updateProfile.profileSearchStatus,
+      profileOnOffStatus: updateProfile.profileOnOffStatus,
       context: userProfile.context,
     };
 
     const value = {
-      userprofile: updateUserProfile,
+      profile: updateUserProfile,
       techstacks: updateProfile.techStacks,
-      links: updateProfile.sites,
+      sites: updateProfile.sites,
       areas: updateProfile.areas,
     };
 
@@ -87,12 +89,17 @@ export default function Profile(props) {
       type: 'application/json',
     });
 
-    formData.append('projectForm', blob);
+    formData.append('profilePageForm', blob);
+
+    console.log(formData.get('profilePageForm'), '프로젝트폼');
+    console.log(formData.get('file'), '파일');
 
     customAxios.imageAxios
       .post('/profile', formData)
       .then(response => {
-        console.log(response);
+        console.log(response.data);
+        navigate('/profilepage');
+        scrollToTop();
       })
       .catch(error => {
         console.log(error);
