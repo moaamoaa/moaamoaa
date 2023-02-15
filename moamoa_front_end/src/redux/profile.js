@@ -15,8 +15,7 @@ const initialStateValue = {
     },
     {
       nickname: '',
-      profileOnOffStatus: '',
-      profileSearchStatus: 'ALL',
+      profileOnOffStatus: 'ALL',
       sites: [
         { link: '', name: 'github' },
         { link: '', name: 'tistory' },
@@ -63,8 +62,8 @@ const profileSlice = createSlice({
       state.userProfile[1].areas = action.payload.areas;
       state.userProfile[1].sites = action.payload.sites;
       state.userProfile[1].techStacks = action.payload.techStacks;
-      state.userProfile[1].profileSearchStatus =
-        action.payload.profileSearchStatus;
+      state.userProfile[1].profileOnOffStatus =
+        action.payload.profileOnOffStatus;
     },
     profileOpenSuccess: (state, action) => {
       state.areas = action.payload.profile.areas;
