@@ -2,7 +2,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import customAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleUpdate, handleOpenTeamDetail } from 'redux/team';
+import {
+  handleUpdate,
+  handleOpenTeamDetail,
+  handleCloseTeamDetail,
+} from 'redux/team';
 import { handleSuccessState } from 'redux/snack';
 import {
   Container,
@@ -21,6 +25,7 @@ import Box from '@mui/material/Box';
 import Footer from 'components/common/footer/Footer';
 import useMobile from 'hooks/useMobile';
 import TeamApplyOffer from 'components/team/TeamApplyOffer';
+// import DetailCardList from 'components/common/card/DetailCardList';
 // axios 입력값을 불러와서 띄우기
 
 export default function TeamDetailPage() {
@@ -51,7 +56,11 @@ export default function TeamDetailPage() {
         setDetail(response.data);
         console.log(response.data);
         console.log('조회성공!');
-        setCards(response.data.profileResultDtoList);
+        console.log(response.data.profileResultDtoList);
+        setCards(response.data.profileResultDtoList); // 제안하기에 필요함
+        console.log(response.data); // 전부 저장
+        console.log(response.data.projectId);
+        // setCards(response.data.projectId); // 강퇴 권한 위임에 필요함 = 페이지 로딩이 안 됨 : 형식 문제
         console.log(response.data.profileResultDtoList);
         setLead(response.data.leader);
         console.log(response.data.leader);
@@ -298,7 +307,7 @@ export default function TeamDetailPage() {
       </Container>
       <Container fixed>
         <h2>팀원 소개</h2>
-        <CardList cards={cards} type="member"></CardList>
+        <CardList cards={cards} isDetail={true} type="member"></CardList>
       </Container>
       <Footer></Footer>
     </>
