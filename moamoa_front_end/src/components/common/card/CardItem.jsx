@@ -269,7 +269,7 @@ export default function CardItem(props) {
             </Grid>
           </Grid>
         </CardActions>
-        <Container
+        <Grid
           onClick={goToDetail}
           sx={{
             cursor: 'pointer',
@@ -307,7 +307,7 @@ export default function CardItem(props) {
 
             <CardList type={'tech'} cards={props.card.techStacks}></CardList>
           </CardContent>
-        </Container>
+        </Grid>
       </MoaCard>
     );
   } else if (props.type === 'tech') {
