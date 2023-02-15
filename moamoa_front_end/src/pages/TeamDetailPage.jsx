@@ -54,7 +54,7 @@ export default function TeamDetailPage() {
         console.log(response.data);
         console.log('조회성공!');
         console.log(response.data.profileResultDtoList);
-        setCards(response.data.profileResultDtoList); // 제안하기에 필요함
+        setCards(response.data.profileResultDtoList); // 멤버 카드 뿌릴 때, 필요함
         console.log(response.data); // 전부 저장
         console.log(response.data.projectId);
         // setCards(response.data.projectId); // 강퇴 권한 위임에 필요함 = 페이지 로딩이 안 됨 : 형식 문제
