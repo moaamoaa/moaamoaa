@@ -5,7 +5,6 @@ export default function SearchFilterStatus(props) {
   const [status, setStatus] = useState('');
   const handleStatus = event => {
     setStatus(event.target.value);
-    console.log(event.target.value);
     if (event.target.value === 'all') props.handleStatus('');
     else props.handleStatus(event.target.value);
   };

@@ -54,7 +54,6 @@ export default function TeamSearchPage(props) {
     const newStackId = [...stackId, event.id];
     setTechNameList([...new Set(newTechNameList)]);
     setStackId([...new Set(newStackId)]);
-    // console.log(value);
   };
 
   // box에 있는 기술 스택 클릭시 제거
@@ -105,11 +104,9 @@ export default function TeamSearchPage(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(`첫 useEffect ${cursorId}`);
     customAxios.basicAxios
       .get('/search/project?&size=12&sort=hit,desc')
       .then(response => {
-        console.log(response);
         setSearchResult(response.data);
         dispatch(handleCursorId({ cursorId: response.data[11].cursorId }));
       })
@@ -140,7 +137,6 @@ export default function TeamSearchPage(props) {
 
   // 화면 랜더됐을 때 스크롤 내릴 시 마지막 커서를 백으로 보내서 get
   useEffect(() => {
-    console.log(`그다음 useEffect ${cursorId}`);
     axiosStackId = stackId.join(',');
     if (!isFetching) return;
     customAxios.basicAxios
@@ -148,8 +144,6 @@ export default function TeamSearchPage(props) {
         `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc&size=12&cursorId=${cursorId}`,
       )
       .then(response => {
-        console.log(searchResult);
-        console.log(response.data);
         // 이 둘이 다를 경우, concat으로 추가시키기 (조건문)
         // if (Set(searchResult.data) !== Set(response.data)) {
         setSearchResult(searchResult.concat(...response.data));
@@ -170,7 +164,6 @@ export default function TeamSearchPage(props) {
 
   const search = () => {
     axiosStackId = stackId.join(',');
-    // console.log(axiosStackId);
     if (window.event.keyCode === 13) {
       customAxios.basicAxios
         .get(

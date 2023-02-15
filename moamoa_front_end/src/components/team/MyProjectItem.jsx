@@ -25,7 +25,6 @@ export default function MyProjectItem(props) {
   };
   // 팀에서 개인에게 제안 보내기 ( + 아이콘 클릭)
   const handleOffer = () => {
-    console.log(props.projectstudy.projectId);
     // 카드의 props.type이 member이면 props.card.id가 userId임
     customAxios
       .authAxios({
@@ -45,8 +44,6 @@ export default function MyProjectItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('제안 완료!');
       })
       .catch(error => {
         console.log(error);

@@ -6,7 +6,6 @@ export default function SearchFilterCategory(props) {
 
   const handleCategory = event => {
     setCategory(event.target.value);
-    console.log(event.target.value);
     if (event.target.value === 'all') props.handleCategory('');
     else props.handleCategory(event.target.value);
   };

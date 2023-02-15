@@ -72,7 +72,6 @@ export default function NavbarAccount() {
     customAxios.authAxios
       .post(`/users/logout`)
       .then(response => {
-        console.log(response);
         dispatch(logoutSuccess());
         navigate('/');
         Cookies.remove('access_token');
@@ -101,7 +100,6 @@ export default function NavbarAccount() {
     customAxios.authAxios
       .get(`/profile/${userPk}`)
       .then(response => {
-        // console.log(response.data);
         dispatch(
           handleUserProfile({
             userImg: response.data.profile.img,
