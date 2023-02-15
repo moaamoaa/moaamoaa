@@ -18,8 +18,8 @@ export default function ProfilePage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    customAxios.basicAxios
-      .get(`/profile/${profileId}`)
+    customAxios.authAxios
+      .get(`/profile/${profileId}`, { withCredentials: true })
       .then(response => {
         dispatch(profileOpenSuccess({ profile: response.data }));
       })

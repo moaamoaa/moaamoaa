@@ -26,6 +26,7 @@ import scrollToTop from 'utils/scrollToTop';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import customAxios from 'utils/axios';
+import { Container } from '@mui/system';
 
 export default function CardItem(props) {
   const projectId = useSelector(state => state.team.projectId);
@@ -75,8 +76,6 @@ export default function CardItem(props) {
               severity: 'success',
             }),
           );
-          console.log(response.data);
-          console.log('권한 위임 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -106,8 +105,6 @@ export default function CardItem(props) {
               severity: 'success',
             }),
           );
-          console.log(response.data);
-          console.log('팀원 강퇴 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -176,11 +173,15 @@ export default function CardItem(props) {
       </MoaCard>
     );
   } else if (props.type === 'member') {
-    // 본인 팀이면 콘솔 안 찍힘
-    console.log(props.isDetail);
-    console.log(leader);
-    console.log(props.card.id);
-    console.log(leaderId);
+    let area = '온라인';
+    if (props.card.area === null) props.card.area = [];
+    if (props.card.area.length > 1) {
+      const areaTwoWord = props.card.area.map(e => {
+        return e.slice(0, 2);
+      });
+      area = areaTwoWord.join(' / ');
+    }
+
     return (
       <MoaCard>
         <CardActions>
@@ -257,45 +258,57 @@ export default function CardItem(props) {
             </Grid>
           </Grid>
         </CardActions>
-        {props.card.img ? (
-          <CardMedia
-            onClick={goToDetail}
-            component="img"
-            src={props.card.img}
-            alt="random"
-            sx={{
-              borderRadius: '50%',
-              width: '100px',
-              height: '100px',
-              margin: '0 auto',
-              boxShadow: 5,
-              cursor: 'pointer',
-            }}
-          />
-        ) : (
-          <MoaSkeleton variant="circular" width={100} height={100} />
-        )}
-        <CardContent>
-          <MoaTypography gutterBottom variant="h5" component="div">
-            {props.card.nickname}
-          </MoaTypography>
-          <MoaTypography variant="body2" color="text.secondary">
-            {props.card.area ? props.card.area : '온라인 / 전 지역'}
-          </MoaTypography>
-          <InfoTypography variant="body2" color="text.secondary">
-            {props.card.contents
-              ? props.card.contents
-              : `안녕하세요. ${props.card.nickname}입니다.`}
-          </InfoTypography>
+        <Grid
+          onClick={goToDetail}
+          sx={{
+            cursor: 'pointer',
+          }}
+        >
+          {props.card.img ? (
+            <CardMedia
+              onClick={goToDetail}
+              component="img"
+              src={props.card.img}
+              alt="random"
+              sx={{
+                borderRadius: '50%',
+                width: '100px',
+                height: '100px',
+                margin: '0 auto',
+                boxShadow: 5,
+              }}
+            />
+          ) : (
+            <MoaSkeleton variant="circular" width={100} height={100} />
+          )}
+          <CardContent>
+            <MoaTypography gutterBottom variant="h5" component="div">
+              {props.card.nickname}
+            </MoaTypography>
+            <MoaTypography variant="body2" color="text.secondary">
+              {area}
+            </MoaTypography>
+            <InfoTypography variant="body2" color="text.secondary">
+              {props.card.context
+                ? props.card.context
+                : `안녕하세요. ${props.card.nickname}입니다.`}
+            </InfoTypography>
 
-          <CardList type={'tech'} cards={props.card.techStacks}></CardList>
-        </CardContent>
+            <div
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <CardList type={'tech'} cards={props.card.techStacks}></CardList>
+            </div>
+          </CardContent>
+        </Grid>
       </MoaCard>
     );
   } else if (props.type === 'tech') {
     return <MoaImg src={props.card.logo} />;
   } else if (props.type === 'link') {
-    console.log(props);
     return (
       <Link href={props.card[1].link} target="_blank">
         <MoaImg src={props.card[1].logo} />

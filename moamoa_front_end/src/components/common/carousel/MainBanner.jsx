@@ -9,8 +9,8 @@ export default function MainBanner() {
   const post = {
     img: `${process.env.PUBLIC_URL}/images/common/banner/main_img.svg`,
     title: '모아모아에 오신 것을 환영합니다.',
-    description: '',
-    linkText: '깃랩으로 가기',
+    description: '팀 빌딩 서비스',
+    linkText: '노션 구경하기',
   };
 
   const yellowCircle = `${process.env.PUBLIC_URL}/images/common/banner/yellow_circle.svg`;
@@ -50,6 +50,7 @@ export default function MainBanner() {
               }}
             >
               <Typography
+                id="title"
                 component="h1"
                 variant="h3"
                 color="inherit"
@@ -66,6 +67,7 @@ export default function MainBanner() {
               <Link
                 variant="subtitle1"
                 href="https://lab.ssafy.com/s08-webmobile2-sub2/S08P12B110/-/tree/develop"
+                color={'secondary'}
               >
                 {post.linkText}
               </Link>

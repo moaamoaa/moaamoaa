@@ -10,7 +10,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { handleSuccessState } from 'redux/snack';
 import customAxios from 'utils/axios';
 
@@ -43,8 +43,6 @@ export default function ProfileItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('지원 철회 완료!');
       })
       .catch(error => {
         console.log(error);
@@ -70,8 +68,6 @@ export default function ProfileItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('제안 수락 완료!');
       })
       .catch(error => {
         console.log(error);
@@ -97,8 +93,6 @@ export default function ProfileItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('제안 거절 완료!');
       })
       .catch(error => {
         console.log(error);

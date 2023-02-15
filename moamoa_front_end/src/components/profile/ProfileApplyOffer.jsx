@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import {
   Box,
   Drawer,
-  Button,
+  ButtonBase,
   List,
   Divider,
   ListItemButton,
@@ -30,14 +30,11 @@ export default function ProfileApplyOffer() {
   const projectId = useSelector(state => state.team.projectId);
 
   useEffect(() => {
-    console.log(projectId);
     if (isLoaded) {
       CustomAxios.authAxios
         .get('/offer/user')
         .then(response => {
           setOffers(response.data);
-          console.log(response.data);
-          console.log('받은 제안 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -53,8 +50,6 @@ export default function ProfileApplyOffer() {
         .get('/apply/user')
         .then(response => {
           setApplies(response.data);
-          console.log(response.data);
-          console.log('보낸 지원 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -158,7 +153,7 @@ export default function ProfileApplyOffer() {
     <div>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <Button
+          <ButtonBase
             size="small"
             variant="contained"
             onClick={toggleDrawer(anchor, true)}
@@ -168,7 +163,7 @@ export default function ProfileApplyOffer() {
             }}
           >
             지원 및 제안
-          </Button>
+          </ButtonBase>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

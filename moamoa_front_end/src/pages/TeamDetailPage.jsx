@@ -13,6 +13,7 @@ import {
   Paper,
   IconButton,
   Button,
+  ButtonBase,
   Stack,
   Grid,
   styled,
@@ -54,16 +55,8 @@ export default function TeamDetailPage() {
       .get(`/projects/detail?projectId=${projectId}`)
       .then(response => {
         setDetail(response.data);
-        console.log(response.data);
-        console.log('조회성공!');
-        console.log(response.data.profileResultDtoList);
-        setCards(response.data.profileResultDtoList); // 제안하기에 필요함
-        console.log(response.data); // 전부 저장
-        console.log(response.data.projectId);
-        // setCards(response.data.projectId); // 강퇴 권한 위임에 필요함 = 페이지 로딩이 안 됨 : 형식 문제
-        console.log(response.data.profileResultDtoList);
+        setCards(response.data.profileResultDtoList); // 팀원 카드 뿌릴 때 필요함
         setLead(response.data.leader);
-        console.log(response.data.leader);
         const areaForm = response.data.areaForm;
         const category = response.data.category;
         const contents = response.data.contents;
@@ -121,8 +114,6 @@ export default function TeamDetailPage() {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('지원완료!');
       })
       .catch(error => {
         console.log(error);
@@ -138,7 +129,7 @@ export default function TeamDetailPage() {
           sx={{
             position: 'relative',
             color: '#fff',
-            mb: 4,
+            mb: 1,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -157,17 +148,12 @@ export default function TeamDetailPage() {
                   pr: { md: 0 },
                 }}
               >
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  color="inherit"
-                  gutterBottom
-                >
+                <Typography id="title" variant="h1" gutterBottom>
                   {/* 팀 이름  */}
                   {/* <SingleTextField ref={titleRef}></SingleTextField> */}
                   {detail.title}
                 </Typography>
-                <Typography variant="h4" color="inherit" paragraph>
+                <Typography variant="h3" color="inherit" paragraph>
                   {/* 팀장 이름 */}
                   {detail.leaderNickname}
                 </Typography>
@@ -182,21 +168,22 @@ export default function TeamDetailPage() {
             // justifyContent="flex-end"
             sx={{ pt: 4 }}
           >
-            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
+            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 버튼 보이게*/}
+            {/* 본인이 이미 팀에 속해 있어도 지원 보내기가 안 보여야할까?  */}
             {lead ? (
               <IconButton size="small" variant="contained" color="primary">
                 {/* 지원 및 제안 버튼 return 해주는 component */}
                 <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
               </IconButton>
             ) : (
-              <Button
+              <ButtonBase
                 size="small"
                 variant="contained"
                 color="primary"
                 onClick={handleApply}
               >
                 지원 보내기
-              </Button>
+              </ButtonBase>
             )}
 
             {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}
@@ -220,7 +207,6 @@ export default function TeamDetailPage() {
                 variant="contained"
                 color="primary"
                 onClick={async () => {
-                  console.log(projectId); // 잘 뜸
                   await customAxios.authAxios
                     .delete('/projects', {
                       data: {
@@ -228,8 +214,6 @@ export default function TeamDetailPage() {
                       },
                     })
                     .then(e => {
-                      console.log(e);
-                      console.log('삭제완료!');
                       alert('게시물이 삭제되었습니다.');
                       navigate('/'); // 삭제 후 홈으로 보내기 (프론트 주소)
                     });
