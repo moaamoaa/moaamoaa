@@ -105,7 +105,6 @@ export default function Profile(props) {
         customAxios.imageAxios
           .post('/profile', formData)
           .then(response => {
-            console.log(response);
             navigate('/profilepage');
             scrollToTop();
           })
@@ -117,7 +116,6 @@ export default function Profile(props) {
                 severity: 'error',
               }),
             );
-            console.log(error);
           });
       })
       .catch(error => {
@@ -183,7 +181,6 @@ export default function Profile(props) {
   };
 
   useEffect(() => {
-    console.log(searchstatus);
     if (searchstatus === 'ALL') {
       setBadgeInfo({
         name: 'ALL',
