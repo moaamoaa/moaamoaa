@@ -13,6 +13,7 @@ import {
   ListItemText,
   ListSubheader,
   Collapse,
+  Grid,
 } from '@mui/material/';
 
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -21,6 +22,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import useMobile from 'hooks/useMobile';
 import ProjectList from 'components/team/ProjectList';
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 export default function ProjectStudy() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -93,7 +95,7 @@ export default function ProjectStudy() {
 
   const list = anchor => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
+      sx={{ width: anchor === 'top' || isMobile ? '100vw' : 360 }}
       role="presentation"
       // onClick={toggleDrawer(anchor, false)}
       // onKeyDown={toggleDrawer(anchor, false)}
@@ -103,9 +105,20 @@ export default function ProjectStudy() {
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            나의 팀 관리
-          </ListSubheader>
+          <Grid
+            container
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            <ListSubheader component="div" id="nested-list-subheader">
+              나의 팀 관리
+            </ListSubheader>
+            <IconButton
+              onClick={toggleDrawer(anchor, false)}
+              sx={{ display: isMobile ? 'flex' : 'none' }}
+            >
+              <ClearRoundedIcon />
+            </IconButton>
+          </Grid>
         }
       >
         <ListItemButton onClick={handleProjectsClick}>
