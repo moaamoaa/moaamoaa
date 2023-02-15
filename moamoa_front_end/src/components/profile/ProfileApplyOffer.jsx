@@ -30,14 +30,11 @@ export default function ProfileApplyOffer() {
   const projectId = useSelector(state => state.team.projectId);
 
   useEffect(() => {
-    console.log(projectId);
     if (isLoaded) {
       CustomAxios.authAxios
         .get('/offer/user')
         .then(response => {
           setOffers(response.data);
-          console.log(response.data);
-          console.log('받은 제안 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -53,8 +50,6 @@ export default function ProfileApplyOffer() {
         .get('/apply/user')
         .then(response => {
           setApplies(response.data);
-          console.log(response.data);
-          console.log('보낸 지원 조회 완료!');
         })
         .catch(error => {
           console.log(error);

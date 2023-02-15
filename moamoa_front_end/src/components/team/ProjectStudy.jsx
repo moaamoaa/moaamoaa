@@ -37,8 +37,6 @@ export default function ProjectStudy() {
         .get('/projects/project')
         .then(response => {
           setProjects(response.data);
-          console.log(response.data);
-          console.log('프로젝트조회완료!');
         })
         .catch(error => {
           console.log(error.message);
@@ -54,8 +52,6 @@ export default function ProjectStudy() {
         .get('/projects/study')
         .then(response => {
           setStudies(response.data);
-          console.log(response.data);
-          console.log('스터디조회완료!');
         })
         .catch(error => {
           console.log(error.message);

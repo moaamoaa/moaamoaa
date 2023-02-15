@@ -49,8 +49,6 @@ export default function TeamItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('제안 철회 완료!');
       })
       .catch(error => {
         console.log(error);
@@ -77,8 +75,6 @@ export default function TeamItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('지원 수락 완료!');
       })
       .catch(error => {
         console.log(error);
@@ -104,8 +100,6 @@ export default function TeamItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('지원 거절 완료!');
       })
       .catch(error => {
         console.log(error);

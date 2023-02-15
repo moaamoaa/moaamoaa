@@ -30,14 +30,11 @@ export default function TeamApplyOffer() {
   const projectId = useSelector(state => state.team.projectId);
 
   useEffect(() => {
-    console.log(projectId);
     if (isLoaded) {
       customAxios.authAxios
         .get(`/offer/project?projectId=${projectId}`)
         .then(response => {
           setOffers(response.data);
-          console.log(response.data);
-          console.log('보낸 제안 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -53,8 +50,6 @@ export default function TeamApplyOffer() {
         .get(`/apply/project?projectId=${projectId}`)
         .then(response => {
           setApplies(response.data);
-          console.log(response.data);
-          console.log('받은 지원 조회 완료!');
         })
         .catch(error => {
           console.log(error);
