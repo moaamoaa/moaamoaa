@@ -83,21 +83,15 @@ export default function Profile(props) {
       areas: updateProfile.areas,
     };
 
-    console.log(value);
-
     const blob = new Blob([JSON.stringify(value)], {
       type: 'application/json',
     });
 
     formData.append('profilePageForm', blob);
 
-    console.log(formData.get('profilePageForm'), '프로젝트폼');
-    console.log(formData.get('file'), '파일');
-
     customAxios.imageAxios
       .post('/profile', formData)
       .then(response => {
-        console.log(response.data);
         navigate('/profilepage');
         scrollToTop();
       })
@@ -151,7 +145,6 @@ export default function Profile(props) {
 
   const handleChange = event => {
     const files = event.target.files;
-    console.log(files[0]);
     // 미리보기용
     setPreviewImage(URL.createObjectURL(files[0]));
     // axios용

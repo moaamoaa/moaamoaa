@@ -99,8 +99,6 @@ function SideProjectEditor(props) {
   };
 
   const handleCreateSidProject = () => {
-    console.log(String(year), name, selectedValue, context);
-
     if (!name.trim()) {
       dispatch(
         handleSuccessState({
