@@ -10,7 +10,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { handleSuccessState } from 'redux/snack';
 import customAxios from 'utils/axios';
 
