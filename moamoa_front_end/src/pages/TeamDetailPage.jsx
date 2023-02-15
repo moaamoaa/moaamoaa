@@ -2,7 +2,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import customAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleUpdate, handleOpenTeamDetail } from 'redux/team';
+import {
+  handleUpdate,
+  handleOpenTeamDetail,
+  handleCloseTeamDetail,
+} from 'redux/team';
 import { handleSuccessState } from 'redux/snack';
 import {
   Container,
@@ -54,7 +58,7 @@ export default function TeamDetailPage() {
         console.log(response.data);
         console.log('조회성공!');
         console.log(response.data.profileResultDtoList);
-        setCards(response.data.profileResultDtoList); // 멤버 카드 뿌릴 때, 필요함
+        setCards(response.data.profileResultDtoList); // 제안하기에 필요함
         console.log(response.data); // 전부 저장
         console.log(response.data.projectId);
         // setCards(response.data.projectId); // 강퇴 권한 위임에 필요함 = 페이지 로딩이 안 됨 : 형식 문제
@@ -157,7 +161,7 @@ export default function TeamDetailPage() {
                 <Typography
                   id="title"
                   component="h1"
-                  variant="h2"
+                  variant="h1"
                   color="inherit"
                   gutterBottom
                 >
@@ -165,7 +169,7 @@ export default function TeamDetailPage() {
                   {/* <SingleTextField ref={titleRef}></SingleTextField> */}
                   {detail.title}
                 </Typography>
-                <Typography variant="h4" color="inherit" paragraph>
+                <Typography variant="h3" color="inherit" paragraph>
                   {/* 팀장 이름 */}
                   {detail.leaderNickname}
                 </Typography>
