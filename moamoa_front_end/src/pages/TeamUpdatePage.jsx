@@ -26,6 +26,7 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
+import scrollToTop from 'utils/scrollToTop';
 
 export default function TeamCreatePage() {
   //ref
@@ -101,6 +102,7 @@ export default function TeamCreatePage() {
       .then(e => {
         console.log(e);
         console.log('수정완료!');
+        scrollToTop();
         navigate(`/TeamDetailPage/?projectId=${projectId}`); // 수정 완료 후 디테일 페이지로
       })
       .catch(error => {
