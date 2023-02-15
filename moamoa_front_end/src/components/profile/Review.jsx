@@ -17,7 +17,6 @@ import customAxios from 'utils/axios';
 import scrollToTop from 'utils/scrollToTop';
 
 function Review(props) {
-  console.log(props);
   const userPk = useSelector(state => state.user.userPk);
   const [isEdit, setIsEdit] = useState(false);
   const [context, setContext] = useState(
