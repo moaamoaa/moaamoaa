@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # Mysql Settings
-    url: jdbc:mysql://localhost:3306/moamoa?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://mysql:3306/moamoa?serverTimezone=UTC&characterEncoding=UTF-8
     username: moamoa
     password: '0103'
   mvc:
@@ -13,16 +13,16 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
       use-new-id-generator-mappings: false
     properties:
       hibernate:
   #        format_sql: true
 
   redis:
-    host: localhost
+    host: myredis
     port: 6379
-    password: '0103'
+    password: 'd5a706b2e7a4ed4b'
   mail:
     host: smtp.gmail.com
     port: 587
