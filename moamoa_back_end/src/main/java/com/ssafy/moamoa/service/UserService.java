@@ -161,9 +161,7 @@ public class UserService {
 
 	public void setBlackList(String token) {
 		Long expiration = jwtTokenProvider.getExpiration(token);
-		redisTemplate.opsForValue()
-			.set(token, "logout",
-				expiration, TimeUnit.MILLISECONDS);
+		redisTemplate.opsForValue().set(token, "logout", expiration, TimeUnit.MILLISECONDS);
 
 	}
 
@@ -174,17 +172,24 @@ public class UserService {
 
 	public TokenDto reissueAccessToken(String accessToken, String refreshToken) {
 		try {
-			String userEmail = jwtTokenProvider.getUserEmail(accessToken);
-
+			if (accessToken == null || accessToken.equals("undefined")) {
+				throw new IllegalArgumentException("토큰 정보를 인증할 수 없습니다.");
+			}
+			jwtTokenProvider.getUserEmail(accessToken);
+			return null;
 		} catch (ExpiredJwtException e) {
 			String userEmail = e.getClaims().get("email").toString();
 			Optional<User> findUser = userRepository.findByEmail(userEmail);
 
 			//accessToken & refreshToken 인증X
-			if (!findUser.isPresent() || refreshToken == null || !jwtTokenProvider.validateToken(refreshToken)
-				|| !refreshToken.equals(
-				findUser.get().getRefreshToken())) {
-				return null;
+			if (!findUser.isPresent()) {
+				throw new IllegalArgumentException("토큰 정보를 인증할 수 없습니다.");
+			}
+
+			if (refreshToken == null || !jwtTokenProvider.validateToken(refreshToken)
+				|| !refreshToken.equals(findUser.get().getRefreshToken())) {
+				deleteRefreshToken(userEmail);
+				throw new IllegalArgumentException("토큰 정보를 인증할 수 없습니다.");
 			}
 
 			String reissueToken = issueAccessToken(findUser.get());
@@ -192,8 +197,6 @@ public class UserService {
 			tokenDto.setAccessToken(reissueToken);
 			return tokenDto;
 		}
-
-		return null;
 	}
 
 }

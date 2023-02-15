@@ -40,7 +40,6 @@ export default function LogInDialog(props) {
         { withCredentials: true },
       )
       .then(response => {
-        console.log(response);
         const token = response.data.accessToken;
         const userPk = response.data.id;
         setOpen(true);

@@ -54,10 +54,6 @@ export default function TeamCreatePage() {
 
   // handler : 팀 등록 버튼 클릭
   const handleClick = async event => {
-    console.log(regionRef.current);
-    console.log(typeof regionRef.current);
-    console.log(onoffRef.current);
-    console.log(typeof onoffRef.current);
     // FormData 객체 생성
     const formData = new FormData();
     // file이라는 key값에 value로 이미지 파일 담기
@@ -83,8 +79,6 @@ export default function TeamCreatePage() {
     // OR 백엔드 요청 방식에 따라
     // formData.append('projectForm', JSON.stringify(value));
     // 찍어보기
-    console.log(formData.get('projectForm'), '프로젝트폼');
-    console.log(formData.get('file'), '파일');
 
     //Axios
     await customAxios
@@ -96,8 +90,6 @@ export default function TeamCreatePage() {
         // header: { 'Content-Type': 'multipart/form-data' },
       })
       .then(response => {
-        console.log(response.data);
-        console.log('생성완료!');
         // response data 의 형식에 맞게
         const areaForm = response.data.areaForm;
         const category = response.data.category;
