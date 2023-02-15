@@ -91,7 +91,7 @@ export default function TeamSearchPage(props) {
 
   // redux에 담아둔 tech스택의 array를 저장
   const [filterArray, setFilterArray] = useState([]);
-
+  // const [check, setCheck] = useState(false);
   //redux
   const tech = useSelector(state => state.search.tech);
   const isLogged = useSelector(state => state.user.isLogged);
@@ -105,8 +105,9 @@ export default function TeamSearchPage(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(`첫 useEffect ${cursorId}`);
     customAxios.basicAxios
-      .get('/search/project?&size=12')
+      .get('/search/project?&size=12&sort=hit,desc')
       .then(response => {
         console.log(response);
         setSearchResult(response.data);
@@ -139,6 +140,7 @@ export default function TeamSearchPage(props) {
 
   // 화면 랜더됐을 때 스크롤 내릴 시 마지막 커서를 백으로 보내서 get
   useEffect(() => {
+    console.log(`그다음 useEffect ${cursorId}`);
     axiosStackId = stackId.join(',');
     if (!isFetching) return;
     customAxios.basicAxios
@@ -146,14 +148,18 @@ export default function TeamSearchPage(props) {
         `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc&size=12&cursorId=${cursorId}`,
       )
       .then(response => {
-        console.log(response);
+        console.log(searchResult);
+        console.log(response.data);
+        // 이 둘이 다를 경우, concat으로 추가시키기 (조건문)
+        // if (Set(searchResult.data) !== Set(response.data)) {
         setSearchResult(searchResult.concat(...response.data));
+        setIsFetching(false);
+        // }
         dispatch(
           handleCursorId({
             cursorId: response.data[response.data.length - 1].cursorId,
           }),
         );
-        setIsFetching(false);
       })
       .catch(error => {
         console.log(error.data);
@@ -165,7 +171,7 @@ export default function TeamSearchPage(props) {
   const search = () => {
     axiosStackId = stackId.join(',');
     // console.log(axiosStackId);
-    if (window.event.keyCode == 13) {
+    if (window.event.keyCode === 13) {
       customAxios.basicAxios
         .get(
           `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
