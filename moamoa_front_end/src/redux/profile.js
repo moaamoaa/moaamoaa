@@ -95,14 +95,17 @@ const profileSlice = createSlice({
     },
     searchStatusChange: (state, action) => {
       if (action.payload.profileSearchStatus === 'ALL') {
-        state.userProfile[0].profileSearchStatus = 'ONLINE';
-      } else if (action.payload.profileSearchStatus === 'ONLINE') {
-        state.userProfile[0].profileSearchStatus = 'OFFLINE';
-      } else if (action.payload.profileSearchStatus === 'OFFLINE') {
+        state.userProfile[0].profileSearchStatus = 'PROJECT';
+      } else if (action.payload.profileSearchStatus === 'PROJECT') {
+        state.userProfile[0].profileSearchStatus = 'STUDY';
+      } else if (action.payload.profileSearchStatus === 'STUDY') {
         state.userProfile[0].profileSearchStatus = 'NONE';
       } else if (action.payload.profileSearchStatus === 'NONE') {
         state.userProfile[0].profileSearchStatus = 'ALL';
       }
+    },
+    handleSearchStatus: (state, action) => {
+      state.userProfile[0].profileSearchStatus = action.payload.searchstatus;
     },
   },
 });
@@ -119,6 +122,7 @@ export const {
   profileCloseSuccess,
   profileEditSuccess,
   searchStatusChange,
+  handleSearchStatus,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

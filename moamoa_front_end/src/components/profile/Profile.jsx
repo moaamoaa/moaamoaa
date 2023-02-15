@@ -19,7 +19,7 @@ import {
   IconButton,
 } from '@mui/material';
 
-import { searchStatusChange } from 'redux/profile';
+import { handleSearchStatus, searchStatusChange } from 'redux/profile';
 import { useNavigate } from 'react-router-dom';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
@@ -30,7 +30,9 @@ import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 export default function Profile(props) {
   const isMobile = useMobile();
+  const searchstatus = useSelector(state => state.user.profileSearchStatus);
   const [badgeInfo, setBadgeInfo] = useState({
+    name: 'ALL',
     color: 'primary',
     context: '온라인 오프라인 팀을 구하고 있습니다.',
   });
@@ -120,25 +122,29 @@ export default function Profile(props) {
   const handleBadge = () => {
     if (userPk !== userProfile.id) return;
 
-    if (badgeInfo.color === 'primary') {
+    if (badgeInfo.name === 'ALL') {
       setBadgeInfo({
+        name: 'PROJECT',
         color: 'secondary',
-        context: '온라인 팀을 구하고 있습니다.',
-      });
-    } else if (badgeInfo.color === 'secondary') {
-      setBadgeInfo({
-        color: 'success',
-        context: '오프라인 팀을 구하고 있습니다.',
-      });
-    } else if (badgeInfo.color === 'success') {
-      setBadgeInfo({
-        color: 'warning',
         context: '팀을 구하고 있지 않습니다.',
       });
-    } else if (badgeInfo.color === 'warning') {
+    } else if (badgeInfo.name === 'PROJECT') {
       setBadgeInfo({
+        name: 'STUDY',
+        color: 'success',
+        context: '프로젝트 팀을 구하고 있습니다.',
+      });
+    } else if (badgeInfo.name === 'STUDY') {
+      setBadgeInfo({
+        name: 'NONE',
+        color: 'warning',
+        context: '스터디 팀을 구하고 있습니다.',
+      });
+    } else if (badgeInfo.name === 'NONE') {
+      setBadgeInfo({
+        name: 'ALL',
         color: 'primary',
-        context: '온라인 오프라인 팀을 구하고 있습니다.',
+        context: '모든 팀을 구하고 있습니다.',
       });
     }
     dispatch(
@@ -146,6 +152,20 @@ export default function Profile(props) {
         profileSearchStatus: userProfile.profileSearchStatus,
       }),
     );
+    customAxios.authAxios
+      .put('/profile/search-state', {
+        id: userPk,
+        searchstatus: badgeInfo.name,
+      })
+      .then(response => {
+        console.log(response);
+        dispatch(
+          handleSearchStatus({ searchstatus: response.data.searchstatus }),
+        );
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const handleDrop = event => {
