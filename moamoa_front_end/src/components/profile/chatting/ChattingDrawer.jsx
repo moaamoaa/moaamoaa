@@ -6,8 +6,10 @@ import {
   Drawer,
   IconButton,
   List,
+  // Divider,
   ListItemButton,
   ListSubheader,
+  // Collapse,
 } from '@mui/material/';
 import ChatIcon from '@mui/icons-material/Chat';
 import useMobile from 'hooks/useMobile';
@@ -21,7 +23,7 @@ export default function ChattingDrawer() {
   useEffect(() => {
     if (isLoaded) {
       CustomAxios.authAxios
-        .get('/projects/project') //채팅 조회하는 api로 바꿔주기!!!
+        .get('/projects/project') //채팅 목록 조회하는 api로 바꿔주기!!!
         .then(response => {
           setChats(response.data);
           console.log(response.data);
@@ -69,11 +71,7 @@ export default function ChattingDrawer() {
       >
         <List component="div" disablePadding>
           {/* onClick */}
-          <ListItemButton
-            onClick={toggleDrawer(anchor, !state[anchor])}
-            sx={{ pl: 4 }}
-            alignItems="flex-start"
-          >
+          <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
             <ChattingList chats={chats}></ChattingList>
           </ListItemButton>
         </List>

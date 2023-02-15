@@ -1,10 +1,26 @@
 import * as React from 'react';
-import { Paper, Box, Drawer, IconButton } from '@mui/material/';
+import {
+  Paper,
+  Box,
+  Drawer,
+  IconButton,
+  TextField,
+  Button,
+} from '@mui/material/';
 import useMobile from 'hooks/useMobile';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import { useSelector } from 'react-redux';
 
 export default function ChattingRoom() {
   const isMobile = useMobile();
+
+  // 나의 아이디
+  const userId = useSelector(state => state.user.userPk);
+  // 상대 아이디
+  const profile = useSelector(state => state.profile.userProfile[0].id);
+
+  console.log(userId);
+  console.log(profile);
 
   // 오른쪽에 사이드바 열리는
   const [state, setState] = React.useState({
@@ -18,9 +34,6 @@ export default function ChattingRoom() {
     ) {
       return;
     }
-    // ListItemIcon 버튼을 눌렀을 때, 드로우어를 닫지 않도록 함
-    // if (event.target.tagName === 'svg') return;
-    // 얘는 태그네임이 뭘까? 있을까?
     setState({ ...state, [anchor]: open });
   };
 
@@ -32,8 +45,13 @@ export default function ChattingRoom() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <Paper>
-        <h1>채팅내용</h1>
+        <h1>누구누구님과 채팅을 시작합니다</h1>
       </Paper>
+      <Paper>
+        <h2>{name}안녕?</h2>
+      </Paper>
+      <TextField></TextField>
+      <Button>전송</Button>
     </Box>
   );
 
@@ -45,6 +63,7 @@ export default function ChattingRoom() {
             onClick={toggleDrawer(anchor, true)}
             sx={{ mr: isMobile ? 0 : 2, scale: isMobile ? '.8' : '1' }}
           >
+            채팅
             <TelegramIcon>
               {/* 오픈버튼 -> 다른 컴포넌트에 삽입 */}
             </TelegramIcon>
@@ -62,3 +81,14 @@ export default function ChattingRoom() {
     </div>
   );
 }
+
+// const chatBox = styled(CommonBox)`
+//   background-color: #ffffff;
+//   border: 1px solid #c4c4c4;
+//   border-radius: 0.5rem 0 0 0.5rem;
+//   height: 100%;
+//   min-height: 3rem;
+//   width: 100%;
+//   // 이건 박스 안에 맞게 줄바꿈해주는 css
+//   flex-flow: row-reverse wrap;
+// `;
