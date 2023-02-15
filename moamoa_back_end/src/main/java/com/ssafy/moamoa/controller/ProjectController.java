@@ -91,7 +91,6 @@ public class ProjectController {
 
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
-		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
 
 		ProjectDetail projectDetail = projectService.creatProject(projectForm, file);
 		projectDetail.setLeader(true);
