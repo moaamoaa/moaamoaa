@@ -19,7 +19,6 @@ import {
   IconButton,
 } from '@mui/material';
 
-import { handleSearchStatus, searchStatusChange } from 'redux/profile';
 import { useNavigate } from 'react-router-dom';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
@@ -172,14 +171,15 @@ export default function Profile(props) {
         id: userPk,
         searchstatus: badgeInfo.name,
       })
-      .then(response => {
-        console.log(response);
-        // dispatch(
-        //   handleSearchStatus({ searchstatus: response.data.searchstatus }),
-        // );
-      })
+      .then(response => {})
       .catch(error => {
-        console.log(error);
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '검색 상태 변경에 실패했습니다.',
+            severity: 'error',
+          }),
+        );
       });
 
     if (badgeInfo.name === 'ALL') {
@@ -218,9 +218,7 @@ export default function Profile(props) {
 
   const handleChange = event => {
     const files = event.target.files;
-    // 미리보기용
     setPreviewImage(URL.createObjectURL(files[0]));
-    // axios용
     setImage(files[0]);
   };
 
@@ -229,14 +227,12 @@ export default function Profile(props) {
       수정
     </ProfileButton>,
     <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
-      {/* 개인이 받은 지원 및 제안 확인 */}
       <ProfileApplyOffer isMobile={isMobile}></ProfileApplyOffer>
     </ProfileButton>,
   ];
 
   const otherButtons = [
     <ProfileButton key="offer" variant="outlined">
-      {/* 타인에게 제안 보내기 버튼 */}
       <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
     </ProfileButton>,
     <ProfileButton key="chat" variant="outlined">
@@ -256,7 +252,6 @@ export default function Profile(props) {
   if (props.type === 'edit') {
     return (
       <>
-        {/* 반응형 md 이상 */}
         <MoaProfile
           component="article"
           sx={{
@@ -386,7 +381,6 @@ export default function Profile(props) {
           <ProfileButtonContainer>{editButtons}</ProfileButtonContainer>
         </MoaProfile>
 
-        {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
           sx={{
@@ -461,7 +455,6 @@ export default function Profile(props) {
   } else {
     return (
       <>
-        {/* 반응형 md 이상 */}
         <MoaProfile
           component="article"
           sx={{
@@ -520,7 +513,6 @@ export default function Profile(props) {
           </ProfileButtonContainer>
         </MoaProfile>
 
-        {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
           sx={{ display: { xs: 'block', md: 'none' } }}

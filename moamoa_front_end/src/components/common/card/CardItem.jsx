@@ -173,15 +173,15 @@ export default function CardItem(props) {
       </MoaCard>
     );
   } else if (props.type === 'member') {
-
     let area = '온라인';
+    if (props.card.area === null) props.card.area = [];
     if (props.card.area.length > 1) {
       const areaTwoWord = props.card.area.map(e => {
         return e.slice(0, 2);
       });
       area = areaTwoWord.join(' / ');
     }
-    
+
     return (
       <MoaCard>
         <CardActions>
@@ -294,7 +294,14 @@ export default function CardItem(props) {
                 : `안녕하세요. ${props.card.nickname}입니다.`}
             </InfoTypography>
 
-            <CardList type={'tech'} cards={props.card.techStacks}></CardList>
+            <div
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <CardList type={'tech'} cards={props.card.techStacks}></CardList>
+            </div>
           </CardContent>
         </Grid>
       </MoaCard>
