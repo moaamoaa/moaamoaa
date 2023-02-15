@@ -61,48 +61,54 @@ export default function Profile(props) {
   };
 
   const handleEditSuccess = () => {
-    const formData = new FormData();
-
-    if (previewImage !== userProfile.img) {
-      formData.append('file', image);
-    } else {
-      formData.append('file', null);
-    }
-
-    const updateUserProfile = {
-      userId: userProfile.id,
-      nickname: updateNickname,
-      profileOnOffStatus: updateProfile.profileOnOffStatus,
-      context: userProfile.context,
-    };
-
-    const value = {
-      profile: updateUserProfile,
-      techstacks: updateProfile.techStacks,
-      sites: updateProfile.sites,
-      areas: updateProfile.areas,
-    };
-
-    console.log(value);
-
-    const blob = new Blob([JSON.stringify(value)], {
-      type: 'application/json',
-    });
-
-    formData.append('profilePageForm', blob);
-
-    console.log(formData.get('profilePageForm'), '프로젝트폼');
-    console.log(formData.get('file'), '파일');
-
-    customAxios.imageAxios
-      .post('/profile', formData)
+    customAxios.basicAxios
+      .get(`/users/nickname?nickname=${updateNickname}`)
       .then(response => {
-        console.log(response.data);
-        navigate('/profilepage');
-        scrollToTop();
+        const formData = new FormData();
+
+        if (previewImage !== userProfile.img) {
+          formData.append('file', image);
+        } else {
+          formData.append('file', null);
+        }
+
+        const updateUserProfile = {
+          userId: userProfile.id,
+          nickname: updateNickname,
+          profileOnOffStatus: updateProfile.profileOnOffStatus,
+          context: userProfile.context,
+        };
+
+        const value = {
+          profile: updateUserProfile,
+          techstacks: updateProfile.techStacks,
+          sites: updateProfile.sites,
+          areas: updateProfile.areas,
+        };
+
+        const blob = new Blob([JSON.stringify(value)], {
+          type: 'application/json',
+        });
+        formData.append('profilePageForm', blob);
+
+        customAxios.imageAxios
+          .post('/profile', formData)
+          .then(response => {
+            navigate('/profilepage');
+            scrollToTop();
+          })
+          .catch(error => {
+            console.log(error);
+          });
       })
       .catch(error => {
-        console.log(error);
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '중복된 닉네임이 존재합니다.',
+            severity: 'error',
+          }),
+        );
       });
   };
 
