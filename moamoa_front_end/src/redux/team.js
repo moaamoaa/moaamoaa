@@ -41,6 +41,24 @@ const teamSlice = createSlice({
       state.title = action.payload.title;
       state.userid = action.payload.userid;
     },
+    handleCloseTeamDetail: state => {
+      state.areaForm = null;
+      state.category = null;
+      state.contents = null;
+      state.endDate = null;
+      state.img = null;
+      state.leader = true;
+      state.leaderId = null;
+      state.leaderNickname = null;
+      state.profileResultDtoList = null;
+      state.projectId = null;
+      state.projectStatus = null;
+      state.totalPeople = null;
+      state.projectTechStacks = null;
+      state.startDate = null;
+      state.title = null;
+      state.userid = null;
+    },
     handleOpenTeamUpdate: (state, action) => {
       state.projectId = action.payload.projectId;
     },
@@ -93,6 +111,7 @@ export const {
   handleUpdate,
   teamOpenSuccess,
   teamCloseSuccess,
+  handleCloseTeamDetail,
 } = teamSlice.actions;
 
 export default teamSlice.reducer;

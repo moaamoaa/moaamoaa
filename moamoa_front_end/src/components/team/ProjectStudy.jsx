@@ -23,21 +23,22 @@ import Diversity3Icon from '@mui/icons-material/Diversity3';
 import useMobile from 'hooks/useMobile';
 import ProjectList from 'components/team/ProjectList';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { useSelector } from 'react-redux';
 
 export default function ProjectStudy() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
   const [studies, setStudies] = useState([]);
   const isMobile = useMobile();
-
+  const isLogged = useSelector(state => state.user.isLogged);
   useEffect(() => {
-    if (isLoaded) {
+    if (!isLoaded && isLogged) {
       customAxios.authAxios
         .get('/projects/project')
         .then(response => {
           setProjects(response.data);
-          // console.log(response.data);
-          // console.log('프로젝트조회완료!');
+          console.log(response.data);
+          console.log('프로젝트조회완료!');
         })
         .catch(error => {
           console.log(error.message);
@@ -48,13 +49,13 @@ export default function ProjectStudy() {
   }, [isLoaded]);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (!isLoaded && isLogged) {
       customAxios.authAxios
         .get('/projects/study')
         .then(response => {
           setStudies(response.data);
-          // console.log(response.data);
-          // console.log('스터디조회완료!');
+          console.log(response.data);
+          console.log('스터디조회완료!');
         })
         .catch(error => {
           console.log(error.message);

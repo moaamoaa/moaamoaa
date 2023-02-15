@@ -28,14 +28,14 @@ import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
 
 export default function TeamCreatePage() {
   //ref
-  const classRef = useRef('');
-  const numberRef = useRef('');
-  const onoffRef = useRef('');
-  const regionRef = useRef('');
-  const titleRef = useRef('');
-  const dateRef = useRef('');
-  const techRef = useRef('');
-  const inputRef = useRef('');
+  const classRef = useRef(null);
+  const numberRef = useRef(null);
+  const onoffRef = useRef(null);
+  const regionRef = useRef(null);
+  const titleRef = useRef(null);
+  const dateRef = useRef(null);
+  const techRef = useRef(null);
+  const inputRef = useRef(null);
   // redux
   const { userPk } = useSelector(state => state.user.userPk);
   const dispatch = useDispatch();
@@ -54,6 +54,10 @@ export default function TeamCreatePage() {
 
   // handler : 팀 등록 버튼 클릭
   const handleClick = async event => {
+    console.log(regionRef.current);
+    console.log(typeof regionRef.current);
+    console.log(onoffRef.current);
+    console.log(typeof onoffRef.current);
     // FormData 객체 생성
     const formData = new FormData();
     // file이라는 key값에 value로 이미지 파일 담기

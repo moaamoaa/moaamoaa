@@ -163,8 +163,9 @@ public class ProjectService {
 		techStackService.modifyProjectTechStack(project.getId(), projectForm.getTechStacks());
 
 		// project area
-		areaService.addProjectAreaList(project, projectForm.getAreaId());
-
+		if(projectForm.getAreaId()!=null) {
+			areaService.addProjectAreaList(project, projectForm.getAreaId());
+		}
 		ProjectDetail projectDetail = accessProject(project.getId(), 0);
 		return projectDetail;
 	}
@@ -344,8 +345,9 @@ public class ProjectService {
 		}
 
 		// area
-		projectDetail.setAreaForm(AreaForm.toEntity(projectAreaRepository.getProjectAreaById(projectId).getArea()));
-
+		if(projectAreaRepository.findByProject_Id(projectId).isPresent()) {
+			projectDetail.setAreaForm(AreaForm.toEntity(projectAreaRepository.getProjectAreaById(projectId).getArea()));
+		}
 		return projectDetail;
 	}
 

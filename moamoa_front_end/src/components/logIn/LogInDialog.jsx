@@ -37,7 +37,7 @@ export default function LogInDialog(props) {
           email: email,
           password: password,
         },
-        // { withCredentials: true },
+        { withCredentials: true },
       )
       .then(response => {
         const token = response.data.accessToken;

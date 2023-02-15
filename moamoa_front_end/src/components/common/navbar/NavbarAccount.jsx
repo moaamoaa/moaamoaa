@@ -76,6 +76,7 @@ export default function NavbarAccount() {
         dispatch(logoutSuccess());
         navigate('/');
         Cookies.remove('access_token');
+        Cookies.remove('REFRESH_TOKEN');
         scrollToTop();
       })
       .catch(error => {

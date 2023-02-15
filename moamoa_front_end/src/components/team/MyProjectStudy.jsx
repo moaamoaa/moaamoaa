@@ -20,15 +20,16 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import useMobile from 'hooks/useMobile';
 import MyProjectList from 'components/team/MyProjectList';
+import { useSelector } from 'react-redux';
 
 export default function MyProjectStudy() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
   const [studies, setStudies] = useState([]);
   const isMobile = useMobile();
-
+  const isLogged = useSelector(state => state.user.isLogged);
   useEffect(() => {
-    if (isLoaded) {
+    if (!isLoaded && isLogged) {
       customAxios.authAxios
         .get('/projects/project')
         .then(response => {
@@ -45,7 +46,7 @@ export default function MyProjectStudy() {
   }, [isLoaded]);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (!isLoaded && isLogged) {
       customAxios.authAxios
         .get('/projects/study')
         .then(response => {
