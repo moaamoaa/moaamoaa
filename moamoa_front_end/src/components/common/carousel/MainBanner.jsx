@@ -7,28 +7,37 @@ import ScrollIndicator from '../button/ScrollIndicator';
 
 export default function MainBanner() {
   const post = {
-    img: `${process.env.PUBLIC_URL}/images/common/main.png`,
+    img: `${process.env.PUBLIC_URL}/images/common/banner/main_img.svg`,
     title: '모아모아에 오신 것을 환영합니다.',
-    description: '',
-    linkText: '깃랩으로 가기',
+    description: '팀 빌딩 서비스',
+    linkText: '노션 구경하기',
   };
+
+  const yellowCircle = `${process.env.PUBLIC_URL}/images/common/banner/yellow_circle.svg`;
+  const blueCircle = `${process.env.PUBLIC_URL}/images/common/banner/blue_circle.svg`;
+  const purpleCircle = `${process.env.PUBLIC_URL}/images/common/banner/purple_circle.svg`;
+  const mainImg = `${process.env.PUBLIC_URL}/images/common/banner/main_image.svg`;
+
   return (
     <Paper
       sx={{
         position: 'relative',
         color: '#000',
         mb: 4,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundImage: `url(${post.img})`,
         height: 'calc(200px + 40vw)',
         maxHeight: 'calc(100vh - 56px)',
         borderRadius: 0,
         boxShadow: '0px 0px 0px 0px rgb(0 0 0 / 0%)',
+        zIndex: -1,
       }}
     >
       <ScrollIndicator></ScrollIndicator>
+      <CJ>
+        <YellowCircle src={yellowCircle}></YellowCircle>
+        <BlueCircle src={blueCircle}></BlueCircle>
+        <PurpleCircle src={purpleCircle}></PurpleCircle>
+      </CJ>
+      <MainImg src={mainImg}></MainImg>
       {/* <Dim /> */}
       <Container fixed>
         <Grid container>
@@ -41,11 +50,12 @@ export default function MainBanner() {
               }}
             >
               <Typography
+                id="title"
                 component="h1"
                 variant="h3"
                 color="inherit"
                 sx={{
-                  fontSize: { xs: 24, md: 32, xl: 56 },
+                  fontSize: { xs: 24, md: 32, xl: 40 },
                 }}
                 gutterBottom
               >
@@ -57,6 +67,7 @@ export default function MainBanner() {
               <Link
                 variant="subtitle1"
                 href="https://lab.ssafy.com/s08-webmobile2-sub2/S08P12B110/-/tree/develop"
+                color={'secondary'}
               >
                 {post.linkText}
               </Link>
@@ -67,6 +78,53 @@ export default function MainBanner() {
     </Paper>
   );
 }
+
+const CJ = styled(Container)`
+  @keyframes move {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+`;
+
+const YellowCircle = styled.img`
+  position: absolute;
+  top: calc(40% + 15vw);
+  left: calc(30% + 15vw);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 50vw;
+`;
+
+const BlueCircle = styled.img`
+  position: absolute;
+  top: calc(40% - 10vw);
+  left: calc(50% + 15vw);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 50vw;
+`;
+
+const PurpleCircle = styled.img`
+  position: absolute;
+  top: calc(50% + 15vw);
+  left: calc(60% + 15vw);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 50vw;
+`;
+
+const MainImg = styled.img`
+  position: absolute;
+  z-index: 0;
+  top: 60%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  width: 40vw;
+`;
 
 const Dim = styled(Box)`
   position: absolute;

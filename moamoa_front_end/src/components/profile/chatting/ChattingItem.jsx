@@ -3,12 +3,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Typography from '@mui/material/Typography';
-import ChattingRoom from 'components/profile/ChattingRoom';
+import ChattingRoom from 'components/profile/chatting/ChattingRoom';
 import IconButton from '@mui/material/IconButton';
 import useMobile from 'hooks/useMobile';
 export default function ChattingItem(props) {
   const isMobile = useMobile();
-  // 1:1 채팅방 열리게
 
   return (
     <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">

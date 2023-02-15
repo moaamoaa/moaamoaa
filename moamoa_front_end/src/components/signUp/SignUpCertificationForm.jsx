@@ -33,7 +33,6 @@ export default function SignUpCertificationform(props) {
     if (props.code === Number(userVaildCode)) {
       props.setActiveStep(2);
     } else {
-      console.log('인증번호가 틀렸습니다');
       setCodeError(true);
     }
   };
@@ -43,7 +42,7 @@ export default function SignUpCertificationform(props) {
     customAxios.basicAxios
       .get(`/users/email?email=${userEmail}`)
       .then(response => {
-        console.log(response.data);
+        setUserVaildCode('');
         props.handleCode(response.data);
       })
       .catch(error => {

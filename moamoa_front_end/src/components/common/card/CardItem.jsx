@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { handleOpenTeamDetail } from 'redux/team';
-import { useDispatch } from 'react-redux';
+import { handleMemberId } from 'redux/member';
+import { useDispatch, useSelector } from 'react-redux';
 import { handleProfilePk } from 'redux/profile';
-
+import MyProjectStudy from 'components/team/MyProjectStudy';
 import styled from 'styled-components';
-
+import useMobile from 'hooks/useMobile';
 import {
   Card,
   CardContent,
@@ -16,7 +17,7 @@ import {
   Skeleton,
   Avatar,
 } from '@mui/material';
-
+import { handleSuccessState } from 'redux/snack';
 import CardList from 'components/common/card/CardList';
 import { Link } from '@mui/material';
 
@@ -24,8 +25,15 @@ import scrollToTop from 'utils/scrollToTop';
 
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import customAxios from 'utils/axios';
+import { Container } from '@mui/system';
 
 export default function CardItem(props) {
+  const projectId = useSelector(state => state.team.projectId);
+  const leader = useSelector(state => state.team.leader);
+  const leaderId = useSelector(state => state.team.leaderId);
+  const userPk = useSelector(state => state.user.userPk);
+  const isMobile = useMobile();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const goToDetail = () => {
@@ -39,6 +47,73 @@ export default function CardItem(props) {
       scrollToTop();
     }
   };
+
+  const handleSaveMemberId = () => {
+    if (props.type === 'member') {
+      dispatch(handleMemberId({ memberId: props.card.id }));
+    }
+  };
+
+  // 멤버 카드일 경우,
+  // 권한위임하기 요청
+  // 성공!
+  const handleRight = () => {
+    if (props.type === 'member') {
+      customAxios
+        .authAxios({
+          method: 'PUT',
+          url: '/projects/leader',
+          data: {
+            projectId: projectId, // detail페이지의 projectId 값
+            userId: props.card.id, // 권한 위임 당할 사람 member 카드 id
+          },
+        })
+        .then(response => {
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '권한이 위임 되었습니다.',
+              severity: 'success',
+            }),
+          );
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
+
+  // 멤버 카드일 경우,
+  // 강퇴하기 요청
+  // 성공!
+  const handleDrop = () => {
+    if (props.type === 'member') {
+      customAxios
+        .authAxios({
+          method: 'DELETE',
+          url: '/projects/member',
+          data: {
+            projectId: projectId, // detail페이지의 projectId 값
+            userId: props.card.id, // 강퇴 당할 사람 member 카드 id
+          },
+        })
+        .then(response => {
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '팀원이 강퇴되었습니다.',
+              severity: 'success',
+            }),
+          );
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
+
+  // 리턴
+
   if (props.type === 'team') {
     return (
       <MoaCard onClick={goToDetail}>
@@ -98,66 +173,145 @@ export default function CardItem(props) {
       </MoaCard>
     );
   } else if (props.type === 'member') {
+    let area = '온라인';
+    if (props.card.area === null) props.card.area = [];
+    if (props.card.area.length > 1) {
+      const areaTwoWord = props.card.area.map(e => {
+        return e.slice(0, 2);
+      });
+      area = areaTwoWord.join(' / ');
+    }
+
     return (
-      <MoaCard onClick={goToDetail}>
+      <MoaCard>
         <CardActions>
           <Grid container>
             <Grid item xs>
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                sx={{ display: 'none' }}
-              >
-                권한위임
-              </Button>
+              {/* 디테일 페이지에서만 보이고 리더이면서 해당 카드 id 가 리더가 아닌경우 => 권한위임 버튼이 보이고 아니면 안 보이고 */}
+              {props.isDetail && leader && props.card.id !== leaderId ? (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleRight}
+                >
+                  권한위임
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  sx={{ display: 'none' }}
+                >
+                  권한위임
+                </Button>
+              )}
             </Grid>
             <Grid item xs>
-              <Button size="small" variant="contained" color="primary">
-                제안하기
-              </Button>
+              {/* 디테일 페이지에서만 보이고 리더이면서 해당 카드 id 가 리더가 아닌경우 => 강퇴하기 버튼이 보이고 아니면 안 보이고 */}
+              {props.isDetail && leader && props.card.id !== leaderId ? (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDrop}
+                >
+                  강퇴하기
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  sx={{ display: 'none' }}
+                >
+                  강퇴하기
+                </Button>
+              )}
+            </Grid>
+            <Grid item xs>
+              {/* 나 자신에게는 제안하지 않는다 */}
+              {/* 이미 내 팀인 사람에게는 제안하지 않는다 detail_profileResultDtoList*/}
+              {userPk !== props.card.id ? (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSaveMemberId}
+                >
+                  {/* 제안 */}
+                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSaveMemberId}
+                  sx={{ display: 'none' }}
+                >
+                  {/* 제안 */}
+                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
+                </Button>
+              )}
             </Grid>
           </Grid>
         </CardActions>
-        {props.card.img ? (
-          <CardMedia
-            component="img"
-            src={props.card.img}
-            alt="random"
-            sx={{
-              borderRadius: '50%',
-              width: '100px',
-              height: '100px',
-              margin: '0 auto',
-              boxShadow: 5,
-            }}
-          />
-        ) : (
-          <MoaSkeleton variant="circular" width={100} height={100} />
-        )}
-        <CardContent>
-          <MoaTypography gutterBottom variant="h5" component="div">
-            {props.card.nickname}
-          </MoaTypography>
-          <MoaTypography variant="body2" color="text.secondary">
-            {props.card.area ? props.card.area : '온라인 / 전 지역'}
-          </MoaTypography>
-          <InfoTypography variant="body2" color="text.secondary">
-            {props.card.contents
-              ? props.card.contents
-              : `안녕하세요. ${props.card.nickname}입니다.`}
-          </InfoTypography>
+        <Grid
+          onClick={goToDetail}
+          sx={{
+            cursor: 'pointer',
+          }}
+        >
+          {props.card.img ? (
+            <CardMedia
+              onClick={goToDetail}
+              component="img"
+              src={props.card.img}
+              alt="random"
+              sx={{
+                borderRadius: '50%',
+                width: '100px',
+                height: '100px',
+                margin: '0 auto',
+                boxShadow: 5,
+              }}
+            />
+          ) : (
+            <MoaSkeleton variant="circular" width={100} height={100} />
+          )}
+          <CardContent>
+            <MoaTypography gutterBottom variant="h5" component="div">
+              {props.card.nickname}
+            </MoaTypography>
+            <MoaTypography variant="body2" color="text.secondary">
+              {area}
+            </MoaTypography>
+            <InfoTypography variant="body2" color="text.secondary">
+              {props.card.context
+                ? props.card.context
+                : `안녕하세요. ${props.card.nickname}입니다.`}
+            </InfoTypography>
 
-          <CardList type={'tech'} cards={props.card.techStacks}></CardList>
-        </CardContent>
+            <div
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <CardList type={'tech'} cards={props.card.techStacks}></CardList>
+            </div>
+          </CardContent>
+        </Grid>
       </MoaCard>
     );
   } else if (props.type === 'tech') {
     return <MoaImg src={props.card.logo} />;
   } else if (props.type === 'link') {
     return (
-      <Link href={props.card.site} target="_blank">
-        <MoaImg src={props.card.site} />
+      <Link href={props.card[1].link} target="_blank">
+        <MoaImg src={props.card[1].logo} />
       </Link>
     );
   }
@@ -171,7 +325,6 @@ const MoaCard = styled(Card)`
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
     transition: 0.4s;
   }
-  cursor: pointer;
 `;
 
 const MoaSkeleton = styled(Skeleton)`

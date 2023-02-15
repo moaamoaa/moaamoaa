@@ -1,15 +1,13 @@
 package com.ssafy.moamoa.controller;
 
-import java.util.List;
-
 import javax.mail.MessagingException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +28,6 @@ import com.ssafy.moamoa.domain.dto.SignForm;
 import com.ssafy.moamoa.domain.dto.TokenDto;
 import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.User;
-import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
 import com.ssafy.moamoa.service.MailService;
 import com.ssafy.moamoa.service.UserService;
 
@@ -119,8 +116,8 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletResponse response) {
 		TokenDto tokenDto = userService.authenticateUser(loginForm.getEmail(), loginForm.getPassword());
 
-		Cookie cookie = cookieUtil.createCookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
-		response.addCookie(cookie);
+		ResponseCookie cookie = cookieUtil.createCookie("REFRESH_TOKEN", tokenDto.getRefreshToken());
+		response.addHeader("Set-Cookie", cookie.toString());
 
 		return new ResponseEntity<>(tokenDto, HttpStatus.OK);
 	}
@@ -143,7 +140,7 @@ public class UserController {
 		TokenDto reissueToken = userService.reissueAccessToken(accessToken, refreshToken);
 
 		if (reissueToken == null) {
-			throw new UnAuthorizedException("토큰 정보를 인증할 수 없습니다.");
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		}
 
 		return new ResponseEntity<>(reissueToken, HttpStatus.CREATED);

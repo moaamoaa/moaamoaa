@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import CustomAxios from 'utils/axios';
+import customAxios from 'utils/axios';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -30,14 +30,11 @@ export default function TeamApplyOffer() {
   const projectId = useSelector(state => state.team.projectId);
 
   useEffect(() => {
-    console.log(projectId);
     if (isLoaded) {
-      CustomAxios.authAxios
+      customAxios.authAxios
         .get(`/offer/project?projectId=${projectId}`)
         .then(response => {
           setOffers(response.data);
-          console.log(response.data);
-          console.log('보낸 제안 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -49,12 +46,10 @@ export default function TeamApplyOffer() {
 
   useEffect(() => {
     if (isLoaded) {
-      CustomAxios.authAxios
+      customAxios.authAxios
         .get(`/apply/project?projectId=${projectId}`)
         .then(response => {
           setApplies(response.data);
-          console.log(response.data);
-          console.log('받은 지원 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -97,8 +92,8 @@ export default function TeamApplyOffer() {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -120,7 +115,11 @@ export default function TeamApplyOffer() {
         <Collapse in={openProjects} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+            <ListItemButton
+              onClick={toggleDrawer(anchor, !state[anchor])}
+              sx={{ pl: 4 }}
+              alignItems="flex-start"
+            >
               {/* 보낸 제안 리스트 컴포넌트 */}
               <TeamList offers={offers} type={'offer'}></TeamList>
             </ListItemButton>
@@ -136,7 +135,11 @@ export default function TeamApplyOffer() {
         <Collapse in={openStudies} timeout="auto" unmountOnExit>
           <Divider />
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }} alignItems="flex-start">
+            <ListItemButton
+              onClick={toggleDrawer(anchor, !state[anchor])}
+              sx={{ pl: 4 }}
+              alignItems="flex-start"
+            >
               {/* 받은 지원 리스트 컴포넌트 */}
               <TeamList applies={applies} type={'apply'}></TeamList>
             </ListItemButton>
@@ -153,7 +156,6 @@ export default function TeamApplyOffer() {
           <Button
             size="small"
             variant="contained"
-            color="primary"
             onClick={toggleDrawer(anchor, true)}
             sx={{
               mr: isMobile ? 0 : 2,
@@ -166,7 +168,7 @@ export default function TeamApplyOffer() {
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
-            onClick={toggleDrawer(anchor, !state[anchor])}
+            // onClick={toggleDrawer(anchor, !state[anchor])}
           >
             {list(anchor)}
           </Drawer>

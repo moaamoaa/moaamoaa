@@ -19,7 +19,7 @@ import {
 } from '@mui/material/';
 
 import ProjectStudy from 'components/team/ProjectStudy';
-import ChattingDrawer from 'components/profile/ChattingDrawer';
+import ChattingDrawer from 'components/profile/chatting/ChattingDrawer';
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
@@ -64,10 +64,23 @@ export default function NavbarAccount() {
 
   const handleLogOut = () => {
     handleCloseUserMenu();
-    dispatch(logoutSuccess());
-    navigate('/');
-    Cookies.remove('access_token');
-    scrollToTop();
+    // dispatch(logoutSuccess());
+    // navigate('/');
+    // Cookies.remove('access_token');
+    // scrollToTop();
+
+    customAxios.authAxios
+      .post(`/users/logout`)
+      .then(response => {
+        dispatch(logoutSuccess());
+        navigate('/');
+        Cookies.remove('access_token');
+        Cookies.remove('REFRESH_TOKEN');
+        scrollToTop();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const settings = [
@@ -87,7 +100,6 @@ export default function NavbarAccount() {
     customAxios.authAxios
       .get(`/profile/${userPk}`)
       .then(response => {
-        // console.log(response.data);
         dispatch(
           handleUserProfile({
             userImg: response.data.profile.img,

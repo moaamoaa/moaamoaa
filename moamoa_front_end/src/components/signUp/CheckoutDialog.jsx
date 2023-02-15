@@ -57,9 +57,7 @@ export default function CheckoutDialog(props) {
   /** 맨 마지막 회원가입 버튼을 눌렀을 때 가입정보를 백앤드로 보냄*/
   const userSignUp = () => {
     if (password === '') {
-      console.log('비밀번호를 입력해주세요');
     } else {
-      console.log('회원가입전송');
       customAxios.basicAxios
         .post('/users/signup', {
           email: email,

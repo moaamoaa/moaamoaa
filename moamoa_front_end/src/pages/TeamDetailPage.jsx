@@ -1,13 +1,19 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import CustomAxios from 'utils/axios';
+import customAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleUpdate } from 'redux/team';
+import {
+  handleUpdate,
+  handleOpenTeamDetail,
+  handleCloseTeamDetail,
+} from 'redux/team';
+import { handleSuccessState } from 'redux/snack';
 import {
   Container,
   Paper,
   IconButton,
   Button,
+  ButtonBase,
   Stack,
   Grid,
   styled,
@@ -20,6 +26,7 @@ import Box from '@mui/material/Box';
 import Footer from 'components/common/footer/Footer';
 import useMobile from 'hooks/useMobile';
 import TeamApplyOffer from 'components/team/TeamApplyOffer';
+// import DetailCardList from 'components/common/card/DetailCardList';
 // axios 입력값을 불러와서 띄우기
 
 export default function TeamDetailPage() {
@@ -43,17 +50,48 @@ export default function TeamDetailPage() {
 
   // axios
   useEffect(() => {
-    CustomAxios.authAxios
+    customAxios.authAxios
       // 해당 id의 프로젝트 조회됨 axios 주소
       .get(`/projects/detail?projectId=${projectId}`)
       .then(response => {
         setDetail(response.data);
-        console.log(response.data);
-        console.log('조회성공!');
-        setCards(response.data.profileResultDtoList);
-        console.log(response.data.profileResultDtoList);
+        setCards(response.data.profileResultDtoList); // 팀원 카드 뿌릴 때 필요함
         setLead(response.data.leader);
-        console.log(response.data.leader);
+        const areaForm = response.data.areaForm;
+        const category = response.data.category;
+        const contents = response.data.contents;
+        const endDate = response.data.endDate;
+        const img = response.data.img;
+        const leader = response.data.leader; // true
+        const leaderId = response.data.leaderId;
+        const leaderNickname = response.data.leaderNickname;
+        const profileResultDtoList = response.data.profileResultDtoList;
+        const projectId = response.data.projectId;
+        const projectStatus = response.data.projectStatus;
+        const totalPeople = response.data.titotalPeopletle;
+        const projectTechStacks = response.data.projectTechStacks;
+        const startDate = response.data.startDate;
+        const title = response.data.title;
+        dispatch(
+          handleOpenTeamDetail({
+            // 리덕스 변수명에 맞게 리덕스에 저장
+            areaForm: areaForm,
+            category: category,
+            contents: contents,
+            endDate: endDate,
+            img: img,
+            leader: leader, // 리더인지 아닌지 판별해서 백에서 반환해주는 값
+            leaderId: leaderId, // leader ID
+            leaderNickname: leaderNickname,
+            profileResultDtoList: profileResultDtoList,
+            projectId: projectId,
+            projectStatus: projectStatus,
+            totalPeople: totalPeople,
+            projectTechStacks: projectTechStacks,
+            startDate: startDate,
+            title: title,
+          }),
+        );
       })
       .catch(error => {
         console.log(error.data);
@@ -62,14 +100,20 @@ export default function TeamDetailPage() {
   }, [projectId, isLoaded]);
 
   const handleApply = () => {
-    CustomAxios.authAxios({
-      method: 'POST',
-      url: '/apply',
-      data: { projectId: projectId },
-    })
+    customAxios
+      .authAxios({
+        method: 'POST',
+        url: '/apply',
+        data: { projectId: projectId },
+      })
       .then(response => {
-        console.log(response.data);
-        console.log('지원완료!');
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '지원이 완료 되었습니다.',
+            severity: 'success',
+          }),
+        );
       })
       .catch(error => {
         console.log(error);
@@ -85,7 +129,7 @@ export default function TeamDetailPage() {
           sx={{
             position: 'relative',
             color: '#fff',
-            mb: 4,
+            mb: 1,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -104,17 +148,12 @@ export default function TeamDetailPage() {
                   pr: { md: 0 },
                 }}
               >
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  color="inherit"
-                  gutterBottom
-                >
+                <Typography id="title" variant="h1" gutterBottom>
                   {/* 팀 이름  */}
                   {/* <SingleTextField ref={titleRef}></SingleTextField> */}
                   {detail.title}
                 </Typography>
-                <Typography variant="h4" color="inherit" paragraph>
+                <Typography variant="h3" color="inherit" paragraph>
                   {/* 팀장 이름 */}
                   {detail.leaderNickname}
                 </Typography>
@@ -129,21 +168,22 @@ export default function TeamDetailPage() {
             // justifyContent="flex-end"
             sx={{ pt: 4 }}
           >
-            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
+            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 버튼 보이게*/}
+            {/* 본인이 이미 팀에 속해 있어도 지원 보내기가 안 보여야할까?  */}
             {lead ? (
               <IconButton size="small" variant="contained" color="primary">
                 {/* 지원 및 제안 버튼 return 해주는 component */}
                 <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
               </IconButton>
             ) : (
-              <Button
+              <ButtonBase
                 size="small"
                 variant="contained"
                 color="primary"
                 onClick={handleApply}
               >
                 지원 보내기
-              </Button>
+              </ButtonBase>
             )}
 
             {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}
@@ -167,16 +207,13 @@ export default function TeamDetailPage() {
                 variant="contained"
                 color="primary"
                 onClick={async () => {
-                  console.log(projectId); // 잘 뜸
-                  await CustomAxios.authAxios
+                  await customAxios.authAxios
                     .delete('/projects', {
                       data: {
                         projectId: projectId,
                       },
                     })
                     .then(e => {
-                      console.log(e);
-                      console.log('삭제완료!');
                       alert('게시물이 삭제되었습니다.');
                       navigate('/'); // 삭제 후 홈으로 보내기 (프론트 주소)
                     });
@@ -254,7 +291,7 @@ export default function TeamDetailPage() {
       </Container>
       <Container fixed>
         <h2>팀원 소개</h2>
-        <CardList cards={cards} type="member"></CardList>
+        <CardList cards={cards} isDetail={true} type="member"></CardList>
       </Container>
       <Footer></Footer>
     </>
