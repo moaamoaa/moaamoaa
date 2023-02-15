@@ -83,7 +83,7 @@ export default function TeamSearchPage(props) {
 
   // reponse data로 넘어오는 값을 자식에게 넘겨줌
   const [searchResult, setSearchResult] = useState([]);
-  const [check, setCheck] = useState(false);
+  // const [check, setCheck] = useState(false);
 
   // 무한 스크롤 마지막 커서
   const cursorIdMember = useSelector(state => state.search.cursorIdMember);
@@ -92,7 +92,7 @@ export default function TeamSearchPage(props) {
 
   useEffect(() => {
     customAxios.basicAxios
-      .get('/search/profile?&size=12')
+      .get('/search/profile?&size=12&sort=hit,desc')
       .then(response => {
         setSearchResult(response.data);
         dispatch(
@@ -102,8 +102,8 @@ export default function TeamSearchPage(props) {
       .catch(error => {
         console.log(error.data);
       });
-    setCheck(true);
-  }, [check]);
+    // setCheck(true);
+  }, []);
 
   // 무한스크롤
   const [isFetching, setIsFetching] = useState(false);
@@ -130,7 +130,7 @@ export default function TeamSearchPage(props) {
     if (!isFetching) return;
     customAxios.basicAxios
       .get(
-        `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&size=12&cursorId=${cursorIdMember}`,
+        `/search/profile?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc&size=12&cursorId=${cursorIdMember}`,
       )
       .then(response => {
         setSearchResult(searchResult.concat(...response.data));
