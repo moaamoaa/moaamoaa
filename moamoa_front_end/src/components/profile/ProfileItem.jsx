@@ -43,8 +43,6 @@ export default function ProfileItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('지원 철회 완료!');
       })
       .catch(error => {
         console.log(error);
@@ -70,8 +68,6 @@ export default function ProfileItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('제안 수락 완료!');
       })
       .catch(error => {
         console.log(error);
@@ -97,8 +93,6 @@ export default function ProfileItem(props) {
             severity: 'success',
           }),
         );
-        console.log(response.data);
-        console.log('제안 거절 완료!');
       })
       .catch(error => {
         console.log(error);

@@ -5,7 +5,6 @@ export default function SearchFilterOffline(props) {
   const [region, setregion] = useState('');
   const handleRegion = event => {
     setregion(event.target.value);
-    console.log(event.target.value);
     props.handleRegion(event.target.value);
   };
   return (
