@@ -28,6 +28,7 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import customAxios from 'utils/axios';
 
 export default function CardItem(props) {
+  const projectId = useSelector(state => state.team.projectId);
   const leader = useSelector(state => state.team.leader);
   const leaderId = useSelector(state => state.team.leaderId);
   const userPk = useSelector(state => state.user.userPk);
@@ -55,61 +56,61 @@ export default function CardItem(props) {
   // 멤버 카드일 경우,
   // 권한위임하기 요청
   const handleRight = () => {
-    // if (props.type === 'member') {
-    //   customAxios
-    //     .authAxios({
-    //       method: 'PUT',
-    //       url: '/projects/leader',
-    //       data: {
-    //         projectId: 0, // detail페이지의 projectId 값
-    //         userId: props.card.id, // 권한 위임 당할 사람 member 카드 id
-    //       },
-    //     })
-    //     .then(response => {
-    //       dispatch(
-    //         handleSuccessState({
-    //           open: true,
-    //           message: '권한이 위임 되었습니다.',
-    //           severity: 'success',
-    //         }),
-    //       );
-    //       console.log(response.data);
-    //       console.log('권한 위임 완료!');
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // }
+    if (props.type === 'member') {
+      customAxios
+        .authAxios({
+          method: 'PUT',
+          url: '/projects/leader',
+          data: {
+            projectId: projectId, // detail페이지의 projectId 값
+            userId: props.card.id, // 권한 위임 당할 사람 member 카드 id
+          },
+        })
+        .then(response => {
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '권한이 위임 되었습니다.',
+              severity: 'success',
+            }),
+          );
+          console.log(response.data);
+          console.log('권한 위임 완료!');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   // 멤버 카드일 경우,
   // 강퇴하기 요청
   const handleDrop = () => {
-    // if (props.type === 'member') {
-    //   customAxios
-    //     .authAxios({
-    //       method: 'DELETE',
-    //       url: '/projects/member',
-    //       data: {
-    //         projectId: 0, // detail페이지의 projectId 값
-    //         userId: props.card.id, // 강퇴 당할 사람 member 카드 id
-    //       },
-    //     })
-    //     .then(response => {
-    //       dispatch(
-    //         handleSuccessState({
-    //           open: true,
-    //           message: '팀원이 강퇴되었습니다.',
-    //           severity: 'success',
-    //         }),
-    //       );
-    //       console.log(response.data);
-    //       console.log('팀원 강퇴 완료!');
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // }
+    if (props.type === 'member') {
+      customAxios
+        .authAxios({
+          method: 'DELETE',
+          url: '/projects/member',
+          data: {
+            projectId: projectId, // detail페이지의 projectId 값
+            userId: props.card.id, // 강퇴 당할 사람 member 카드 id
+          },
+        })
+        .then(response => {
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '팀원이 강퇴되었습니다.',
+              severity: 'success',
+            }),
+          );
+          console.log(response.data);
+          console.log('팀원 강퇴 완료!');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   // 리턴
@@ -173,7 +174,7 @@ export default function CardItem(props) {
       </MoaCard>
     );
   } else if (props.type === 'member') {
-    // console.log(props.card.projectId);
+    // 본인 팀이면 콘솔 안 찍힘
     console.log(props.isDetail);
     console.log(leader);
     console.log(props.card.id);
