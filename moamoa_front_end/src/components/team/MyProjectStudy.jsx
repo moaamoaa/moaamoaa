@@ -92,7 +92,9 @@ export default function MyProjectStudy() {
 
   const list = anchor => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
+      sx={{
+        width: anchor === 'top' || isMobile ? '100vw' : 360,
+      }}
       role="presentation"
       // onClick={toggleDrawer(anchor, false)}
       // onKeyDown={toggleDrawer(anchor, false)}
@@ -155,12 +157,12 @@ export default function MyProjectStudy() {
   );
 
   return (
-    <div>
+    <>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
           <IconButton
             size="small"
-            variant="contained"
+            variant="outlined"
             onClick={toggleDrawer(anchor, true)}
             sx={{
               mr: isMobile ? 0 : 2,
@@ -179,6 +181,6 @@ export default function MyProjectStudy() {
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
+    </>
   );
 }
