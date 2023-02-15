@@ -19,9 +19,6 @@ export default function ChattingRoom() {
   // 상대 아이디
   const profile = useSelector(state => state.profile.userProfile[0].id);
 
-  console.log(userId);
-  console.log(profile);
-
   // 오른쪽에 사이드바 열리는
   const [state, setState] = React.useState({
     right: false,
