@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import {
   Box,
   Drawer,
-  Button,
+  ButtonBase,
   List,
   Divider,
   ListItemButton,
@@ -158,7 +158,7 @@ export default function ProfileApplyOffer() {
     <div>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <Button
+          <ButtonBase
             size="small"
             variant="contained"
             onClick={toggleDrawer(anchor, true)}
@@ -168,7 +168,7 @@ export default function ProfileApplyOffer() {
             }}
           >
             지원 및 제안
-          </Button>
+          </ButtonBase>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

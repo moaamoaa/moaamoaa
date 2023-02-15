@@ -2,17 +2,14 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import customAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  handleUpdate,
-  handleOpenTeamDetail,
-  handleCloseTeamDetail,
-} from 'redux/team';
+import { handleUpdate, handleOpenTeamDetail } from 'redux/team';
 import { handleSuccessState } from 'redux/snack';
 import {
   Container,
   Paper,
   IconButton,
   Button,
+  ButtonBase,
   Stack,
   Grid,
   styled,
@@ -57,7 +54,7 @@ export default function TeamDetailPage() {
         console.log(response.data);
         console.log('조회성공!');
         console.log(response.data.profileResultDtoList);
-        setCards(response.data.profileResultDtoList); // 제안하기에 필요함
+        setCards(response.data.profileResultDtoList); // 멤버 카드 뿌릴 때, 필요함
         console.log(response.data); // 전부 저장
         console.log(response.data.projectId);
         // setCards(response.data.projectId); // 강퇴 권한 위임에 필요함 = 페이지 로딩이 안 됨 : 형식 문제
@@ -183,21 +180,22 @@ export default function TeamDetailPage() {
             // justifyContent="flex-end"
             sx={{ pt: 4 }}
           >
-            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
+            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 버튼 보이게*/}
+            {/* 본인이 이미 팀에 속해 있어도 지원 보내기가 안 보여야할까?  */}
             {lead ? (
               <IconButton size="small" variant="contained" color="primary">
                 {/* 지원 및 제안 버튼 return 해주는 component */}
                 <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
               </IconButton>
             ) : (
-              <Button
+              <ButtonBase
                 size="small"
                 variant="contained"
                 color="primary"
                 onClick={handleApply}
               >
                 지원 보내기
-              </Button>
+              </ButtonBase>
             )}
 
             {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}

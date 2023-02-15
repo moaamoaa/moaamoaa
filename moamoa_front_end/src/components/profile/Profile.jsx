@@ -27,6 +27,7 @@ import ProfileApplyOffer from './ProfileApplyOffer';
 import { PhotoCamera } from '@mui/icons-material';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { handleSuccessState } from 'redux/snack';
+import ChattingRoom from './chatting/ChattingRoom';
 
 export default function Profile(props) {
   const isMobile = useMobile();
@@ -236,7 +237,7 @@ export default function Profile(props) {
       <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
     </ProfileButton>,
     <ProfileButton key="chat" variant="outlined">
-      채팅
+      <ChattingRoom></ChattingRoom>
     </ProfileButton>,
   ];
 
