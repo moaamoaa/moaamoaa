@@ -79,7 +79,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource(){
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.addAllowedOrigin("*");
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","https://moaamoaa.com"));
 		configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setAllowCredentials(true); // 자격증명과 함께 요청 여부 (Authorization로 사용자 인증 사용 시 true)
