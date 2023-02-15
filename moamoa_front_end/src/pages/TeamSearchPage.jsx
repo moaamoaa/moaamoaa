@@ -10,6 +10,7 @@ import {
   Avatar,
 } from '@mui/material/';
 import customAxios from 'utils/axios';
+import useMobile from 'hooks/useMobile';
 // 검색 상단 컴포넌트
 import SearchFilterCategory from 'components/team/searchFilter/SearchFilterCategory';
 import SearchFilterStatus from 'components/team/searchFilter/SearchFilterSatus';
@@ -22,6 +23,7 @@ import { handleCursorId } from 'redux/search';
 import CardList from 'components/common/card/CardList';
 
 export default function TeamSearchPage(props) {
+  const isMobile = useMobile();
   // 팀생성 링크
   const navigate = useNavigate();
   const goToCreate = () => {
@@ -216,30 +218,45 @@ export default function TeamSearchPage(props) {
       <Button color="secondary" variant="contained" onClick={goToCreate}>
         팀을 생성하시겠습니까?
       </Button>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <div onKeyUp={search}>
-            <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
-          </div>
-        </Grid>
-        <Grid container item xs={8} spacing={1}>
-          <Grid item xs={4}>
-            <SearchFilterTech
-              handleTechstack={handleTechstack}
-            ></SearchFilterTech>
+      {isMobile ? (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <div onKeyUp={search}>
+              <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
+            </div>
           </Grid>
-          <Grid item xs={4}>
-            <SearchFilterCategory
-              handleCategory={handleCategory}
-            ></SearchFilterCategory>
-          </Grid>
-          <Grid item xs={4}>
-            <SearchFilterStatus
-              handleStatus={handleStatus}
-            ></SearchFilterStatus>
+          <Grid container item xs={12} spacing={1}>
+            <Grid item xs={12}>
+              <SearchFilterTech handleTechstack={handleTechstack} />
+            </Grid>
+            <Grid item xs={12}>
+              <SearchFilterCategory handleCategory={handleCategory} />
+            </Grid>
+            <Grid item xs={12}>
+              <SearchFilterStatus handleStatus={handleStatus} />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      ) : (
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <div onKeyUp={search}>
+              <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
+            </div>
+          </Grid>
+          <Grid container item xs={8} spacing={1}>
+            <Grid item xs={4}>
+              <SearchFilterTech handleTechstack={handleTechstack} />
+            </Grid>
+            <Grid item xs={4}>
+              <SearchFilterCategory handleCategory={handleCategory} />
+            </Grid>
+            <Grid item xs={4}>
+              <SearchFilterStatus handleStatus={handleStatus} />
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
 
       {status === 'OFFLINE' ? (
         <Box sx={{ paddingTop: '1rem' }}>

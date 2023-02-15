@@ -45,7 +45,7 @@ export default function ChattingRoom() {
         <h1>누구누구님과 채팅을 시작합니다</h1>
       </Paper>
       <Paper>
-        <h2>{name}안녕?</h2>
+        <h2>안녕?</h2>
       </Paper>
       <TextField></TextField>
       <Button>전송</Button>
