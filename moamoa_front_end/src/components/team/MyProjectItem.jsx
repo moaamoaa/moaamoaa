@@ -23,7 +23,7 @@ export default function MyProjectItem(props) {
     // 팀 관리에서 팀을 눌렀을 때 이동할 프론트 디테일 페이지 주소
     navigate(`/TeamDetailPage/?projectId=${props.projectstudy.projectId}`);
   };
-  // 팀에서 개인에게 제안 보내기
+  // 팀에서 개인에게 제안 보내기 ( + 아이콘 클릭)
   const handleOffer = () => {
     console.log(props.projectstudy.projectId);
     // 카드의 props.type이 member이면 props.card.id가 userId임

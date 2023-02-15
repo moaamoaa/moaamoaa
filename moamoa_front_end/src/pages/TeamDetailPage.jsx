@@ -182,7 +182,8 @@ export default function TeamDetailPage() {
             // justifyContent="flex-end"
             sx={{ pt: 4 }}
           >
-            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 */}
+            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 버튼 보이게*/}
+            {/* 본인이 이미 팀에 속해 있어도 지원 보내기가 안 보여야할까?  */}
             {lead ? (
               <IconButton size="small" variant="contained" color="primary">
                 {/* 지원 및 제안 버튼 return 해주는 component */}
