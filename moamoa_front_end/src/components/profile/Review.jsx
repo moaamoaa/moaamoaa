@@ -17,7 +17,6 @@ import customAxios from 'utils/axios';
 import scrollToTop from 'utils/scrollToTop';
 
 function Review(props) {
-  console.log(props);
   const userPk = useSelector(state => state.user.userPk);
   const [isEdit, setIsEdit] = useState(false);
   const [context, setContext] = useState(
@@ -70,7 +69,7 @@ function Review(props) {
         .put('/profile/review', {
           id: props.review.id,
           context: context,
-          profileId: userPk,
+          profileId: props.review.profileId,
         })
         .then(response => {
           dispatch(

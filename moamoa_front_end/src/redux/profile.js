@@ -15,12 +15,12 @@ const initialStateValue = {
     },
     {
       nickname: '',
-      profileOnOffStatus: '',
+      profileOnOffStatus: 'ALL',
       sites: [
-        { link: '', name: 'github' },
-        { link: '', name: 'tistory' },
-        { link: '', name: 'velog' },
-        { link: '', name: 'project' },
+        { link: '', name: 'Github' },
+        { link: '', name: 'Tistory' },
+        { link: '', name: 'Velog' },
+        { link: '', name: 'Custom' },
       ],
       areas: [],
       techStacks: [],
@@ -35,7 +35,6 @@ const profileSlice = createSlice({
   initialState: initialStateValue,
   reducers: {
     handleProfilePk: (state, action) => {
-      console.log(action.payload.id);
       state.userProfile[0].id = action.payload.id;
       state.areas = [];
       state.reviews = [];
@@ -51,7 +50,6 @@ const profileSlice = createSlice({
       state.sideProjects = action.payload.sideProjects;
     },
     handleSuccessReview: (state, action) => {
-      console.log(action.payload.reviews);
       state.reviews = action.payload.reviews;
     },
     handleChangeState: (state, action) => {
@@ -61,10 +59,11 @@ const profileSlice = createSlice({
         action.payload.profileOnOffStatus;
     },
     handleEditProfile: (state, action) => {
-      console.log(action.payload);
       state.userProfile[1].areas = action.payload.areas;
       state.userProfile[1].sites = action.payload.sites;
       state.userProfile[1].techStacks = action.payload.techStacks;
+      state.userProfile[1].profileOnOffStatus =
+        action.payload.profileOnOffStatus;
     },
     profileOpenSuccess: (state, action) => {
       state.areas = action.payload.profile.areas;
@@ -81,7 +80,7 @@ const profileSlice = createSlice({
         action.payload.profile.profile.profileSearchStatus;
 
       state.sideProjects = action.payload.profile.sideprojects;
-      state.techStacks = action.payload.profile.techStacks;
+      state.techStacks = action.payload.profile.techstacks;
     },
     profileEditSuccess: (state, action) => {
       state.areas = action.payload.areas;
@@ -93,17 +92,6 @@ const profileSlice = createSlice({
         action.payload.userProfile.profileOnOffStatus;
 
       state.sideProjects = action.payload.userProfile;
-    },
-    searchStatusChange: (state, action) => {
-      if (action.payload.profileSearchStatus === 'ALL') {
-        state.userProfile[0].profileSearchStatus = 'ONLINE';
-      } else if (action.payload.profileSearchStatus === 'ONLINE') {
-        state.userProfile[0].profileSearchStatus = 'OFFLINE';
-      } else if (action.payload.profileSearchStatus === 'OFFLINE') {
-        state.userProfile[0].profileSearchStatus = 'NONE';
-      } else if (action.payload.profileSearchStatus === 'NONE') {
-        state.userProfile[0].profileSearchStatus = 'ALL';
-      }
     },
   },
 });
@@ -119,7 +107,6 @@ export const {
   handleChangeState,
   profileCloseSuccess,
   profileEditSuccess,
-  searchStatusChange,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

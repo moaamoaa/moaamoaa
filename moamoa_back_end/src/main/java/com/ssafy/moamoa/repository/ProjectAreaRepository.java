@@ -11,5 +11,7 @@ import com.ssafy.moamoa.domain.entity.ProjectArea;
 import org.springframework.data.repository.query.Param;
 
 public interface ProjectAreaRepository extends JpaRepository<ProjectArea, Long> , ProjectAreaRepositoryCustom {
+
+	Optional<ProjectArea> findByProject_Id(Long projectId);
 }
 

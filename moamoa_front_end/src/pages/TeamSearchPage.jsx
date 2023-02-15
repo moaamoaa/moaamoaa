@@ -17,9 +17,9 @@ import SearchFilterTech from 'components/team/searchFilter/SearchFilterTech';
 import TeamSearchbar from 'components/team/searchFilter/TeamSearchbar';
 import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOffline';
 
-import TeamSearchList from 'components/common/card/TeamSearchList';
 import { useNavigate } from 'react-router-dom';
 import { handleCursorId } from 'redux/search';
+import CardList from 'components/common/card/CardList';
 
 export default function TeamSearchPage(props) {
   // 팀생성 링크
@@ -54,7 +54,6 @@ export default function TeamSearchPage(props) {
     const newStackId = [...stackId, event.id];
     setTechNameList([...new Set(newTechNameList)]);
     setStackId([...new Set(newStackId)]);
-    // console.log(value);
   };
 
   // box에 있는 기술 스택 클릭시 제거
@@ -91,7 +90,7 @@ export default function TeamSearchPage(props) {
 
   // redux에 담아둔 tech스택의 array를 저장
   const [filterArray, setFilterArray] = useState([]);
-
+  // const [check, setCheck] = useState(false);
   //redux
   const tech = useSelector(state => state.search.tech);
   const isLogged = useSelector(state => state.user.isLogged);
@@ -106,9 +105,8 @@ export default function TeamSearchPage(props) {
 
   useEffect(() => {
     customAxios.basicAxios
-      .get('/search/project?&size=12')
+      .get('/search/project?&size=12&sort=hit,desc')
       .then(response => {
-        console.log(response);
         setSearchResult(response.data);
         dispatch(handleCursorId({ cursorId: response.data[11].cursorId }));
       })
@@ -146,14 +144,14 @@ export default function TeamSearchPage(props) {
         `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc&size=12&cursorId=${cursorId}`,
       )
       .then(response => {
-        console.log(response);
         setSearchResult(searchResult.concat(...response.data));
+        setIsFetching(false);
+
         dispatch(
           handleCursorId({
             cursorId: response.data[response.data.length - 1].cursorId,
           }),
         );
-        setIsFetching(false);
       })
       .catch(error => {
         console.log(error.data);
@@ -164,23 +162,41 @@ export default function TeamSearchPage(props) {
 
   const search = () => {
     axiosStackId = stackId.join(',');
-    // console.log(axiosStackId);
-    customAxios.basicAxios
-      .get(
-        `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
-      )
-      .then(response => {
-        setSearchResult([...response.data]);
-        dispatch(
-          handleCursorId({
-            cursorId: response.data[response.data.length - 1].cursorId,
-          }),
-        );
-        setIsFetching(false);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (window.event.keyCode === 13) {
+      customAxios.basicAxios
+        .get(
+          `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
+        )
+        .then(response => {
+          setSearchResult([...response.data]);
+          dispatch(
+            handleCursorId({
+              cursorId: response.data[response.data.length - 1].cursorId,
+            }),
+          );
+          setIsFetching(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      customAxios.basicAxios
+        .get(
+          `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc`,
+        )
+        .then(response => {
+          setSearchResult([...response.data]);
+          dispatch(
+            handleCursorId({
+              cursorId: response.data[response.data.length - 1].cursorId,
+            }),
+          );
+          setIsFetching(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {
@@ -197,14 +213,16 @@ export default function TeamSearchPage(props) {
 
   return (
     <Container fixed sx={{ paddingTop: '4rem' }}>
-      <Button onClick={goToCreate}>팀을 생성하시겠습니까?</Button>
+      <Button color="secondary" variant="contained" onClick={goToCreate}>
+        팀을 생성하시겠습니까?
+      </Button>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <div onKeyPress={search}>
+          <div onKeyUp={search}>
             <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
           </div>
         </Grid>
-        <Grid item xs={8} container spacing={1}>
+        <Grid container item xs={8} spacing={1}>
           <Grid item xs={4}>
             <SearchFilterTech
               handleTechstack={handleTechstack}
@@ -274,13 +292,14 @@ export default function TeamSearchPage(props) {
         <Button
           variant="contained"
           onClick={search}
+          color="secondary"
           sx={{ borderRadius: '0 .5rem .5rem 0' }}
         >
           검색
         </Button>
       </Box>
       <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
-        <TeamSearchList cards={searchResult}></TeamSearchList>
+        <CardList cards={searchResult} type="team"></CardList>
       </Container>
     </Container>
   );

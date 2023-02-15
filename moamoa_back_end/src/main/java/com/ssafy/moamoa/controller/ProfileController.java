@@ -1,5 +1,6 @@
 package com.ssafy.moamoa.controller;
 
+import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import com.ssafy.moamoa.domain.dto.*;
 import com.ssafy.moamoa.service.ProfileService;
 import com.ssafy.moamoa.service.ReviewService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.HashMap;
@@ -39,6 +41,8 @@ public class ProfileController {
 
     private final SideProjectService sideProjectService;
 
+    private final JwtTokenProvider jwtTokenProvider;
+
     // 검색 여부 변경
     @ApiOperation(value = "검색 여부 변경", notes = "검색 여부를 (ALL -> PROJECT -> STUDY -> NONE ) 순으로 변경해줍니다. ")
     @PutMapping("/search-state")
@@ -57,7 +61,11 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "Internal server error")})
     @GetMapping("/{profileId}")
     public ResponseEntity<?> getProfilePage(@ApiParam(value = "profileId") @PathVariable Long profileId,
-                                            Authentication authentication) {
+                                            Authentication authentication, HttpServletRequest request) {
+        // access token 만료
+        String accessToken = jwtTokenProvider.resolveToken(request);
+        jwtTokenProvider.getExpiration(accessToken);
+
         boolean isValidUser = profileService.checkDeletedUser(profileId);
         ProfilePageForm profilePageForm = null;
         HttpStatus status = null;

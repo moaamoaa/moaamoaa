@@ -11,6 +11,8 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.UiConfiguration;
+import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
@@ -35,5 +37,11 @@ public class SwaggerConfig extends ResponseEntityExceptionHandler implements Web
 			.description("MOAMOA API Documentation") // Swagger UI에서 대표 설명을 설정합니다.
 			.version("1.0") // Swagger UI에서 API의 버전 정보를 설정합니다.
 			.build();
+	}
+
+	@Bean
+	public UiConfiguration tryItOutConfig() {
+		final String[] methodsWithTryItOutButton = { "get" };
+		return UiConfigurationBuilder.builder().supportedSubmitMethods(methodsWithTryItOutButton).build();
 	}
 }

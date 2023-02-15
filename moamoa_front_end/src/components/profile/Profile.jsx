@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import CardList from 'components/common/card/CardList';
+import MyProjectStudy from 'components/team/MyProjectStudy';
 import {
   Button,
   Typography,
@@ -15,20 +16,21 @@ import {
   Fade,
   Divider,
   Avatar,
+  IconButton,
 } from '@mui/material';
 
-import { searchStatusChange } from 'redux/profile';
 import { useNavigate } from 'react-router-dom';
 import scrollToTop from 'utils/scrollToTop';
 import customAxios from 'utils/axios';
 import useMobile from 'hooks/useMobile';
+import ProfileApplyOffer from './ProfileApplyOffer';
+import { PhotoCamera } from '@mui/icons-material';
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { handleSuccessState } from 'redux/snack';
+import ChattingRoom from './chatting/ChattingRoom';
 
 export default function Profile(props) {
   const isMobile = useMobile();
-  const [badgeInfo, setBadgeInfo] = useState({
-    color: 'primary',
-    context: '온라인 오프라인 팀을 구하고 있습니다.',
-  });
 
   const userPk = useSelector(state => state.user.userPk);
 
@@ -36,7 +38,13 @@ export default function Profile(props) {
   const techStacks = useSelector(state => state.profile.techStacks);
   const userProfile = useSelector(state => state.profile.userProfile[0]);
   const updateProfile = useSelector(state => state.profile.userProfile[1]);
-  const [image, setImage] = useState(userProfile.img);
+  const [previewImage, setPreviewImage] = useState(userProfile.img);
+  const [image, setImage] = useState('');
+  const [updateNickname, setUpdateNickname] = useState('');
+  const searchstatus = useSelector(
+    state => state.profile.userProfile[0].profileSearchStatus,
+  );
+  const [badgeInfo, setBadgeInfo] = useState({});
 
   const navigate = useNavigate();
 
@@ -49,32 +57,75 @@ export default function Profile(props) {
 
   const handleOpenOfferList = () => {};
 
+  const handleNickname = event => {
+    setUpdateNickname(event.target.value);
+  };
+
   const handleEditSuccess = () => {
-    const formData = new FormData();
-
-    formData.append('file', image);
-
-    console.log(updateProfile);
-    const value = {
-      areas: updateProfile.areas,
-      nickname: updateProfile.nickname,
-      sites: updateProfile.sites,
-      techstacks: updateProfile.techStacks,
-    };
-    const blob = new Blob([JSON.stringify(value)], {
-      type: 'application/json',
-    });
-    formData.append('projectForm', blob);
-
-    customAxios.imageAxios
-      .post('/profile', {
-        data: formData,
-      })
+    if (updateNickname.length < 2) {
+      dispatch(
+        handleSuccessState({
+          open: true,
+          message: '2글자 이상의 닉네임을 입력해 주세요.',
+          severity: 'error',
+        }),
+      );
+      return;
+    }
+    customAxios.basicAxios
+      .get(`/users/nickname?nickname=${updateNickname}`)
       .then(response => {
-        console.log(response);
+        const formData = new FormData();
+
+        if (previewImage !== userProfile.img) {
+          formData.append('file', image);
+        } else {
+          formData.append('file', null);
+        }
+
+        const updateUserProfile = {
+          userId: userProfile.id,
+          nickname: updateNickname,
+          profileOnOffStatus: updateProfile.profileOnOffStatus,
+          context: userProfile.context,
+        };
+
+        const value = {
+          profile: updateUserProfile,
+          techstacks: updateProfile.techStacks,
+          sites: updateProfile.sites,
+          areas: updateProfile.areas,
+        };
+
+        const blob = new Blob([JSON.stringify(value)], {
+          type: 'application/json',
+        });
+        formData.append('profilePageForm', blob);
+
+        customAxios.imageAxios
+          .post('/profile', formData)
+          .then(response => {
+            navigate('/profilepage');
+            scrollToTop();
+          })
+          .catch(error => {
+            dispatch(
+              handleSuccessState({
+                open: true,
+                message: '비어 있는 값이 존재합니다.',
+                severity: 'error',
+              }),
+            );
+          });
       })
       .catch(error => {
-        console.log(error);
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '중복된 닉네임이 존재합니다.',
+            severity: 'error',
+          }),
+        );
       });
   };
 
@@ -86,48 +137,88 @@ export default function Profile(props) {
   const handleBadge = () => {
     if (userPk !== userProfile.id) return;
 
-    if (badgeInfo.color === 'primary') {
+    customAxios.authAxios
+      .put('/profile/search-state', {
+        id: userPk,
+        searchstatus: badgeInfo.name,
+      })
+      .then(response => {})
+      .catch(error => {
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '검색 상태 변경에 실패했습니다.',
+            severity: 'error',
+          }),
+        );
+      });
+
+    if (badgeInfo.name === 'ALL') {
       setBadgeInfo({
+        name: 'PROJECT',
         color: 'secondary',
-        context: '온라인 팀을 구하고 있습니다.',
+        context: '프로젝트 팀을 구하고 있습니다.',
       });
-    } else if (badgeInfo.color === 'secondary') {
+    } else if (badgeInfo.name === 'PROJECT') {
       setBadgeInfo({
+        name: 'STUDY',
         color: 'success',
-        context: '오프라인 팀을 구하고 있습니다.',
+        context: '스터디 팀을 구하고 있습니다.',
       });
-    } else if (badgeInfo.color === 'success') {
+    } else if (badgeInfo.name === 'STUDY') {
       setBadgeInfo({
+        name: 'NONE',
         color: 'warning',
         context: '팀을 구하고 있지 않습니다.',
       });
-    } else if (badgeInfo.color === 'warning') {
+    } else if (badgeInfo.name === 'NONE') {
       setBadgeInfo({
+        name: 'ALL',
         color: 'primary',
-        context: '온라인 오프라인 팀을 구하고 있습니다.',
+        context: '모든 팀을 구하고 있습니다.',
       });
     }
-    dispatch(
-      searchStatusChange({
-        profileSearchStatus: userProfile.profileSearchStatus,
-      }),
-    );
   };
+
+  useEffect(() => {
+    if (searchstatus === 'ALL') {
+      setBadgeInfo({
+        name: 'ALL',
+        color: 'primary',
+        context: '모든 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'PROJECT') {
+      setBadgeInfo({
+        name: 'PROJECT',
+        color: 'secondary',
+        context: '프로젝트 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'STUDY') {
+      setBadgeInfo({
+        name: 'STUDY',
+        color: 'success',
+        context: '스터디 팀을 구하고 있습니다.',
+      });
+    } else if (searchstatus === 'NONE') {
+      setBadgeInfo({
+        name: 'NONE',
+        color: 'warning',
+        context: '팀을 구하고 있지 않습니다.',
+      });
+    }
+  }, [searchstatus]);
 
   const handleDrop = event => {
     event.preventDefault();
     const files = event.dataTransfer.files;
-    console.log(files);
-    if (files && files.length > 0) {
-      const file = files[0];
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = event => {
-          setImage(event.target.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    }
+    setPreviewImage(URL.createObjectURL(files[0]));
+    setImage(files[0]);
+  };
+
+  const handleChange = event => {
+    const files = event.target.files;
+    setPreviewImage(URL.createObjectURL(files[0]));
+    setImage(files[0]);
   };
 
   const userButtons = [
@@ -135,16 +226,16 @@ export default function Profile(props) {
       수정
     </ProfileButton>,
     <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
-      신청 목록
+      <ProfileApplyOffer isMobile={isMobile}></ProfileApplyOffer>
     </ProfileButton>,
   ];
 
   const otherButtons = [
     <ProfileButton key="offer" variant="outlined">
-      제안
+      <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
     </ProfileButton>,
     <ProfileButton key="chat" variant="outlined">
-      채팅
+      <ChattingRoom></ChattingRoom>
     </ProfileButton>,
   ];
 
@@ -160,7 +251,6 @@ export default function Profile(props) {
   if (props.type === 'edit') {
     return (
       <>
-        {/* 반응형 md 이상 */}
         <MoaProfile
           component="article"
           sx={{
@@ -170,19 +260,21 @@ export default function Profile(props) {
             padding: '0 !important',
           }}
         >
-          <Grid container display={'flex'}>
+          <Grid
+            container
+            display={'flex'}
+            onDrop={handleDrop}
+            onDragOver={event => event.preventDefault()}
+          >
             <Grid item>
               <Avatar
-                onDrop={handleDrop}
-                onDragOver={event => event.preventDefault()}
-                src={image}
+                src={previewImage}
                 variant="circular"
                 sx={{
                   width: { md: '280px', xl: '320px' },
                   height: { md: '280px', xl: '320px' },
                   boxShadow: '0px 0px 10px 4px #888888',
                   opacity: 0.5,
-                  backgroundColor: 'rgba(0, 0, 0, 1)',
                 }}
               />
             </Grid>
@@ -191,10 +283,10 @@ export default function Profile(props) {
               container
               sx={{
                 position: 'absolute',
+                top: { md: '140px', xl: '160px' },
+                left: '50%',
                 display: 'flex',
                 fontWeight: '600',
-                top: { md: '33%', xl: '35%' },
-                left: '50%',
                 transform: 'translate(-50%,-50%)',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -231,40 +323,127 @@ export default function Profile(props) {
             </Grid>
           </Grid>
 
+          <Grid
+            container
+            display={'flex'}
+            alignItems={'center'}
+            height={'5rem'}
+          >
+            <Grid item xs={4} display="flex" justifyContent={'end'}>
+              <input
+                accept="image/*"
+                type="file" // 파일
+                id="select-image"
+                style={{ display: 'none' }}
+                onChange={handleChange}
+                multiple="multiple"
+              />
+              <label htmlFor="select-image">
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture"
+                  component="span"
+                >
+                  <input hidden accept="image/*" type="file" />
+                  <PhotoCamera fontSize="small" />
+                </IconButton>
+              </label>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography color="primary" variant="body1" textAlign={'center'}>
+                이미지 변경
+              </Typography>
+            </Grid>
+            {/* <Grid item xs={1}>
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <ClearRoundedIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs={5}>
+              <Typography variant="body1" color="initial" textAlign={'center'}>
+                변경 취소
+              </Typography>
+            </Grid> */}
+          </Grid>
+
           <TextField
             fullWidth
             placeholder={userProfile.nickname}
-            onChange={null}
+            value={updateNickname}
+            onChange={handleNickname}
           />
 
           <ProfileButtonContainer>{editButtons}</ProfileButtonContainer>
         </MoaProfile>
 
-        {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
-          sx={{ display: { xs: 'block', md: 'none' } }}
+          sx={{
+            display: { xs: 'block', md: 'none' },
+          }}
         >
           <Grid container spacing={10} sx={{ alignItems: 'center' }}>
             <Grid item xs={4}>
               <Avatar
-                src={image}
+                src={previewImage}
                 variant="circular"
                 sx={{
                   width: isMobile ? '100px' : '160px',
                   height: isMobile ? '100px' : '160px',
                   boxShadow: '0px 0px 10px 0px #888888',
                   opacity: 0.5,
-                  backgroundColor: 'rgba(0, 0, 0, 1)',
                 }}
               />
             </Grid>
-            <Grid item xs={8}>
-              <TextField
-                fullWidth
-                placeholder={userProfile?.nickname}
-                onChange={null}
-              />
+
+            <Grid item container xs={8}>
+              <Grid
+                container
+                item
+                xs={12}
+                sx={{ display: 'flex', alignItems: 'center' }}
+              >
+                <Grid item xs={2}>
+                  <input
+                    accept="image/*"
+                    type="file" // 파일
+                    id="select-image"
+                    style={{ display: 'none' }}
+                    onChange={handleChange}
+                    multiple="multiple"
+                  />
+                  <label htmlFor="select-image">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="span"
+                    >
+                      <input hidden accept="image/*" type="file" />
+                      <PhotoCamera fontSize="small" />
+                    </IconButton>
+                  </label>
+                </Grid>
+                <Grid item xs={10}>
+                  <Typography
+                    variant="caption"
+                    color="primary"
+                    textAlign={'center'}
+                  >
+                    이미지 변경
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  placeholder={userProfile.nickname}
+                  onChange={handleNickname}
+                />
+              </Grid>
             </Grid>
           </Grid>
 
@@ -275,7 +454,6 @@ export default function Profile(props) {
   } else {
     return (
       <>
-        {/* 반응형 md 이상 */}
         <MoaProfile
           component="article"
           sx={{
@@ -321,7 +499,7 @@ export default function Profile(props) {
             </Badge>
           </Tooltip>
 
-          <Typography variant="h4" color="initial" fontWeight={900} margin={2}>
+          <Typography variant="h4" color="initial" fontWeight={900} marginY={1}>
             {userProfile.nickname}
           </Typography>
 
@@ -334,7 +512,6 @@ export default function Profile(props) {
           </ProfileButtonContainer>
         </MoaProfile>
 
-        {/* 반응형 md 미만 */}
         <MoaProfile
           component="article"
           sx={{ display: { xs: 'block', md: 'none' } }}

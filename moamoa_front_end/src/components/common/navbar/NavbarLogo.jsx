@@ -25,11 +25,11 @@ function ResponsiveAppBar() {
   return (
     <>
       <Typography
-        variant={isMobile ? 'body1' : 'h6'}
+        id="title"
         noWrap
         onClick={handleOpenHome}
         sx={{
-          fontFamily: 'monospace',
+          fontSize: isMobile ? '.1rem' : '1rem',
           fontWeight: 600,
           letterSpacing: '.2rem',
           color: 'inherit',

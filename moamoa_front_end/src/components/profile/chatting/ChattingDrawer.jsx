@@ -6,12 +6,14 @@ import {
   Drawer,
   IconButton,
   List,
+  // Divider,
   ListItemButton,
   ListSubheader,
+  // Collapse,
 } from '@mui/material/';
 import ChatIcon from '@mui/icons-material/Chat';
 import useMobile from 'hooks/useMobile';
-import ChattingList from 'components/profile/ChattingList';
+import ChattingList from 'components/profile/chatting/ChattingList';
 
 export default function ChattingDrawer() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,11 +23,9 @@ export default function ChattingDrawer() {
   useEffect(() => {
     if (isLoaded) {
       CustomAxios.authAxios
-        .get('/projects/project') //채팅 조회하는 api로 바꿔주기!!!
+        .get('/projects/project') //채팅 목록 조회하는 api로 바꿔주기!!!
         .then(response => {
           setChats(response.data);
-          console.log(response.data);
-          console.log('채팅 목록 조회 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -54,8 +54,8 @@ export default function ChattingDrawer() {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -91,7 +91,7 @@ export default function ChattingDrawer() {
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
-            onClick={toggleDrawer(anchor, !state[anchor])}
+            // onClick={toggleDrawer(anchor, !state[anchor])}
           >
             {list(anchor)}
           </Drawer>

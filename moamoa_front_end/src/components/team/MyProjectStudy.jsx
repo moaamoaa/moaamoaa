@@ -5,27 +5,24 @@ import customAxios from 'utils/axios';
 import {
   Box,
   Drawer,
-  IconButton,
+  ButtonBase,
   List,
   Divider,
-  ListItemButton,
   ListItemIcon,
+  ListItemButton,
   ListItemText,
   ListSubheader,
   Collapse,
-  Grid,
 } from '@mui/material/';
 
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import Diversity3Icon from '@mui/icons-material/Diversity3';
 import useMobile from 'hooks/useMobile';
-import ProjectList from 'components/team/ProjectList';
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import MyProjectList from 'components/team/MyProjectList';
 import { useSelector } from 'react-redux';
 
-export default function ProjectStudy() {
+export default function MyProjectStudy() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
   const [studies, setStudies] = useState([]);
@@ -92,7 +89,9 @@ export default function ProjectStudy() {
 
   const list = anchor => (
     <Box
-      sx={{ width: anchor === 'top' || isMobile ? '100vw' : 360 }}
+      sx={{
+        width: anchor === 'top' || isMobile ? '100vw' : 360,
+      }}
       role="presentation"
       // onClick={toggleDrawer(anchor, false)}
       // onKeyDown={toggleDrawer(anchor, false)}
@@ -102,20 +101,9 @@ export default function ProjectStudy() {
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
-          <Grid
-            container
-            sx={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <ListSubheader component="div" id="nested-list-subheader">
-              나의 팀 관리
-            </ListSubheader>
-            <IconButton
-              onClick={toggleDrawer(anchor, false)}
-              sx={{ display: isMobile ? 'flex' : 'none' }}
-            >
-              <ClearRoundedIcon />
-            </IconButton>
-          </Grid>
+          <ListSubheader component="div" id="nested-list-subheader">
+            나의 팀 관리
+          </ListSubheader>
         }
       >
         <ListItemButton onClick={handleProjectsClick}>
@@ -134,7 +122,10 @@ export default function ProjectStudy() {
               onClick={toggleDrawer(anchor, !state[anchor])}
             >
               {/* 프로젝트 리스트 컴포넌트 */}
-              <ProjectList projects={projects} type={'project'}></ProjectList>
+              <MyProjectList
+                projects={projects}
+                type={'project'}
+              ></MyProjectList>
             </ListItemButton>
           </List>
         </Collapse>
@@ -154,7 +145,7 @@ export default function ProjectStudy() {
               onClick={toggleDrawer(anchor, !state[anchor])}
             >
               {/* 스터디 리스트 컴포넌트 */}
-              <ProjectList studies={studies} type={'study'}></ProjectList>
+              <MyProjectList studies={studies} type={'study'}></MyProjectList>
             </ListItemButton>
           </List>
         </Collapse>
@@ -163,28 +154,30 @@ export default function ProjectStudy() {
   );
 
   return (
-    <div>
+    <>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <IconButton
+          <ButtonBase
+            size="small"
+            variant="outlined"
             onClick={toggleDrawer(anchor, true)}
             sx={{
               mr: isMobile ? 0 : 2,
               scale: isMobile ? '.8' : '1',
             }}
           >
-            <Diversity3Icon />
-          </IconButton>
+            제안 하기
+          </ButtonBase>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
-            // onClick={toggleDrawer(anchor, !state[anchor])} 각 리스트 컴포넌트 ListItemButton쪽으로
+            // onClick={toggleDrawer(anchor, !state[anchor])}
           >
             {list(anchor)}
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
+    </>
   );
 }

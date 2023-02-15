@@ -24,7 +24,40 @@ const teamSlice = createSlice({
   initialState: initialStateValue,
   reducers: {
     handleOpenTeamDetail: (state, action) => {
+      state.areaForm = action.payload.areaForm;
+      state.category = action.payload.category;
+      state.contents = action.payload.contents;
+      state.endDate = action.payload.endDate;
+      state.img = action.payload.img;
+      state.leader = action.payload.leader;
+      state.leaderId = action.payload.leaderId;
+      state.leaderNickname = action.payload.leaderNickname;
+      state.profileResultDtoList = action.payload.profileResultDtoList;
       state.projectId = action.payload.projectId;
+      state.projectStatus = action.payload.projectStatus;
+      state.totalPeople = action.payload.totalPeople;
+      state.projectTechStacks = action.payload.projectTechStacks;
+      state.startDate = action.payload.startDate;
+      state.title = action.payload.title;
+      state.userid = action.payload.userid;
+    },
+    handleCloseTeamDetail: state => {
+      state.areaForm = null;
+      state.category = null;
+      state.contents = null;
+      state.endDate = null;
+      state.img = null;
+      state.leader = true;
+      state.leaderId = null;
+      state.leaderNickname = null;
+      state.profileResultDtoList = null;
+      state.projectId = null;
+      state.projectStatus = null;
+      state.totalPeople = null;
+      state.projectTechStacks = null;
+      state.startDate = null;
+      state.title = null;
+      state.userid = null;
     },
     handleOpenTeamUpdate: (state, action) => {
       state.projectId = action.payload.projectId;
@@ -57,7 +90,7 @@ const teamSlice = createSlice({
       state.contents = null;
       state.endDate = null;
       state.img = null;
-      state.leader = true;
+      state.leader = null;
       state.leaderId = null;
       state.leaderNickname = null;
       state.profileResultDtoList = null;
@@ -78,6 +111,7 @@ export const {
   handleUpdate,
   teamOpenSuccess,
   teamCloseSuccess,
+  handleCloseTeamDetail,
 } = teamSlice.actions;
 
 export default teamSlice.reducer;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
-import CustomAxios from 'utils/axios';
+import customAxios from 'utils/axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -24,18 +24,18 @@ import SingleSelect from 'components/team/SingleSelect';
 import SingleSelectNumber from 'components/team/SingleSelectNumber';
 import SingleSelectOnOff from 'components/team/SingleSelectOnOff';
 import SingleSelectRegion from 'components/team/SingleSelectRegion';
-import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
+import scrollToTop from 'utils/scrollToTop';
 
 export default function TeamCreatePage() {
   //ref
-  const classRef = useRef('');
-  const numberRef = useRef('');
-  const onoffRef = useRef('');
-  const regionRef = useRef('');
-  const titleRef = useRef('');
-  const dateRef = useRef('');
-  const techRef = useRef('');
-  const inputRef = useRef('');
+  const classRef = useRef(null);
+  const numberRef = useRef(null);
+  const onoffRef = useRef(null);
+  const regionRef = useRef(null);
+  const titleRef = useRef(null);
+  const dateRef = useRef(null);
+  const techRef = useRef(null);
+  const inputRef = useRef(null);
   // redux
   const { userPk } = useSelector(state => state.user.userPk);
   const dispatch = useDispatch();
@@ -79,22 +79,19 @@ export default function TeamCreatePage() {
     // OR 백엔드 요청 방식에 따라
     // formData.append('projectForm', JSON.stringify(value));
     // 찍어보기
-    console.log(formData.get('projectForm'), '프로젝트폼');
-    console.log(formData.get('file'), '파일');
 
     //Axios
-    await CustomAxios.imageAxios({
-      method: 'POST',
-      url: '/projects/new',
-      mode: 'cors',
-      data: formData, // 요거 하나만 보내기!
-      // header: { 'Content-Type': 'multipart/form-data' },
-    })
+    await customAxios
+      .imageAxios({
+        method: 'POST',
+        url: '/projects/new',
+        mode: 'cors',
+        data: formData, // 요거 하나만 보내기!
+        // header: { 'Content-Type': 'multipart/form-data' },
+      })
       .then(response => {
-        console.log(response.data);
-        console.log('생성완료!');
         // response data 의 형식에 맞게
-        const areaForm = response.data.areaForm; // reponse 데이터에서 가져옴
+        const areaForm = response.data.areaForm;
         const category = response.data.category;
         const contents = response.data.contents;
         const endDate = response.data.endDate;
@@ -111,13 +108,13 @@ export default function TeamCreatePage() {
         const title = response.data.title;
         dispatch(
           teamOpenSuccess({
-            // 리덕스 변수명에 맞게
-            areaForm: areaForm, // 리덕스에 저장
+            // 리덕스 변수명에 맞게 리덕스에 저장
+            areaForm: areaForm,
             category: category,
             contents: contents,
             endDate: endDate,
             img: img,
-            leader: leader, // 내가 생성했으니 내가 리더 false -> true
+            leader: leader, // 리더인지 아닌지 판별해서 백에서 반환해주는 값
             leaderId: leaderId, // leader ID
             leaderNickname: leaderNickname,
             profileResultDtoList: profileResultDtoList,
@@ -129,8 +126,8 @@ export default function TeamCreatePage() {
             title: title,
           }),
         ); // 저장시키기
-        ScrollToTopButton(); // 등록 버튼 누르고 마우스 커서 위치가 중간에 있어서
         navigate(`/TeamDetailPage/?projectId=${projectId}`); // 이동하고
+        scrollToTop();
       })
       .catch(error => {
         console.log(error);
