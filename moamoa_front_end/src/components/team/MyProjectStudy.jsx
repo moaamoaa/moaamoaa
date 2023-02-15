@@ -5,10 +5,9 @@ import customAxios from 'utils/axios';
 import {
   Box,
   Drawer,
-  IconButton,
+  ButtonBase,
   List,
   Divider,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   ListSubheader,
@@ -161,7 +160,7 @@ export default function MyProjectStudy() {
     <>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <IconButton
+          <ButtonBase
             size="small"
             variant="outlined"
             onClick={toggleDrawer(anchor, true)}
@@ -170,8 +169,8 @@ export default function MyProjectStudy() {
               scale: isMobile ? '.8' : '1',
             }}
           >
-            제안하기
-          </IconButton>
+            제안 하기
+          </ButtonBase>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

@@ -13,6 +13,7 @@ import {
   Paper,
   IconButton,
   Button,
+  ButtonBase,
   Stack,
   Grid,
   styled,
@@ -190,14 +191,14 @@ export default function TeamDetailPage() {
                 <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
               </IconButton>
             ) : (
-              <Button
+              <ButtonBase
                 size="small"
                 variant="contained"
                 color="primary"
                 onClick={handleApply}
               >
                 지원 보내기
-              </Button>
+              </ButtonBase>
             )}
 
             {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}
