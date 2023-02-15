@@ -144,11 +144,9 @@ export default function TeamSearchPage(props) {
         `/search/project?&stack=${axiosStackId}&category=${category}&status=${status}&area=${region}&query=${query}&sort=hit,desc&size=12&cursorId=${cursorId}`,
       )
       .then(response => {
-        // 이 둘이 다를 경우, concat으로 추가시키기 (조건문)
-        // if (Set(searchResult.data) !== Set(response.data)) {
         setSearchResult(searchResult.concat(...response.data));
         setIsFetching(false);
-        // }
+
         dispatch(
           handleCursorId({
             cursorId: response.data[response.data.length - 1].cursorId,
@@ -224,7 +222,7 @@ export default function TeamSearchPage(props) {
             <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
           </div>
         </Grid>
-        <Grid item xs={8} container spacing={1}>
+        <Grid container item xs={8} spacing={1}>
           <Grid item xs={4}>
             <SearchFilterTech
               handleTechstack={handleTechstack}
