@@ -20,7 +20,7 @@ export default function NotFoundPage() {
 }
 
 const BackGroundImage = styled(Paper)`
-  @media (max-width: 768px) {
+  @media (max-width: 500px) {
     background-image: url('${process.env.PUBLIC_URL}/images/common/404m.jpg');
   }
 `;

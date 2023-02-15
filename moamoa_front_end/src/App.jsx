@@ -17,6 +17,7 @@ import ErrorPage from 'pages/ErrorPage';
 import Navbar from 'components/common/navbar/Navbar';
 import ScrollToTopButton from 'components/common/button/ScrollToTopButton';
 import MoaSnackbar from 'components/common/snackbar/MoaSnackbar';
+import ProfileDeletePage from 'pages/ProfileDeletePage';
 
 export default function App() {
   // window.onbeforeunload = removeData;
@@ -40,6 +41,8 @@ export default function App() {
             <Route path="/TeamUpdatePage" element={<TeamUpdatePage />} />
             <Route path="/ProfilePage" element={<ProfilePage />} />
             <Route path="/ProfileEditPage" element={<ProfileEditPage />} />
+            <Route path="/ProfileEditPage" element={<ProfileEditPage />} />
+            <Route path="/ProfileDeletePage" element={<ProfileDeletePage />} />
             <Route path="/ErrorPage" element={<ErrorPage />} />
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>

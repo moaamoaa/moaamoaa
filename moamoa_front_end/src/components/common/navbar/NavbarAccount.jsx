@@ -108,9 +108,9 @@ export default function NavbarAccount() {
         );
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
       });
-  }, [userPk]);
+  }, [isLogIn]);
 
   if (isLogIn) {
     return (

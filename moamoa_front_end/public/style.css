@@ -1,10 +1,48 @@
-@import url('https://cdn.naver.com/naver/NanumFont/fontfiles/NanumSquare/nanumsquare.css');
-
 @font-face {
   font-family: 'yg-jalnan';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff')
     format('woff');
   font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumSquare-Light';
+  src: url('https://cdn.naver.com/naver/NanumFont/fontfiles/NanumSquare/nanumsquare.css')
+    format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumSquare-Regular';
+  src: url('https://cdn.naver.com/naver/NanumFont/fontfiles/NanumSquare/nanumsquare.css')
+    format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumSquare-Bold';
+  src: url('https://cdn.naver.com/naver/NanumFont/fontfiles/NanumSquare/nanumsquare.css')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumSquare-Extrabold';
+  src: url('https://cdn.naver.com/naver/NanumFont/fontfiles/NanumSquare/nanumsquare.css')
+    format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumSquare-Heavy';
+  src: url('https://cdn.naver.com/naver/NanumFont/fontfiles/NanumSquare/nanumsquare.css')
+    format('woff2');
+  font-weight: 900;
   font-style: normal;
 }
 

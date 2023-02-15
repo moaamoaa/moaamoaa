@@ -25,7 +25,6 @@ import customAxios from 'utils/axios';
 import useMobile from 'hooks/useMobile';
 import ProfileApplyOffer from './ProfileApplyOffer';
 import { PhotoCamera } from '@mui/icons-material';
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { handleSuccessState } from 'redux/snack';
 import ChattingRoom from './chatting/ChattingRoom';
 
@@ -131,6 +130,11 @@ export default function Profile(props) {
 
   const handleCloseEditPage = () => {
     navigate('/ProfilePage');
+    scrollToTop();
+  };
+
+  const handleOpenDeletePage = () => {
+    navigate('/ProfileDeletePage');
     scrollToTop();
   };
 
@@ -240,11 +244,29 @@ export default function Profile(props) {
   ];
 
   const editButtons = [
-    <ProfileButton key="offer" onClick={handleEditSuccess} variant="outlined">
+    <ProfileButton
+      key="offer"
+      onClick={handleEditSuccess}
+      color="primary"
+      variant="outlined"
+    >
       수정 완료
     </ProfileButton>,
-    <ProfileButton key="chat" onClick={handleCloseEditPage} variant="outlined">
+    <ProfileButton
+      key="chat"
+      onClick={handleCloseEditPage}
+      color="primary"
+      variant="outlined"
+    >
       수정 취소
+    </ProfileButton>,
+    <ProfileButton
+      key="chat"
+      onClick={handleOpenDeletePage}
+      color="error"
+      variant="contained"
+    >
+      회원 탈퇴
     </ProfileButton>,
   ];
 
@@ -354,20 +376,6 @@ export default function Profile(props) {
                 이미지 변경
               </Typography>
             </Grid>
-            {/* <Grid item xs={1}>
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="span"
-              >
-                <ClearRoundedIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={5}>
-              <Typography variant="body1" color="initial" textAlign={'center'}>
-                변경 취소
-              </Typography>
-            </Grid> */}
           </Grid>
 
           <TextField
