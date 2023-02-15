@@ -2,6 +2,7 @@ package com.ssafy.moamoa.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
+import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
 import com.ssafy.moamoa.service.ProjectService;
 import com.ssafy.moamoa.service.TeamService;
 
@@ -39,6 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProjectController {
 	private final ProjectService projectService;
 	private final TeamService teamService;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@ApiOperation(value = "자기가 속한 프로젝트 조회", notes = "자기가 속한 프로젝트를 조회한다.")
 	@GetMapping("/project")
@@ -61,7 +65,11 @@ public class ProjectController {
 	@ApiOperation(value = "팀 페이지 open", notes = "팀 페이지 open")
 	@GetMapping("/detail")
 	public ResponseEntity<?> accessProject(@RequestParam("projectId") Long projectId,
-		Authentication authentication) throws Exception {
+		Authentication authentication, HttpServletRequest request) throws Exception {
+		// access token 만료
+		String accessToken = jwtTokenProvider.resolveToken(request);
+		jwtTokenProvider.getExpiration(accessToken);
+
 		ProjectDetail projectDetail = projectService.accessProject(projectId, 1);
 
 		// 로그인 한 상태
