@@ -157,7 +157,6 @@ export default function Profile(props) {
 
   const handleChange = event => {
     const files = event.target.files;
-    console.log(files[0]);
     // 미리보기용
     setPreviewImage(URL.createObjectURL(files[0]));
     // axios용

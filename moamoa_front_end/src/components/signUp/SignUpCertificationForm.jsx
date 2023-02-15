@@ -33,7 +33,6 @@ export default function SignUpCertificationform(props) {
     if (props.code === Number(userVaildCode)) {
       props.setActiveStep(2);
     } else {
-      console.log('인증번호가 틀렸습니다');
       setCodeError(true);
     }
   };
@@ -44,7 +43,6 @@ export default function SignUpCertificationform(props) {
       .get(`/users/email?email=${userEmail}`)
       .then(response => {
         setUserVaildCode('');
-        console.log(response.data);
         props.handleCode(response.data);
       })
       .catch(error => {

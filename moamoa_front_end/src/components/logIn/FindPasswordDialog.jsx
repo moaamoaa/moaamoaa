@@ -70,7 +70,6 @@ export default function FindPasswordDialog(props) {
           email: email,
         })
         .then(response => {
-          console.log(response.data);
           alert('입력하신 이메일로 임시 비밀번호를 발급하였습니다.');
           handleClose();
         })

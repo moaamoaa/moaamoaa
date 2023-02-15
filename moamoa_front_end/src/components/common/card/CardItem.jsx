@@ -76,8 +76,6 @@ export default function CardItem(props) {
               severity: 'success',
             }),
           );
-          console.log(response.data);
-          console.log('권한 위임 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -107,8 +105,6 @@ export default function CardItem(props) {
               severity: 'success',
             }),
           );
-          console.log(response.data);
-          console.log('팀원 강퇴 완료!');
         })
         .catch(error => {
           console.log(error);
@@ -306,7 +302,6 @@ export default function CardItem(props) {
   } else if (props.type === 'tech') {
     return <MoaImg src={props.card.logo} />;
   } else if (props.type === 'link') {
-    console.log(props);
     return (
       <Link href={props.card[1].link} target="_blank">
         <MoaImg src={props.card[1].logo} />
