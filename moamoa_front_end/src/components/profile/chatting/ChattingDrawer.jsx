@@ -26,8 +26,6 @@ export default function ChattingDrawer() {
         .get('/projects/project') //채팅 목록 조회하는 api로 바꿔주기!!!
         .then(response => {
           setChats(response.data);
-          console.log(response.data);
-          console.log('채팅 목록 조회 완료!');
         })
         .catch(error => {
           console.log(error);
