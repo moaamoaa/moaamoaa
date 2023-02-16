@@ -185,8 +185,8 @@ export default function CardItem(props) {
     return (
       <MoaCard>
         <CardActions>
-          <Grid container>
-            <Grid item xs>
+          <Grid container sx={{ minHeight: '50px' }}>
+            <Grid item xs={3}>
               {/* 디테일 페이지에서만 보이고 리더이면서 해당 카드 id 가 리더가 아닌경우 => 권한위임 버튼이 보이고 아니면 안 보이고 */}
               {props.isDetail && leader && props.card.id !== leaderId ? (
                 <Button
@@ -208,7 +208,7 @@ export default function CardItem(props) {
                 </Button>
               )}
             </Grid>
-            <Grid item xs>
+            <Grid item xs={3}>
               {/* 디테일 페이지에서만 보이고 리더이면서 해당 카드 id 가 리더가 아닌경우 => 강퇴하기 버튼이 보이고 아니면 안 보이고 */}
               {props.isDetail && leader && props.card.id !== leaderId ? (
                 <Button
@@ -230,30 +230,16 @@ export default function CardItem(props) {
                 </Button>
               )}
             </Grid>
-            <Grid item xs>
+            <Grid item onClick={handleSaveMemberId} xs={3}>
               {/* 나 자신에게는 제안하지 않는다 */}
               {/* 이미 내 팀인 사람에게는 제안하지 않는다 detail_profileResultDtoList*/}
               {userPk !== props.card.id ? (
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSaveMemberId}
-                >
-                  {/* 제안 */}
-                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
-                </Button>
+                <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
               ) : (
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSaveMemberId}
-                  sx={{ display: 'none' }}
-                >
+                <Grid sx={{ display: 'none' }}>
                   {/* 제안 */}
                   <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
-                </Button>
+                </Grid>
               )}
             </Grid>
           </Grid>
