@@ -155,7 +155,7 @@ export default function TeamDetailPage() {
                 </Typography>
                 <Typography variant="h3" color="inherit" paragraph>
                   {/* 팀장 이름 */}
-                  {detail.leaderNickname}
+                  팀장 : {detail.leaderNickname}
                 </Typography>
               </Box>
             </Grid>
