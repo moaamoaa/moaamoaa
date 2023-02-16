@@ -1,19 +1,13 @@
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 import customAxios from 'utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  handleUpdate,
-  handleOpenTeamDetail,
-  handleCloseTeamDetail,
-} from 'redux/team';
+import { handleUpdate, handleOpenTeamDetail } from 'redux/team';
 import { handleSuccessState } from 'redux/snack';
 import {
   Container,
   Paper,
   IconButton,
   Button,
-  ButtonBase,
   Stack,
   Grid,
   styled,
@@ -150,12 +144,11 @@ export default function TeamDetailPage() {
               >
                 <Typography id="title" variant="h1" gutterBottom>
                   {/* 팀 이름  */}
-                  {/* <SingleTextField ref={titleRef}></SingleTextField> */}
                   {detail.title}
                 </Typography>
-                <Typography variant="h3" color="inherit" paragraph>
+                <Typography variant="h4" color="inherit" paragraph>
                   {/* 팀장 이름 */}
-                  {detail.leaderNickname}
+                  팀장 : {detail.leaderNickname}
                 </Typography>
               </Box>
             </Grid>
@@ -168,22 +161,21 @@ export default function TeamDetailPage() {
             // justifyContent="flex-end"
             sx={{ pt: 4 }}
           >
-            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 버튼 보이게*/}
-            {/* 본인이 이미 팀에 속해 있어도 지원 보내기가 안 보여야할까?  */}
             {lead ? (
-              <IconButton size="small" variant="contained" color="primary">
-                {/* 지원 및 제안 버튼 return 해주는 component */}
-                <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
-              </IconButton>
+              <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
             ) : (
-              <ButtonBase
-                size="small"
-                variant="contained"
+              <Button
+                size="medium"
+                variant="outlined"
                 color="primary"
                 onClick={handleApply}
+                sx={{
+                  marginTop: '1rem',
+                  paddingY: '5px',
+                }}
               >
                 지원 보내기
-              </ButtonBase>
+              </Button>
             )}
 
             {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}
@@ -228,35 +220,38 @@ export default function TeamDetailPage() {
         </Grid>
       </Container>
       <Container fixed>
-        <h2>모집 정보</h2>
+        <Typography variant="h5" fontWeight={600} color="initial">
+          모집 정보
+        </Typography>
         <Paper
           variant="outlined"
           elevation={0}
           style={{
-            padding: 20,
+            paddingLeft: 16,
+            marginTop: 20,
           }}
         >
-          <h4>모집 구분</h4>
+          <h3>모집 구분</h3>
           <Typography variant="body1" color="initial">
             {detail.category}
           </Typography>
-          <h4>모집 정원</h4>
+          <h3>모집 정원</h3>
           <Typography variant="body1" color="initial">
             {detail.totalPeople}
           </Typography>
-          <h4>마감 날짜</h4>
+          <h3>마감 날짜</h3>
           <Typography variant="body1" color="initial">
             {detail.endDate}
           </Typography>
-          <h4>진행 방식</h4>
+          <h3>진행 방식</h3>
           <Typography variant="body1" color="initial">
             {detail.projectStatus}
           </Typography>
-          <h4>지역</h4>
+          <h3>지역</h3>
           <Typography variant="body1" color="initial">
             {detail.areaId}
           </Typography>
-          <h4>기술 스택</h4>
+          <h3>기술 스택</h3>
           <Typography component="div" variant="body1" color="initial">
             {detail.projectTechStacks &&
               detail.projectTechStacks.map(tech => (

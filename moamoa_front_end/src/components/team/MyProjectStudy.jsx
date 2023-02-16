@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import customAxios from 'utils/axios';
-
+import HandshakeRoundedIcon from '@mui/icons-material/HandshakeRounded';
 import {
   Box,
   Drawer,
-  ButtonBase,
   List,
   Divider,
   ListItemIcon,
@@ -13,6 +12,7 @@ import {
   ListItemText,
   ListSubheader,
   Collapse,
+  Button,
 } from '@mui/material/';
 
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -28,30 +28,24 @@ export default function MyProjectStudy() {
   const [studies, setStudies] = useState([]);
   const isMobile = useMobile();
   const isLogged = useSelector(state => state.user.isLogged);
+
   useEffect(() => {
-    if (!isLoaded && isLogged) {
+    if (isLoaded && isLogged) {
       customAxios.authAxios
         .get('/projects/project')
         .then(response => {
           setProjects(response.data);
         })
         .catch(error => {
-          console.log(error.message);
+          // console.log(error.message);
         });
-    } else {
-      setIsLoaded(true);
-    }
-  }, [isLoaded]);
-
-  useEffect(() => {
-    if (!isLoaded && isLogged) {
       customAxios.authAxios
         .get('/projects/study')
         .then(response => {
           setStudies(response.data);
         })
         .catch(error => {
-          console.log(error.message);
+          // console.log(error.message);
         });
     } else {
       setIsLoaded(true);
@@ -157,17 +151,22 @@ export default function MyProjectStudy() {
     <>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <ButtonBase
-            size="small"
+          <Button
+            fullWidth
+            size="medium"
             variant="outlined"
+            color="primary"
             onClick={toggleDrawer(anchor, true)}
             sx={{
-              mr: isMobile ? 0 : 2,
-              scale: isMobile ? '.8' : '1',
+              marginTop: '1rem',
+              paddingY: '5px',
             }}
           >
-            제안 하기
-          </ButtonBase>
+            <HandshakeRoundedIcon
+              sx={{ marginRight: 1 }}
+            ></HandshakeRoundedIcon>
+            제안 보내기
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

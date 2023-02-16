@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
 import removeData from './removeData';
 
 let baseURL;
@@ -33,91 +34,84 @@ const imageAxios = axios.create({
 });
 
 authAxios.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  async (error) => {
+  async error => {
     const {
       config,
       response: { status },
     } = error;
 
     const originalRequest = config;
-
+    // const isLogged = useSelector(state => state.user.isLogged);
     if (status === 401) {
       try {
-
         authAxios
-        .post('/users/reissue',
-        {},
-        { withCredentials: true },
-        )
-        .then(response => {
-          const token = response.data.accessToken;
-          Cookies.set('access_token', token, { expires: 1 });
-          console.log(token);
-        })
-        .catch(error => {
-          console.log(error);
-          removeData();
-          //로그아웃
-        });
+          .post('/users/reissue', {}, { withCredentials: true })
+          .then(response => {
+            const token = response.data.accessToken;
+            Cookies.set('access_token', token, { expires: 1 });
+            console.log(token);
+          })
+          .catch(error => {
+            console.log(error);
+            removeData();
+            //로그아웃
+          });
 
         location.reload();
 
-        setTimeout(()=>{
+        setTimeout(() => {
           return authAxios(originalRequest);
-        }, 500)
+        }, 500);
       } catch (err) {
         new Error(err);
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 imageAxios.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  async (error) => {
+  async error => {
     const {
       config,
       response: { status },
     } = error;
 
     const originalRequest = config;
+    // const isLogged = useSelector(state => state.user.isLogged);
 
     if (status === 401) {
       try {
-
         authAxios
-        .post('/users/reissue',
-        {},
-        { withCredentials: true },
-        )
-        .then(response => {
-          const token = response.data.accessToken;
-          Cookies.set('access_token', token, { expires: 1 });
-          console.log(token);
-        })
-        .catch(error => {
-          console.log(error);
-          removeData();
-          //로그아웃
-        });
+          .post('/users/reissue', {}, { withCredentials: true })
+          .then(response => {
+            const token = response.data.accessToken;
+            Cookies.set('access_token', token, { expires: 1 });
+            console.log(token);
+          })
+          .catch(error => {
+            console.log(error);
+            removeData();
+            //로그아웃
+          });
 
         location.reload();
 
-        setTimeout(()=>{
+        setTimeout(() => {
           return authAxios(originalRequest);
-        }, 500)
+        }, 500);
       } catch (err) {
         new Error(err);
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 const customAxios = { basicAxios, authAxios, imageAxios };

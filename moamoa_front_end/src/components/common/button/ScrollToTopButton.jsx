@@ -30,8 +30,8 @@ const ShowComponentOnScroll = ({ children, threshold = 200 }) => {
 export default function ScrollToTopButton() {
   return (
     <ShowComponentOnScroll threshold={1000}>
-      <FloatingButton aria-label="" onClick={scrollToTop}>
-        <ArrowUpwardIcon></ArrowUpwardIcon>
+      <FloatingButton onClick={scrollToTop}>
+        <ArrowUpwardIcon sx={{ color: '#fff' }}></ArrowUpwardIcon>
       </FloatingButton>
     </ShowComponentOnScroll>
   );

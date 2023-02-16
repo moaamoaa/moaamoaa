@@ -16,8 +16,8 @@ const SingleTextField = forwardRef((props, ref) => {
           onChange={handleChange}
           id="outlined-basic"
           placeholder="팀이름을 입력해주세요."
-          // label="Outlined"
           variant="outlined"
+          color="primary"
         />
       </FormControl>
     </Box>

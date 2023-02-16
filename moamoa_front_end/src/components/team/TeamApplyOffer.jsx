@@ -154,12 +154,14 @@ export default function TeamApplyOffer() {
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
           <Button
-            size="small"
-            variant="contained"
+            fullWidth
+            size="medium"
+            variant="outlined"
+            color="primary"
             onClick={toggleDrawer(anchor, true)}
             sx={{
-              mr: isMobile ? 0 : 2,
-              scale: isMobile ? '.8' : '1',
+              marginTop: '1rem',
+              paddingY: '5px',
             }}
           >
             지원 및 제안
