@@ -19,7 +19,7 @@ import {
 } from '@mui/material/';
 
 import ProjectStudy from 'components/team/ProjectStudy';
-import ChattingDrawer from 'components/profile/chatting/ChattingDrawer';
+// import ChattingDrawer from 'components/profile/chatting/ChattingDrawer';
 import LogInDialog from 'components/logIn/LogInDialog';
 import CheckoutDialog from 'components/signUp/CheckoutDialog';
 import FindPasswordDialog from 'components/logIn/FindPasswordDialog';
@@ -119,7 +119,7 @@ export default function NavbarAccount() {
           {/* 팀관리아이콘 */}
           <ProjectStudy></ProjectStudy>
           {/* 채팅아이콘 */}
-          <ChattingDrawer isMobile={isMobile}></ChattingDrawer>
+          {/* <ChattingDrawer isMobile={isMobile}></ChattingDrawer> */}
           {/* 아바타버튼 */}
           <Tooltip title={userNickname}>
             <IconButton
