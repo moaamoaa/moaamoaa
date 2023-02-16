@@ -68,6 +68,9 @@ public class ProjectController {
 		Authentication authentication, HttpServletRequest request) throws Exception {
 		// access token 만료
 		String accessToken = jwtTokenProvider.resolveToken(request);
+		if (accessToken == null || accessToken.equals("undefined")) {
+			throw new IllegalArgumentException("토큰 정보를 인증할 수 없습니다.");
+		}
 		jwtTokenProvider.getExpiration(accessToken);
 
 		ProjectDetail projectDetail = projectService.accessProject(projectId, 1);
