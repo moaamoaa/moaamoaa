@@ -12,10 +12,10 @@ public class CookieUtil {
 	public ResponseCookie createCookie(String cookieName, String value) {
 		return ResponseCookie.from(cookieName, value)
 			.path("/")
-			.sameSite("none")
+			//.sameSite("none")
 			.httpOnly(true)
-			.secure(true)
-			.domain("moaamoaa.com")
+			.secure(false)
+			//.domain("moaamoaa.com")
 			.build();
 	}
 
