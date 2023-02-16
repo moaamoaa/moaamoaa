@@ -54,9 +54,6 @@ export default function CardItem(props) {
     }
   };
 
-  // 멤버 카드일 경우,
-  // 권한위임하기 요청
-  // 성공!
   const handleRight = () => {
     if (props.type === 'member') {
       customAxios
@@ -64,8 +61,8 @@ export default function CardItem(props) {
           method: 'PUT',
           url: '/projects/leader',
           data: {
-            projectId: projectId, // detail페이지의 projectId 값
-            userId: props.card.id, // 권한 위임 당할 사람 member 카드 id
+            projectId: projectId,
+            userId: props.card.id,
           },
         })
         .then(response => {
@@ -83,9 +80,6 @@ export default function CardItem(props) {
     }
   };
 
-  // 멤버 카드일 경우,
-  // 강퇴하기 요청
-  // 성공!
   const handleDrop = () => {
     if (props.type === 'member') {
       customAxios
@@ -93,8 +87,8 @@ export default function CardItem(props) {
           method: 'DELETE',
           url: '/projects/member',
           data: {
-            projectId: projectId, // detail페이지의 projectId 값
-            userId: props.card.id, // 강퇴 당할 사람 member 카드 id
+            projectId: projectId,
+            userId: props.card.id,
           },
         })
         .then(response => {
@@ -111,8 +105,6 @@ export default function CardItem(props) {
         });
     }
   };
-
-  // 리턴
 
   if (props.type === 'team') {
     return (
@@ -185,13 +177,13 @@ export default function CardItem(props) {
     return (
       <MoaCard>
         <CardActions>
-          <Grid container>
-            <Grid item xs>
+          <Grid container sx={{ minHeight: '50px' }}>
+            <Grid item xs={3}>
               {/* 디테일 페이지에서만 보이고 리더이면서 해당 카드 id 가 리더가 아닌경우 => 권한위임 버튼이 보이고 아니면 안 보이고 */}
               {props.isDetail && leader && props.card.id !== leaderId ? (
                 <Button
                   size="small"
-                  variant="contained"
+                  variant="text"
                   color="primary"
                   onClick={handleRight}
                 >
@@ -200,20 +192,23 @@ export default function CardItem(props) {
               ) : (
                 <Button
                   size="small"
-                  variant="contained"
+                  variant="text"
                   color="primary"
-                  sx={{ display: 'none' }}
+                  disabled
+                  sx={{
+                    opacity: 0,
+                  }}
                 >
                   권한위임
                 </Button>
               )}
             </Grid>
-            <Grid item xs>
+            <Grid item xs={3}>
               {/* 디테일 페이지에서만 보이고 리더이면서 해당 카드 id 가 리더가 아닌경우 => 강퇴하기 버튼이 보이고 아니면 안 보이고 */}
               {props.isDetail && leader && props.card.id !== leaderId ? (
                 <Button
                   size="small"
-                  variant="contained"
+                  variant="text"
                   color="primary"
                   onClick={handleDrop}
                 >
@@ -222,37 +217,14 @@ export default function CardItem(props) {
               ) : (
                 <Button
                   size="small"
-                  variant="contained"
+                  variant="text"
                   color="primary"
-                  sx={{ display: 'none' }}
+                  disabled
+                  sx={{
+                    opacity: 0,
+                  }}
                 >
                   강퇴하기
-                </Button>
-              )}
-            </Grid>
-            <Grid item xs>
-              {/* 나 자신에게는 제안하지 않는다 */}
-              {/* 이미 내 팀인 사람에게는 제안하지 않는다 detail_profileResultDtoList*/}
-              {userPk !== props.card.id ? (
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSaveMemberId}
-                >
-                  {/* 제안 */}
-                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
-                </Button>
-              ) : (
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSaveMemberId}
-                  sx={{ display: 'none' }}
-                >
-                  {/* 제안 */}
-                  <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
                 </Button>
               )}
             </Grid>

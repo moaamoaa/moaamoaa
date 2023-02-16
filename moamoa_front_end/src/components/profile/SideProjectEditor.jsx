@@ -38,8 +38,11 @@ function SideProjectEditor(props) {
     setSelectedValue(null);
     setContext('');
 
-    if (props.isEdit) props.setIsEdit(false);
-    props.setIsAdd(false);
+    if (props.isEdit) {
+      props.setIsEdit(false);
+    } else {
+      props.setIsAdd(false);
+    }
   };
   const dispatch = useDispatch();
 
@@ -166,101 +169,101 @@ function SideProjectEditor(props) {
     }
   };
   return (
-    <>
-      <Grid item container xs={12} alignItems="start">
-        {/* Year */}
-        <Grid item xs={3} md={2}>
-          <FormControl size="small">
-            <Select
-              labelId="demo-select-small"
-              id="demo-select-small"
-              variant="outlined"
-              value={year}
-              onChange={handleChangeYear}
-            >
-              <MenuItem value={curYear}>{curYear}</MenuItem>
-              <MenuItem value={curYear - 1}>{curYear - 1}</MenuItem>
-              <MenuItem value={curYear - 2}>{curYear - 2}</MenuItem>
-              <MenuItem value={curYear - 3}>{curYear - 3}</MenuItem>
-              <MenuItem value={curYear - 4}>{curYear - 4}</MenuItem>
-            </Select>
-          </FormControl>
+    <Grid item container xs={12} alignItems="start">
+      {/* Year */}
+      <Grid item xs={3} md={2}>
+        <FormControl size="small">
+          <Select
+            labelId="demo-select-small"
+            id="demo-select-small"
+            variant="outlined"
+            value={year}
+            onChange={handleChangeYear}
+          >
+            <MenuItem value={curYear}>{curYear}</MenuItem>
+            <MenuItem value={curYear - 1}>{curYear - 1}</MenuItem>
+            <MenuItem value={curYear - 2}>{curYear - 2}</MenuItem>
+            <MenuItem value={curYear - 3}>{curYear - 3}</MenuItem>
+            <MenuItem value={curYear - 4}>{curYear - 4}</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
+      {/* Main */}
+      <Grid item xs={8} md={9}>
+        {/* Name */}
+        <TextField
+          fullWidth
+          id="standard-multiline-flexible"
+          placeholder="프로젝트 이름"
+          onChange={handleChangeName}
+          InputProps={{
+            disableUnderline: true,
+          }}
+          variant="standard"
+          value={name}
+          sx={{
+            paddingBottom: '1rem',
+          }}
+        />
+        {/* Tech */}
+        <TechStackSelector
+          setSelectedValue={setSelectedValue}
+          techs={selectedValue}
+        ></TechStackSelector>
+        {/* Context */}
+        <TextField
+          variant="standard"
+          fullWidth
+          autoFocus
+          multiline
+          InputProps={{
+            disableUnderline: true,
+          }}
+          onChange={handleChangeContext}
+          placeholder="프로젝트에 대한 자세한 설명을 작성해 주세요."
+          value={context}
+          sx={{
+            paddingTop: '1rem',
+          }}
+        />
+      </Grid>
+      {/* Button */}
+      <Grid item xs={1} sx={{ display: 'flex' }} justifyContent="end">
+        <IconButton onClick={handleCloseAddSideProject} sx={{ padding: '0' }}>
+          <CloseIcon />
+        </IconButton>
+      </Grid>
+      <Grid
+        item
+        container
+        xs={12}
+        sx={{ display: 'flex', marginBottom: 2, height: 10 }}
+        justifyContent="end"
+        alignItems="center"
+      >
+        <Grid item xs={11}>
+          <Typography
+            variant="caption"
+            color="initial"
+            justifyContent="end"
+            sx={{ display: 'flex' }}
+            alignItems="end"
+          >
+            {context.length} / {limit}
+          </Typography>
         </Grid>
-        {/* Main */}
-        <Grid item xs={8} md={9}>
-          {/* Name */}
-          <TextField
-            fullWidth
-            id="standard-multiline-flexible"
-            placeholder="프로젝트 이름"
-            onChange={handleChangeName}
-            InputProps={{
-              disableUnderline: true,
-            }}
-            variant="standard"
-            value={name}
-            sx={{
-              paddingBottom: '1rem',
-            }}
-          />
-          {/* Tech */}
-          <TechStackSelector
-            setSelectedValue={setSelectedValue}
-            techs={selectedValue}
-          ></TechStackSelector>
-          {/* Context */}
-          <TextField
-            variant="standard"
-            fullWidth
-            autoFocus
-            multiline
-            InputProps={{
-              disableUnderline: true,
-            }}
-            onChange={handleChangeContext}
-            placeholder="프로젝트에 대한 자세한 설명을 작성해 주세요."
-            value={context}
-            sx={{
-              paddingTop: '1rem',
-            }}
-          />
-        </Grid>
-        {/* Button */}
         <Grid item xs={1} sx={{ display: 'flex' }} justifyContent="end">
-          <IconButton onClick={handleCloseAddSideProject} sx={{ padding: '0' }}>
-            <CloseIcon />
+          <IconButton
+            onClick={
+              props?.isEdit ? handleEditSideProject : handleCreateSidProject
+            }
+            sx={{ padding: '0' }}
+          >
+            <CreateIcon />
           </IconButton>
         </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          sx={{ display: 'flex' }}
-          justifyContent="end"
-        >
-          <Grid item xs={11}>
-            <Typography
-              variant="caption"
-              color="initial"
-              justifyContent="end"
-              sx={{ display: 'flex' }}
-            >
-              {context.length} / {limit}
-            </Typography>
-          </Grid>
-          <Grid item xs={1} sx={{ display: 'flex' }} justifyContent="end">
-            <IconButton
-              onClick={
-                props?.isEdit ? handleEditSideProject : handleCreateSidProject
-              }
-              sx={{ padding: '0' }}
-            >
-              <CreateIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
 

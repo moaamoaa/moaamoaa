@@ -25,7 +25,6 @@ import customAxios from 'utils/axios';
 import useMobile from 'hooks/useMobile';
 import ProfileApplyOffer from './ProfileApplyOffer';
 import { PhotoCamera } from '@mui/icons-material';
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { handleSuccessState } from 'redux/snack';
 import ChattingRoom from './chatting/ChattingRoom';
 
@@ -40,7 +39,7 @@ export default function Profile(props) {
   const updateProfile = useSelector(state => state.profile.userProfile[1]);
   const [previewImage, setPreviewImage] = useState(userProfile.img);
   const [image, setImage] = useState('');
-  const [updateNickname, setUpdateNickname] = useState('');
+  const [updateNickname, setUpdateNickname] = useState(updateProfile.nickname);
   const searchstatus = useSelector(
     state => state.profile.userProfile[0].profileSearchStatus,
   );
@@ -54,8 +53,6 @@ export default function Profile(props) {
     navigate('/ProfileEditPage');
     scrollToTop();
   };
-
-  const handleOpenOfferList = () => {};
 
   const handleNickname = event => {
     setUpdateNickname(event.target.value);
@@ -72,57 +69,61 @@ export default function Profile(props) {
       );
       return;
     }
-    customAxios.basicAxios
-      .get(`/users/nickname?nickname=${updateNickname}`)
-      .then(response => {
-        const formData = new FormData();
 
-        if (previewImage !== userProfile.img) {
-          formData.append('file', image);
-        } else {
-          formData.append('file', null);
-        }
-
-        const updateUserProfile = {
-          userId: userProfile.id,
-          nickname: updateNickname,
-          profileOnOffStatus: updateProfile.profileOnOffStatus,
-          context: userProfile.context,
-        };
-
-        const value = {
-          profile: updateUserProfile,
-          techstacks: updateProfile.techStacks,
-          sites: updateProfile.sites,
-          areas: updateProfile.areas,
-        };
-
-        const blob = new Blob([JSON.stringify(value)], {
-          type: 'application/json',
+    if (updateNickname !== userProfile.nickname) {
+      customAxios.basicAxios
+        .get(`/users/nickname?nickname=${updateNickname}`)
+        .then(response => {})
+        .catch(error => {
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '중복된 닉네임이 존재합니다.',
+              severity: 'error',
+            }),
+          );
+          return;
         });
-        formData.append('profilePageForm', blob);
+    }
 
-        customAxios.imageAxios
-          .post('/profile', formData)
-          .then(response => {
-            navigate('/profilepage');
-            scrollToTop();
-          })
-          .catch(error => {
-            dispatch(
-              handleSuccessState({
-                open: true,
-                message: '비어 있는 값이 존재합니다.',
-                severity: 'error',
-              }),
-            );
-          });
+    const formData = new FormData();
+
+    if (previewImage !== userProfile.img) {
+      formData.append('file', image);
+    } else {
+      formData.append('file', null);
+    }
+
+    const updateUserProfile = {
+      userId: userProfile.id,
+      nickname: updateNickname,
+      profileOnOffStatus: updateProfile.profileOnOffStatus,
+      context: userProfile.context,
+    };
+
+    const value = {
+      profile: updateUserProfile,
+      techstacks: updateProfile.techStacks,
+      sites: updateProfile.sites,
+      areas: updateProfile.areas,
+    };
+
+    const blob = new Blob([JSON.stringify(value)], {
+      type: 'application/json',
+    });
+    formData.append('profilePageForm', blob);
+
+    customAxios.imageAxios
+      .post('/profile', formData)
+      .then(response => {
+        navigate('/ProfilePage');
+        scrollToTop();
       })
       .catch(error => {
         dispatch(
           handleSuccessState({
             open: true,
-            message: '중복된 닉네임이 존재합니다.',
+            message: '이미지의 용량이 너무 큽니다.',
             severity: 'error',
           }),
         );
@@ -131,6 +132,11 @@ export default function Profile(props) {
 
   const handleCloseEditPage = () => {
     navigate('/ProfilePage');
+    scrollToTop();
+  };
+
+  const handleOpenDeletePage = () => {
+    navigate('/ProfileDeletePage');
     scrollToTop();
   };
 
@@ -222,29 +228,41 @@ export default function Profile(props) {
   };
 
   const userButtons = [
-    <ProfileButton key="offer" onClick={handleOpenEditPage} variant="outlined">
+    <ProfileButton key="eidt" onClick={handleOpenEditPage} variant="outlined">
       수정
     </ProfileButton>,
-    <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
-      <ProfileApplyOffer isMobile={isMobile}></ProfileApplyOffer>
-    </ProfileButton>,
+    <ProfileApplyOffer key="offer" isMobile={isMobile}></ProfileApplyOffer>,
   ];
 
   const otherButtons = [
-    <ProfileButton key="offer" variant="outlined">
-      <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
-    </ProfileButton>,
-    <ProfileButton key="chat" variant="outlined">
-      <ChattingRoom></ChattingRoom>
-    </ProfileButton>,
+    <MyProjectStudy key="offer" isMobile={isMobile}></MyProjectStudy>,
+    <ChattingRoom key="chat" variant="outlined"></ChattingRoom>,
   ];
 
   const editButtons = [
-    <ProfileButton key="offer" onClick={handleEditSuccess} variant="outlined">
+    <ProfileButton
+      key="success"
+      onClick={handleEditSuccess}
+      color="primary"
+      variant="outlined"
+    >
       수정 완료
     </ProfileButton>,
-    <ProfileButton key="chat" onClick={handleCloseEditPage} variant="outlined">
+    <ProfileButton
+      key="cancel"
+      onClick={handleCloseEditPage}
+      color="primary"
+      variant="outlined"
+    >
       수정 취소
+    </ProfileButton>,
+    <ProfileButton
+      key="delete"
+      onClick={handleOpenDeletePage}
+      color="error"
+      variant="contained"
+    >
+      회원 탈퇴
     </ProfileButton>,
   ];
 
@@ -263,6 +281,7 @@ export default function Profile(props) {
           <Grid
             container
             display={'flex'}
+            justifyContent="center"
             onDrop={handleDrop}
             onDragOver={event => event.preventDefault()}
           >
@@ -271,10 +290,10 @@ export default function Profile(props) {
                 src={previewImage}
                 variant="circular"
                 sx={{
-                  width: { md: '280px', xl: '320px' },
-                  height: { md: '280px', xl: '320px' },
+                  width: '280px',
+                  height: '280px',
                   boxShadow: '0px 0px 10px 4px #888888',
-                  opacity: 0.5,
+                  opacity: image === '' ? 0.5 : 1,
                 }}
               />
             </Grid>
@@ -283,7 +302,7 @@ export default function Profile(props) {
               container
               sx={{
                 position: 'absolute',
-                top: { md: '140px', xl: '160px' },
+                top: '140px',
                 left: '50%',
                 display: 'flex',
                 fontWeight: '600',
@@ -291,6 +310,7 @@ export default function Profile(props) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 textShadow: '0 0 3px #fff',
+                opacity: image === '' ? 1 : 0,
               }}
             >
               <Grid
@@ -354,20 +374,6 @@ export default function Profile(props) {
                 이미지 변경
               </Typography>
             </Grid>
-            {/* <Grid item xs={1}>
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="span"
-              >
-                <ClearRoundedIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={5}>
-              <Typography variant="body1" color="initial" textAlign={'center'}>
-                변경 취소
-              </Typography>
-            </Grid> */}
           </Grid>
 
           <TextField
@@ -395,7 +401,7 @@ export default function Profile(props) {
                   width: isMobile ? '100px' : '160px',
                   height: isMobile ? '100px' : '160px',
                   boxShadow: '0px 0px 10px 0px #888888',
-                  opacity: 0.5,
+                  opacity: image === '' ? 0.5 : 1,
                 }}
               />
             </Grid>

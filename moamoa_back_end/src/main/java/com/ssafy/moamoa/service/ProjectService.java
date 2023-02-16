@@ -237,23 +237,23 @@ public class ProjectService {
 	}
 
 	// 프로젝트/스터디 삭제
-	public void deleteProject(ProjectForm projectForm) throws Exception {
+	public void deleteProject(Long userId, Long projcetId) throws Exception {
 		// locked check
-		isProjectLocked(projectForm.getProjectId());
-		Project findProject = projectRepository.findById(projectForm.getProjectId()).get();
+		isProjectLocked(projcetId);
+		Project findProject = projectRepository.findById(projcetId).get();
 
 		// 멤버수 체크
-		List<Team> findMembers = teamRepository.findByProject_Id(projectForm.getProjectId());
+		List<Team> findMembers = teamRepository.findByProject_Id(projcetId);
 		for (Team t: findMembers) {
-			if(t.getUser().getId() != projectForm.getUserId())
+			if(t.getUser().getId() != userId)
 			{
-				changeLeader(t.getUser().getId(), projectForm);
-				teamRepository.delete(teamRepository.findByUser_Id(projectForm.getUserId()).get());
+				changeLeader(t.getUser().getId(), userId, projcetId);
+				teamRepository.delete(teamRepository.findByUser_IdAndProject_Id(userId, projcetId).get());
 				findProject.setCurrentPeople(findProject.getCurrentPeople()-1);
 			}
-		}
-		if(findMembers.size()==1) {
-			findProject.setLocked(true);
+			if(findMembers.size()==1) {
+				findProject.setLocked(true);
+			}
 		}
 	}
 
@@ -274,17 +274,17 @@ public class ProjectService {
 	}
 
 	// 권한 위임
-	public void changeLeader(Long leaderId, ProjectForm projectForm) throws Exception {
+	public void changeLeader(Long leaderId, Long userId, Long projectId) throws Exception {
 		// locked check
-		isProjectLocked(projectForm.getProjectId());
+		isProjectLocked(projectId);
 
-		if (!teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId()).isPresent()
-			|| userRepository.findById(projectForm.getUserId()).get().isLocked()) {
+		if (!teamRepository.findByUser_IdAndProject_Id(userId, projectId).isPresent()
+			|| userRepository.findById(userId).get().isLocked()) {
 			throw new EntityNotFoundException("존재하지 않는 팀원입니다.");
 		}
-		Team findLeader = teamRepository.findByUser_IdAndProject_Id(leaderId, projectForm.getProjectId())
+		Team findLeader = teamRepository.findByUser_IdAndProject_Id(leaderId, projectId)
 			.get();
-		Team findTeam = teamRepository.findByUser_IdAndProject_Id(projectForm.getUserId(), projectForm.getProjectId())
+		Team findTeam = teamRepository.findByUser_IdAndProject_Id(userId, projectId)
 			.get();
 		findLeader.setRole(TeamRole.MEMBER);
 		findTeam.setRole(TeamRole.LEADER);

@@ -38,14 +38,14 @@ export default function ChattingRoom() {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 360 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <Paper>
         <h1>누구누구님과 채팅을 시작합니다</h1>
       </Paper>
       <Paper>
-        <h2>{name}안녕?</h2>
+        <h2>안녕?</h2>
       </Paper>
       <TextField></TextField>
       <Button>전송</Button>
@@ -56,20 +56,27 @@ export default function ChattingRoom() {
     <div>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <IconButton
+          <Button
+            fullWidth
+            size="medium"
+            variant="outlined"
+            color="primary"
             onClick={toggleDrawer(anchor, true)}
-            sx={{ mr: isMobile ? 0 : 2, scale: isMobile ? '.8' : '1' }}
+            sx={{
+              marginTop: '1rem',
+              paddingY: '5px',
+            }}
           >
-            채팅
-            <TelegramIcon>
+            <TelegramIcon sx={{ marginRight: 1 }}>
               {/* 오픈버튼 -> 다른 컴포넌트에 삽입 */}
             </TelegramIcon>
-          </IconButton>
+            채팅 보내기
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
-            onClick={toggleDrawer(anchor, !state[anchor])}
+            // onClick={toggleDrawer(anchor, !state[anchor])}
           >
             {list(anchor)}
           </Drawer>

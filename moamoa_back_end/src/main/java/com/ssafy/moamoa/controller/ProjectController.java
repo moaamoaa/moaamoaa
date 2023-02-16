@@ -26,7 +26,6 @@ import com.ssafy.moamoa.config.security.JwtTokenProvider;
 import com.ssafy.moamoa.domain.ProjectCategory;
 import com.ssafy.moamoa.domain.dto.ProjectDetail;
 import com.ssafy.moamoa.domain.dto.ProjectForm;
-import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
 import com.ssafy.moamoa.service.ProjectService;
 import com.ssafy.moamoa.service.TeamService;
 
@@ -68,7 +67,9 @@ public class ProjectController {
 		Authentication authentication, HttpServletRequest request) throws Exception {
 		// access token 만료
 		String accessToken = jwtTokenProvider.resolveToken(request);
-		jwtTokenProvider.getExpiration(accessToken);
+		if (!(accessToken == null || accessToken.equals("undefined"))) {
+			jwtTokenProvider.getExpiration(accessToken);
+		}
 
 		ProjectDetail projectDetail = projectService.accessProject(projectId, 1);
 
@@ -124,7 +125,7 @@ public class ProjectController {
 			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
-		projectService.deleteProject(projectForm);
+		projectService.deleteProject(projectForm.getUserId(), projectForm.getProjectId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -154,7 +155,7 @@ public class ProjectController {
 		if (Long.valueOf(userDetails.getUsername()).equals(projectForm.getUserId())) {
 			throw new AccessDeniedException("이미 팀장입니다.");
 		}
-		projectService.changeLeader(Long.valueOf(userDetails.getUsername()), projectForm);
+		projectService.changeLeader(Long.valueOf(userDetails.getUsername()), projectForm.getUserId(), projectForm.getProjectId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

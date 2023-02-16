@@ -74,6 +74,6 @@ cloud:
   # multipartFile 용량 늘려주는 설정
   servlet:
     multipart:
-      max-file-size: 30MB
-      max-request-size: 30MB
+      max-file-size: 100MB
+      max-request-size: 100MB
 

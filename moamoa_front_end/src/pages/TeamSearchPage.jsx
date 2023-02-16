@@ -20,6 +20,8 @@ import SearchFilterOffline from 'components/team/searchFilter/SearchFilterOfflin
 import { useNavigate } from 'react-router-dom';
 import { handleCursorId } from 'redux/search';
 import CardList from 'components/common/card/CardList';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import Footer from 'components/common/footer/Footer';
 
 export default function TeamSearchPage(props) {
   // 팀생성 링크
@@ -212,96 +214,98 @@ export default function TeamSearchPage(props) {
   }, [techstack]);
 
   return (
-    <Container fixed sx={{ paddingTop: '4rem' }}>
-      <Button color="secondary" variant="contained" onClick={goToCreate}>
-        팀을 생성하시겠습니까?
-      </Button>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <div onKeyUp={search}>
-            <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
-          </div>
-        </Grid>
-        <Grid container item xs={8} spacing={1}>
-          <Grid item xs={4}>
-            <SearchFilterTech
-              handleTechstack={handleTechstack}
-            ></SearchFilterTech>
-          </Grid>
-          <Grid item xs={4}>
-            <SearchFilterCategory
-              handleCategory={handleCategory}
-            ></SearchFilterCategory>
-          </Grid>
-          <Grid item xs={4}>
-            <SearchFilterStatus
-              handleStatus={handleStatus}
-            ></SearchFilterStatus>
-          </Grid>
-        </Grid>
-      </Grid>
-
-      {status === 'OFFLINE' ? (
-        <Box sx={{ paddingTop: '1rem' }}>
-          <SearchFilterOffline
-            handleRegion={handleRegion}
-          ></SearchFilterOffline>
-        </Box>
-      ) : (
-        <></>
-      )}
-
-      <CommonBox direction="row" sx={{ paddingTop: '1rem' }}>
-        {filterArray.map((techstack, idx) => (
-          <Chip
-            variant="outlined"
-            label={techstack.name}
-            avatar={<Avatar alt="logo" src={techstack.logo} />}
-            key={techstack.id}
-            direction="row"
-            sx={{
-              display: 'inline-flex',
-              justifyContent: 'space-between',
-              margin: 1,
-            }}
-            onClick={() => {
-              handleSearchStack(techstack);
-            }}
-          />
-        ))}
-      </CommonBox>
-
-      <Box direction="row" style={{ display: 'flex', paddingTop: '1rem' }}>
-        <SearchBox direction="row">
-          {techNameList.length !== 0 &&
-            techNameList.map(name => {
-              return (
-                <Chip
-                  label={name.name}
-                  variant="outlined"
-                  key={name.id}
-                  value={name}
-                  sx={{ margin: 1 }}
-                  onDelete={() => {
-                    removeTechNameList(name);
-                  }}
-                />
-              );
-            })}
-        </SearchBox>
+    <>
+      <Container fixed sx={{ paddingTop: '4rem' }}>
         <Button
-          variant="contained"
-          onClick={search}
-          color="secondary"
-          sx={{ borderRadius: '0 .5rem .5rem 0' }}
+          color="primary"
+          variant="text"
+          onClick={goToCreate}
+          sx={{ paddingBottom: '1rem' }}
         >
-          검색
+          팀을 생성하시겠습니까?
         </Button>
-      </Box>
-      <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
-        <CardList cards={searchResult} type="team"></CardList>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={3} md={6}>
+            <div onKeyUp={search}>
+              <TeamSearchbar handleQuery={handleQuery}></TeamSearchbar>
+            </div>
+          </Grid>
+          <Grid container item xs={12} sm={9} md={6} spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <SearchFilterTech handleTechstack={handleTechstack} />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <SearchFilterCategory handleCategory={handleCategory} />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <SearchFilterStatus handleStatus={handleStatus} />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {status === 'OFFLINE' ? (
+          <Box sx={{ paddingTop: '1rem' }}>
+            <SearchFilterOffline
+              handleRegion={handleRegion}
+            ></SearchFilterOffline>
+          </Box>
+        ) : (
+          <></>
+        )}
+
+        <CommonBox direction="row" sx={{ paddingTop: '1rem' }}>
+          {filterArray.map((techstack, idx) => (
+            <Chip
+              variant="outlined"
+              label={techstack.name}
+              avatar={<Avatar alt="logo" src={techstack.logo} />}
+              key={techstack.id}
+              direction="row"
+              sx={{
+                display: 'inline-flex',
+                justifyContent: 'space-between',
+                margin: 1,
+              }}
+              onClick={() => {
+                handleSearchStack(techstack);
+              }}
+            />
+          ))}
+        </CommonBox>
+
+        <Box direction="row" style={{ display: 'flex', paddingTop: '1rem' }}>
+          <SearchBox direction="row">
+            {techNameList.length !== 0 &&
+              techNameList.map(name => {
+                return (
+                  <Chip
+                    label={name.name}
+                    variant="outlined"
+                    key={name.id}
+                    value={name}
+                    sx={{ margin: 1 }}
+                    onDelete={() => {
+                      removeTechNameList(name);
+                    }}
+                  />
+                );
+              })}
+          </SearchBox>
+          <Button
+            variant="contained"
+            onClick={search}
+            color="secondary"
+            sx={{ borderRadius: '0 .5rem .5rem 0', boxShadow: 0 }}
+          >
+            <SearchRoundedIcon></SearchRoundedIcon>
+          </Button>
+        </Box>
+        <Container sx={{ paddingTop: '4rem', paddingX: '0 !important' }}>
+          <CardList cards={searchResult} type="team"></CardList>
+        </Container>
       </Container>
-    </Container>
+      <Footer></Footer>
+    </>
   );
 }
 

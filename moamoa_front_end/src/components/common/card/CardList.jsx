@@ -65,7 +65,14 @@ export default function CardList(props) {
           {props.cards.length !== 0 ? (
             props.cards &&
             props.cards.map((card, idx) => (
-              <Grid item key={idx} mr={2}>
+              <Grid
+                item
+                key={idx}
+                xs={3}
+                display="flex"
+                justifyContent={'center'}
+                alignContent={'center'}
+              >
                 <CardItem card={card} type={props.type}></CardItem>
               </Grid>
             ))
@@ -91,7 +98,14 @@ export default function CardList(props) {
         {props.cards.length !== 0 ? (
           props.cards &&
           Object.entries(props.cards).map((card, idx) => (
-            <Grid item key={idx} xs={3}>
+            <Grid
+              item
+              key={idx}
+              xs={3}
+              display={card[1].link ? 'flex' : 'none'}
+              justifyContent={'center'}
+              alignContent={'center'}
+            >
               <CardItem
                 card={card}
                 isDetail={true}
