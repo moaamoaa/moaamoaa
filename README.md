@@ -47,6 +47,9 @@ SSAFY 8기 2학기 공통프로젝트 - MOAAMOAA
     - aws
     - ec2
     - nginx
+
+    <br>
+
 - Frontend
     - React.js
     - Redux
@@ -60,17 +63,19 @@ SSAFY 8기 2학기 공통프로젝트 - MOAAMOAA
     - HTML5
     - Figma
 
+<br>
+
 ## 🏛 프로젝트 구성도
 
    
 
 ## ✔ 팀원 역할 분배
 ---
-![역할 배분](https://user-images.githubusercontent.com/55949647/154541550-b52932b4-9e3d-4788-9994-98dd7fe8c875.png)
+![역할 배분]()
 
 ## ✔ 프로젝트 산출물
 ---
-- [기능명세서](./docs/기능명세서.md)
+- [기능명세서](./docs/)
 - [디자인&컨셉기획](./docs/디자인&컨셉기획.md)
 - [스토리보드](./docs/스토리보드.md)
 - [시퀀스다이어그램](./docs/시퀀스다이어그램.md)
