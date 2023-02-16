@@ -215,7 +215,12 @@ export default function TeamSearchPage(props) {
 
   return (
     <Container fixed sx={{ paddingTop: '4rem' }}>
-      <Button color="secondary" variant="contained" onClick={goToCreate}>
+      <Button
+        color="primary"
+        variant="text"
+        onClick={goToCreate}
+        sx={{ paddingBottom: '1rem' }}
+      >
         팀을 생성하시겠습니까?
       </Button>
       {isMobile ? (
