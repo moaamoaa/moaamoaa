@@ -28,6 +28,7 @@ export default function MyProjectStudy() {
   const [studies, setStudies] = useState([]);
   const isMobile = useMobile();
   const isLogged = useSelector(state => state.user.isLogged);
+
   useEffect(() => {
     if (!isLoaded && isLogged) {
       customAxios.authAxios
@@ -36,26 +37,18 @@ export default function MyProjectStudy() {
           setProjects(response.data);
         })
         .catch(error => {
-          console.log(error.message);
+          // console.log(error.message);
         });
-    } else {
-      setIsLoaded(true);
-    }
-  }, [isLoaded]);
-
-  useEffect(() => {
-    if (!isLoaded && isLogged) {
       customAxios.authAxios
         .get('/projects/study')
         .then(response => {
           setStudies(response.data);
         })
         .catch(error => {
-          console.log(error.message);
+          // console.log(error.message);
         });
-    } else {
-      setIsLoaded(true);
     }
+    setIsLoaded(true);
   }, [isLoaded]);
 
   // 오른쪽에 사이드바 열리는

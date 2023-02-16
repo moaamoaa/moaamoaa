@@ -39,7 +39,7 @@ export default function Profile(props) {
   const updateProfile = useSelector(state => state.profile.userProfile[1]);
   const [previewImage, setPreviewImage] = useState(userProfile.img);
   const [image, setImage] = useState('');
-  const [updateNickname, setUpdateNickname] = useState('');
+  const [updateNickname, setUpdateNickname] = useState(updateProfile.nickname);
   const searchstatus = useSelector(
     state => state.profile.userProfile[0].profileSearchStatus,
   );
@@ -71,57 +71,61 @@ export default function Profile(props) {
       );
       return;
     }
-    customAxios.basicAxios
-      .get(`/users/nickname?nickname=${updateNickname}`)
-      .then(response => {
-        const formData = new FormData();
 
-        if (previewImage !== userProfile.img) {
-          formData.append('file', image);
-        } else {
-          formData.append('file', null);
-        }
-
-        const updateUserProfile = {
-          userId: userProfile.id,
-          nickname: updateNickname,
-          profileOnOffStatus: updateProfile.profileOnOffStatus,
-          context: userProfile.context,
-        };
-
-        const value = {
-          profile: updateUserProfile,
-          techstacks: updateProfile.techStacks,
-          sites: updateProfile.sites,
-          areas: updateProfile.areas,
-        };
-
-        const blob = new Blob([JSON.stringify(value)], {
-          type: 'application/json',
+    if (updateNickname !== userProfile.nickname) {
+      customAxios.basicAxios
+        .get(`/users/nickname?nickname=${updateNickname}`)
+        .then(response => {})
+        .catch(error => {
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '중복된 닉네임이 존재합니다.',
+              severity: 'error',
+            }),
+          );
+          return;
         });
-        formData.append('profilePageForm', blob);
+    }
 
-        customAxios.imageAxios
-          .post('/profile', formData)
-          .then(response => {
-            navigate('/profilepage');
-            scrollToTop();
-          })
-          .catch(error => {
-            dispatch(
-              handleSuccessState({
-                open: true,
-                message: '비어 있는 값이 존재합니다.',
-                severity: 'error',
-              }),
-            );
-          });
+    const formData = new FormData();
+
+    if (previewImage !== userProfile.img) {
+      formData.append('file', image);
+    } else {
+      formData.append('file', null);
+    }
+
+    const updateUserProfile = {
+      userId: userProfile.id,
+      nickname: updateNickname,
+      profileOnOffStatus: updateProfile.profileOnOffStatus,
+      context: userProfile.context,
+    };
+
+    const value = {
+      profile: updateUserProfile,
+      techstacks: updateProfile.techStacks,
+      sites: updateProfile.sites,
+      areas: updateProfile.areas,
+    };
+
+    const blob = new Blob([JSON.stringify(value)], {
+      type: 'application/json',
+    });
+    formData.append('profilePageForm', blob);
+
+    customAxios.imageAxios
+      .post('/profile', formData)
+      .then(response => {
+        navigate('/profilepage');
+        scrollToTop();
       })
       .catch(error => {
         dispatch(
           handleSuccessState({
             open: true,
-            message: '중복된 닉네임이 존재합니다.',
+            message: '비어 있는 값이 존재합니다.',
             severity: 'error',
           }),
         );
@@ -285,6 +289,7 @@ export default function Profile(props) {
           <Grid
             container
             display={'flex'}
+            justifyContent="center"
             onDrop={handleDrop}
             onDragOver={event => event.preventDefault()}
           >
@@ -293,8 +298,8 @@ export default function Profile(props) {
                 src={previewImage}
                 variant="circular"
                 sx={{
-                  width: { md: '280px', xl: '320px' },
-                  height: { md: '280px', xl: '320px' },
+                  width: '280px',
+                  height: '280px',
                   boxShadow: '0px 0px 10px 4px #888888',
                   opacity: 0.5,
                 }}
@@ -305,7 +310,7 @@ export default function Profile(props) {
               container
               sx={{
                 position: 'absolute',
-                top: { md: '140px', xl: '160px' },
+                top: '140px',
                 left: '50%',
                 display: 'flex',
                 fontWeight: '600',
