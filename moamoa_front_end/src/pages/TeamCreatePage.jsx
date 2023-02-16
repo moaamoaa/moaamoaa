@@ -28,14 +28,14 @@ import scrollToTop from 'utils/scrollToTop';
 
 export default function TeamCreatePage() {
   //ref
-  const classRef = useRef(null);
-  const numberRef = useRef(null);
-  const onoffRef = useRef(null);
+  const classRef = useRef('');
+  const numberRef = useRef('');
+  const onoffRef = useRef('');
   const regionRef = useRef(null);
-  const titleRef = useRef(null);
-  const dateRef = useRef(null);
-  const techRef = useRef(null);
-  const inputRef = useRef(null);
+  const titleRef = useRef('');
+  const dateRef = useRef('');
+  const techRef = useRef('');
+  const inputRef = useRef('');
   // redux
   const { userPk } = useSelector(state => state.user.userPk);
   const dispatch = useDispatch();
