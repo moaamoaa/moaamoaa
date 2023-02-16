@@ -141,6 +141,8 @@ export default function TeamCreatePage() {
         <Paper
           sx={{
             position: 'relative',
+            display: 'flex',
+            alignItems: 'flex-end',
             color: '#fff',
             mb: 4,
             backgroundSize: 'cover',
@@ -149,11 +151,13 @@ export default function TeamCreatePage() {
             backgroundImage: `url(${fileImageURL})`,
             height: 'calc(400px + 10vw)', // 반응형 웹 calc
             maxHeight: 'calc(100vh - 56px)',
+            borderRadius: '0',
+            boxShadow: 0,
           }}
         >
           <Dim />
-          <Grid container>
-            <Grid item md={6}>
+          <Grid container sx={{}}>
+            <Grid item md={6} xs={6}>
               <Box
                 sx={{
                   position: 'relative',
@@ -161,18 +165,6 @@ export default function TeamCreatePage() {
                   pr: { md: 0 },
                 }}
               >
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  color="inherit"
-                  gutterBottom
-                >
-                  {/* 팀 이름  */}
-                  <SingleTextField ref={titleRef}></SingleTextField>
-                </Typography>
-                <Typography variant="h4" color="inherit" paragraph>
-                  {/* 팀장 이름 */}
-                </Typography>
                 <div>
                   <input
                     accept="image/*"
@@ -189,58 +181,69 @@ export default function TeamCreatePage() {
                       component="span"
                     >
                       <input hidden accept="image/*" type="file" />
-                      <PhotoCamera />
+                      <PhotoCamera fontSize="large" />
                       {/* 파일 업로드 창 오픈되는 카메라 아이콘 */}
                     </IconButton>
                   </label>
                 </div>
               </Box>
             </Grid>
+            <Grid
+              item
+              container
+              justifyContent="flex-end"
+              alignItems={'center'}
+              xs={6}
+            >
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ maxHeight: '50px', paddingRight: '4rem' }}
+              >
+                <Button
+                  onClick={handleClick}
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                >
+                  등록
+                </Button>
+                <Button size="small" variant="contained" color="primary">
+                  취소
+                </Button>
+              </Stack>
+            </Grid>
           </Grid>
         </Paper>
       </Container>
-      <Container fixed>
-        <Grid container justifyContent="flex-end">
-          <Stack direction="row" spacing={2} sx={{ pt: 4 }}>
-            <Button
-              onClick={handleClick}
-              size="small"
-              variant="contained"
-              color="primary"
-            >
-              등록
-            </Button>
-            <Button size="small" variant="contained" color="primary">
-              취소
-            </Button>
-          </Stack>
-        </Grid>
+      <Container fixed sx={{ marginBottom: 4 }}>
+        <Typography id="title" variant="h5" color="secondary">
+          모집 정보
+        </Typography>
+        <h4>팀 이름</h4>
+        <SingleTextField ref={titleRef}></SingleTextField>
+        <h4>모집 구분</h4>
+        <SingleSelect ref={classRef}></SingleSelect>
+        <h4>모집 정원</h4>
+        <SingleSelectNumber ref={numberRef}></SingleSelectNumber>
+        <h4>마감 날짜</h4>
+        <Calendar ref={dateRef}></Calendar>
+        <h4>진행 방식</h4>
+        <SingleSelectOnOff ref={onoffRef}></SingleSelectOnOff>
+        <h4>지역</h4>
+        <SingleSelectRegion ref={regionRef}></SingleSelectRegion>
+        <h4>기술 스택</h4>
+        <MultipleSelect ref={techRef}></MultipleSelect>
       </Container>
-      <Container fixed>
-        <h2>모집 정보</h2>
-        <Box>
-          <h4>모집 구분</h4>
-          <SingleSelect ref={classRef}></SingleSelect>
-          <h4>모집 정원</h4>
-          <SingleSelectNumber ref={numberRef}></SingleSelectNumber>
-          <h4>마감 날짜</h4>
-          <Calendar ref={dateRef}></Calendar>
-          <h4>진행 방식</h4>
-          <SingleSelectOnOff ref={onoffRef}></SingleSelectOnOff>
-          <h4>지역</h4>
-          <SingleSelectRegion ref={regionRef}></SingleSelectRegion>
-          <h4>기술 스택</h4>
-          <MultipleSelect ref={techRef}></MultipleSelect>
-        </Box>
-      </Container>
-      <Container fixed>
-        <h2>팀 소개</h2>
+      <Container fixed sx={{ marginBottom: 16 }}>
+        <Typography id="title" variant="h5" color="secondary">
+          팀 소개
+        </Typography>
         <MultilineText
           placeholder="팀 소개를 작성해 주세요."
           ref={inputRef}
         ></MultilineText>
       </Container>
-      <hr></hr>
     </>
   );
 }
@@ -252,4 +255,5 @@ const Dim = styled(Box)`
   right: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 0;
 `;

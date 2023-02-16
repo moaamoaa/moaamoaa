@@ -123,7 +123,7 @@ export default function Profile(props) {
         dispatch(
           handleSuccessState({
             open: true,
-            message: '실패',
+            message: '이미지의 용량이 너무 큽니다.',
             severity: 'error',
           }),
         );
@@ -231,21 +231,17 @@ export default function Profile(props) {
     <ProfileButton key="eidt" onClick={handleOpenEditPage} variant="outlined">
       수정
     </ProfileButton>,
-    <ProfileButton key="offer" variant="outlined">
-      <ProfileApplyOffer isMobile={isMobile}></ProfileApplyOffer>
-    </ProfileButton>,
+    <ProfileApplyOffer key="offer" isMobile={isMobile}></ProfileApplyOffer>,
   ];
 
   const otherButtons = [
-    <ProfileButton key="offer" variant="outlined">
-      <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
-    </ProfileButton>,
+    <MyProjectStudy key="offer" isMobile={isMobile}></MyProjectStudy>,
     <ChattingRoom key="chat" variant="outlined"></ChattingRoom>,
   ];
 
   const editButtons = [
     <ProfileButton
-      key="offer"
+      key="success"
       onClick={handleEditSuccess}
       color="primary"
       variant="outlined"
@@ -253,7 +249,7 @@ export default function Profile(props) {
       수정 완료
     </ProfileButton>,
     <ProfileButton
-      key="chat"
+      key="cancel"
       onClick={handleCloseEditPage}
       color="primary"
       variant="outlined"
@@ -261,7 +257,7 @@ export default function Profile(props) {
       수정 취소
     </ProfileButton>,
     <ProfileButton
-      key="chat"
+      key="delete"
       onClick={handleOpenDeletePage}
       color="error"
       variant="contained"
@@ -297,7 +293,7 @@ export default function Profile(props) {
                   width: '280px',
                   height: '280px',
                   boxShadow: '0px 0px 10px 4px #888888',
-                  opacity: 0.5,
+                  opacity: image === '' ? 0.5 : 1,
                 }}
               />
             </Grid>
@@ -314,6 +310,7 @@ export default function Profile(props) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 textShadow: '0 0 3px #fff',
+                opacity: image === '' ? 1 : 0,
               }}
             >
               <Grid
@@ -404,7 +401,7 @@ export default function Profile(props) {
                   width: isMobile ? '100px' : '160px',
                   height: isMobile ? '100px' : '160px',
                   boxShadow: '0px 0px 10px 0px #888888',
-                  opacity: 0.5,
+                  opacity: image === '' ? 0.5 : 1,
                 }}
               />
             </Grid>
@@ -570,7 +567,7 @@ export default function Profile(props) {
                   </Badge>
                 </Tooltip>
               </Grid>
-              <Grid item>
+              <Grid item xs={8}>
                 <CardList type={'tech'} cards={techStacks}></CardList>
                 <Divider sx={{ marginY: 2 }} />
                 <CardList type={'link'} cards={sites}></CardList>

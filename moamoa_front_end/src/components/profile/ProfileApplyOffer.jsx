@@ -13,6 +13,7 @@ import {
   ListItemText,
   ListSubheader,
   Collapse,
+  Button,
 } from '@mui/material/';
 
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -153,17 +154,19 @@ export default function ProfileApplyOffer() {
     <div>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <ButtonBase
-            size="small"
-            variant="contained"
+          <Button
+            fullWidth
+            size="medium"
+            variant="outlined"
+            color="primary"
             onClick={toggleDrawer(anchor, true)}
             sx={{
-              mr: isMobile ? 0 : 2,
-              scale: isMobile ? '.8' : '1',
+              marginTop: '1rem',
+              paddingY: '5px',
             }}
           >
             지원 및 제안
-          </ButtonBase>
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
