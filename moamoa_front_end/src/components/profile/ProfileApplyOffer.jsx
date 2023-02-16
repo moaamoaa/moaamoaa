@@ -38,7 +38,7 @@ export default function ProfileApplyOffer() {
           setOffers(response.data);
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
         });
     } else {
       setIsLoaded(true);
@@ -53,7 +53,7 @@ export default function ProfileApplyOffer() {
           setApplies(response.data);
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
         });
     } else {
       setIsLoaded(true);
