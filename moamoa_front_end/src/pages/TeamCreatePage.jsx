@@ -34,7 +34,7 @@ export default function TeamCreatePage() {
   const regionRef = useRef(null);
   const titleRef = useRef('');
   const dateRef = useRef('');
-  const techRef = useRef('');
+  const techRef = useRef([]);
   const inputRef = useRef('');
   // redux
   const { userPk } = useSelector(state => state.user.userPk);
