@@ -125,7 +125,7 @@ public class ProjectController {
 			throw new AccessDeniedException("팀장이 아닙니다.");
 		}
 		projectForm.setUserId(Long.valueOf(userDetails.getUsername()));
-		projectService.deleteProject(projectForm);
+		projectService.deleteProject(projectForm.getUserId(), projectForm.getProjectId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -155,7 +155,7 @@ public class ProjectController {
 		if (Long.valueOf(userDetails.getUsername()).equals(projectForm.getUserId())) {
 			throw new AccessDeniedException("이미 팀장입니다.");
 		}
-		projectService.changeLeader(Long.valueOf(userDetails.getUsername()), projectForm);
+		projectService.changeLeader(Long.valueOf(userDetails.getUsername()), projectForm.getUserId(), projectForm.getProjectId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
