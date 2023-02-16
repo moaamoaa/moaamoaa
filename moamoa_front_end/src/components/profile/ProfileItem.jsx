@@ -13,6 +13,7 @@ import Stack from '@mui/material/Stack';
 import { useDispatch } from 'react-redux';
 import { handleSuccessState } from 'redux/snack';
 import customAxios from 'utils/axios';
+import { handleOpenTeamDetail } from 'redux/team';
 
 // 개인이 팀에게 지원을 보내거나 (철회)하고 제안 받은 것을 (수락)(거절) 한다.
 
@@ -21,6 +22,7 @@ export default function ProfileItem(props) {
   const navigate = useNavigate();
   // Item 클릭하면, 해당 팀 페이지로 이동할 수 있어야 함!
   const goToDetail = () => {
+    dispatch(handleOpenTeamDetail({ projectId: props.ask.projectId }));
     navigate(`/TeamDetailPage/?projectId=${props.ask.projectId}`);
   };
 
