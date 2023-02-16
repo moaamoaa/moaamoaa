@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
 import removeData from './removeData';
 
 let baseURL;
@@ -43,8 +44,9 @@ authAxios.interceptors.response.use(
     } = error;
 
     const originalRequest = config;
+    const isLogged = useSelector(state => state.user.isLogged);
 
-    if (status === 401) {
+    if (status === 401 && isLogged) {
       try {
         authAxios
           .post('/users/reissue', {}, { withCredentials: true })
@@ -83,8 +85,9 @@ imageAxios.interceptors.response.use(
     } = error;
 
     const originalRequest = config;
+    const isLogged = useSelector(state => state.user.isLogged);
 
-    if (status === 401) {
+    if (status === 401 && isLogged) {
       try {
         authAxios
           .post('/users/reissue', {}, { withCredentials: true })
