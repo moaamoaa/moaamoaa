@@ -63,8 +63,8 @@ authAxios.interceptors.response.use(
         // 재시도
         return authAxios.request(error.config);
       } catch (err) {
-        // refresh token이 유효하지 않은 경우 로그아웃 처리 등
-        removeData();
+        // refresh token이 유효하지 않은 경우 로컬 스토리지를 비우며 로그아웃 처리
+        localStorage.clear();
       }
     }
     return Promise.reject(error);
@@ -80,6 +80,7 @@ imageAxios.interceptors.response.use(
         error.config.headers.Authorization = `Bearer ${accessToken}`;
         return authAxios.request(error.config);
       } catch (err) {
+        // refresh token이 유효하지 않은 경우 로그아웃 처리 등
         removeData();
       }
     }
