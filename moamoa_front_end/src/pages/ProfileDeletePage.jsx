@@ -33,16 +33,13 @@ function ProfileDeletePage() {
         );
       })
       .catch(() => {
-        location.reload();
-        setTimeout(() => {
-          dispatch(
-            handleSuccessState({
-              open: true,
-              message: '조금만 더 머물러 주세요.ㅜㅜ',
-              severity: 'success',
-            }),
-          );
-        }, 400);
+        dispatch(
+          handleSuccessState({
+            open: true,
+            message: '조금만 더 머물러 주세요.ㅜㅜ',
+            severity: 'success',
+          }),
+        );
       });
   };
   return (

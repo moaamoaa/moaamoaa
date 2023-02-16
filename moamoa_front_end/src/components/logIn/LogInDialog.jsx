@@ -42,33 +42,26 @@ export default function LogInDialog(props) {
       .then(response => {
         const token = response.data.accessToken;
         const userPk = response.data.id;
-        setOpen(true);
         Cookies.set('access_token', token, { expires: 1 });
+
         dispatch(loginSuccess({ userPk: userPk }));
 
-        setTimeout(() => {
-          location.reload();
-          dispatch(
-            handleSuccessState({
-              open: false,
-              message: '로그인 되었습니다.',
-              severity: 'success',
-            }),
-          );
-        }, 200);
-        setTimeout(() => {
-          setOpen(false);
-        }, 400);
         dispatch(
           handleSuccessState({
-            open: true,
+            open: false,
             message: '로그인 되었습니다.',
             severity: 'success',
           }),
         );
       })
       .catch(error => {
-        console.log(error);
+        dispatch(
+          handleSuccessState({
+            open: false,
+            message: '아이디 혹은 비밀번호가 틀렸습니다.',
+            severity: 'error',
+          }),
+        );
       });
   };
 
