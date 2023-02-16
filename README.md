@@ -8,7 +8,7 @@
 
 <br>
 
-## 🎞️ 소개 영상 보기 : [UCC 링크](https://youtu.be/WU3tIIOS0Ec)
+## 🎞️ 소개 영상 보기 : [UCC 링크]()
 
 <br>
 
@@ -144,8 +144,7 @@ src/
 ## 📜 프로젝트 산출물
 ---
 - [기능명세서](./docs/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
-- [요구사항명세서](./docs/)
-- [스토리보드](./docs/스토리보드.md)
+- [요구사항명세서](./docs/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%EB%AA%85%EC%84%B8%EC%84%9C.md)
 - [아키텍처](./docs/%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.md)
 - [와이어프레임](./docs/와이어프레임.md)
 - [컨벤션](./docs/컨벤션.md)
