@@ -9,17 +9,21 @@ import { useNavigate } from 'react-router-dom';
 import { handleSuccessState } from 'redux/snack';
 import scrollToTop from 'utils/scrollToTop';
 import removeData from 'utils/removeData';
+import { logoutSuccess } from 'redux/user';
 
 function ProfileDeletePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleDeleteAccount = () => {
     customAxios.authAxios
       .delete('/users')
       .then(() => {
+        dispatch(logoutSuccess());
         navigate('/');
-        scrollToTop();
         removeData();
+        scrollToTop();
+
         dispatch(
           handleSuccessState({
             open: true,
