@@ -56,15 +56,22 @@ export default function ChattingRoom() {
     <div>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <IconButton
+          <Button
+            fullWidth
+            size="medium"
+            variant="outlined"
+            color="primary"
             onClick={toggleDrawer(anchor, true)}
-            sx={{ mr: isMobile ? 0 : 2, scale: isMobile ? '.8' : '1' }}
+            sx={{
+              marginTop: '1rem',
+              paddingY: '5px',
+            }}
           >
-            채팅
-            <TelegramIcon>
+            <TelegramIcon sx={{ marginRight: 1 }}>
               {/* 오픈버튼 -> 다른 컴포넌트에 삽입 */}
             </TelegramIcon>
-          </IconButton>
+            채팅 보내기
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
