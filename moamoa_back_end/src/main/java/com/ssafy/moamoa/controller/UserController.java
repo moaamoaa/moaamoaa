@@ -105,7 +105,7 @@ public class UserController {
 	@ApiOperation(value = "회원 탈퇴", notes = "auth에 맞는 회원을 삭제한다.")
 	// 회원 삭제
 	@DeleteMapping
-	public ResponseEntity<?> deleteUser(Authentication authentication) {
+	public ResponseEntity<?> deleteUser(Authentication authentication) throws Exception {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		userService.deleteUser(Long.valueOf(userDetails.getUsername()));
 		return new ResponseEntity<>(HttpStatus.OK);

@@ -1,11 +1,15 @@
 package com.ssafy.moamoa.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.ssafy.moamoa.domain.entity.Project;
+import com.ssafy.moamoa.domain.entity.Team;
+import com.ssafy.moamoa.repository.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,8 +28,6 @@ import com.ssafy.moamoa.domain.entity.Profile;
 import com.ssafy.moamoa.domain.entity.User;
 import com.ssafy.moamoa.exception.customException.DuplicateUserException;
 import com.ssafy.moamoa.exception.customException.UnAuthorizedException;
-import com.ssafy.moamoa.repository.ProfileRepository;
-import com.ssafy.moamoa.repository.UserRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +39,15 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final ProfileRepository profileRepository;
+	private final TeamRepository teamRepository;
+	private final ProjectRepository projectRepository;
 	private final AuthenticationManager authenticationManager;
 	private final RedisTemplate<String, String> redisTemplate;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 
 	private final ImageService imageService;
+	private final ProjectService projectService;
 
 	// 회원 한명 조회
 	public User findUser(Long userId) {
@@ -150,12 +155,28 @@ public class UserService {
 		findUser.setPassword(getEncodedPassword(password));
 	}
 
-	public void deleteUser(Long id) {
+	public void deleteUser(Long id) throws Exception {
 		Optional<User> findUsers = userRepository.findById(id);
 		if (!findUsers.isPresent()) {
 			throw new EntityNotFoundException("해당 id의 유저가 없습니다.");
 		}
 		User findUser = findUsers.get();
+		List<Team> findprojects = teamRepository.findByUser_Id(id);
+		for (Team team:findprojects) {
+			List<Team> findMembers = teamRepository.findByProject_Id(team.getProject().getId());
+			Project findProject = projectRepository.findById(team.getProject().getId()).get();
+			for (Team t: findMembers) {
+				if(t.getUser().getId() != id)
+				{
+					projectService.changeLeader(t.getUser().getId(), id, findProject.getId());
+					teamRepository.delete(teamRepository.findByUser_IdAndProject_Id(id, findProject.getId()).get());
+					findProject.setCurrentPeople(findProject.getCurrentPeople()-1);
+				}
+				if(findMembers.size()==1) {
+					findProject.setLocked(true);
+				}
+			}
+		}
 		findUser.setLocked(true);
 	}
 
