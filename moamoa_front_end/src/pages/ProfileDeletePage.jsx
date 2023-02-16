@@ -33,13 +33,16 @@ function ProfileDeletePage() {
         );
       })
       .catch(() => {
-        dispatch(
-          handleSuccessState({
-            open: true,
-            message: '탈퇴에 실패하였습니다.',
-            severity: 'error',
-          }),
-        );
+        location.reload();
+        setTimeout(() => {
+          dispatch(
+            handleSuccessState({
+              open: true,
+              message: '조금만 더 머물러 주세요.ㅜㅜ',
+              severity: 'success',
+            }),
+          );
+        }, 400);
       });
   };
   return (

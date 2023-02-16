@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import customAxios from 'utils/axios';
-
+import HandshakeRoundedIcon from '@mui/icons-material/HandshakeRounded';
 import {
   Box,
   Drawer,
@@ -30,7 +30,7 @@ export default function MyProjectStudy() {
   const isLogged = useSelector(state => state.user.isLogged);
 
   useEffect(() => {
-    if (!isLoaded && isLogged) {
+    if (isLoaded && isLogged) {
       customAxios.authAxios
         .get('/projects/project')
         .then(response => {
@@ -47,8 +47,9 @@ export default function MyProjectStudy() {
         .catch(error => {
           // console.log(error.message);
         });
+    } else {
+      setIsLoaded(true);
     }
-    setIsLoaded(true);
   }, [isLoaded]);
 
   // 오른쪽에 사이드바 열리는
@@ -151,12 +152,20 @@ export default function MyProjectStudy() {
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
           <Button
-            variant="contained"
+            fullWidth
+            size="medium"
+            variant="outlined"
             color="primary"
             onClick={toggleDrawer(anchor, true)}
-            sx={{ paddingX: 0 }}
+            sx={{
+              marginTop: '1rem',
+              paddingY: '5px',
+            }}
           >
-            제안하기
+            <HandshakeRoundedIcon
+              sx={{ marginRight: 1 }}
+            ></HandshakeRoundedIcon>
+            제안 보내기
           </Button>
           <Drawer
             anchor={anchor}

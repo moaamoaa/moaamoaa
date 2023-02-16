@@ -44,8 +44,8 @@ authAxios.interceptors.response.use(
     } = error;
 
     const originalRequest = config;
-    const isLogged = useSelector(state => state.user.isLogged);
-    if (status === 401 && isLogged) {
+    // const isLogged = useSelector(state => state.user.isLogged);
+    if (status === 401) {
       try {
         authAxios
           .post('/users/reissue', {}, { withCredentials: true })
@@ -84,9 +84,9 @@ imageAxios.interceptors.response.use(
     } = error;
 
     const originalRequest = config;
-    const isLogged = useSelector(state => state.user.isLogged);
+    // const isLogged = useSelector(state => state.user.isLogged);
 
-    if (status === 401 && isLogged) {
+    if (status === 401) {
       try {
         authAxios
           .post('/users/reissue', {}, { withCredentials: true })
