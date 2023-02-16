@@ -156,25 +156,15 @@ export default function HomePageSample() {
       >
         <Grid container>
           <MoaGrid item xs={12}>
-            <MoaTypography id="title">금주의 추천 프로젝트 섹션</MoaTypography>
+            <MoaTypography id="title">추천 프로젝트 섹션</MoaTypography>
             <CardList cards={recoProject} type={'team'}></CardList>
           </MoaGrid>
-          <MoaGrid
-            item
-            xs={12}
-            sx={{ borderTop: '1px solid #888', paddingTop: '3rem' }}
-          >
-            <MoaTypography id="title">금주의 추천 스터디 섹션</MoaTypography>
+          <MoaGrid item xs={12}>
+            <MoaTypography id="title">추천 스터디 섹션</MoaTypography>
             <CardList cards={recoStudy} type={'team'}></CardList>
           </MoaGrid>
-          <MoaGrid
-            item
-            xs={12}
-            borderTop={1}
-            paddingTop={4}
-            sx={{ borderTop: '1px solid #888', paddingTop: '3rem' }}
-          >
-            <MoaTypography id="title">금주의 추천 팀원 섹션</MoaTypography>
+          <MoaGrid item xs={12}>
+            <MoaTypography id="title">추천 팀원 섹션</MoaTypography>
             <CardList cards={recoMember} type={'member'}></CardList>
           </MoaGrid>
         </Grid>
