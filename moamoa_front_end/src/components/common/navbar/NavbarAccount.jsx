@@ -30,6 +30,7 @@ import useMobile from 'hooks/useMobile';
 
 export default function NavbarAccount() {
   const isMobile = useMobile();
+  const [isLogged, setIsLogged] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [logInDialog, setLogInDialog] = useState(false);
   const [signUpDialog, setSignUpDialog] = useState(false);
@@ -64,10 +65,6 @@ export default function NavbarAccount() {
 
   const handleLogOut = () => {
     handleCloseUserMenu();
-    // dispatch(logoutSuccess());
-    // navigate('/');
-    // Cookies.remove('access_token');
-    // scrollToTop();
 
     customAxios.authAxios
       .post(`/users/logout`)
@@ -97,20 +94,24 @@ export default function NavbarAccount() {
   ];
 
   useEffect(() => {
-    customAxios.authAxios
-      .get(`/profile/${userPk}`)
-      .then(response => {
-        dispatch(
-          handleUserProfile({
-            userImg: response.data.profile.img,
-            userNickname: response.data.profile.nickname,
-          }),
-        );
-      })
-      .catch(error => {
-        // console.log(error);
-      });
-  }, [isLogIn]);
+    if (isLogged) {
+      customAxios.authAxios
+        .get(`/profile/${userPk}`)
+        .then(response => {
+          dispatch(
+            handleUserProfile({
+              userImg: response.data.profile.img,
+              userNickname: response.data.profile.nickname,
+            }),
+          );
+        })
+        .catch(error => {
+          // console.log(error);
+        });
+    } else {
+      setIsLogged(true);
+    }
+  }, [isLogged]);
 
   if (isLogIn) {
     return (
