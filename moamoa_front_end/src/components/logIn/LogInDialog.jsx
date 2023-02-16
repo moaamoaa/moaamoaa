@@ -55,7 +55,13 @@ export default function LogInDialog(props) {
         );
       })
       .catch(error => {
-        console.log(error);
+        dispatch(
+          handleSuccessState({
+            open: false,
+            message: '아이디 혹은 비밀번호가 틀렸습니다.',
+            severity: 'error',
+          }),
+        );
       });
   };
 

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useSelector } from 'react-redux';
 import removeData from './removeData';
 
 let baseURL;
@@ -10,8 +9,6 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   baseURL = 'https://moaamoaa.com/api';
 }
-
-const accessToken = Cookies.get('access_token');
 
 // refresh token을 사용해 access token을 재발급 받는 함수
 const reissueAccessToken = async () => {
@@ -30,6 +27,8 @@ const reissueAccessToken = async () => {
   return accessToken;
 };
 
+const accessToken = Cookies.get('access_token');
+
 const basicAxios = axios.create({
   baseURL: baseURL,
 });
@@ -38,15 +37,6 @@ const authAxios = axios.create({
   baseURL: baseURL,
   headers: {
     Authorization: `Bearer ${accessToken}`,
-  },
-});
-
-const imageAxios = axios.create({
-  baseURL: baseURL,
-  mode: 'cors',
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-    'Content-Type': 'multipart/form-data',
   },
 });
 
@@ -61,7 +51,10 @@ authAxios.interceptors.response.use(
         // 재발급 받은 access token을 헤더에 추가
         error.config.headers.Authorization = `Bearer ${accessToken}`;
         // 재시도
-        return authAxios.request(error.config);
+        const response = await axios.request(error.config);
+        // access token이 갱신된 경우 새로운 값을 cookie에 저장
+        Cookies.set('access_token', accessToken, { expires: 1 });
+        return response;
       } catch (err) {
         // refresh token이 유효하지 않은 경우 로컬 스토리지를 비우며 로그아웃 처리
         localStorage.clear();
@@ -71,6 +64,15 @@ authAxios.interceptors.response.use(
   },
 );
 
+const imageAxios = axios.create({
+  baseURL: baseURL,
+  mode: 'cors',
+  headers: {
+    Authorization: `Bearer ${accessToken}`,
+    'Content-Type': 'multipart/form-data',
+  },
+});
+
 imageAxios.interceptors.response.use(
   response => response,
   async error => {
@@ -78,7 +80,9 @@ imageAxios.interceptors.response.use(
       try {
         const accessToken = await reissueAccessToken();
         error.config.headers.Authorization = `Bearer ${accessToken}`;
-        return authAxios.request(error.config);
+        const response = await axios.request(error.config);
+        Cookies.set('access_token', accessToken, { expires: 1 });
+        return response;
       } catch (err) {
         // refresh token이 유효하지 않은 경우 로그아웃 처리 등
         removeData();
