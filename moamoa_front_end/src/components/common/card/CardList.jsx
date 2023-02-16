@@ -14,11 +14,7 @@ export default function CardList(props) {
         {props.cards &&
           props.cards.map((card, idx) => (
             <Grid item key={idx} xs={12} md={6} lg={4}>
-              <CardItem
-                card={card}
-                isDetail={true}
-                type={props.type}
-              ></CardItem>
+              <CardItem card={card} type={props.type}></CardItem>
             </Grid>
           ))}
       </MoaGrid>
@@ -31,7 +27,7 @@ export default function CardList(props) {
             <Grid item key={idx} xs={12} sm={6} md={4} lg={3}>
               <CardItem
                 card={card}
-                isDetail={true}
+                isDetail={props.isDetail}
                 type={props.type}
               ></CardItem>
             </Grid>
@@ -47,6 +43,8 @@ export default function CardList(props) {
             width: '100%',
             fontWeight: '600',
             opacity: '0.5',
+            height: '50px',
+            lineHeight: '50px',
           }}
           textAlign="center"
         >
@@ -71,23 +69,33 @@ export default function CardList(props) {
                 xs={3}
                 display="flex"
                 justifyContent={'center'}
-                alignContent={'center'}
+                alignItems={'flex-end'}
               >
                 <CardItem card={card} type={props.type}></CardItem>
               </Grid>
             ))
           ) : (
-            <Typography
-              variant={isMobile ? 'caption' : 'body1'}
+            <Grid
+              display="flex"
+              justifyContent={'center'}
               sx={{
-                width: '100%',
-                fontWeight: '600',
-                opacity: '0.5',
+                minHeight: '50px',
+                alignItems: 'center',
               }}
-              textAlign="center"
+              xs={12}
             >
-              기술스택이 등록되지 않았습니다.
-            </Typography>
+              <Typography
+                variant={isMobile ? 'caption' : 'body1'}
+                sx={{
+                  width: '100%',
+                  fontWeight: '600',
+                  opacity: '0.5',
+                }}
+                textAlign="center"
+              >
+                기술스택이 등록되지 않았습니다.
+              </Typography>
+            </Grid>
           )}
         </Grid>
       );
@@ -120,6 +128,8 @@ export default function CardList(props) {
               width: '100%',
               fontWeight: '600',
               opacity: '0.5',
+              height: '50px',
+              lineHeight: '50px',
             }}
             textAlign="center"
           >
