@@ -8,9 +8,11 @@ import ScrollIndicator from '../button/ScrollIndicator';
 export default function MainBanner() {
   const post = {
     img: `${process.env.PUBLIC_URL}/images/common/banner/main_img.svg`,
-    title: '모아모아에 오신 것을 환영합니다.',
-    description: '팀 빌딩 서비스',
-    linkText: '노션 구경하기',
+    title: 'MoaaMoaa',
+    description: '모든 개발자를 위한',
+    description_1: '팀 빌딩 서비스 모아모아입니다.',
+    linkText: '지금까지 경험하지 못한',
+    linkText_1: '최고의 팀과 팀원을 찾아보세요.',
   };
 
   const yellowCircle = `${process.env.PUBLIC_URL}/images/common/banner/yellow_circle.svg`;
@@ -45,32 +47,64 @@ export default function MainBanner() {
             <Box
               sx={{
                 position: 'relative',
-                py: { xs: 3, md: 6 },
+                py: { xs: 3, md: 6, xl: 9 },
                 pr: { md: 0 },
               }}
             >
               <Typography
                 id="title"
                 component="h1"
-                variant="h3"
-                color="inherit"
+                variant="h1"
+                color="#FDF3D8"
                 sx={{
-                  fontSize: { xs: 24, md: 32, xl: 40 },
+                  fontSize: { xs: 48, md: 64, xl: 120 },
+                  textShadow: {
+                    xs: '5px 5px 1px #f3d112',
+                    md: '10px 10px 1px #f3d112',
+                  },
                 }}
                 gutterBottom
               >
                 {post.title}
               </Typography>
-              <Typography variant="h5" color="inherit" paragraph>
+              <Typography
+                variant="h5"
+                color="inherit"
+                paragraph
+                sx={{
+                  fontSize: { xs: 24, md: 36, xl: 40 },
+                  fontWeight: '600',
+                }}
+              >
                 {post.description}
               </Typography>
-              <Link
-                variant="subtitle1"
-                href="https://lab.ssafy.com/s08-webmobile2-sub2/S08P12B110/-/tree/develop"
-                color={'secondary'}
+              <Typography
+                variant="h5"
+                color="inherit"
+                paragraph
+                sx={{
+                  fontSize: { xs: 24, md: 36, xl: 40 },
+                  fontWeight: '600',
+                }}
+              >
+                {post.description_1}
+              </Typography>
+              <Typography
+                color="#888"
+                sx={{
+                  fontSize: { xs: 12, md: 18 },
+                }}
               >
                 {post.linkText}
-              </Link>
+              </Typography>
+              <Typography
+                color="#888"
+                sx={{
+                  fontSize: { xs: 12, md: 18 },
+                }}
+              >
+                {post.linkText_1}
+              </Typography>
             </Box>
           </Grid>
         </Grid>
