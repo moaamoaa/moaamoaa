@@ -41,7 +41,6 @@ export default function TeamDetailPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   // redux
   const projectId = useSelector(state => state.team.projectId);
-  console.log(detail);
   // axios
   useEffect(() => {
     customAxios.authAxios
@@ -248,14 +247,14 @@ export default function TeamDetailPage() {
             {detail.projectStatus}
           </Typography>
           {detail?.areaForm?.name ? (
-            <></>
-          ) : (
             <>
               <h3>지역</h3>
               <Typography variant="body1" color="initial">
                 {detail?.areaForm?.name}
               </Typography>
             </>
+          ) : (
+            <></>
           )}
           <h3>기술 스택</h3>
           <Typography component="div" variant="body1" color="initial">
