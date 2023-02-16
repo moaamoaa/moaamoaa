@@ -84,8 +84,7 @@ imageAxios.interceptors.response.use(
         Cookies.set('access_token', accessToken, { expires: 1 });
         return response;
       } catch (err) {
-        // refresh token이 유효하지 않은 경우 로그아웃 처리 등
-        removeData();
+        localStorage.clear();
       }
     }
     return Promise.reject(error);
