@@ -45,7 +45,6 @@ authAxios.interceptors.response.use(
 
     const originalRequest = config;
     const isLogged = useSelector(state => state.user.isLogged);
-
     if (status === 401 && isLogged) {
       try {
         authAxios

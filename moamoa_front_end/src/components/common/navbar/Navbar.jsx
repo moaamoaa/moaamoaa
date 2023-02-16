@@ -29,7 +29,7 @@ export default function ResponsiveAppBar() {
     },
   ];
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: '#blue' }}>
+    <AppBar position="fixed" sx={{ backgroundColor: 'primary' }}>
       <Container fixed>
         <MoaAccordion sx={{ border: 0 }}>
           <Toolbar disableGutters>

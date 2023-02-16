@@ -5,7 +5,6 @@ import customAxios from 'utils/axios';
 import {
   Box,
   Drawer,
-  ButtonBase,
   List,
   Divider,
   ListItemIcon,
@@ -13,6 +12,7 @@ import {
   ListItemText,
   ListSubheader,
   Collapse,
+  Button,
 } from '@mui/material/';
 
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -150,17 +150,14 @@ export default function MyProjectStudy() {
     <>
       {['right'].map(anchor => (
         <React.Fragment key={anchor}>
-          <ButtonBase
-            size="small"
-            variant="outlined"
+          <Button
+            variant="contained"
+            color="primary"
             onClick={toggleDrawer(anchor, true)}
-            sx={{
-              mr: isMobile ? 0 : 2,
-              scale: isMobile ? '.8' : '1',
-            }}
+            sx={{ paddingX: 0 }}
           >
-            제안 하기
-          </ButtonBase>
+            제안하기
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

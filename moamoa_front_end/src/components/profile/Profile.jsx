@@ -54,8 +54,6 @@ export default function Profile(props) {
     scrollToTop();
   };
 
-  const handleOpenOfferList = () => {};
-
   const handleNickname = event => {
     setUpdateNickname(event.target.value);
   };
@@ -118,14 +116,14 @@ export default function Profile(props) {
     customAxios.imageAxios
       .post('/profile', formData)
       .then(response => {
-        navigate('/profilepage');
+        navigate('/ProfilePage');
         scrollToTop();
       })
       .catch(error => {
         dispatch(
           handleSuccessState({
             open: true,
-            message: '비어 있는 값이 존재합니다.',
+            message: '실패',
             severity: 'error',
           }),
         );
@@ -230,10 +228,10 @@ export default function Profile(props) {
   };
 
   const userButtons = [
-    <ProfileButton key="offer" onClick={handleOpenEditPage} variant="outlined">
+    <ProfileButton key="eidt" onClick={handleOpenEditPage} variant="outlined">
       수정
     </ProfileButton>,
-    <ProfileButton key="chat" onClick={handleOpenOfferList} variant="outlined">
+    <ProfileButton key="offer" variant="outlined">
       <ProfileApplyOffer isMobile={isMobile}></ProfileApplyOffer>
     </ProfileButton>,
   ];
@@ -242,9 +240,7 @@ export default function Profile(props) {
     <ProfileButton key="offer" variant="outlined">
       <MyProjectStudy isMobile={isMobile}></MyProjectStudy>
     </ProfileButton>,
-    <ProfileButton key="chat" variant="outlined">
-      <ChattingRoom></ChattingRoom>
-    </ProfileButton>,
+    <ChattingRoom key="chat" variant="outlined"></ChattingRoom>,
   ];
 
   const editButtons = [
@@ -574,7 +570,7 @@ export default function Profile(props) {
                   </Badge>
                 </Tooltip>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item>
                 <CardList type={'tech'} cards={techStacks}></CardList>
                 <Divider sx={{ marginY: 2 }} />
                 <CardList type={'link'} cards={sites}></CardList>
