@@ -144,10 +144,9 @@ export default function TeamDetailPage() {
               >
                 <Typography id="title" variant="h1" gutterBottom>
                   {/* 팀 이름  */}
-                  {/* <SingleTextField ref={titleRef}></SingleTextField> */}
                   {detail.title}
                 </Typography>
-                <Typography variant="h3" color="inherit" paragraph>
+                <Typography variant="h4" color="inherit" paragraph>
                   {/* 팀장 이름 */}
                   팀장 : {detail.leaderNickname}
                 </Typography>
@@ -162,15 +161,19 @@ export default function TeamDetailPage() {
             // justifyContent="flex-end"
             sx={{ pt: 4 }}
           >
-            {/* leader 값이 true일 경우 제안 및 지원 확인, false일 경우 지원 보내기 버튼 보이게*/}
-            {/* 본인이 이미 팀에 속해 있어도 지원 보내기가 안 보여야할까?  */}
             {lead ? (
-              <IconButton size="small" variant="contained" color="primary">
-                {/* 지원 및 제안 버튼 return 해주는 component */}
-                <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
-              </IconButton>
+              <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
             ) : (
-              <Button variant="contained" color="primary" onClick={handleApply}>
+              <Button
+                size="medium"
+                variant="outlined"
+                color="primary"
+                onClick={handleApply}
+                sx={{
+                  marginTop: '1rem',
+                  paddingY: '5px',
+                }}
+              >
                 지원 보내기
               </Button>
             )}
