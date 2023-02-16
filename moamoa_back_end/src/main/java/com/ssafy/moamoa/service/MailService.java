@@ -144,8 +144,11 @@ public class MailService {
 		MailForm mailForm = new MailForm();
 		String setFrom = "moaamoaaofficial@gmail.com";
 		String subject = "[MoaaMoaa] 지원 알림 이메일 입니다.";
-		String content = userNickname + "님이 " + projectTitle + "에 지원을 했습니다."
-			+ "<br>" + "확인하러 가시겠습니까?";
+
+		Context context = new Context();
+		context.setVariable("userNickname", userNickname);
+		context.setVariable("projectTitle", projectTitle);
+		String content = templateEngine.process("apply", context);
 
 		mailForm.setMailFrom(setFrom);
 		mailForm.setMailTo(email);
@@ -168,9 +171,12 @@ public class MailService {
 		MailForm mailForm = new MailForm();
 		String setFrom = "moaamoaaofficial@gmail.com";
 		String subject = "[MoaaMoaa] 제안 알림 이메일 입니다.";
-		String content = userNickname + "님 " + projectTitle + "에서 제안을 요청했습니다."
-			+ "<br>" + "확인하러 가시겠습니까?";
 
+		Context context = new Context();
+		context.setVariable("userNickname", userNickname);
+		context.setVariable("projectTitle", projectTitle);
+		String content = templateEngine.process("offer", context);
+		
 		mailForm.setMailFrom(setFrom);
 		mailForm.setMailTo(email);
 		mailForm.setMailSubject(subject);
