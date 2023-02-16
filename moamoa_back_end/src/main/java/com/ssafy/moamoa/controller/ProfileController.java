@@ -64,6 +64,9 @@ public class ProfileController {
                                             Authentication authentication, HttpServletRequest request) {
         // access token 만료
         String accessToken = jwtTokenProvider.resolveToken(request);
+        if (accessToken == null || accessToken.equals("undefined")) {
+            throw new IllegalArgumentException("토큰 정보를 인증할 수 없습니다.");
+        }
         jwtTokenProvider.getExpiration(accessToken);
 
         boolean isValidUser = profileService.checkDeletedUser(profileId);
