@@ -46,9 +46,9 @@ public class SecurityConfig {
 			.authorizeRequests(auth -> auth
 				.antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
 				.antMatchers("/api/users/login", "/api/users/signup", "/api/users/reissue", "/api/users/nickname",
-					"/api/search/**", "/api/projects/detail", "/api/swagger-ui", "/api/users/email", "/swagger-ui/**")
+					"/api/search/**", "/api/projects/detail", "/api/users/email")
 				.permitAll()
-				.antMatchers("/swagger-resources/**", "/swagger-ui/**", "/v2/api-docs").permitAll()
+				.antMatchers("/api/swagger-resources/**", "/api/swagger-ui/**", "/api/v2/api-docs","/swagger-resources/**", "/swagger-ui/**", "/v2/api-docs").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/profile/{\\d+}", "/api/profile/review")
 				.permitAll()
 				.anyRequest()
