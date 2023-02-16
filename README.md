@@ -1,17 +1,39 @@
-## 🐇MOAMOA
-> 팀 빌딩 서비스
+# 🐇MOAAMOAA - 팀 빌딩 서비스
 > 
+> 
+
+
+
+## MOAAMOAA 링크(웹 & 모바일 화면) : [https://www.moaamoaa.com](https://www.moaamoaa.com)
+## 소개 영상 보기 : [UCC 링크](https://youtu.be/WU3tIIOS0Ec)
+
+## 🔻 프로젝트 진행 기간
+2023.01.03(월) ~ 2023.02.17(금) (45일간 진행)  
+SSAFY 8기 2학기 공통프로젝트 - MOAAMOAA
+
+</br>
+
+
+</br>
 
 ## 바로가기
 
 1. 제작 기간
 2. 기술 스택
 
-## 🗓제작 기간
 
-- 2023년 01월 3일 ~ 02월 17일
+## 🏠주요 기능
 
-## 🛠기술 스택
+
+- 로그인 / 로그아웃 / 회원가입 / 회원탈퇴
+- 프로젝트/ 스터디 및 프로필 등록
+- 사용자 / 프로젝트에 제안 및 지원 기능
+- 프로젝트/ 스터디/ 팀원 검색
+
+<br>
+<br>
+
+## 🛠 주요 기술
 
 - Backend
     - Java 11
@@ -19,34 +41,45 @@
     - Spring Data Jpa
     - Spring Security 5.7.6
     - MySQL 8.0.21
-    - socketio
+    - Redis Cloud
     - docker
     - jenkins
     - aws
     - ec2
+    - nginx
 - Frontend
     - React.js
     - Redux
+    - React Route
+    - React Hook
+    - Axios
+    - Material UI
     - SCSS
     - MUI
     - JavaScript
     - HTML5
     - Figma
 
-## 🏛프로젝트 구성도
+## 🏛 프로젝트 구성도
 
-- ERD
-    
-   ![Image Pasted at 2023-2-3 11-07](https://user-images.githubusercontent.com/57094856/216495339-f4b74b06-2f6f-479b-af91-d43f53b8241c.png)
-    
-- arch
-    
-    ![undefined (1) (1)](https://user-images.githubusercontent.com/57094856/216495146-62e3d7e6-87ad-4c1e-bee1-53cf86e61f03.png)
-    
+   
 
-## 🏠주요 기능
+## ✔ 팀원 역할 분배
+---
+![역할 배분](https://user-images.githubusercontent.com/55949647/154541550-b52932b4-9e3d-4788-9994-98dd7fe8c875.png)
 
-- 프로젝트/ 스터디 및 프로필 등록
-- 프로젝트/ 스터디/ 팀원 검색
-- 채팅 기능
-- 팀 오퍼 이메일 알림 기능
+## ✔ 프로젝트 산출물
+---
+- [기능명세서](./docs/기능명세서.md)
+- [디자인&컨셉기획](./docs/디자인&컨셉기획.md)
+- [스토리보드](./docs/스토리보드.md)
+- [시퀀스다이어그램](./docs/시퀀스다이어그램.md)
+- [아키텍처](./docs/서비스_아키텍처.md)
+- [와이어프레임](./docs/와이어프레임.md)
+- [컨벤션](./docs/컨벤션.md)
+- [API](./docs/API.md)
+- [ERD](./docs/ERD.md)
+- [회의록](./docs/회의록.md)
+- [테스트케이스](./docs/TUPLI_테스트케이스.xlsx)
+- [시스템기술서](./docs/TUPLI_시스템_기술서.docx)
+- [명세기술서](./docs/TUPLI_명세_기술서.docx)
