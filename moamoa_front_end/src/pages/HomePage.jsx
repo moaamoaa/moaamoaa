@@ -114,7 +114,7 @@ export default function HomePageSample() {
                   : '0',
             }}
           >
-            <MoaTypography id="title">금주의 추천 프로젝트 섹션</MoaTypography>
+            <MoaTypography id="title">추천 프로젝트 섹션</MoaTypography>
             <CardList cards={recoProject} type={'team'}></CardList>
           </MoaGrid>
           <MoaGrid
@@ -129,7 +129,7 @@ export default function HomePageSample() {
                   : '0',
             }}
           >
-            <MoaTypography id="title">금주의 추천 스터디 섹션</MoaTypography>
+            <MoaTypography id="title">추천 스터디 섹션</MoaTypography>
             <CardList cards={recoStudy} type={'team'}></CardList>
           </MoaGrid>
           <MoaGrid
@@ -144,7 +144,7 @@ export default function HomePageSample() {
                   : '0',
             }}
           >
-            <MoaTypography id="title">금주의 추천 팀원 섹션</MoaTypography>
+            <MoaTypography id="title">추천 팀원 섹션</MoaTypography>
             <CardList cards={recoMember} type={'member'}></CardList>
           </MoaGrid>
         </Grid>

@@ -203,7 +203,15 @@ export default function TeamSearchPage(props) {
   }, [techstack]);
 
   return (
-    <Container fixed sx={{ paddingTop: '6.3rem' }}>
+    <Container fixed sx={{ paddingTop: '4rem' }}>
+      <Button
+        disabled={true}
+        color="primary"
+        variant="text"
+        sx={{ paddingBottom: '1rem', opacity: 0 }}
+      >
+        팀을 생성하시겠습니까?
+      </Button>
       {isMobile ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>

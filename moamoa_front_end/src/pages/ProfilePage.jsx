@@ -26,7 +26,7 @@ export default function ProfilePage() {
       .catch(error => {
         console.log(error);
       });
-  }, [profileId]);
+  }, []);
 
   return (
     <ProfilePageContainer fixed>
