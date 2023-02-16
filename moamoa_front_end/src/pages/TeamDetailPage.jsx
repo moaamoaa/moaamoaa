@@ -249,7 +249,7 @@ export default function TeamDetailPage() {
           </Typography>
           <h3>지역</h3>
           <Typography variant="body1" color="initial">
-            {detail.areaId}
+            {detail.areaForm.name}
           </Typography>
           <h3>기술 스택</h3>
           <Typography component="div" variant="body1" color="initial">

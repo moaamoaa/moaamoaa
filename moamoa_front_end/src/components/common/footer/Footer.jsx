@@ -48,33 +48,63 @@ function Footer() {
               <AvatarGroup max={6}>
                 <Avatar
                   alt="김동욱"
-                  src="/static/images/avatar/1.jpg"
-                  sx={{ width: 56, height: 56 }}
+                  src={`${process.env.PUBLIC_URL}/images/common/developer/dong.png`}
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    backgroundColor: '#fff',
+                    boxShadow: 2,
+                  }}
                 />
                 <Avatar
                   alt="유지연"
-                  src="/static/images/avatar/2.jpg"
-                  sx={{ width: 56, height: 56 }}
+                  src={`${process.env.PUBLIC_URL}/images/common/developer/you.png`}
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    backgroundColor: '#fff',
+                    boxShadow: 2,
+                  }}
                 />
                 <Avatar
                   alt="임성빈"
-                  src="/static/images/avatar/5.jpg"
-                  sx={{ width: 56, height: 56 }}
+                  src={`${process.env.PUBLIC_URL}/images/common/developer/bin.png`}
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    backgroundColor: '#fff',
+                    boxShadow: 2,
+                  }}
                 />
                 <Avatar
                   alt="장유하"
-                  src="/static/images/avatar/4.jpg"
-                  sx={{ width: 56, height: 56 }}
+                  src={`${process.env.PUBLIC_URL}/images/common/developer/ha.png`}
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    backgroundColor: '#fff',
+                    boxShadow: 2,
+                  }}
                 />
                 <Avatar
                   alt="정여진"
-                  src="/static/images/avatar/6.jpg"
-                  sx={{ width: 56, height: 56 }}
+                  src={`${process.env.PUBLIC_URL}/images/common/developer/jung.png`}
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    backgroundColor: '#fff',
+                    boxShadow: 2,
+                  }}
                 />
                 <Avatar
                   alt="황다솔"
-                  src="/static/images/avatar/3.jpg"
-                  sx={{ width: 56, height: 56 }}
+                  src={`${process.env.PUBLIC_URL}/images/common/developer/da.png`}
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    backgroundColor: '#fff',
+                    boxShadow: 2,
+                  }}
                 />
               </AvatarGroup>
             </Grid>
