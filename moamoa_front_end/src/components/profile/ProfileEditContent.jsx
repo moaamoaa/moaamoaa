@@ -280,6 +280,7 @@ function ProfileEditContent() {
             <Grid item xs={12} display={'flex'} alignItems={'center'}>
               <Avatar
                 alt="project"
+                src={`${process.env.PUBLIC_URL}/images/blog_icons/moaa@4x.png`}
                 sx={{
                   maxHeight: '2rem',
                   maxWidth: '2rem',
