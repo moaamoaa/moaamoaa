@@ -6,7 +6,6 @@ import { handleSuccessState } from 'redux/snack';
 import {
   Container,
   Paper,
-  IconButton,
   Button,
   Stack,
   Grid,
@@ -153,18 +152,22 @@ export default function TeamDetailPage() {
             </Grid>
           </Grid>
         </Paper>
-        <Grid container justifyContent="flex-end">
-          <Stack
-            direction="row"
-            spacing={2}
-            // justifyContent="flex-end"
-            sx={{ pt: 4 }}
-          >
+        <Grid
+          container
+          display="flex"
+          justifyContent="end"
+          alignItems="center"
+          sx={{ marginTop: 2 }}
+          spacing={1}
+        >
+          <Grid item xs={6}></Grid>
+          <Grid item xs={2}>
             {lead ? (
               <TeamApplyOffer isMobile={isMobile}></TeamApplyOffer>
             ) : (
               <Button
-                size="medium"
+                fullWidth
+                size="small"
                 variant="outlined"
                 color="primary"
                 onClick={handleApply}
@@ -176,26 +179,34 @@ export default function TeamDetailPage() {
                 지원 보내기
               </Button>
             )}
-
-            {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}
-            {lead ? (
+          </Grid>
+          {/* leader 값이 true이면 팀 수정 보이고, false이면 안 보임 */}
+          {lead ? (
+            <Grid item xs={2}>
               <Button
+                fullWidth
                 onClick={goToUpdate}
-                size="small"
-                variant="contained"
+                size="medium"
+                variant="outlined"
                 color="primary"
+                sx={{
+                  marginTop: '1rem',
+                  paddingY: '5px',
+                }}
               >
                 팀 수정
               </Button>
-            ) : (
-              ''
-            )}
-
-            {/* leader 값이 true이면 팀 삭제 보이고, false이면 안 보임 */}
-            {lead ? (
+            </Grid>
+          ) : (
+            <></>
+          )}
+          {/* leader 값이 true이면 팀 삭제 보이고, false이면 안 보임 */}
+          {lead ? (
+            <Grid item xs={2}>
               <Button
-                size="small"
-                variant="contained"
+                fullWidth
+                size="medium"
+                variant="outlined"
                 color="primary"
                 onClick={async () => {
                   await customAxios.authAxios
@@ -209,13 +220,17 @@ export default function TeamDetailPage() {
                       navigate('/'); // 삭제 후 홈으로 보내기 (프론트 주소)
                     });
                 }} // 팀 삭제 버튼 클릭 시, 삭제 요청보내기
+                sx={{
+                  marginTop: '1rem',
+                  paddingY: '5px',
+                }}
               >
                 팀 삭제
               </Button>
-            ) : (
-              ''
-            )}
-          </Stack>
+            </Grid>
+          ) : (
+            <></>
+          )}
         </Grid>
       </Container>
       <Container fixed>

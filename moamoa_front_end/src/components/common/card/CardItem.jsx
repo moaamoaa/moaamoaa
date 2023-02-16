@@ -127,9 +127,9 @@ export default function CardItem(props) {
           <Skeleton variant="rectangular" height={200} />
         )}
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <TeamTitle gutterBottom variant="h5" component="div">
             {props.card.title}
-          </Typography>
+          </TeamTitle>
           <Grid container paddingY={1}>
             <Grid item xs={4} display={'flex'} alignItems="center">
               <Typography variant="body2" color="#888">
@@ -177,7 +177,14 @@ export default function CardItem(props) {
     return (
       <MoaCard>
         <CardActions>
-          <Grid container sx={{ minHeight: '50px' }}>
+          <Grid
+            container
+            sx={{
+              minHeight: '50px',
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
             <Grid item xs={3}>
               {/* 디테일 페이지에서만 보이고 리더이면서 해당 카드 id 가 리더가 아닌경우 => 권한위임 버튼이 보이고 아니면 안 보이고 */}
               {props.isDetail && leader && props.card.id !== leaderId ? (
@@ -194,10 +201,7 @@ export default function CardItem(props) {
                   size="small"
                   variant="text"
                   color="primary"
-                  disabled
-                  sx={{
-                    opacity: 0,
-                  }}
+                  sx={{ display: 'none' }}
                 >
                   권한위임
                 </Button>
@@ -219,10 +223,7 @@ export default function CardItem(props) {
                   size="small"
                   variant="text"
                   color="primary"
-                  disabled
-                  sx={{
-                    opacity: 0,
-                  }}
+                  sx={{ display: 'none' }}
                 >
                   강퇴하기
                 </Button>
@@ -305,7 +306,17 @@ const MoaSkeleton = styled(Skeleton)`
   margin: 0 auto;
 `;
 
+const TeamTitle = styled(Typography)`
+  height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+`;
+
 const InfoTypography = styled(Typography)`
+  margin-top: 0.5rem;
   text-align: justify;
   height: 60px;
   overflow: hidden;
