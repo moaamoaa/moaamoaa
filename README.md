@@ -3,8 +3,7 @@
 > 
 
 
-
-## 🔗 MOAAMOAA 링크(웹 & 모바일 화면) : [https://www.moaamoaa.com](https://www.moaamoaa.com)
+## 🔗 MOAAMOAA 링크(웹 & 모바일 화면) : [https://moaamoaa.com](https://moaamoaa.com)
 
 <br>
 
@@ -20,9 +19,7 @@ SSAFY 8기 2학기 공통프로젝트 - MOAAMOAA
 
 </br>
 
-
 </br>
-
 
 
 ## 🏠주요 기능
@@ -52,7 +49,6 @@ SSAFY 8기 2학기 공통프로젝트 - MOAAMOAA
     - React Hook
     - Axios
     - Material UI
-    - SCSS
     - MUI
     - JavaScript
     - HTML5
@@ -162,3 +158,5 @@ src/
 
 ## 🐈 MOAAMOAA 서비스 화면
 ---
+![화면 캡처 2023-02-17 105422](https://user-images.githubusercontent.com/57094856/219529538-339cc765-8422-4ced-802c-118028616320.png)
+
